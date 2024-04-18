@@ -23,6 +23,10 @@ export default function NavBar() {
       name: 'Dashboard',
       subMenu: [
         {
+          name: 'Dashboard',
+          path: '/dashboard',
+        },
+        {
           name: 'Profile',
           path: '/dashboard/profile',
         },
