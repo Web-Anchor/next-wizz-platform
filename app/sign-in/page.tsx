@@ -1,9 +1,9 @@
-import Image from 'next/image';
+import { SignedIn } from '@clerk/nextjs';
 
 export default function Home() {
   return (
     <section>
-      <p>Sign-in</p>
+      <SignedIn />
     </section>
   );
 }

@@ -3,10 +3,10 @@
 import { classNames } from '@helpers/index';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { UserButton } from '@clerk/nextjs';
 
 export default function NavBar() {
   const path = usePathname();
-  console.log(path);
 
   const menu = [
     {
@@ -128,6 +128,7 @@ export default function NavBar() {
       </div>
       <div className="navbar-end">
         <a className="btn">Button</a>
+        <UserButton />
       </div>
     </div>
   );
