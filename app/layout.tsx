@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Breadcrumbs from '@components/Breadcrumbs';
+import NavBar from '@components/NavBar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,8 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Breadcrumbs />
-        {children}
+        <main className="flex min-h-screen flex-col gap-5 bg-gray-200 text-gray-950 px-8">
+          <NavBar />
+          <Breadcrumbs />
+          {children}
+        </main>
       </body>
     </html>
   );
