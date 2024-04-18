@@ -1,10 +1,12 @@
 'use client';
 
+import { classNames } from '@helpers/index';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function NavBar() {
   const path = usePathname();
+  console.log(path);
 
   const menu = [
     {
@@ -62,12 +64,53 @@ export default function NavBar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52 bg-gray-200"
           >
-            {menu.map((item) => (
-              <li key={item.name}>
+            {menu.map((item) => {
+              return (
+                <li
+                  key={item.name}
+                  className={classNames(
+                    'text-red-200',
+                    path?.includes(item.path!) ? 'bg-gray-400' : ''
+                  )}
+                >
+                  {item.subMenu ? (
+                    <details>
+                      <summary>{item.name}</summary>
+                      <ul className="p-2">
+                        {item.subMenu.map((subItem) => (
+                          <li key={subItem.name}>
+                            <Link href={subItem.path}>{subItem.name}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  ) : (
+                    <Link href={item.path}>{item.name}</Link>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <Link href="/" className="btn btn-ghost text-xl">
+          daisyUI
+        </Link>
+      </div>
+
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1">
+          {menu.map((item) => {
+            return (
+              <li
+                key={item.name}
+                className={classNames(
+                  path?.endsWith(item.path!) ? 'font-bold' : ''
+                )}
+              >
                 {item.subMenu ? (
                   <details>
                     <summary>{item.name}</summary>
-                    <ul className="p-2">
+                    <ul className="p-2 border-gray-300 bg-gray-200">
                       {item.subMenu.map((subItem) => (
                         <li key={subItem.name}>
                           <Link href={subItem.path}>{subItem.name}</Link>
@@ -79,34 +122,8 @@ export default function NavBar() {
                   <Link href={item.path}>{item.name}</Link>
                 )}
               </li>
-            ))}
-          </ul>
-        </div>
-        <Link href="/" className="btn btn-ghost text-xl">
-          daisyUI
-        </Link>
-      </div>
-
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          {menu.map((item) => (
-            <li key={item.name}>
-              {item.subMenu ? (
-                <details>
-                  <summary>{item.name}</summary>
-                  <ul className="p-2 bg-gray-200">
-                    {item.subMenu.map((subItem) => (
-                      <li key={subItem.name}>
-                        <Link href={subItem.path}>{subItem.name}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                </details>
-              ) : (
-                <Link href={item.path}>{item.name}</Link>
-              )}
-            </li>
-          ))}
+            );
+          })}
         </ul>
       </div>
       <div className="navbar-end">
