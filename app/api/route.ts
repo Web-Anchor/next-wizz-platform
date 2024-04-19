@@ -3,6 +3,7 @@ import { auth } from '@clerk/nextjs';
 
 export async function GET() {
   const { userId } = auth();
+  console.log(userId);
 
   if (!userId) {
     return new Response('Unauthorized', { status: 401 });

@@ -1,9 +1,9 @@
-import Image from 'next/image';
+import Controller from './controller';
 
-export default function Home() {
+export default async function Page() {
   return (
-    <section>
-      <p>Dashboard</p>
-    </section>
+    <>
+      <Controller />
+    </>
   );
 }

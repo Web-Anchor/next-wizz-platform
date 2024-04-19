@@ -7,6 +7,9 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './node_modules/preline/preline.js',
   ],
+  daisyui: {
+    themes: ['light', 'dark', 'cupcake', 'bumblebee'],
+  },
   theme: {
     extend: {
       backgroundImage: {

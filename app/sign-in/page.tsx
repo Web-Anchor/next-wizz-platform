@@ -1,9 +1,9 @@
-import { SignedIn } from '@clerk/nextjs';
+import Controller from './controller';
 
-export default function Home() {
+export default async function Page() {
   return (
-    <section>
-      <SignedIn />
-    </section>
+    <>
+      <Controller />
+    </>
   );
 }

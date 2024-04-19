@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html data-theme="bumblebee" lang="en">
         <body className={inter.className}>
           <main className="flex min-h-screen flex-col gap-5 bg-gray-200 text-gray-950 px-8">
             <NavBar />
