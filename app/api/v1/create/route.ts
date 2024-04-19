@@ -1,10 +1,14 @@
 import { auth, currentUser } from '@clerk/nextjs/server';
-import { NextResponse } from 'next/server';
-import { redirect } from 'next/navigation';
+import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { users } from '@db/schema';
 
-export async function GET() {
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { slug: string } }
+) {
   try {
     auth().protect();
 
@@ -21,7 +25,12 @@ export async function GET() {
       })
       .returning({ id: users.id });
 
-    redirect('/dashboard');
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: APP_URL + '/dashboard',
+      },
+    });
   } catch (err) {
     console.error(err);
     return NextResponse.error();

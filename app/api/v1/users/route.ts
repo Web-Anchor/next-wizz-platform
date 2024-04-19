@@ -1,9 +1,10 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import { redirect } from 'next/navigation';
 import { db } from '@db/index';
 import { users } from '@db/schema';
 import { eq } from 'drizzle-orm';
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
 
 export async function GET() {
   try {
@@ -11,12 +12,26 @@ export async function GET() {
 
     const { userId } = auth();
     const dbUser = await db.select().from(users).where(eq(users.id, userId!));
+    console.log('👤 User ', userId, dbUser);
 
-    if (!dbUser) {
-      redirect('/api/v1/auth/create');
+    if (!dbUser?.length) {
+      console.log('No user record found. Creating user in database');
+
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: APP_URL + '/api/v1/create',
+        },
+      });
     }
 
-    redirect('/dashboard');
+    console.log('User record found. Redirecting to dashboard');
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: APP_URL + '/dashboard',
+      },
+    });
   } catch (err) {
     console.error(err);
     return NextResponse.error();

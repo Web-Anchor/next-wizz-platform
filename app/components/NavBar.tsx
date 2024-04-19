@@ -128,7 +128,7 @@ export default function NavBar() {
       </div>
       <div className="navbar-end">
         <a className="btn">Button</a>
-        <UserButton />
+        <UserButton afterSignOutUrl="/" signInUrl="/sign-in" showName />
       </div>
     </div>
   );
