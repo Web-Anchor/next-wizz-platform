@@ -1,10 +1,9 @@
-import { UserProfile } from '@clerk/nextjs';
+import Controller from './controller';
 
-export default function Page() {
+export default async function Page() {
   return (
-    <section>
-      <p>Dashboard</p>
-      <UserProfile />
-    </section>
+    <>
+      <Controller />
+    </>
   );
 }
