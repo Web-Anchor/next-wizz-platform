@@ -1,20 +1,25 @@
-import { auth } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { redirect } from 'next/navigation';
 import { db } from '@db/index';
 import { users } from '@db/schema';
-import { eq } from 'drizzle-orm';
 
 export async function GET() {
   try {
     auth().protect();
 
     const { userId } = auth();
-    const dbUser = await db.select().from(users).where(eq(users.id, userId!));
+    const user = await currentUser();
 
-    if (!dbUser) {
-      redirect('/api/v1/auth/create');
-    }
+    await db
+      .insert(users)
+      .values({
+        id: userId!,
+        emailAddress: user?.emailAddresses?.[0]?.emailAddress!,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+      })
+      .returning({ id: users.id });
 
     redirect('/dashboard');
   } catch (err) {
