@@ -1,12 +1,10 @@
 'use client';
 
-import { UserProfile } from '@clerk/nextjs';
-import { useUser } from '@clerk/clerk-react';
+import { useSignIn } from '@clerk/clerk-react';
 import Skeleton from '@components/Skeleton';
 
 export default function Page() {
-  const { isSignedIn, user, isLoaded } = useUser();
-  console.log('👤 User ', isSignedIn, user);
+  const { isLoaded, signIn } = useSignIn();
 
   if (!isLoaded) {
     return <Skeleton />;
@@ -14,7 +12,7 @@ export default function Page() {
 
   return (
     <div className="flex justify-center">
-      <UserProfile />
+      <p>Invoicing APP</p>
     </div>
   );
 }

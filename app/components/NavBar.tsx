@@ -3,15 +3,21 @@
 import { classNames } from '@helpers/index';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useUser } from '@clerk/clerk-react';
 import { UserButton } from '@clerk/nextjs';
 
 export default function NavBar() {
   const path = usePathname();
+  const { isSignedIn, user, isLoaded } = useUser();
 
   const menu = [
     {
       name: 'Home',
       path: '/',
+    },
+    {
+      name: 'Invoices',
+      path: '/invoices',
     },
     {
       name: 'Sign In',
@@ -126,9 +132,13 @@ export default function NavBar() {
           })}
         </ul>
       </div>
-      <div className="navbar-end">
-        <a className="btn">Button</a>
+      <div className="navbar-end flex gap-5">
         <UserButton afterSignOutUrl="/" signInUrl="/sign-in" showName />
+        {isSignedIn && (
+          <Link href="/sign-in" className="btn btn-accent text-xl">
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );

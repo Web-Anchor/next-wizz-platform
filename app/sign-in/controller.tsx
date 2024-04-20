@@ -12,7 +12,7 @@ export default function Page() {
   }
 
   return (
-    <div className="flex justify-center py-24">
+    <div className="flex justify-center">
       <SignIn signUpUrl="/sign-up" afterSignInUrl="/api/v1/users" />
     </div>
   );
