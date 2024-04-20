@@ -20,7 +20,7 @@ export async function GET() {
       return new Response(null, {
         status: 302,
         headers: {
-          Location: APP_URL + '/api/v1/create',
+          Location: APP_URL + '/api/v1/stripe/create',
         },
       });
     }
