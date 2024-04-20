@@ -1,19 +1,18 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "7eed9ab2-2697-4d6e-9f89-56bf00c3a500",
-  "prevId": "dc1ac22e-6da7-4fbb-8312-fa14edb8cdc3",
+  "id": "0e0be87d-b1c7-44b9-8c58-6c266d66eeec",
+  "prevId": "213a891c-5faa-43d8-8a98-1a2f2ec3d15c",
   "tables": {
     "stripe_keys": {
       "name": "stripe_keys",
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": false,
-          "default": "DEFAULT_VALUE"
+          "autoincrement": false
         },
         "user_id": {
           "name": "user_id",
@@ -52,15 +51,7 @@
           "default": "CURRENT_TIMESTAMP"
         }
       },
-      "indexes": {
-        "stripe_keys_id_unique": {
-          "name": "stripe_keys_id_unique",
-          "columns": [
-            "id"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
         "stripe_keys_user_id_users_id_fk": {
           "name": "stripe_keys_user_id_users_id_fk",

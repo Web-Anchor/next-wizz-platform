@@ -7,6 +7,7 @@
     "build": "next build",
     "commit": "./commit.sh",
     "start": "next start",
+    "db-build": "drizzle-kit generate:sqlite && drizzle-kit push:sqlite",
     "generate": "drizzle-kit generate:sqlite",
     "migrate": "drizzle-kit push:sqlite",
     "studio": "drizzle-kit studio",
@@ -19,6 +20,8 @@
     "next": "14.2.2",
     "react": "^18",
     "react-dom": "^18",
+    "stripe": "^15.3.0",
+    "swr": "^2.2.5",
     "tailwind-merge": "^2.2.2"
   },
   "devDependencies": {

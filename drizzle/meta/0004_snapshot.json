@@ -1,9 +1,54 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "dc1ac22e-6da7-4fbb-8312-fa14edb8cdc3",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "213a891c-5faa-43d8-8a98-1a2f2ec3d15c",
+  "prevId": "f3a6dd2d-c4cc-4ca6-84c7-0bfebadbea1f",
   "tables": {
+    "stripe_keys": {
+      "name": "stripe_keys",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "stripe_secret_key": {
+          "name": "stripe_secret_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "stripe_publishable_key": {
+          "name": "stripe_publishable_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "restricted_api_key": {
+          "name": "restricted_api_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "users": {
       "name": "users",
       "columns": {

@@ -1,6 +1,7 @@
 CREATE TABLE `users` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text,
+	`last_name` text,
 	`emailAddresses` text NOT NULL,
 	`created_at` text DEFAULT CURRENT_TIMESTAMP
 );

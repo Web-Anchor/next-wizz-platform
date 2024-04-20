@@ -12,8 +12,8 @@ export default function Page() {
   }
 
   return (
-    <div className="flex justify-center">
+    <section className="flex justify-center">
       <SignUp signInUrl="/sign-in" />
-    </div>
+    </section>
   );
 }
