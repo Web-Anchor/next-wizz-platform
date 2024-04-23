@@ -1,32 +1,52 @@
 'use client';
 
+import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
 import { usePathname } from 'next/navigation';
 
 export default function Breadcrumbs() {
   const path = usePathname();
   const crumbs = path?.split('/')?.filter(Boolean);
 
+  const pages = crumbs?.map((part, index) => {
+    return {
+      name: part,
+      href: path
+        .split('/')
+        .slice(0, index + 1)
+        .join('/'),
+      current: index === crumbs.length - 1,
+    };
+  });
+
   return (
-    <div className="max-w-xs text-sm breadcrumbs">
-      <ul>
+    <nav className="flex" aria-label="Breadcrumb">
+      <ol role="list" className="flex items-center space-x-4">
         <li>
-          <a href="/">Home</a>
+          <div>
+            <a href="#" className="text-gray-400 hover:text-gray-500">
+              <HomeIcon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+              <span className="sr-only">Home</span>
+            </a>
+          </div>
         </li>
-        {crumbs?.map((part, index) => {
-          return (
-            <li key={index}>
+        {pages.map((page) => (
+          <li key={page.name}>
+            <div className="flex items-center">
+              <ChevronRightIcon
+                className="h-5 w-5 flex-shrink-0 text-gray-400"
+                aria-hidden="true"
+              />
               <a
-                href={path
-                  .split('/')
-                  .slice(0, index + 1)
-                  .join('/')}
+                href={page.href}
+                className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                aria-current={page.current ? 'page' : undefined}
               >
-                {part}
+                {page.name}
               </a>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </nav>
   );
 }
