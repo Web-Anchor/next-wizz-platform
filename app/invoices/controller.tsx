@@ -17,9 +17,9 @@ export default function Page() {
   }
 
   return (
-    <section className="flex justify-center">
-      <p>Invoicing APP</p>
-      <p>Select your invoices</p>
+    <section className="flex flex-col gap-5 justify-center items-center">
+      <h1 className="font-bold text-lg">Invoicing APP</h1>
+      <p>Logic for Customer portal application</p>
     </section>
   );
 }

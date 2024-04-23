@@ -1,9 +1,9 @@
-import Image from 'next/image';
+import Pricing from '@components/Pricing';
 
 export default function Page() {
   return (
-    <section>
-      <p>Home Page</p>
+    <section className="flex flex-col gap-10">
+      <Pricing />
     </section>
   );
 }
