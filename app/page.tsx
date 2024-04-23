@@ -4,7 +4,7 @@ import FrequentlyAskedQuestions from '@components/FrequentlyAskedQuestions';
 
 export default function Page() {
   return (
-    <section className="flex flex-col gap-10">
+    <section className="flex flex-col">
       <FeatureSections />
       <Pricing />
       <FrequentlyAskedQuestions />
