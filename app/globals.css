@@ -8,7 +8,9 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-.cl-footer {
+.cl-footer,
+.cl-internal-b3fm6y,
+.cl-userButtonPopoverFooter {
   display: none !important; /* Hide Clerk component footer */
 }
 
