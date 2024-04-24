@@ -8,6 +8,10 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+.cl-footer {
+  display: none !important; /* Hide Clerk component footer */
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
