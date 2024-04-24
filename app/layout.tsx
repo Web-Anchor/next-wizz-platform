@@ -25,16 +25,7 @@ export default function RootLayout({
         data-theme="bumblebee"
         lang="en"
       >
-        <body className={inter.className}>
-          <main className="flex min-h-screen flex-col gap-5 px-8">
-            <Header />
-            <Breadcrumbs />
-            <section className="flex-auto pt-6 bg-slate-100">
-              {children}
-            </section>
-            <Footer />
-          </main>
-        </body>
+        <body className={inter.className}>{children}</body>
       </html>
     </ClerkProvider>
   );
