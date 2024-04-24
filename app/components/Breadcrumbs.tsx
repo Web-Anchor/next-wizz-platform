@@ -19,7 +19,10 @@ export default function Breadcrumbs() {
   });
 
   return (
-    <nav className="flex" aria-label="Breadcrumb">
+    <nav
+      className="flex mx-6 py-3 border-b border-gray-900/10"
+      aria-label="Breadcrumb"
+    >
       <ol role="list" className="flex items-center space-x-4">
         <li>
           <div>
