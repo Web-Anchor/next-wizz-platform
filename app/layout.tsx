@@ -2,9 +2,7 @@ import type { Metadata } from 'next';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Breadcrumbs from '@components/Breadcrumbs';
-import Header from '@app/components/Header';
-import Footer from '@components/Footer';
+import { classNames } from '@helpers/index';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,11 +19,13 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html
-        className="bg-white text-gray-950 duration-300"
+        className="h-full bg-white text-gray-950 duration-300"
         data-theme="bumblebee"
         lang="en"
       >
-        <body className={inter.className}>{children}</body>
+        <body className={classNames(inter.className, 'h-full')}>
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );
