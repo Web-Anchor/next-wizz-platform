@@ -1,8 +1,49 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Invoicing APP
+# Invoicing APP
 
-### Customer plans
+## Page Structure & Layout for Customer Invoicing App MVP
+
+### Dashboard:
+
+Provide an overview of recent charges/payments.
+Allow clients to manage their Stripe API key.
+Display key metrics related to invoicing.
+
+### Invoices Section:
+
+List of all invoices created.
+Option to send invoices directly from the platform.
+Ability to view/download/print invoices.
+
+### Customers Management:
+
+Manage customer information and payment details.
+Option to create new customers or update existing ones.
+
+### Settings:
+
+Allow clients to configure app settings, including email templates for sending invoices.
+Manage notification preferences.
+
+### Integration with Stripe:
+
+Seamless integration with Stripe for real-time updates on charges/payments.
+Easy setup process for connecting Stripe account API key.
+
+### Profile:
+
+Personal account details and settings.
+Option to update contact information and password.
+
+### Help & Support:
+
+Access to FAQs, tutorials, and customer support.
+Provide a way to contact support for assistance.
+
+To create a customer invoicing app where clients can manage their Stripe account API keys and handle invoicing processes effectively
+
+## Customer plans
 
 - Freelancer
 - Startup
