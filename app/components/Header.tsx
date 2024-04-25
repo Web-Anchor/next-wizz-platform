@@ -79,6 +79,12 @@ export default function Header(props: Props) {
                 )}
               </div>
               <div className="flex flex-row gap-5 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <Link
+                  href="/api/delay"
+                  className="rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
+                >
+                  API Tester
+                </Link>
                 {!isSignedIn && homePath && (
                   <Link
                     href="/sign-in"

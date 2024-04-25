@@ -23,6 +23,8 @@ export async function GET(request: NextRequest) {
     .where(eq(stripeKeys.userId, account));
   let accountKey: undefined | any = keys[0];
 
+  console.log('accountKey', accountKey);
+
   if (keyId !== null) {
     accountKey = keys.find((key) => key.id.toString() === keyId);
   } else {
