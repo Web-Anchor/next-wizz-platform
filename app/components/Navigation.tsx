@@ -13,6 +13,7 @@ import { useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import UserProfileCard from './UserProfileCard';
+import Logo from '@components/Logo';
 
 export default function Navigation() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -78,11 +79,7 @@ export default function Navigation() {
   return (
     <div className="fixed inset-x-0 top-0 w-fit flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 min-h-screen px-6">
       <div className="flex h-16 shrink-0 items-center">
-        <img
-          className="h-8 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-          alt="Your Company"
-        />
+        <Logo />
       </div>
       <nav className="flex flex-1 flex-col">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">

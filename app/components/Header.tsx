@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
 import UserProfileCard from './UserProfileCard';
-import Image from 'next/image';
+import Logo from './Logo';
 
 type Props = {
   class?: string;
@@ -48,22 +48,7 @@ export default function Header(props: Props) {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                {homePath && (
-                  <div className="flex flex-shrink-0 items-center">
-                    <Link
-                      href="/"
-                      className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                    >
-                      <Image
-                        className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                        alt="Your Company"
-                        width={32}
-                        height={32}
-                      />
-                    </Link>
-                  </div>
-                )}
+                {homePath && <Logo />}
                 {homePath && (
                   <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                     {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
@@ -114,7 +99,6 @@ export default function Header(props: Props) {
                   href="/dashboard"
                   imgSrc={user?.imageUrl}
                   firstName={user?.firstName as string}
-                  lastName={user?.lastName as string}
                   order="right"
                 />
               </div>
