@@ -6,7 +6,7 @@ export default async function Page() {
   const { userId } = auth();
 
   if (userId) {
-    redirect('/');
+    redirect('/dashboard');
   }
 
   return (
