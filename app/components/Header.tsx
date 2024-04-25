@@ -79,6 +79,14 @@ export default function Header(props: Props) {
                 >
                   API Tester
                 </Link>
+                {isSignedIn && (
+                  <UserProfileCard
+                    href="/dashboard"
+                    imgSrc={user?.imageUrl}
+                    firstName={user?.firstName as string}
+                    order="right"
+                  />
+                )}
                 {!isSignedIn && homePath && (
                   <Link
                     href="/sign-in"
@@ -95,12 +103,6 @@ export default function Header(props: Props) {
                     Home
                   </Link>
                 )}
-                <UserProfileCard
-                  href="/dashboard"
-                  imgSrc={user?.imageUrl}
-                  firstName={user?.firstName as string}
-                  order="right"
-                />
               </div>
             </div>
           </div>
