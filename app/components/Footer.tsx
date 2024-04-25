@@ -1,6 +1,7 @@
 'use client';
 
 import { JSX, SVGProps } from 'react';
+import Link from 'next/link';
 
 const navigation = {
   social: [
@@ -78,14 +79,14 @@ export default function Example() {
         <div className="border-t border-gray-900/10 pt-8 md:flex md:items-center md:justify-between">
           <div className="flex space-x-6 md:order-2">
             {navigation.social.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
                 className="text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">{item.name}</span>
                 <item.icon className="h-6 w-6" aria-hidden="true" />
-              </a>
+              </Link>
             ))}
           </div>
           <p className="mt-8 text-xs leading-5 text-gray-500 md:order-1 md:mt-0">

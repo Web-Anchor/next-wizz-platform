@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useUser, UserButton } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Navigation() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -88,7 +89,7 @@ export default function Navigation() {
             <ul role="list" className="-mx-2 space-y-1">
               {navigation.map((item) => (
                 <li key={item.name}>
-                  <a
+                  <Link
                     href={item.href}
                     className={classNames(
                       item.current
@@ -115,7 +116,7 @@ export default function Navigation() {
                         {item.count}
                       </span>
                     ) : null}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -127,7 +128,7 @@ export default function Navigation() {
             <ul role="list" className="-mx-2 mt-2 space-y-1">
               {teams.map((team) => (
                 <li key={team.name}>
-                  <a
+                  <Link
                     href={team.href}
                     className={classNames(
                       team.current
@@ -147,7 +148,7 @@ export default function Navigation() {
                       {team.initial}
                     </span>
                     <span className="truncate">{team.name}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

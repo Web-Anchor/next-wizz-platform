@@ -1,7 +1,7 @@
 'use client';
 
 import { useSignIn } from '@clerk/clerk-react';
-import Skeleton from '@components/Skeleton';
+import { CardSkeleton } from '@components/Skeleton';
 import { useCharges } from '@hooks/charges';
 import { useSearchParams } from 'next/navigation';
 
@@ -13,7 +13,7 @@ export default function Page() {
   console.log('🧾 Charges', cError, next_page, charges);
 
   if (!isLoaded) {
-    return <Skeleton />;
+    return <CardSkeleton />;
   }
 
   return (

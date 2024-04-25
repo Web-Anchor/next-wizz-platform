@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { RadioGroup } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { classNames } from '@helpers/index';
+import Link from 'next/link';
 
 const frequencies = [
   { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
@@ -151,7 +152,7 @@ export default function Example() {
                   </span>
                 ) : null}
               </p>
-              <a
+              <Link
                 href={tier.href}
                 aria-describedby={tier.id}
                 className={classNames(
@@ -162,7 +163,7 @@ export default function Example() {
                 )}
               >
                 {tier.cta}
-              </a>
+              </Link>
               <ul
                 role="list"
                 className={classNames(

@@ -2,13 +2,13 @@
 
 import { SignIn } from '@clerk/nextjs';
 import { useSignIn } from '@clerk/nextjs';
-import Skeleton from '@components/Skeleton';
+import { CardSkeleton } from '@components/Skeleton';
 
 export default function Page() {
   const { isLoaded, signIn } = useSignIn();
 
   if (!isLoaded) {
-    return <Skeleton />;
+    return <CardSkeleton />;
   }
 
   return (
