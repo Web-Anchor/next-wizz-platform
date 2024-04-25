@@ -4,8 +4,10 @@ import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { classNames } from '@helpers/index';
 import Link from 'next/link';
-import { useUser, UserButton } from '@clerk/nextjs';
+import { useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
+import UserProfileCard from './UserProfileCard';
+import Image from 'next/image';
 
 type Props = {
   class?: string;
@@ -48,11 +50,18 @@ export default function Header(props: Props) {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 {homePath && (
                   <div className="flex flex-shrink-0 items-center">
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                      alt="Your Company"
-                    />
+                    <Link
+                      href="/"
+                      className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                    >
+                      <Image
+                        className="h-8 w-auto"
+                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                        alt="Your Company"
+                        width={32}
+                        height={32}
+                      />
+                    </Link>
                   </div>
                 )}
                 {homePath && (
@@ -101,7 +110,13 @@ export default function Header(props: Props) {
                     Home
                   </Link>
                 )}
-                <UserButton afterSignOutUrl="/" signInUrl="/sign-in" />
+                <UserProfileCard
+                  href="/dashboard"
+                  imgSrc={user?.imageUrl}
+                  firstName={user?.firstName as string}
+                  lastName={user?.lastName as string}
+                  order="right"
+                />
               </div>
             </div>
           </div>

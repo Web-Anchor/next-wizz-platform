@@ -9,9 +9,10 @@ import {
   UsersIcon,
   LinkIcon,
 } from '@heroicons/react/24/outline';
-import { useUser, UserButton } from '@clerk/nextjs';
+import { useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import UserProfileCard from './UserProfileCard';
 
 export default function Navigation() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -166,21 +167,13 @@ export default function Navigation() {
               </div>
             )}
             {isLoaded && (
-              <>
-                <UserButton
-                  afterSwitchSessionUrl="/sign-in"
-                  afterSignOutUrl="/"
-                  signInUrl="/sign-in"
-                />
-                <div className="flex flex-col gap-2">
-                  <p className="text-sm leading-3 font-semibold text-gray-600">
-                    {user?.firstName}
-                  </p>
-                  <p className="text-sm leading-3 font-semibold text-gray-600">
-                    {user?.lastName}
-                  </p>
-                </div>
-              </>
+              <UserProfileCard
+                href="/dashboard"
+                imgSrc={user?.imageUrl}
+                firstName={user?.firstName as string}
+                lastName={user?.lastName as string}
+                description={user?.lastName as string}
+              />
             )}
           </li>
         </ul>
