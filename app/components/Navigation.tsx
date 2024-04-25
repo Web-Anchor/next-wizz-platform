@@ -162,6 +162,12 @@ export default function Navigation() {
             </ul>
           </li>
           <li className="flex flex-col gap-5 mb-6 mt-auto ">
+            <button
+              onClick={signOutUser}
+              className="rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
+            >
+              Sign out
+            </button>
             {!isLoaded && (
               <div className="flex flex-col gap-4 w-fit">
                 <div className="flex gap-4 items-center">
@@ -173,12 +179,6 @@ export default function Navigation() {
                 </div>
               </div>
             )}
-            <button
-              onClick={signOutUser}
-              className="rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
-            >
-              Sign out
-            </button>
             {isLoaded && (
               <UserProfileCard
                 href="/dashboard"
