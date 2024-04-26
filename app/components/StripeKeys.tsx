@@ -3,6 +3,8 @@
 import { classNames } from '@helpers/index';
 import AddStripeKeyDialog from './AddStripeKeyDialog';
 import { useState } from 'react';
+import { useStripeKeys } from '@hooks/stripe-keys';
+import { StripeKeys as KeyTypes } from '@types/index';
 
 type Props = {
   className?: string;
@@ -11,6 +13,8 @@ type Props = {
 
 export default function StripeKeys(props: Props) {
   const [state, setState] = useState<{ open?: boolean }>({});
+  const { data } = useStripeKeys({});
+  console.log('StripeKeys', data);
 
   function dialogClose() {
     setState((prev) => ({ ...prev, open: false }));
@@ -80,7 +84,7 @@ export default function StripeKeys(props: Props) {
             </tr>
           </thead>
           <tbody>
-            {props?.keys?.map((key, planIdx) => (
+            {data?.map((key: KeyTypes, planIdx: number) => (
               <tr key={key.id}>
                 <td
                   className={classNames(

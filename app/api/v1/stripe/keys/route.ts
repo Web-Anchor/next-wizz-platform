@@ -3,33 +3,34 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { stripeKeys } from '@db/schema/stripeKeys';
 import { eq } from 'drizzle-orm';
+import { users } from '@db/schema/users';
 
-export async function GET(request: NextRequest) {
-  auth().protect();
+export async function POST(request: NextRequest) {
+  try {
+    auth().protect();
 
-  // --------------------------------------------------------------------------------
-  // 📌  Get Account & params
-  // --------------------------------------------------------------------------------
-  const searchParams = request.nextUrl.searchParams;
-  const account = searchParams?.get('account')!;
-  const keyId = searchParams?.get('keyId')!;
+    const { userId } = auth();
+    const dbUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.clerkId, userId!));
+    console.log('👤 User ', userId, dbUser);
 
-  // --------------------------------------------------------------------------------
-  // 📌  Get Account API keys
-  // --------------------------------------------------------------------------------
-  const keys = await db
-    .select()
-    .from(stripeKeys)
-    .where(eq(stripeKeys.userId, account));
-  let accountKey: undefined | any = keys[0];
+    if (!dbUser.length) {
+      return NextResponse.json({ error: 'User not found' });
+    }
 
-  console.log('accountKey', accountKey);
+    // --------------------------------------------------------------------------------
+    // 📌  Retrieve User API keys
+    // --------------------------------------------------------------------------------
+    const keys = await db
+      .select()
+      .from(stripeKeys)
+      .where(eq(stripeKeys.userId, dbUser[0].id.toString()));
 
-  if (keyId !== null) {
-    accountKey = keys.find((key) => key.id.toString() === keyId);
-  } else {
-    accountKey = keys[0];
+    return NextResponse.json({ keys });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.error();
   }
-
-  return NextResponse.json({ accountKey });
 }

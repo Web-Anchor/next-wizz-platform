@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import { bodyFetcher } from '.';
-import { Charges } from '../types/index';
+import { Charges } from '../types';
 
 type Props = {
   account?: string;
