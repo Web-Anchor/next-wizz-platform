@@ -1,11 +1,33 @@
 'use client';
 
+import StripeKeys from '@app/components/StripeKeys';
+import Wrapper from '@app/components/Wrapper';
+
 export default function Page() {
+  const keys = [
+    {
+      id: 1,
+      name: 'Hobby',
+      memory: '4 GB RAM',
+      cpu: '4 CPUs',
+      storage: '128 GB SSD disk',
+      price: '$40',
+      isCurrent: false,
+    },
+    {
+      id: 2,
+      name: 'Startup',
+      memory: '8 GB RAM',
+      cpu: '6 CPUs',
+      storage: '256 GB SSD disk',
+      price: '$80',
+      isCurrent: true,
+    },
+  ];
+
   return (
-    <section className="flex justify-center">
-      <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-        Connect Stripe Account
-      </h1>
-    </section>
+    <Wrapper>
+      <StripeKeys keys={keys} />
+    </Wrapper>
   );
 }
