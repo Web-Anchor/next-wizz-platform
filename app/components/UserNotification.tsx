@@ -1,78 +1,94 @@
-import { Fragment, useState } from 'react';
+'use client';
+
+import { Fragment } from 'react';
 import { Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/20/solid';
+import { classNames } from '@helpers/index';
+import { useClerk } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
+import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/24/outline';
 
 type Props = {
   open?: boolean;
-  callBack?: (e: any) => void;
+  class?: string;
+  setter?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function UserNotifications(props: Props) {
+export default function UserNotification(props: Props) {
+  const { signOut } = useClerk();
+  const router = useRouter();
+
+  function signOutUser(e: { preventDefault: () => void }) {
+    e.preventDefault();
+    // --------------------------------------------------------------------------------
+    // 📌 Sign Out User from current session
+    // --------------------------------------------------------------------------------
+    signOut(() => router.push('/'));
+  }
+
   return (
-    <div
-      aria-live="assertive"
-      className="pointer-events-none fixed inset-x-0 bottom-12 w-[340px] z-20 flex items-end px-4 py-6 sm:items-start sm:p-6"
-      // className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
-    >
-      <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
-        {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
-        <Transition
-          show={props.open ?? false}
-          as={Fragment}
-          enter="transform ease-out duration-300 transition"
-          enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-          enterTo="translate-y-0 opacity-100 sm:translate-x-0"
-          leave="transition ease-in duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+    <>
+      <div
+        aria-live="assertive"
+        className={classNames(
+          'pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6',
+          'items-end'
+        )}
+      >
+        <div
+          className={classNames(
+            'flex w-full flex-col items-center space-y-4 sm:items-end',
+            'items-center',
+            props.class
+          )}
         >
-          <div className="pointer-events-auto w-full max-w-sm rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-            <div className="p-4">
-              <div className="flex items-start">
-                <div className="flex-shrink-0 pt-0.5">
-                  <img
-                    className="h-10 w-10 rounded-full"
-                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                    alt=""
-                  />
-                </div>
-                <div className="ml-3 w-0 flex-1">
+          <Transition
+            show={props.open ?? false}
+            as={Fragment}
+            enter="transform ease-out duration-300 transition"
+            enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+            enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="pointer-events-auto flex w-full max-w-md divide-x divide-gray-200 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+              <div className="flex w-0 flex-1 items-center p-4">
+                <div className="w-full">
                   <p className="text-sm font-medium text-gray-900">
-                    Emilia Gates
+                    Receive notifications
                   </p>
                   <p className="mt-1 text-sm text-gray-500">
-                    Sent you an invite to connect.
+                    Notifications may include alerts, sounds, and badges.
                   </p>
-                  <div className="mt-4 flex">
+
+                  <section className="border-t pt-2 mt-2">
                     <button
-                      type="button"
-                      className="inline-flex items-center rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      onClick={props.callBack}
+                      onClick={signOutUser}
+                      className="px-3 py-1 btn-ghost flex flex-row justify-center gap-2 hover:bg-transparent hover:opacity-80"
                     >
-                      Sign out
+                      <ArrowRightStartOnRectangleIcon className="h-4 w-4 self-center" />
+                      <p className="text-sm font-semibold">Sign out</p>
                     </button>
+                  </section>
+                </div>
+              </div>
+              <div className="flex">
+                <div className="flex flex-col divide-y divide-gray-200">
+                  <div className="flex h-0 flex-1">
                     <button
                       type="button"
-                      className="ml-3 inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                      className="flex w-full items-center justify-center rounded-none rounded-tr-lg border border-transparent px-4 py-3 text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:z-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      onClick={(e) => props?.setter?.(e)}
                     >
-                      Decline
+                      Close
                     </button>
                   </div>
                 </div>
-                <div className="ml-4 flex flex-shrink-0">
-                  <button
-                    type="button"
-                    className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    <span className="sr-only">Close</span>
-                    <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-                  </button>
-                </div>
               </div>
             </div>
-          </div>
-        </Transition>
+          </Transition>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
