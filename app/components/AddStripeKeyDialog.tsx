@@ -2,6 +2,7 @@
 
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { cFetch } from '@lib/cFetcher';
 
 type Props = {
   open?: boolean;
@@ -11,14 +12,25 @@ type Props = {
 export default function AddStripeKeyDialog(props: Props) {
   const [state, setState] = useState<{ fetching?: boolean }>({});
 
-  function submit(form: any) {
+  async function submit(form: any) {
     try {
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
+      setState((prev) => ({ ...prev, fetching: true }));
       const key = form.get('key');
 
-      console.log(key);
+      const { data, status } = await cFetch({
+        url: '/api/v1/add-key',
+        method: 'POST',
+        data: { key },
+      });
+
+      if (status !== 200) {
+        throw new Error(data?.message);
+      }
+
+      console.log(data, status);
     } catch (err) {
       console.error(err);
     } finally {

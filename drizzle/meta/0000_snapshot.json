@@ -1,9 +1,75 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "dc1ac22e-6da7-4fbb-8312-fa14edb8cdc3",
+  "id": "5ac82a95-cd81-48e2-bbbb-857338c59776",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "stripe_keys": {
+      "name": "stripe_keys",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "stripe_secret_key": {
+          "name": "stripe_secret_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "stripe_publishable_key": {
+          "name": "stripe_publishable_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "restricted_api_key": {
+          "name": "restricted_api_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "stripe_keys_user_id_users_id_fk": {
+          "name": "stripe_keys_user_id_users_id_fk",
+          "tableFrom": "stripe_keys",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "users": {
       "name": "users",
       "columns": {
@@ -14,8 +80,22 @@
           "notNull": true,
           "autoincrement": false
         },
-        "name": {
-          "name": "name",
+        "clerk_id": {
+          "name": "clerk_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "stripe_id": {
+          "name": "stripe_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "first_name": {
+          "name": "first_name",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -28,8 +108,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "emailAddresses": {
-          "name": "emailAddresses",
+        "email_addresses": {
+          "name": "email_addresses",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -52,10 +132,24 @@
           ],
           "isUnique": true
         },
-        "users_emailAddresses_unique": {
-          "name": "users_emailAddresses_unique",
+        "users_clerk_id_unique": {
+          "name": "users_clerk_id_unique",
           "columns": [
-            "emailAddresses"
+            "clerk_id"
+          ],
+          "isUnique": true
+        },
+        "users_stripe_id_unique": {
+          "name": "users_stripe_id_unique",
+          "columns": [
+            "stripe_id"
+          ],
+          "isUnique": true
+        },
+        "users_email_addresses_unique": {
+          "name": "users_email_addresses_unique",
+          "columns": [
+            "email_addresses"
           ],
           "isUnique": true
         }

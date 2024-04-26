@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1713611235271,
-      "tag": "0000_smooth_ricochet",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1713611831565,
-      "tag": "0001_cultured_dexter_bennett",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1713611989524,
-      "tag": "0002_unusual_sister_grimm",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1713612215955,
-      "tag": "0003_freezing_dorian_gray",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1713612256532,
-      "tag": "0004_luxuriant_archangel",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1713612712349,
-      "tag": "0005_dear_killmonger",
+      "when": 1714160570526,
+      "tag": "0000_absurd_ben_grimm",
       "breakpoints": true
     }
   ]

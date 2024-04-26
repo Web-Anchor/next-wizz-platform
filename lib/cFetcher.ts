@@ -14,7 +14,6 @@ export async function cFetch(props: FetcherTypes) {
   try {
     let HEADERS = {
       'Content-Type': 'application/json',
-      'apollo-require-preflight': true,
       Expires: props.cacheExpires ?? '0',
     };
 

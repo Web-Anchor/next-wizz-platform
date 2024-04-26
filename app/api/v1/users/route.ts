@@ -11,7 +11,10 @@ export async function GET() {
     auth().protect();
 
     const { userId } = auth();
-    const dbUser = await db.select().from(users).where(eq(users.id, userId!));
+    const dbUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.clerkId, userId!));
     console.log('👤 User ', userId, dbUser);
 
     if (!dbUser?.length) {
@@ -20,7 +23,7 @@ export async function GET() {
       return new Response(null, {
         status: 302,
         headers: {
-          Location: APP_URL + '/api/v1/stripe/create',
+          Location: APP_URL + '/api/v1/create',
         },
       });
     }

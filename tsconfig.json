@@ -20,6 +20,7 @@
     "paths": {
       "@app/*": ["./app/*"],
       "@db/*": ["./db/*"],
+      "@lib/*": ["./lib/*"],
       "@hooks/*": ["./hooks/*"],
       "@types/*": ["./types/*"],
       "@helpers/*": ["./helpers/*"],
