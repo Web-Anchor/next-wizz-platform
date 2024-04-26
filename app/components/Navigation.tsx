@@ -28,51 +28,51 @@ export default function Navigation() {
     },
     {
       name: 'Customers',
-      href: '/customers',
+      href: '/dashboard/customers',
       icon: UsersIcon,
       count: '5',
-      current: path === '/customers',
+      current: path === '/dashboard/customers',
     },
     {
       name: 'Invoices',
-      href: '/invoices',
+      href: '/dashboard/invoices',
       icon: DocumentDuplicateIcon,
       count: '12',
-      current: path === '/invoices',
+      current: path === '/dashboard/invoices',
     },
     {
       name: 'Stripe',
-      href: '/stripe',
+      href: '/dashboard/stripe',
       icon: LinkIcon,
       count: '20+',
-      current: false,
+      current: path === '/dashboard/stripe',
     },
     {
       name: 'Reports',
-      href: '/reports',
+      href: '/dashboard/reports',
       icon: ChartPieIcon,
-      current: path === '/reports',
+      current: path === '/dashboard/reports',
     },
     {
       name: 'Profile',
-      href: '/profile',
+      href: '/dashboard/profile',
       icon: UserIcon,
-      current: false,
+      current: path === '/dashboard/profile',
     },
   ];
 
   const teams = [
     {
       name: 'Feature Request',
-      href: '/new-features',
+      href: '/dashboard/new-features',
       initial: 'F',
-      current: path === '/new-features',
+      current: path === '/dashboard/new-features',
     },
     {
       name: 'Help & Support',
-      href: '/support',
+      href: '/dashboard/support',
       initial: 'S',
-      current: path === '/support',
+      current: path === '/dashboard/support',
     },
   ];
 
