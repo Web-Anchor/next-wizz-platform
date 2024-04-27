@@ -10,5 +10,6 @@ export const stripeKeys = sqliteTable('stripe_keys', {
   stripeSecretKey: text('stripe_secret_key'),
   stripePublishableKey: text('stripe_publishable_key'),
   restrictedAPIKey: text('restricted_api_key'),
+  name: text('name'),
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
 });

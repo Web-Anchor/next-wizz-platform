@@ -24,7 +24,12 @@ export async function POST(request: NextRequest) {
     // 📌  Retrieve User API keys
     // --------------------------------------------------------------------------------
     const keys = await db
-      .select()
+      .select({
+        id: stripeKeys.id,
+        userId: stripeKeys.userId,
+        restrictedAPIKey: stripeKeys.restrictedAPIKey,
+        createdAt: stripeKeys.createdAt,
+      })
       .from(stripeKeys)
       .where(eq(stripeKeys.userId, dbUser[0].id.toString()));
 

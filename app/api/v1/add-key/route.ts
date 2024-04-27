@@ -32,10 +32,12 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     const body = await request.json();
     const key = body.key;
+    const name = body.name;
 
     await db.insert(stripeKeys).values({
       userId: dbUser[0].id.toString(),
       restrictedAPIKey: key,
+      name,
     });
 
     return NextResponse.json({ success: true });

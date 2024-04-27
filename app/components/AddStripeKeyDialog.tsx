@@ -19,11 +19,12 @@ export default function AddStripeKeyDialog(props: Props) {
       // --------------------------------------------------------------------------------
       setState((prev) => ({ ...prev, fetching: true }));
       const key = form.get('key');
+      const name = form.get('name');
 
       const { data, status } = await cFetch({
         url: '/api/v1/add-key',
         method: 'POST',
-        data: { key },
+        data: { key, name },
       });
 
       if (status !== 200) {
@@ -88,6 +89,25 @@ export default function AddStripeKeyDialog(props: Props) {
                     .
                   </p>
 
+                  <div className="my-5 sm:col-span-4">
+                    <label
+                      htmlFor="username"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Name
+                    </label>
+                    <div className="mt-2">
+                      <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                        <input
+                          type="text"
+                          name="name"
+                          autoComplete="off"
+                          className="block flex-1 border-0 bg-transparent py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                          placeholder="Enter your API name"
+                        />
+                      </div>
+                    </div>
+                  </div>
                   <div className="my-5 sm:col-span-4">
                     <label
                       htmlFor="username"

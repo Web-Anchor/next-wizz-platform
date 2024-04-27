@@ -1,23 +1,98 @@
 'use client';
 
-import { classNames } from '@helpers/index';
+import { classNames, getDateDifference } from '@helpers/index';
 import AddStripeKeyDialog from './AddStripeKeyDialog';
 import { useState } from 'react';
-import { useStripeKeys } from '@hooks/stripe-keys';
-import { StripeKeys as KeyTypes } from '@types/index';
+import { StripeKeys as KeyTypes } from '../../types';
+import { TableSkeleton } from './Skeleton';
+import { TableCellsIcon } from '@heroicons/react/24/outline';
 
 type Props = {
   className?: string;
+  fetching?: boolean;
   keys?: any[];
+};
+
+const NoData = () => {
+  return (
+    <tr>
+      <td colSpan={1000}>
+        <div className="text-center py-5">
+          <div className="bg-indigo-500 text-white mx-auto flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg">
+            <TableCellsIcon className="h-8 w-8" aria-hidden="true" />
+          </div>
+          <h3 className="mt-2 text-sm font-semibold text-gray-900">
+            No Stripe API keys added
+          </h3>
+          <p className="mt-1 text-sm text-gray-500">
+            Get started by adding a new API key.
+          </p>
+        </div>
+      </td>
+    </tr>
+  );
 };
 
 export default function StripeKeys(props: Props) {
   const [state, setState] = useState<{ open?: boolean }>({});
-  const { data } = useStripeKeys({});
-  console.log('StripeKeys', data);
 
   function dialogClose() {
     setState((prev) => ({ ...prev, open: false }));
+  }
+
+  const ServeStripeKeys = () => {
+    if (!props?.keys?.length) {
+      return <NoData />;
+    }
+
+    return props?.keys?.map((key: KeyTypes, idx: number) => (
+      <tr key={idx}>
+        <td
+          className={classNames(
+            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell hover:bg-gray-50'
+          )}
+        >
+          {key.name}
+        </td>
+        <td
+          className={classNames(
+            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell hover:bg-gray-50'
+          )}
+        >
+          {key.name}
+        </td>
+        <td
+          className={classNames(
+            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell hover:bg-gray-50'
+          )}
+        >
+          {key.name}
+        </td>
+        <td
+          className={classNames(
+            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell hover:bg-gray-50'
+          )}
+        >
+          {getDateDifference(key.createdAt!)}
+        </td>
+        <td
+          className={classNames(
+            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell hover:bg-gray-50'
+          )}
+        >
+          <button
+            type="button"
+            className="text-indigo-600 px-3 py-1 btn-ghost flex flex-row justify-center gap-2 hover:bg-transparent hover:opacity-80"
+          >
+            Edit<span className="sr-only">{key.name}</span>
+          </button>
+        </td>
+      </tr>
+    ));
+  };
+
+  if (props.fetching) {
+    return <TableSkeleton />;
   }
 
   return (
@@ -52,31 +127,25 @@ export default function StripeKeys(props: Props) {
                 scope="col"
                 className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
               >
-                Plan
+                Name
               </th>
               <th
                 scope="col"
                 className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
               >
-                Memory
+                Key
               </th>
               <th
                 scope="col"
                 className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
               >
-                CPU
+                Validation Check
               </th>
               <th
                 scope="col"
                 className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
               >
-                Storage
-              </th>
-              <th
-                scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-              >
-                Price
+                Created At
               </th>
               <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                 <span className="sr-only">Select</span>
@@ -84,85 +153,7 @@ export default function StripeKeys(props: Props) {
             </tr>
           </thead>
           <tbody>
-            {data?.map((key: KeyTypes, planIdx: number) => (
-              <tr key={key.id}>
-                <td
-                  className={classNames(
-                    planIdx === 0 ? '' : 'border-t border-transparent',
-                    'relative py-4 pl-4 pr-3 text-sm sm:pl-6'
-                  )}
-                >
-                  <div className="font-medium text-gray-900">
-                    {key.name}
-                    {key.isCurrent ? (
-                      <span className="ml-1 text-indigo-600">
-                        (Current Plan)
-                      </span>
-                    ) : null}
-                  </div>
-                  <div className="mt-1 flex flex-col text-gray-500 sm:block lg:hidden">
-                    <span>
-                      {key.memory} / {key.cpu}
-                    </span>
-                    <span className="hidden sm:inline">·</span>
-                    <span>{key.storage}</span>
-                  </div>
-                  {planIdx !== 0 ? (
-                    <div className="absolute -top-px left-6 right-0 h-px bg-gray-200" />
-                  ) : null}
-                </td>
-                <td
-                  className={classNames(
-                    planIdx === 0 ? '' : 'border-t border-gray-200',
-                    'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
-                  )}
-                >
-                  {key.memory}
-                </td>
-                <td
-                  className={classNames(
-                    planIdx === 0 ? '' : 'border-t border-gray-200',
-                    'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
-                  )}
-                >
-                  {key.cpu}
-                </td>
-                <td
-                  className={classNames(
-                    planIdx === 0 ? '' : 'border-t border-gray-200',
-                    'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
-                  )}
-                >
-                  {key.storage}
-                </td>
-                <td
-                  className={classNames(
-                    planIdx === 0 ? '' : 'border-t border-gray-200',
-                    'px-3 py-3.5 text-sm text-gray-500'
-                  )}
-                >
-                  <div className="sm:hidden">{key.price}/mo</div>
-                  <div className="hidden sm:block">{key.price}/month</div>
-                </td>
-                <td
-                  className={classNames(
-                    planIdx === 0 ? '' : 'border-t border-transparent',
-                    'relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6'
-                  )}
-                >
-                  <button
-                    type="button"
-                    className="text-indigo-600 px-3 py-1 btn-ghost flex flex-row justify-center gap-2 hover:bg-transparent hover:opacity-80"
-                    disabled={key.isCurrent}
-                  >
-                    Edit<span className="sr-only">{key.name}</span>
-                  </button>
-                  {planIdx !== 0 ? (
-                    <div className="absolute -top-px left-0 right-6 h-px bg-gray-200" />
-                  ) : null}
-                </td>
-              </tr>
-            ))}
+            <ServeStripeKeys />
           </tbody>
         </table>
       </div>
