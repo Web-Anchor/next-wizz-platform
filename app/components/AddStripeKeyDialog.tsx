@@ -3,6 +3,7 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { cFetch } from '@lib/cFetcher';
+import { mutate } from 'swr';
 
 type Props = {
   open?: boolean;
@@ -32,6 +33,7 @@ export default function AddStripeKeyDialog(props: Props) {
       }
 
       console.log(data, status);
+      mutate(`/api/v1/keys`);
     } catch (err) {
       console.error(err);
     } finally {

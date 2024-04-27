@@ -1,8 +1,8 @@
-export type Charges = {
+export type Charge = {
   id?: string;
 };
 
-export type StripeKeys = {
+export type StripeKey = {
   id?: string;
   name?: string;
   userId?: string;

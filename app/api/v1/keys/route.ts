@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
     const keys = await db
       .select({
         id: stripeKeys.id,
+        name: stripeKeys.name,
         userId: stripeKeys.userId,
         restrictedAPIKey: stripeKeys.restrictedAPIKey,
         createdAt: stripeKeys.createdAt,

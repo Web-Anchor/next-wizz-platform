@@ -1,16 +1,21 @@
 'use client';
 
-import { classNames, getDateDifference } from '@helpers/index';
+import {
+  classNames,
+  convertToAsterisks,
+  getDateDifference,
+} from '@helpers/index';
 import AddStripeKeyDialog from './AddStripeKeyDialog';
 import { useState } from 'react';
-import { StripeKeys as KeyTypes } from '../../types';
+import { StripeKey } from '../../types';
 import { TableSkeleton } from './Skeleton';
 import { TableCellsIcon } from '@heroicons/react/24/outline';
+import Button from './Button';
 
 type Props = {
   className?: string;
   fetching?: boolean;
-  keys?: any[];
+  keys?: StripeKey[];
 };
 
 const NoData = () => {
@@ -34,7 +39,11 @@ const NoData = () => {
 };
 
 export default function StripeKeys(props: Props) {
-  const [state, setState] = useState<{ open?: boolean }>({});
+  const [state, setState] = useState<{
+    open?: boolean;
+    edit?: boolean;
+    key?: StripeKey;
+  }>({});
 
   function dialogClose() {
     setState((prev) => ({ ...prev, open: false }));
@@ -45,39 +54,41 @@ export default function StripeKeys(props: Props) {
       return <NoData />;
     }
 
-    return props?.keys?.map((key: KeyTypes, idx: number) => (
-      <tr key={idx}>
+    return props?.keys?.map((key: StripeKey, idx: number) => (
+      <tr key={idx} className="hover:text-slate-800">
         <td
           className={classNames(
-            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell hover:bg-gray-50'
+            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
           )}
         >
           {key.name}
         </td>
         <td
           className={classNames(
-            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell hover:bg-gray-50'
+            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell truncate max-w-28 overflow-hidden'
+          )}
+        >
+          <span className="blur">
+            {convertToAsterisks(key.restrictedAPIKey!)}
+          </span>
+        </td>
+        <td
+          className={classNames(
+            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
           )}
         >
           {key.name}
         </td>
         <td
           className={classNames(
-            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell hover:bg-gray-50'
-          )}
-        >
-          {key.name}
-        </td>
-        <td
-          className={classNames(
-            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell hover:bg-gray-50'
+            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
           )}
         >
           {getDateDifference(key.createdAt!)}
         </td>
         <td
           className={classNames(
-            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell hover:bg-gray-50'
+            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
           )}
         >
           <button
@@ -110,13 +121,10 @@ export default function StripeKeys(props: Props) {
           </p>
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <button
-            type="button"
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          <Button
+            title="Add a new key"
             onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
-          >
-            Add a new key
-          </button>
+          />
         </div>
       </div>
       <div className="-mx-4 mt-10 ring-1 ring-gray-300 sm:mx-0 sm:rounded-lg">

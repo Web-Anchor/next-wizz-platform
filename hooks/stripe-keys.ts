@@ -1,10 +1,10 @@
 import useSWR from 'swr';
 import { bodyFetcher } from '.';
-import { StripeKeys } from '../types';
+import { StripeKey } from '../types';
 
 type Props = {
   account?: string;
-  keys?: StripeKeys;
+  keys?: StripeKey[];
 };
 
 export function useStripeKeys(props: Props) {

@@ -35,3 +35,7 @@ export function getDateDifference(inputDateStr: string): string {
     return `${years} year(s) ago`;
   }
 }
+
+export function convertToAsterisks(inputString: string): string {
+  return inputString.replace(/./g, '*');
+}

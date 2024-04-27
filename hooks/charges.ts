@@ -1,10 +1,10 @@
 import useSWR from 'swr';
 import { bodyFetcher } from '.';
-import { Charges } from '../types';
+import { Charge } from '../types';
 
 type Props = {
   account?: string;
-  charges?: Charges;
+  charges?: Charge[];
 };
 
 export function useCharges(props: Props) {
