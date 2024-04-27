@@ -20,7 +20,7 @@ export default function Button(props: Props): React.ReactElement {
         props.type === 'secondary' &&
           'rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
         props.type === 'ghost' &&
-          'bg-transparent inline-flex items-center border-b-2 border-transparent px-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:bg-transparent',
+          'bg-transparent inline-flex items-center border-b-2 border-transparent px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-transparent shadow-none',
         props.class
       )}
       disabled={props.disabled || props.fetching}
