@@ -11,6 +11,7 @@ import { StripeKey } from '../../types';
 import { TableSkeleton } from './Skeleton';
 import { TableCellsIcon } from '@heroicons/react/24/outline';
 import Button from './Button';
+import { useKeyValidate } from '@hooks/index';
 
 type Props = {
   className?: string;
@@ -38,6 +39,71 @@ const NoData = () => {
   );
 };
 
+const ServeDataRow = ({ stripeKey }: { stripeKey: StripeKey }) => {
+  const { data, error } = useKeyValidate({ key: stripeKey.restrictedAPIKey });
+  console.log('🔑 data', error, data);
+
+  return (
+    <tr className="hover:text-slate-800">
+      <td
+        className={classNames(
+          'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
+        )}
+      >
+        {stripeKey.name}
+      </td>
+      <td
+        className={classNames(
+          'blur hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell truncate max-w-28 overflow-hidden'
+        )}
+      >
+        {convertToAsterisks(stripeKey.restrictedAPIKey!)}
+      </td>
+      <td
+        className={classNames(
+          'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
+        )}
+      >
+        <div
+          className={classNames(
+            'flex items-center justify-end gap-x-2 sm:justify-start',
+            error ? 'text-rose-400' : 'text-green-400'
+          )}
+        >
+          <div
+            className={classNames(
+              'flex-none rounded-full p-1 shadow-md bg-opacity-25',
+              error ? 'bg-rose-400' : 'bg-green-400'
+            )}
+          >
+            <div className="h-1.5 w-1.5 rounded-full bg-current" />
+          </div>
+          <div className="hidden sm:block">{error ? 'Error' : 'Valid'}</div>
+        </div>
+      </td>
+      <td
+        className={classNames(
+          'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
+        )}
+      >
+        {getDateDifference(stripeKey.createdAt!)}
+      </td>
+      <td
+        className={classNames(
+          'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
+        )}
+      >
+        <button
+          type="button"
+          className="text-indigo-600 px-3 py-1 btn-ghost flex flex-row justify-center gap-2 hover:bg-transparent hover:opacity-80"
+        >
+          Edit<span className="sr-only">{stripeKey.name}</span>
+        </button>
+      </td>
+    </tr>
+  );
+};
+
 export default function StripeKeys(props: Props) {
   const [state, setState] = useState<{
     open?: boolean;
@@ -48,59 +114,6 @@ export default function StripeKeys(props: Props) {
   function dialogClose() {
     setState((prev) => ({ ...prev, open: false }));
   }
-
-  const ServeStripeKeys = () => {
-    if (!props?.keys?.length) {
-      return <NoData />;
-    }
-
-    return props?.keys?.map((key: StripeKey, idx: number) => (
-      <tr key={idx} className="hover:text-slate-800">
-        <td
-          className={classNames(
-            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
-          )}
-        >
-          {key.name}
-        </td>
-        <td
-          className={classNames(
-            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell truncate max-w-28 overflow-hidden'
-          )}
-        >
-          <span className="blur">
-            {convertToAsterisks(key.restrictedAPIKey!)}
-          </span>
-        </td>
-        <td
-          className={classNames(
-            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
-          )}
-        >
-          {key.name}
-        </td>
-        <td
-          className={classNames(
-            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
-          )}
-        >
-          {getDateDifference(key.createdAt!)}
-        </td>
-        <td
-          className={classNames(
-            'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
-          )}
-        >
-          <button
-            type="button"
-            className="text-indigo-600 px-3 py-1 btn-ghost flex flex-row justify-center gap-2 hover:bg-transparent hover:opacity-80"
-          >
-            Edit<span className="sr-only">{key.name}</span>
-          </button>
-        </td>
-      </tr>
-    ));
-  };
 
   if (props.fetching) {
     return <TableSkeleton />;
@@ -161,7 +174,9 @@ export default function StripeKeys(props: Props) {
             </tr>
           </thead>
           <tbody>
-            <ServeStripeKeys />
+            {props?.keys?.map((key: StripeKey, idx: number) => {
+              return <ServeDataRow stripeKey={key} key={idx} />;
+            }) ?? <NoData />}
           </tbody>
         </table>
       </div>
