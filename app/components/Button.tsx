@@ -7,7 +7,8 @@ type Props = {
   fetching?: boolean;
   disabled?: boolean;
   class?: string;
-  type?: 'primary' | 'secondary' | 'ghost'; // Defaults to 'primary'
+  style?: 'primary' | 'secondary' | 'ghost'; // Defaults to 'primary'
+  type?: 'button' | 'submit' | 'reset';
 };
 
 export default function Button(props: Props): React.ReactElement {
@@ -15,11 +16,12 @@ export default function Button(props: Props): React.ReactElement {
 
   return (
     <button
+      type="button"
       className={classNames(
         'block relative rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700',
-        props.type === 'secondary' &&
+        props.style === 'secondary' &&
           'rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
-        props.type === 'ghost' &&
+        props.style === 'ghost' &&
           'bg-transparent inline-flex items-center border-b-2 border-transparent px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-transparent shadow-none',
         props.class
       )}
@@ -30,7 +32,7 @@ export default function Button(props: Props): React.ReactElement {
         <span
           className={classNames(
             'loading loading-spinner absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 text-white',
-            props.type === 'ghost' && 'text-gray-500'
+            props.style === 'ghost' && 'text-gray-500'
           )}
         ></span>
       )}

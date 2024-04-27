@@ -38,3 +38,13 @@ export function TableSkeleton() {
     </section>
   );
 }
+
+export function RowSkeleton() {
+  return (
+    <section className="flex flex-1 justify-center">
+      <div className="flex flex-col gap-4 w-full">
+        <div className="skeleton h-4 w-full"></div>
+      </div>
+    </section>
+  );
+}

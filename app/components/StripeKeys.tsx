@@ -8,7 +8,7 @@ import {
 import AddStripeKeyDialog from './AddStripeKeyDialog';
 import { useState } from 'react';
 import { StripeKey } from '../../types';
-import { TableSkeleton } from './Skeleton';
+import { RowSkeleton, TableSkeleton } from './Skeleton';
 import { TableCellsIcon } from '@heroicons/react/24/outline';
 import Button from './Button';
 import { useKeyValidate } from '@hooks/index';
@@ -40,7 +40,10 @@ const NoData = () => {
 };
 
 const ServeDataRow = ({ stripeKey }: { stripeKey: StripeKey }) => {
-  const { data, error } = useKeyValidate({ key: stripeKey.restrictedAPIKey });
+  const [state, setState] = useState<{ edit?: boolean }>({});
+  const { data, error, isLoading } = useKeyValidate({
+    key: stripeKey.restrictedAPIKey,
+  });
   console.log('🔑 data', error, data);
 
   return (
@@ -64,22 +67,25 @@ const ServeDataRow = ({ stripeKey }: { stripeKey: StripeKey }) => {
           'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
         )}
       >
-        <div
-          className={classNames(
-            'flex items-center justify-end gap-x-2 sm:justify-start',
-            error ? 'text-rose-400' : 'text-green-400'
-          )}
-        >
+        {isLoading && <RowSkeleton />}
+        {!isLoading && (
           <div
             className={classNames(
-              'flex-none rounded-full p-1 shadow-md bg-opacity-25',
-              error ? 'bg-rose-400' : 'bg-green-400'
+              'flex items-center justify-end gap-x-2 sm:justify-start',
+              error ? 'text-rose-400' : 'text-green-400'
             )}
           >
-            <div className="h-1.5 w-1.5 rounded-full bg-current" />
+            <div
+              className={classNames(
+                'flex-none rounded-full p-1 shadow-md bg-opacity-25',
+                error ? 'bg-rose-400' : 'bg-green-400'
+              )}
+            >
+              <div className="h-1.5 w-1.5 rounded-full bg-current" />
+            </div>
+            <div className="hidden sm:block">{error ? 'Error' : 'Valid'}</div>
           </div>
-          <div className="hidden sm:block">{error ? 'Error' : 'Valid'}</div>
-        </div>
+        )}
       </td>
       <td
         className={classNames(

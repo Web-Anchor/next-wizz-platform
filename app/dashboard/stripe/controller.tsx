@@ -80,7 +80,7 @@ export default function Page() {
 
             <Button
               title="Stripe API docs"
-              type="ghost"
+              style="ghost"
               onClick={redirectToStripe}
             />
           </div>
