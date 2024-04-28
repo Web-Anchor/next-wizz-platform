@@ -1,6 +1,7 @@
 'use client';
 
 import CustomerTable from '@app/components/CustomerTable';
+import Wrapper from '@app/components/Wrapper';
 import { useUser } from '@clerk/nextjs';
 import { useCustomers } from '@hooks/customers';
 import { useSearchParams } from 'next/navigation';
@@ -12,8 +13,8 @@ export default function Page() {
   console.log('🧾 Customers', data);
 
   return (
-    <section className="flex flex-col">
+    <Wrapper>
       <CustomerTable customers={customers} />
-    </section>
+    </Wrapper>
   );
 }

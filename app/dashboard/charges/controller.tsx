@@ -1,6 +1,7 @@
 'use client';
 
 import ChargesTable from '@app/components/ChargesTable';
+import Wrapper from '@app/components/Wrapper';
 import { useCharges } from '@hooks/index';
 
 export default function Page() {
@@ -8,8 +9,8 @@ export default function Page() {
   console.log('🧾 Charges', data, charges);
 
   return (
-    <section className="flex flex-col">
+    <Wrapper>
       <ChargesTable charges={charges} />
-    </section>
+    </Wrapper>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import Wrapper from '@app/components/Wrapper';
 import { useUser } from '@clerk/clerk-react';
 import { CardSkeleton } from '@components/Skeleton';
 
@@ -12,10 +13,10 @@ export default function Page() {
   }
 
   return (
-    <section className="flex justify-center">
+    <Wrapper>
       <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
         User Reports & Stats
       </h1>
-    </section>
+    </Wrapper>
   );
 }
