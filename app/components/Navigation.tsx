@@ -15,13 +15,14 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import UserProfileCard from './UserProfileCard';
 import Logo from '@components/Logo';
-import { useStripeKeys } from '@hooks/index';
+import { useStripeKeys, useTotalCharges } from '@hooks/index';
 
 export default function Navigation() {
   const { isSignedIn, user, isLoaded } = useUser();
   const path = usePathname();
 
   const { count, isLoading: stLoading } = useStripeKeys({});
+  const { charges } = useTotalCharges({});
 
   const navigation = [
     {
@@ -34,7 +35,7 @@ export default function Navigation() {
       name: 'Charges',
       href: '/dashboard/charges',
       icon: CurrencyDollarIcon,
-      count: '5',
+      count: charges,
       current: path === '/dashboard/charges',
     },
     {

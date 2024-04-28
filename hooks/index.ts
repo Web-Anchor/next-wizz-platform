@@ -14,3 +14,5 @@ export function bodyFetcher(url: string, body?: any) {
 export * from './charges';
 export * from './stripe-keys';
 export * from './validate-api-keys';
+export * from './customers';
+export * from './stats';
