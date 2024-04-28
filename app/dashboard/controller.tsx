@@ -2,6 +2,7 @@
 
 import Wrapper from '@app/components/Wrapper';
 import {
+  useChargesMonthGrowth,
   useCustomersMonthGrowth,
   useTotalCharges,
   useTotalCustomers,
@@ -19,7 +20,8 @@ export default function Page() {
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
   const { data } = useCustomersMonthGrowth({});
-  console.log(`Stats `, data);
+  const { data: chargesStats } = useChargesMonthGrowth({});
+  console.log(`Stats `, chargesStats);
 
   return (
     <Wrapper>
@@ -53,7 +55,7 @@ export default function Page() {
       </div>
 
       <section>
-        <h3 className="text-base font-semibold leading-6 text-gray-900 my-5">
+        <h3 className="text-base font-semibold leading-6 text-gray-900 mb-5">
           Last 30 days
         </h3>
 

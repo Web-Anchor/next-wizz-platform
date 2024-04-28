@@ -61,3 +61,24 @@ export function useCustomersMonthGrowth(props: Props) {
     isLoading,
   };
 }
+
+export function useChargesMonthGrowth(props: Props) {
+  const { data, error, isLoading } = useSWR(
+    `/api/v1/stripe/stats/month-stats-charges?keyId=${props.keyId}`,
+    (url: string) => bodyFetcher(url, { keyId: props.keyId }),
+    {
+      revalidateOnFocus: true,
+    }
+  );
+  const obj = data?.data as {
+    currentTotalCustomers: number;
+    previousTotalCustomers: number;
+    percentage: number;
+  };
+
+  return {
+    data: obj,
+    error,
+    isLoading,
+  };
+}
