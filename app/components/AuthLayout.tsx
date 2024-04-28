@@ -11,7 +11,7 @@ export default function AuthLayout({
   return (
     <main className="flex min-h-screen max-w-7xl flex-row">
       <Navigation />
-      <section className="flex flex-1 flex-col ml-52">
+      <section className="flex flex-1 flex-col sm:ml-52">
         <Breadcrumbs />
         <section className="flex-auto pt-6 bg-slate-100">{children}</section>
         <Footer />

@@ -14,10 +14,13 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import UserProfileCard from './UserProfileCard';
 import Logo from '@components/Logo';
+import { useStripeKeys } from '@hooks/index';
 
 export default function Navigation() {
   const { isSignedIn, user, isLoaded } = useUser();
   const path = usePathname();
+
+  const { count, isLoading: stLoading } = useStripeKeys({});
 
   const navigation = [
     {
@@ -44,7 +47,7 @@ export default function Navigation() {
       name: 'Stripe',
       href: '/dashboard/stripe',
       icon: LinkIcon,
-      count: '20+',
+      count: count,
       current: path === '/dashboard/stripe',
     },
     {
@@ -77,7 +80,7 @@ export default function Navigation() {
   ];
 
   return (
-    <div className="fixed inset-x-0 top-0 w-fit flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 min-h-screen px-6">
+    <div className="hidden sm:flex fixed inset-x-0 top-0 w-fit grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 min-h-screen px-6">
       <div className="flex h-16 shrink-0 items-center">
         <Logo />
       </div>
@@ -121,7 +124,7 @@ export default function Navigation() {
           </li>
           <li>
             <div className="text-xs font-semibold leading-6 text-gray-400">
-              Account Reports
+              Shortcuts
             </div>
             <ul role="list" className="-mx-2 mt-2 space-y-1">
               {teams.map((team) => (

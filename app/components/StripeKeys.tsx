@@ -48,25 +48,17 @@ const ServeDataRow = ({ stripeKey }: { stripeKey: StripeKey }) => {
 
   return (
     <tr className="hover:text-slate-800">
-      <td
-        className={classNames(
-          'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
-        )}
-      >
+      <td className={classNames('px-3 py-3.5 text-sm text-gray-500')}>
         {stripeKey.name}
       </td>
       <td
         className={classNames(
-          'blur hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell truncate max-w-28 overflow-hidden'
+          'blur hidden lg:table-cell px-3 py-3.5 text-sm text-gray-500 truncate max-w-28 overflow-hidden'
         )}
       >
         {convertToAsterisks(stripeKey.restrictedAPIKey!)}
       </td>
-      <td
-        className={classNames(
-          'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
-        )}
-      >
+      <td className={classNames('px-3 py-3.5 text-sm text-gray-500')}>
         {isLoading && <RowSkeleton />}
         {!isLoading && (
           <div
@@ -83,22 +75,14 @@ const ServeDataRow = ({ stripeKey }: { stripeKey: StripeKey }) => {
             >
               <div className="h-1.5 w-1.5 rounded-full bg-current" />
             </div>
-            <div className="hidden sm:block">{error ? 'Error' : 'Valid'}</div>
+            <div className="font-semibold">{error ? 'Error' : 'Valid'}</div>
           </div>
         )}
       </td>
-      <td
-        className={classNames(
-          'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
-        )}
-      >
+      <td className={classNames('px-3 py-3.5 text-sm text-gray-500')}>
         {getDateDifference(stripeKey.createdAt!)}
       </td>
-      <td
-        className={classNames(
-          'hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell'
-        )}
-      >
+      <td className={classNames('px-3 py-3.5 text-sm text-gray-500')}>
         <button
           type="button"
           className="text-indigo-600 px-3 py-1 btn-ghost flex flex-row justify-center gap-2 hover:bg-transparent hover:opacity-80"
@@ -126,7 +110,7 @@ export default function StripeKeys(props: Props) {
   }
 
   return (
-    <div>
+    <>
       <AddStripeKeyDialog open={state?.open} setter={dialogClose} />
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
@@ -146,7 +130,7 @@ export default function StripeKeys(props: Props) {
           />
         </div>
       </div>
-      <div className="-mx-4 mt-10 ring-1 ring-gray-300 sm:mx-0 sm:rounded-lg">
+      <div className="mt-10">
         <table className="min-w-full divide-y divide-gray-300">
           <thead>
             <tr>
@@ -158,19 +142,19 @@ export default function StripeKeys(props: Props) {
               </th>
               <th
                 scope="col"
-                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
                 Key
               </th>
               <th
                 scope="col"
-                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
                 Validation Check
               </th>
               <th
                 scope="col"
-                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
                 Created At
               </th>
@@ -186,6 +170,6 @@ export default function StripeKeys(props: Props) {
           </tbody>
         </table>
       </div>
-    </div>
+    </>
   );
 }
