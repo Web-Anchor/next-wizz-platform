@@ -8,6 +8,7 @@ import {
   HomeIcon,
   UsersIcon,
   LinkIcon,
+  CurrencyDollarIcon,
 } from '@heroicons/react/24/outline';
 import { useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
@@ -28,6 +29,13 @@ export default function Navigation() {
       href: '/dashboard',
       icon: HomeIcon,
       current: path === '/dashboard',
+    },
+    {
+      name: 'Charges',
+      href: '/dashboard/charges',
+      icon: CurrencyDollarIcon,
+      count: '5',
+      current: path === '/dashboard/charges',
     },
     {
       name: 'Customers',
