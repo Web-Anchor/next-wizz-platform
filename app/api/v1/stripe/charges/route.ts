@@ -1,4 +1,4 @@
-import { auth, currentUser } from '@clerk/nextjs/server';
+import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { stripeKeys } from '@db/schema/stripeKeys';
@@ -38,34 +38,20 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     // 📌  Get User Customer
     // --------------------------------------------------------------------------------
-    const apiKey = keys?.[0]?.restrictedAPIKey;
+    const body = await request.json();
+    const keyId = body?.keyId;
+    const key = keys.find((k) => k.id === keyId); // 🔑 find key by id
+
+    const apiKey = key ?? keys?.[0]?.restrictedAPIKey; // 🔑 use first key if no keyId
     const stripe = require('stripe')(apiKey);
 
-    // customers
-    const customers = await stripe.customers.list({
+    const charges = await stripe.charges.list({
       limit: 2,
+      // starting_after: 'ch_1JZ9Zv2eZvKYlo2C5Z2ZQ2ZQ',
     });
+    console.log('🧾 Charges', charges);
 
-    // const { email, next_page } = await request.json();
-    // get customer information
-    // const customer = await stripe.customers.search({
-    //   query: `email~"${email}"`,
-    // });
-    // const customerId = customer.data[0].id;
-    // const charges = await stripe.charges.search({
-    //   limit: 2,
-    //   page: next_page === null ? undefined : next_page,
-    //   query: `customer:"${customerId}"`,
-    // });
-    // find charges by customer email
-    // const charges = await stripe.charges.list({ customer: 'cus_KfMq1e3J3Q3HbD' });
-
-    // const { data } = await axios.get(
-    //   `${APP_URL}/api/v1/stripe/keys?account=${account}&keyId=${keyId}`
-    // );
-    // console.log('🔑 keys', data);
-
-    return NextResponse.json({ customers });
+    return NextResponse.json({ charges });
   } catch (error: any) {
     console.error('🔑 error', error);
     return NextResponse.json({ error: error?.message });

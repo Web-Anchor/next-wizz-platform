@@ -3,28 +3,25 @@ import { bodyFetcher } from '.';
 import { Charge } from '../types';
 
 type Props = {
-  account?: string;
+  keyId?: string;
   charges?: Charge[];
 };
 
 export function useCharges(props: Props) {
   const { data, error, isLoading } = useSWR(
-    props.account
-      ? `/api/v1/stripe/charges?account=${props.account}`
-      : undefined,
-    (url: string) => bodyFetcher(url, { account: props.account }),
+    `/api/v1/stripe/charges?account=${props.keyId}`,
+    (url: string) => bodyFetcher(url, { keyId: props.keyId }),
     {
       revalidateOnFocus: true,
       fallbackData: props?.charges as any,
     }
   );
+  const obj = data?.data?.charges;
 
   return {
-    data,
-    charges: data?.data?.charges?.data,
+    data: obj,
+    charges: obj?.data,
     error,
-    cError: data?.data?.error,
-    next_page: data?.data?.charges?.next_page,
     isLoading,
   };
 }

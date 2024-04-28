@@ -39,3 +39,8 @@ export function getDateDifference(inputDateStr: string): string {
 export function convertToAsterisks(inputString: string): string {
   return inputString.replace(/./g, '*');
 }
+
+export function convertToYearMonthDay(inputDate: number): string {
+  const date = new Date(inputDate * 1000);
+  return date.toDateString(); // 'Sun Feb 01 1970' format
+}

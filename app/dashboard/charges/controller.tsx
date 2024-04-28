@@ -1,11 +1,15 @@
 'use client';
 
+import ChargesTable from '@app/components/ChargesTable';
+import { useCharges } from '@hooks/index';
+
 export default function Page() {
+  const { data, charges, isLoading } = useCharges({});
+  console.log('🧾 Charges', data, charges);
+
   return (
-    <section className="flex justify-center">
-      <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-        Create Invoice
-      </h1>
+    <section className="flex flex-col">
+      <ChargesTable charges={charges} />
     </section>
   );
 }
