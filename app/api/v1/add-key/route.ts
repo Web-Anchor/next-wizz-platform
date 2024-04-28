@@ -4,6 +4,7 @@ import { db } from '@db/index';
 import { stripeKeys } from '@db/schema/stripeKeys';
 import { eq } from 'drizzle-orm';
 import { users } from '@db/schema/users';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -35,6 +36,7 @@ export async function POST(request: NextRequest) {
     const name = body.name;
 
     await db.insert(stripeKeys).values({
+      id: uuidv4(),
       userId: dbUser[0].id.toString(),
       restrictedAPIKey: key,
       name,

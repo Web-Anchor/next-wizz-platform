@@ -3,7 +3,7 @@ import { text, sqliteTable, integer } from 'drizzle-orm/sqlite-core';
 import { users } from './users';
 
 export const stripeKeys = sqliteTable('stripe_keys', {
-  id: integer('id').notNull().primaryKey(),
+  id: text('id').unique().notNull().primaryKey(),
   userId: text('user_id')
     .notNull()
     .references(() => users.id),

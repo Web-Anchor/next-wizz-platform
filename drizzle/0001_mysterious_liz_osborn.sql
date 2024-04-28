@@ -1,1 +1,0 @@
-ALTER TABLE stripe_keys ADD `name` text;

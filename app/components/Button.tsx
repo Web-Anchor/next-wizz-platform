@@ -16,7 +16,7 @@ export default function Button(props: Props): React.ReactElement {
 
   return (
     <button
-      type="button"
+      type={props.type || 'button'}
       className={classNames(
         'block relative rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700',
         props.style === 'secondary' &&

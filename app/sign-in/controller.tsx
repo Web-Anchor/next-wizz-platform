@@ -14,7 +14,7 @@ export default function Page() {
   return (
     <section className="flex justify-center">
       <SignIn
-        afterSignInUrl="/api/v1/users"
+        afterSignInUrl="/api/v1/auth-login"
         path="/sign-in"
         appearance={{
           layout: {

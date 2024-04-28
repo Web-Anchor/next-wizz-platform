@@ -164,9 +164,10 @@ export default function StripeKeys(props: Props) {
             </tr>
           </thead>
           <tbody>
+            {!props.keys?.length && <NoData />}
             {props?.keys?.map((key: StripeKey, idx: number) => {
               return <ServeDataRow stripeKey={key} key={idx} />;
-            }) ?? <NoData />}
+            })}
           </tbody>
         </table>
       </div>
