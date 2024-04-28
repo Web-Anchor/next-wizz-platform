@@ -1,10 +1,8 @@
 import useSWR from 'swr';
 import { bodyFetcher } from '.';
-import { Charge } from '../types';
 
 type Props = {
   keyId?: string;
-  charges?: Charge[];
 };
 
 export function useTotalCharges(props: Props) {
@@ -13,7 +11,6 @@ export function useTotalCharges(props: Props) {
     (url: string) => bodyFetcher(url, { keyId: props.keyId }),
     {
       revalidateOnFocus: true,
-      fallbackData: props?.charges as any,
     }
   );
   const obj = data?.data;
@@ -21,6 +18,24 @@ export function useTotalCharges(props: Props) {
   return {
     data: obj,
     charges: obj?.charges,
+    error,
+    isLoading,
+  };
+}
+
+export function useTotalCustomers(props: Props) {
+  const { data, error, isLoading } = useSWR(
+    `/api/v1/stripe/stats/total-customers?keyId=${props.keyId}`,
+    (url: string) => bodyFetcher(url, { keyId: props.keyId }),
+    {
+      revalidateOnFocus: true,
+    }
+  );
+  const obj = data?.data;
+
+  return {
+    data: obj,
+    customers: obj?.customers,
     error,
     isLoading,
   };

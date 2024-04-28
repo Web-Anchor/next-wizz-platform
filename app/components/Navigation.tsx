@@ -15,7 +15,11 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import UserProfileCard from './UserProfileCard';
 import Logo from '@components/Logo';
-import { useStripeKeys, useTotalCharges } from '@hooks/index';
+import {
+  useStripeKeys,
+  useTotalCharges,
+  useTotalCustomers,
+} from '@hooks/index';
 
 export default function Navigation() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -23,6 +27,7 @@ export default function Navigation() {
 
   const { count, isLoading: stLoading } = useStripeKeys({});
   const { charges } = useTotalCharges({});
+  const { customers } = useTotalCustomers({});
 
   const navigation = [
     {
@@ -42,7 +47,7 @@ export default function Navigation() {
       name: 'Customers',
       href: '/dashboard/customers',
       icon: UsersIcon,
-      count: '5',
+      count: customers,
       current: path === '/dashboard/customers',
     },
     {
@@ -53,7 +58,7 @@ export default function Navigation() {
       current: path === '/dashboard/invoices',
     },
     {
-      name: 'Stripe',
+      name: 'Stripe API',
       href: '/dashboard/stripe',
       icon: LinkIcon,
       count: count,

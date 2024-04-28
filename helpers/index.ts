@@ -44,3 +44,11 @@ export function convertToYearMonthDay(inputDate: number): string {
   const date = new Date(inputDate * 1000);
   return date.toDateString(); // 'Sun Feb 01 1970' format
 }
+
+export function convertToK(inputNumber: number): string {
+  if (inputNumber < 1000) {
+    return inputNumber.toString();
+  } else {
+    return `${(inputNumber / 1000).toFixed(1)}k`;
+  }
+}
