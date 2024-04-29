@@ -110,7 +110,7 @@ export default function StripeKeys(props: Props) {
           />
         </div>
       </div>
-      <div className="mt-10">
+      <div className="mt-0 sm:mt-10">
         <table className="min-w-full divide-y divide-gray-300">
           <thead>
             <tr>

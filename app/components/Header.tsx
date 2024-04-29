@@ -17,11 +17,11 @@ export default function Header(props: Props) {
   const path = usePathname();
   const { isSignedIn, user, isLoaded } = useUser();
 
-  const homePath = path === '/';
+  const landingPath = path === '/';
   const link =
-    'inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700';
+    'block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700';
   const activeLink =
-    'inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900';
+    'block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700';
 
   return (
     <Disclosure
@@ -48,11 +48,11 @@ export default function Header(props: Props) {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                {homePath && <Logo />}
-                {homePath && (
+                {landingPath && <Logo />}
+                {landingPath && (
                   <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                     {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
-                    {isSignedIn && homePath && (
+                    {isSignedIn && landingPath && (
                       <Link
                         href="/dashboard"
                         className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
@@ -73,12 +73,6 @@ export default function Header(props: Props) {
                 )}
               </div>
               <div className="flex flex-row gap-5 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <Link
-                  href="/api/delay"
-                  className="rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
-                >
-                  API Tester
-                </Link>
                 {isSignedIn && (
                   <UserProfileCard
                     href="/dashboard"
@@ -87,7 +81,17 @@ export default function Header(props: Props) {
                     order="right"
                   />
                 )}
-                {!isSignedIn && homePath && (
+                {!isLoaded && (
+                  <div className="flex flex-col gap-4 w-fit">
+                    <div className="flex gap-4 items-center">
+                      <div className="flex flex-col gap-2">
+                        <div className="skeleton h-4 w-8"></div>
+                      </div>
+                      <div className="skeleton w-10 h-10 rounded-full shrink-0"></div>
+                    </div>
+                  </div>
+                )}
+                {!isSignedIn && landingPath && (
                   <Link
                     href="/sign-in"
                     className="rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
@@ -95,7 +99,7 @@ export default function Header(props: Props) {
                     Sign in
                   </Link>
                 )}
-                {!homePath && (
+                {!isSignedIn && !isLoaded && !path?.includes('/dashboard') && (
                   <Link
                     href="/"
                     className="rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
@@ -108,37 +112,88 @@ export default function Header(props: Props) {
           </div>
 
           <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 pb-4 pt-2">
-              {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
-              <Disclosure.Button
-                as="a"
-                href="#"
-                className="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700"
-              >
-                Dashboard
-              </Disclosure.Button>
-              <Disclosure.Button
-                as="a"
-                href="#"
-                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
-              >
-                Team
-              </Disclosure.Button>
-              <Disclosure.Button
-                as="a"
-                href="#"
-                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
-              >
-                Projects
-              </Disclosure.Button>
-              <Disclosure.Button
-                as="a"
-                href="#"
-                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
-              >
-                Calendar
-              </Disclosure.Button>
-            </div>
+            {isSignedIn && (
+              <div className="space-y-1 pb-4 pt-2">
+                {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
+                <Disclosure.Button
+                  as="a"
+                  href="/dashboard"
+                  className={path === '/dashboard' ? activeLink : link}
+                >
+                  Dashboard
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as="a"
+                  href="/dashboard/charges"
+                  className={path === '/dashboard/charges' ? activeLink : link}
+                >
+                  Charges
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as="a"
+                  href="/dashboard/customers"
+                  className={
+                    path === '/dashboard/customers' ? activeLink : link
+                  }
+                >
+                  Customers
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as="a"
+                  href="/dashboard/invoices"
+                  className={path === '/dashboard/invoices' ? activeLink : link}
+                >
+                  Invoices
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as="a"
+                  href="/dashboard/stripe"
+                  className={path === '/dashboard/stripe' ? activeLink : link}
+                >
+                  Stripe
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as="a"
+                  href="/dashboard/reports"
+                  className={path === '/dashboard/reports' ? activeLink : link}
+                >
+                  Stripe
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as="a"
+                  href="/dashboard/profile"
+                  className={path === '/dashboard/profile' ? activeLink : link}
+                >
+                  Profile
+                </Disclosure.Button>
+              </div>
+            )}
+            {landingPath && (
+              <div className="space-y-1 pb-4 pt-2">
+                {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
+                <Disclosure.Button
+                  as="a"
+                  href="#"
+                  className="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700"
+                >
+                  Dashboard
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as="a"
+                  href="#"
+                  className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                >
+                  Projects
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as="a"
+                  href="#"
+                  className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                >
+                  Calendar
+                </Disclosure.Button>
+              </div>
+            )}
           </Disclosure.Panel>
         </>
       )}

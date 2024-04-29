@@ -3,8 +3,13 @@
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { classNames } from '@helpers/index';
 
-export default function Breadcrumbs() {
+type Props = {
+  class?: string;
+};
+
+export default function Breadcrumbs(props: Props) {
   const path = usePathname();
   const crumbs = path?.split('/')?.filter(Boolean);
 
@@ -21,7 +26,10 @@ export default function Breadcrumbs() {
 
   return (
     <nav
-      className="flex mx-6 py-3 border-b border-gray-900/10"
+      className={classNames(
+        'flex mx-6 py-3 border-b border-gray-900/10',
+        props.class
+      )}
       aria-label="Breadcrumb"
     >
       <ol role="list" className="flex items-center space-x-4">
