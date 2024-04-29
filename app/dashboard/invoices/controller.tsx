@@ -58,10 +58,10 @@ export default function Page() {
         </a>
       </div>
 
+      <Simple />
       <CustomBlackWhiteFramed />
       <CustomBlackWhite />
       <Stripe />
-      <Simple />
     </Wrapper>
   );
 }

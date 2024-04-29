@@ -10,6 +10,7 @@ import {
 import { CurrencyDollarIcon, UserGroupIcon } from '@heroicons/react/20/solid';
 import { classNames, convertToK } from '@helpers/index';
 import StatsCard from '@app/components/StatsCard';
+import NumbersCard from '@app/components/NumbersCard';
 
 export default function Page() {
   const { charges } = useTotalCharges({});
@@ -18,38 +19,15 @@ export default function Page() {
     useCustomersMonthGrowth({});
   const { data: statsCharges, isLoading: chargesLoading } =
     useChargesMonthGrowth({});
-  console.log(`Stats `, statsCharges);
+  console.log(`Stats `, charges, customers);
 
   return (
     <Wrapper>
-      <div className="stats text-primary-content">
-        <div className="stat">
-          <div className="stat-figure">
-            <CurrencyDollarIcon className="inline-block w-8 h-8 stroke-current" />
-          </div>
-          <div className="stat-title">Charges</div>
-          <div className="stat-value">{convertToK(charges)}</div>
-          <div className="stat-desc">Jan 1st - Feb 1st</div>
-        </div>
-
-        <div className="stat">
-          <div className="stat-figure">
-            <UserGroupIcon className="inline-block w-8 h-8 stroke-current" />
-          </div>
-          <div className="stat-title">Customers</div>
-          <div className="stat-value">{convertToK(customers)}</div>
-          <div className="stat-desc">↗︎ 400 (22%)</div>
-        </div>
-
-        <div className="stat">
-          <div className="stat-figure">
-            <UserGroupIcon className="inline-block w-8 h-8 stroke-current" />
-          </div>
-          <div className="stat-title">New Registers</div>
-          <div className="stat-value">1,200</div>
-          <div className="stat-desc">↘︎ 90 (14%)</div>
-        </div>
-      </div>
+      <section className="flex flex-1 flex-row gap-5 flex-wrap">
+        <NumbersCard number={customers} icon="customers" title="Customers" />
+        <NumbersCard number={charges} icon="payments" title="Charges" />
+        <NumbersCard number={charges} icon="payments" title="Charges" />
+      </section>
 
       <section>
         <h3 className="text-base font-semibold leading-6 text-gray-900 mb-5">
@@ -62,12 +40,14 @@ export default function Page() {
             previousTotal={statsCustomers?.previousTotalCustomers}
             percentage={statsCustomers?.percentage}
             type="customers"
+            link="/dashboard/customers"
           />
           <StatsCard
             currentTotal={statsCharges?.currentTotalCharges}
             previousTotal={statsCharges?.previousTotalCharges}
             percentage={statsCharges?.percentage}
-            type="charges"
+            type="payments"
+            link="/dashboard/charges"
           />
         </section>
       </section>

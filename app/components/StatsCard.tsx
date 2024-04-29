@@ -12,12 +12,14 @@ type Props = {
   previousTotal?: number;
   percentage?: number;
   isLoading?: boolean;
-  type?: 'customers' | 'charges';
+  type?: 'customers' | 'payments';
+  link?: string;
+  title?: string;
 };
 
 const ICON = {
   customers: UserGroupIcon,
-  charges: CurrencyDollarIcon,
+  payments: CurrencyDollarIcon,
 };
 
 export default function StatsCard(props: Props): React.ReactElement {
@@ -25,13 +27,13 @@ export default function StatsCard(props: Props): React.ReactElement {
   const Icon = ICON[props?.type ?? 'customers'];
 
   return (
-    <div className="relative min-w-80 overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6">
+    <div className="relative min-w-full sm:min-w-64 overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:px-6 sm:pt-6">
       <dt>
         <div className="absolute rounded-md bg-indigo-500 p-3">
           <Icon className="h-6 w-6 text-white" aria-hidden="true" />
         </div>
         <p className="ml-16 truncate text-sm font-medium text-gray-500">
-          {capitalize(props?.type ?? 'customers', true)}
+          {capitalize(props.title || props?.type || 'customers', true)}
         </p>
       </dt>
       <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
@@ -61,16 +63,18 @@ export default function StatsCard(props: Props): React.ReactElement {
           </span>
           {percentage}
         </p>
-        <div className="absolute inset-x-0 bottom-0 px-4 py-4 sm:px-6">
-          <div className="text-sm">
-            <Link
-              href="/dashboard/charges"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              View all<span className="sr-only"> stats</span>
-            </Link>
+        {props.link && (
+          <div className="absolute inset-x-0 bottom-0 px-4 py-4 sm:px-6">
+            <div className="text-sm">
+              <Link
+                href={props?.link}
+                className="font-medium text-indigo-600 hover:text-indigo-500"
+              >
+                View all<span className="sr-only"> stats</span>
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
       </dd>
     </div>
   );
