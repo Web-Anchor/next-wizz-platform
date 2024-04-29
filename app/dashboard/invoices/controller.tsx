@@ -2,7 +2,10 @@
 
 import InvoiceTable from '@app/components/InvoiceTable';
 import Wrapper from '@app/components/Wrapper';
+import CustomBlackWhite from '@app/components/templates/custom-black-white';
+import CustomBlackWhiteFramed from '@app/components/templates/custom-black-white-framed';
 import Simple from '@app/components/templates/simple';
+import Stripe from '@app/components/templates/stripe';
 
 export default function Page() {
   return (
@@ -54,6 +57,10 @@ export default function Page() {
           Print
         </a>
       </div>
+
+      <CustomBlackWhiteFramed />
+      <CustomBlackWhite />
+      <Stripe />
       <Simple />
     </Wrapper>
   );

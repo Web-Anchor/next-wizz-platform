@@ -60,3 +60,15 @@ export function capitalize(inputString: string, allWords: boolean): string {
     return inputString.charAt(0).toUpperCase() + inputString.slice(1);
   }
 }
+
+export function printToPDF(id: string, pageFormat: string) {
+  const domElement = document.getElementById(id);
+  // TODO: check out jspdf lib
+
+  if (domElement) {
+    const printWindow = window.open('', '_blank');
+    printWindow?.document.write(domElement.outerHTML);
+    printWindow?.document.close();
+    printWindow?.print();
+  }
+}

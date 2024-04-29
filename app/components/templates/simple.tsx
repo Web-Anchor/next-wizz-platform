@@ -1,4 +1,5 @@
 type Props = {
+  id?: string;
   title?: string;
   children?: React.ReactNode;
   fetching?: boolean;
@@ -10,10 +11,7 @@ type Props = {
 
 export default function Simple(props: Props): React.ReactElement {
   return (
-    <div
-      className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10"
-      id="simple-invoice"
-    >
+    <div className="bg-white shadow overflow-hidden sm:rounded-lg p-8 m-2">
       <div className="mb-5 pb-5 flex justify-between items-center border-b border-gray-200">
         <div>
           <h2 className="text-2xl font-semibold text-gray-800">Invoice</h2>
@@ -81,7 +79,7 @@ export default function Simple(props: Props): React.ReactElement {
           </div>
         </div>
 
-        <div>
+        <div className="flex justify-end h-fit">
           <div className="grid space-y-3">
             <dl className="grid sm:flex gap-x-3 text-sm">
               <dt className="min-w-36 max-w-[200px] text-gray-500">
