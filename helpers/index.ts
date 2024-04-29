@@ -52,3 +52,11 @@ export function convertToK(inputNumber: number): string {
     return `${(inputNumber / 1000).toFixed(1)}k`;
   }
 }
+
+export function capitalize(inputString: string, allWords: boolean): string {
+  if (allWords) {
+    return inputString.replace(/\b\w/g, (char) => char.toUpperCase());
+  } else {
+    return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+  }
+}

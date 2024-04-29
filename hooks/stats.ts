@@ -71,8 +71,8 @@ export function useChargesMonthGrowth(props: Props) {
     }
   );
   const obj = data?.data as {
-    currentTotalCustomers: number;
-    previousTotalCustomers: number;
+    currentTotalCharges: number;
+    previousTotalCharges: number;
     percentage: number;
   };
 
