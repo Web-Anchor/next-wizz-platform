@@ -79,3 +79,5 @@ To create a customer invoicing app where clients can manage their Stripe account
 - Startup: $69/month
 
 ### Invoice build tools: [Invoice Ninja](https://invoiceninja.com/pricing/)
+
+### Stripe: [Stripe Docs](https://docs.stripe.com/api)
