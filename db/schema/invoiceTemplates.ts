@@ -1,7 +1,7 @@
 import { sql } from 'drizzle-orm';
 import { text, sqliteTable } from 'drizzle-orm/sqlite-core';
 
-export const invoiceTemplate = sqliteTable('users', {
+export const invoices = sqliteTable('invoices', {
   id: text('id').unique().notNull().primaryKey(),
   name: text('name'),
   description: text('description'),

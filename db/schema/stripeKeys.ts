@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { text, sqliteTable, integer } from 'drizzle-orm/sqlite-core';
+import { text, sqliteTable } from 'drizzle-orm/sqlite-core';
 import { users } from './users';
 
 export const stripeKeys = sqliteTable('stripe_keys', {
