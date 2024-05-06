@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Logo() {
   return (
-    <Link href="/" className="inline-flex">
+    <Link href="/" className="inline-flex items-center">
       <svg
         width="96px"
         height="20px"

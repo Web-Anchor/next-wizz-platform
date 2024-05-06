@@ -2,10 +2,10 @@
 
 import InvoiceTable from '@app/components/InvoiceTable';
 import Wrapper from '@app/components/Wrapper';
-import CustomBlackWhite from '@app/components/templates/custom-black-white';
-import CustomBlackWhiteFramed from '@app/components/templates/custom-black-white-framed';
-import Simple from '@app/components/templates/simple';
-import Stripe from '@app/components/templates/stripe';
+import CustomBlackWhite from '@app/components/templates/CustomBlackWhite';
+import Modal from '@app/components/templates/Modal';
+import Simple from '@app/components/templates/Simple';
+import Stripe from '@app/components/templates/Stripe';
 
 export default function Page() {
   return (
@@ -24,9 +24,9 @@ export default function Page() {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
             <polyline points="7 10 12 15 17 10" />
@@ -46,9 +46,9 @@ export default function Page() {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
             <polyline points="6 9 6 2 18 2 18 9" />
             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
@@ -59,7 +59,7 @@ export default function Page() {
       </div>
 
       <Simple />
-      <CustomBlackWhiteFramed />
+      <Modal />
       <CustomBlackWhite />
       <Stripe />
     </Wrapper>
