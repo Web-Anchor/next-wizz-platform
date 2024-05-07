@@ -24,81 +24,37 @@ export async function GET(request: NextRequest) {
     // --------------------------------------------------------------------------------
     // 📌  Check if customer exist in Stripe
     // --------------------------------------------------------------------------------
+    const { searchParams } = new URL(request.url);
+    const session_id = searchParams.get('session_id');
+
     const stripe = require('stripe')(STRIPE_RESTRICTED_KEY);
-    const dbUser = await db
-      .select()
-      .from(users)
-      .where(eq(users.clerkId, userId!));
-    console.log('👤 db User ', dbUser);
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+    console.log('👤 Stripe Session', session);
 
-    let stripeCustomerId: string | null = dbUser[0]?.stripeCustomerId;
-    const customer = await stripe.customers.search({
-      query: `email:"${dbUser[0]?.emailAddress}"`,
-    });
-    const stripeCustomer = customer?.data?.[0];
-    console.log('👤 Stripe Customer', stripeCustomer);
+    if (session.payment_status !== 'paid') {
+      console.log('🔑 Payment not completed');
 
-    if (!!stripeCustomer) {
-      console.log('👤 No Stripe Customer been found!');
-
-      const customer = await stripe.customers.create({
-        name: `${dbUser[0]?.firstName} ${dbUser[0]?.lastName}`,
-        email: dbUser[0]?.emailAddress,
-        metadata: {
-          clerkId: userId,
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: APP_URL + '/#pricing',
         },
       });
-      stripeCustomerId = customer.id;
-    }
-    console.log('👤 Stripe Customer ID ', stripeCustomerId);
-
-    // --------------------------------------------------------------------------------
-    // 📌  Retrieve product list from Stripe
-    // --------------------------------------------------------------------------------
-    const products = await stripe.products.list({
-      limit: 3,
-    });
-    console.log('👤 Stripe Products ', products);
-
-    // --------------------------------------------------------------------------------
-    // 📌  Create Stripe subscription
-    // --------------------------------------------------------------------------------
-    const body = await request.json();
-    const id = body?.id; // 🚧 This is the product ID
-    const product = products?.data?.find((product: any) => product.id === id);
-
-    const session = await stripe.checkout.sessions.create({
-      success_url: `${APP_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${APP_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-      payment_method_types: ['card'],
-      mode: 'subscription',
-      line_items: [
-        {
-          price: product?.default_price, // This should be a recurring price ID, not a one-time price ID
-          quantity: 1,
-        },
-      ],
-    });
-    const sessionUrl = session?.url;
-
-    if (sessionUrl) {
-      // --------------------------------------------------------------------------------
-      // 📌  Redirect user to checkout page
-      // --------------------------------------------------------------------------------
-      console.log('🔑 Redirecting to checkout page', sessionUrl);
-
-      // return new Response(null, {
-      //   status: 302,
-      //   headers: {
-      //     Location: sessionUrl,
-      //     'Access-Control-Allow-Origin': '*',
-      //   },
-      // });
-      return NextResponse.json({ url: sessionUrl });
     }
 
-    return NextResponse.json({
-      error: 'Session URL is missing',
+    console.log('🙌 Payment completed successfully');
+    const stripeSubId = session.subscription; // 🚧 This is the subscription ID
+    const stripeCustomerId = session.customer;
+    await db
+      .update(users)
+      .set({ stripeSubId, stripeCustomerId })
+      .where(eq(users.clerkId, userId!));
+
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: '/dashboard',
+      },
     });
   } catch (error: any) {
     console.error('🔑 error', error);

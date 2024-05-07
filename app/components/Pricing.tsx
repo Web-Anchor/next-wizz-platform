@@ -16,8 +16,8 @@ const frequencies = [
 const tiers = [
   {
     name: 'Freelancer',
-    id: 'prod_PxZxKuN5s5xJyi',
-    price: { monthly: '$15', annually: '$144' },
+    id: 'prod_PxZwoEH77CM8jJ',
+    price: { monthly: '$49', annually: '$144' },
     description: 'The essentials to provide your best work for clients.',
     features: [
       '5 products',
@@ -30,8 +30,8 @@ const tiers = [
   },
   {
     name: 'Startup',
-    id: 'tier-startup',
-    price: { monthly: '$30', annually: '$288' },
+    id: 'prod_PxZwoWCul00SuF',
+    price: { monthly: '$69', annually: '$288' },
     description: 'A plan that scales with your rapidly growing business.',
     features: [
       '25 products',
@@ -45,19 +45,19 @@ const tiers = [
   },
   {
     name: 'Enterprise',
-    id: 'tier-enterprise',
-    price: 'Custom',
+    id: 'prod_PxZxKuN5s5xJyi',
+    price: '$249',
     description: 'Dedicated support and infrastructure for your company.',
     features: [
       'Unlimited products',
       'Unlimited subscribers',
       'Advanced analytics',
       '1-hour, dedicated support response time',
-      'Marketing automations',
+      'Marketing automation',
       'Custom reporting tools',
     ],
     featured: true,
-    cta: 'Contact sales',
+    cta: 'Buy plan',
   },
 ];
 
@@ -141,16 +141,16 @@ export default function Pricing() {
           </RadioGroup>
         </div>
         <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-          {tiers.map((tier) => (
+          {tiers.map((tier, key) => (
             <div
-              key={tier.id}
+              key={key}
               className={classNames(
                 tier.featured ? 'bg-gray-900 ring-gray-900' : 'ring-gray-200',
                 'rounded-3xl p-8 ring-1 xl:p-10'
               )}
             >
               <h3
-                id={tier.id}
+                id={key.toString()}
                 className={classNames(
                   tier.featured ? 'text-white' : 'text-gray-900',
                   'text-lg font-semibold leading-8'
@@ -190,7 +190,7 @@ export default function Pricing() {
               </p>
               <Button
                 title={tier.cta}
-                aria-describedby={tier.id}
+                aria-describedby={key}
                 class={classNames(
                   tier.featured
                     ? 'bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white'

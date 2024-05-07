@@ -31,6 +31,15 @@ export async function POST(request: NextRequest) {
     console.log('👤 Stripe Products ', products);
 
     // --------------------------------------------------------------------------------
+    // 📌  dn user
+    // --------------------------------------------------------------------------------
+    const dbUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.clerkId, userId!));
+    console.log('👤 User ', userId, dbUser);
+
+    // --------------------------------------------------------------------------------
     // 📌  Create Stripe subscription
     // --------------------------------------------------------------------------------
     const body = await request.json();
@@ -38,8 +47,8 @@ export async function POST(request: NextRequest) {
     const product = products?.data?.find((product: any) => product.id === id);
 
     const session = await stripe.checkout.sessions.create({
-      success_url: `${APP_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${APP_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${APP_URL}/api/v1/stripe/subscriptions/validate?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${APP_URL}/api/v1/stripe/subscriptions/validate?session_id={CHECKOUT_SESSION_ID}`,
       payment_method_types: ['card'],
       mode: 'subscription',
       line_items: [
@@ -48,6 +57,8 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
+      customer_email: dbUser?.[0]?.emailAddress,
+      // billing_address_collection: 'required',
     });
     const sessionUrl = session?.url;
 
@@ -57,6 +68,7 @@ export async function POST(request: NextRequest) {
       // --------------------------------------------------------------------------------
       console.log('🔑 Redirecting to checkout page', sessionUrl);
 
+      // TODO: SSR redirect implementation check against Stripe
       // return new Response(null, {
       //   status: 302,
       //   headers: {

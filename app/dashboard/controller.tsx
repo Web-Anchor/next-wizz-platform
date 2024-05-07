@@ -7,19 +7,19 @@ import {
   useTotalCharges,
   useTotalCustomers,
 } from '@hooks/stats';
-import { CurrencyDollarIcon, UserGroupIcon } from '@heroicons/react/20/solid';
-import { classNames, convertToK } from '@helpers/index';
 import StatsCard from '@app/components/StatsCard';
 import NumbersCard from '@app/components/NumbersCard';
+import { useUser } from '@hooks/index';
 
 export default function Page() {
+  const { user } = useUser({});
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
   const { data: statsCustomers, isLoading: customersLoading } =
     useCustomersMonthGrowth({});
   const { data: statsCharges, isLoading: chargesLoading } =
     useChargesMonthGrowth({});
-  console.log(`Stats `, charges, customers);
+  console.log(`user `, user);
 
   return (
     <Wrapper>
