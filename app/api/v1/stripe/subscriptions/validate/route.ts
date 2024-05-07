@@ -22,9 +22,39 @@ export async function POST(request: NextRequest) {
     }
 
     // --------------------------------------------------------------------------------
-    // 📌  Retrieve product list from Stripe
+    // 📌  Check if customer exist in Stripe
     // --------------------------------------------------------------------------------
     const stripe = require('stripe')(STRIPE_RESTRICTED_KEY);
+    const dbUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.clerkId, userId!));
+    console.log('👤 db User ', dbUser);
+
+    let stripeCustomerId: string | null = dbUser[0]?.stripeCustomerId;
+    const customer = await stripe.customers.search({
+      query: `email:"${dbUser[0]?.emailAddress}"`,
+    });
+    const stripeCustomer = customer?.data?.[0];
+    console.log('👤 Stripe Customer', stripeCustomer);
+
+    if (!!stripeCustomer) {
+      console.log('👤 No Stripe Customer been found!');
+
+      const customer = await stripe.customers.create({
+        name: `${dbUser[0]?.firstName} ${dbUser[0]?.lastName}`,
+        email: dbUser[0]?.emailAddress,
+        metadata: {
+          clerkId: userId,
+        },
+      });
+      stripeCustomerId = customer.id;
+    }
+    console.log('👤 Stripe Customer ID ', stripeCustomerId);
+
+    // --------------------------------------------------------------------------------
+    // 📌  Retrieve product list from Stripe
+    // --------------------------------------------------------------------------------
     const products = await stripe.products.list({
       limit: 3,
     });
