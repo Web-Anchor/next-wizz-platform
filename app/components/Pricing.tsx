@@ -7,6 +7,7 @@ import { classNames } from '@helpers/index';
 import Button from './Button';
 import { cFetch } from '@lib/cFetcher';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/clerk-react';
 
 const frequencies = [
   { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
@@ -65,10 +66,17 @@ export default function Pricing() {
   const [frequency, setFrequency] = useState(frequencies[0]);
   const router = useRouter();
 
+  const { isSignedIn, user, isLoaded } = useUser();
+
   async function createSubscription(id: string) {
-    console.log('🔑 id', id);
     try {
       setState({ fetching: true });
+
+      if (!isSignedIn) {
+        const redirect = encodeURIComponent(`/#pricing`);
+        router.push(`/sign-in?redirect=${redirect}`); // Redirect to sign-in if no user is logged in
+        return;
+      }
 
       const { data, status } = await cFetch({
         url: `/api/v1/stripe/subscriptions/create`,

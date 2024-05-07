@@ -1,12 +1,12 @@
 import { auth } from '@clerk/nextjs/server';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { users } from '@db/schema/users';
 import { eq } from 'drizzle-orm';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     auth().protect();
 
@@ -17,13 +17,18 @@ export async function GET() {
       .where(eq(users.clerkId, userId!));
     console.log('👤 User ', userId, dbUser);
 
+    const { searchParams } = new URL(request.url);
+    const redirect = searchParams.get('redirect');
+
     if (!dbUser?.length) {
       console.log('No user record found. Creating user in database');
 
       return new Response(null, {
         status: 302,
         headers: {
-          Location: APP_URL + '/api/v1/create-user',
+          Location:
+            APP_URL + '/api/v1/create-user' + redirect &&
+            `?redirect=${redirect}`,
         },
       });
     }
@@ -32,7 +37,7 @@ export async function GET() {
     return new Response(null, {
       status: 302,
       headers: {
-        Location: APP_URL + '/dashboard',
+        Location: APP_URL + redirect ?? '/dashboard',
       },
     });
   } catch (err) {

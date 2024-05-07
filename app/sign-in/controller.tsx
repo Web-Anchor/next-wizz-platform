@@ -4,9 +4,12 @@ import Logo from '@app/components/Logo';
 import { SignIn } from '@clerk/nextjs';
 import { useSignIn } from '@clerk/nextjs';
 import { CardSkeleton } from '@components/Skeleton';
+import { useSearchParams } from 'next/navigation';
 
 export default function Page() {
   const { isLoaded, signIn } = useSignIn();
+  const searchParams = useSearchParams()!;
+  const redirect = searchParams.get('redirect');
 
   return (
     <section className="flex flex-1 flex-col h-screen justify-center content-center">
@@ -16,16 +19,8 @@ export default function Page() {
         </div>
         {!isLoaded && <CardSkeleton />}
         <SignIn
-          afterSignInUrl="/api/v1/auth-login"
+          afterSignInUrl={`/api/v1/auth-login?redirect=${redirect}`}
           path="/sign-in"
-          appearance={
-            {
-              // layout: {
-              //   logoImageUrl:
-              //     'https://plus.unsplash.com/premium_photo-1689247409203-8002a974e018?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-              // },
-            }
-          }
         />
       </section>
     </section>

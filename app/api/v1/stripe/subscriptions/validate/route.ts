@@ -7,7 +7,7 @@ import { users } from '@db/schema/users';
 const STRIPE_RESTRICTED_KEY = process.env.STRIPE_RESTRICTED_KEY;
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     // --------------------------------------------------------------------------------
     // 📌  User auth checks

@@ -16,6 +16,9 @@ export async function GET(
     const { userId } = auth();
     const user = await currentUser();
 
+    const { searchParams } = new URL(request.url);
+    const redirect = searchParams.get('redirect');
+
     await db
       .insert(users)
       .values({
@@ -30,7 +33,7 @@ export async function GET(
     return new Response(null, {
       status: 302,
       headers: {
-        Location: APP_URL + '/dashboard',
+        Location: APP_URL + redirect ?? '/dashboard',
       },
     });
   } catch (err) {
