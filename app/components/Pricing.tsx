@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { RadioGroup } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { classNames } from '@helpers/index';
-import Link from 'next/link';
+import Button from './Button';
+import { cFetch } from '@lib/cFetcher';
+import { useRouter } from 'next/navigation';
 
 const frequencies = [
   { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
@@ -13,8 +15,7 @@ const frequencies = [
 const tiers = [
   {
     name: 'Freelancer',
-    id: 'tier-freelancer',
-    href: '#',
+    id: 'prod_PxZxKuN5s5xJyi',
     price: { monthly: '$15', annually: '$144' },
     description: 'The essentials to provide your best work for clients.',
     features: [
@@ -29,7 +30,6 @@ const tiers = [
   {
     name: 'Startup',
     id: 'tier-startup',
-    href: '#',
     price: { monthly: '$30', annually: '$288' },
     description: 'A plan that scales with your rapidly growing business.',
     features: [
@@ -45,7 +45,6 @@ const tiers = [
   {
     name: 'Enterprise',
     id: 'tier-enterprise',
-    href: '#',
     price: 'Custom',
     description: 'Dedicated support and infrastructure for your company.',
     features: [
@@ -61,8 +60,37 @@ const tiers = [
   },
 ];
 
-export default function Example() {
+export default function Pricing() {
+  const [state, setState] = useState<{ fetching?: boolean }>({});
   const [frequency, setFrequency] = useState(frequencies[0]);
+  const router = useRouter();
+
+  async function createSubscription(id: string) {
+    console.log('🔑 id', id);
+    try {
+      setState({ fetching: true });
+
+      const { data, status } = await cFetch({
+        url: `/api/v1/stripe/subscriptions/create`,
+        method: 'POST',
+        data: { id },
+      });
+
+      if (status !== 200) {
+        throw new Error(data?.message);
+      }
+
+      if (data?.url) {
+        router.push(data?.url); // Redirect to Stripe Checkout
+      }
+
+      console.log('🔑 Data', data);
+    } catch (error) {
+      console.error('🔑 Error', error);
+    } finally {
+      setState({ fetching: false });
+    }
+  }
 
   return (
     <div id="pricing" className="bg-white py-6 sm:py-10">
@@ -152,18 +180,18 @@ export default function Example() {
                   </span>
                 ) : null}
               </p>
-              <Link
-                href={tier.href}
+              <Button
+                title={tier.cta}
                 aria-describedby={tier.id}
-                className={classNames(
+                class={classNames(
                   tier.featured
                     ? 'bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white'
                     : 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600',
                   'mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
                 )}
-              >
-                {tier.cta}
-              </Link>
+                onClick={() => createSubscription(tier.id)}
+                fetching={state?.fetching}
+              />
               <ul
                 role="list"
                 className={classNames(

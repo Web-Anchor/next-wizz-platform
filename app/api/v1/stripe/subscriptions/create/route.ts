@@ -1,11 +1,11 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
-import { stripeKeys } from '@db/schema/stripeKeys';
 import { eq } from 'drizzle-orm';
 import { users } from '@db/schema/users';
 
 const STRIPE_RESTRICTED_KEY = process.env.STRIPE_RESTRICTED_KEY;
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     }
 
     // --------------------------------------------------------------------------------
-    // 📌  check if customer exist in Stripe
+    // 📌  Check if customer exist in Stripe
     // --------------------------------------------------------------------------------
     const stripe = require('stripe')(STRIPE_RESTRICTED_KEY);
     const dbUser = await db
@@ -33,11 +33,14 @@ export async function POST(request: NextRequest) {
 
     let stripeCustomerId: string | null = dbUser[0]?.stripeCustomerId;
     const customer = await stripe.customers.search({
-      email: dbUser[0]?.emailAddress,
+      query: `email:"${dbUser[0]?.emailAddress}"`,
     });
-    console.log('👤 Stripe Customer ', customer);
+    const stripeCustomer = customer?.data?.[0];
+    console.log('👤 Stripe Customer', stripeCustomer);
 
-    if (!!customer.data.length) {
+    if (!!stripeCustomer) {
+      console.log('👤 No Stripe Customer been found!');
+
       const customer = await stripe.customers.create({
         name: `${dbUser[0]?.firstName} ${dbUser[0]?.lastName}`,
         email: dbUser[0]?.emailAddress,
@@ -47,16 +50,56 @@ export async function POST(request: NextRequest) {
       });
       stripeCustomerId = customer.id;
     }
-
     console.log('👤 Stripe Customer ID ', stripeCustomerId);
+
+    // --------------------------------------------------------------------------------
+    // 📌  Retrieve product list from Stripe
+    // --------------------------------------------------------------------------------
+    const products = await stripe.products.list({
+      limit: 3,
+    });
+    console.log('👤 Stripe Products ', products);
 
     // --------------------------------------------------------------------------------
     // 📌  Create Stripe subscription
     // --------------------------------------------------------------------------------
     const body = await request.json();
-    const id = body?.id;
+    const id = body?.id; // 🚧 This is the product ID
+    const product = products?.data?.find((product: any) => product.id === id);
 
-    // return NextResponse.json({ charges });
+    const session = await stripe.checkout.sessions.create({
+      success_url: `${APP_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${APP_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
+      payment_method_types: ['card'],
+      mode: 'subscription',
+      line_items: [
+        {
+          price: product?.default_price, // This should be a recurring price ID, not a one-time price ID
+          quantity: 1,
+        },
+      ],
+    });
+    const sessionUrl = session?.url;
+
+    if (sessionUrl) {
+      // --------------------------------------------------------------------------------
+      // 📌  Redirect user to checkout page
+      // --------------------------------------------------------------------------------
+      console.log('🔑 Redirecting to checkout page', sessionUrl);
+
+      // return new Response(null, {
+      //   status: 302,
+      //   headers: {
+      //     Location: sessionUrl,
+      //     'Access-Control-Allow-Origin': '*',
+      //   },
+      // });
+      return NextResponse.json({ url: sessionUrl });
+    }
+
+    return NextResponse.json({
+      error: 'Session URL is missing',
+    });
   } catch (error: any) {
     console.error('🔑 error', error);
     return NextResponse.json({ error: error?.message });
