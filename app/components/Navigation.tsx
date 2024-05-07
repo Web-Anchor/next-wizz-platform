@@ -88,8 +88,14 @@ export default function Navigation() {
     {
       name: 'Help & Support',
       href: '/dashboard/support',
-      initial: 'S',
+      initial: 'H',
       current: path === '/dashboard/support',
+    },
+    {
+      name: 'Subscriptions',
+      href: '/dashboard/subscriptions',
+      initial: 'S',
+      current: path === '/dashboard/subscriptions',
     },
   ];
 

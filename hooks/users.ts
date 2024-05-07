@@ -1,10 +1,9 @@
 import useSWR from 'swr';
 import { bodyFetcher } from '.';
-import { Charge } from '../types';
+import { User } from '../types';
 
 type Props = {
-  id?: string;
-  charges?: Charge[];
+  user?: User;
 };
 
 export function useUser(props: Props) {
@@ -13,7 +12,7 @@ export function useUser(props: Props) {
     (url: string) => bodyFetcher(url),
     {
       revalidateOnFocus: true,
-      fallbackData: props?.charges as any,
+      fallbackData: props?.user as any,
     }
   );
 

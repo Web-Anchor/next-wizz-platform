@@ -8,22 +8,13 @@ const STRIPE_RESTRICTED_KEY = process.env.STRIPE_RESTRICTED_KEY;
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 export async function POST(request: NextRequest) {
+  auth().protect();
+
   try {
-    // --------------------------------------------------------------------------------
-    // 📌  User auth checks
-    // --------------------------------------------------------------------------------
-    const { userId } = auth();
-
-    if (!userId) {
-      return new Response(null, {
-        status: 302,
-        headers: { Location: '/sign-in' }, // ⚠️ Redirect to sign-in if no user is logged in
-      });
-    }
-
     // --------------------------------------------------------------------------------
     // 📌  Retrieve product list from Stripe
     // --------------------------------------------------------------------------------
+    const { userId } = auth();
     const stripe = require('stripe')(STRIPE_RESTRICTED_KEY);
     const products = await stripe.products.list({
       limit: 3,

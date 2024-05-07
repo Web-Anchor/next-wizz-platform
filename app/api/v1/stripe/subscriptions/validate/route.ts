@@ -8,22 +8,13 @@ const STRIPE_RESTRICTED_KEY = process.env.STRIPE_RESTRICTED_KEY;
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 export async function GET(request: NextRequest) {
+  auth().protect();
+
   try {
-    // --------------------------------------------------------------------------------
-    // 📌  User auth checks
-    // --------------------------------------------------------------------------------
-    const { userId } = auth();
-
-    if (!userId) {
-      return new Response(null, {
-        status: 302,
-        headers: { Location: '/sign-in' }, // ⚠️ Redirect to sign-in if no user is logged in
-      });
-    }
-
     // --------------------------------------------------------------------------------
     // 📌  Check if customer exist in Stripe
     // --------------------------------------------------------------------------------
+    const { userId } = auth();
     const { searchParams } = new URL(request.url);
     const session_id = searchParams.get('session_id');
 
