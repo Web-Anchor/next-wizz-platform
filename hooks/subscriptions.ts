@@ -15,9 +15,10 @@ export function useSubscriptions(props: Props) {
       fallbackData: props?.subscriptions as any,
     }
   );
+  console.log(data?.data);
 
   return {
-    subscriptions: data?.data?.subscriptions?.data,
+    subscriptions: data?.data?.subscriptions as StripeSubscription[],
     error,
     isLoading,
   };

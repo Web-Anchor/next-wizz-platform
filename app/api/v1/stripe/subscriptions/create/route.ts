@@ -49,6 +49,7 @@ export async function POST(request: NextRequest) {
         },
       ],
       customer_email: dbUser?.[0]?.emailAddress,
+      customer: dbUser?.[0]?.stripeCustomerId,
       // billing_address_collection: 'required',
     });
     const sessionUrl = session?.url;

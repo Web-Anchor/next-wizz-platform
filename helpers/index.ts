@@ -1,3 +1,4 @@
+import { StripeSubscription } from '../types/index';
 import { twMerge } from 'tailwind-merge';
 
 export function classNames(...classes: any[]) {
@@ -75,4 +76,8 @@ export function printToPDF(id: string, pageFormat: string) {
     printWindow?.document.close();
     printWindow?.print();
   }
+}
+
+export function isSubActive(subscription: StripeSubscription): boolean {
+  return subscription.status === 'active';
 }

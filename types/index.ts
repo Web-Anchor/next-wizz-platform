@@ -75,4 +75,11 @@ export type StripeSubscription = {
   ended_at?: number;
   latest_invoice?: string;
   start_date?: number;
+  plan?: {
+    id?: string;
+    nickname?: string;
+    amount?: number;
+    currency?: string;
+  };
+  currency?: string;
 };

@@ -24,9 +24,16 @@ export async function POST(request: NextRequest) {
     // 📌  Get stripe subscriptions for user
     // --------------------------------------------------------------------------------
     const stripe = require('stripe')(STRIPE_RESTRICTED_KEY);
-    const subscriptions = await stripe.subscriptions.list({
-      customer: dbUser?.[0]?.stripeCustomerId,
+    const activeSubs = await stripe.subscriptions.list({
+      // customer: dbUser[0].stripeCustomerId,
+      status: 'active',
     });
+    const canceledSubs = await stripe.subscriptions.list({
+      // customer: dbUser[0].stripeCustomerId,
+      status: 'canceled',
+    });
+    const subscriptions = [...canceledSubs?.data, ...activeSubs?.data];
+
     console.log('👤 Stripe Subscriptions ', subscriptions);
 
     return NextResponse.json({ subscriptions });

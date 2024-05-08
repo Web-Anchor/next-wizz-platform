@@ -7,7 +7,7 @@ type Props = {
   fetching?: boolean;
   disabled?: boolean;
   class?: string;
-  style?: 'primary' | 'secondary' | 'ghost'; // Defaults to 'primary'
+  style?: 'primary' | 'secondary' | 'ghost' | 'badge'; // Defaults to 'primary'
   type?: 'button' | 'submit' | 'reset';
 };
 
@@ -23,6 +23,8 @@ export default function Button(props: Props): React.ReactElement {
           'rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
         props.style === 'ghost' &&
           'bg-transparent inline-flex items-center border-b-2 border-transparent px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-transparent shadow-none',
+        props.style === 'badge' &&
+          'center relative inline-block select-none whitespace-nowrap rounded-lg bg-amber-500 text-white py-2 px-3.5 align-baseline font-sans text-xs font-bold uppercase leading-none',
         props.class
       )}
       disabled={props.disabled || props.fetching}
