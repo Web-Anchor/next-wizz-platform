@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
       status: 'canceled',
     });
     const subscriptions = [...canceledSubs?.data, ...activeSubs?.data];
+    subscriptions.sort((a: any, b: any) => b.created - a.created); // sort by created at desc
 
     console.log('👤 Stripe Subscriptions ', subscriptions);
 
