@@ -3,6 +3,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { classNames } from '@helpers/index';
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,6 +25,11 @@ export default function RootLayout({
         lang="en"
       >
         <body className={classNames(inter.className, 'h-full')}>
+          <Toaster
+            // richColors
+            closeButton
+            position="top-center"
+          />
           {children}
         </body>
       </html>

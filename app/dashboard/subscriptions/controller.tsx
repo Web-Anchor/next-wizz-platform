@@ -9,6 +9,7 @@ import { CheckCircleIcon, NoSymbolIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
 import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
+import { toast } from 'sonner';
 
 export default function Page() {
   const [state, setState] = useState<{ fetching?: number | string }>({});
@@ -30,9 +31,11 @@ export default function Page() {
       }
 
       console.log('🔑 Data', data);
+      toast.success('Subscription cancelled successfully');
       mutate(`/api/v1/stripe/subscriptions`);
-    } catch (error) {
+    } catch (error: any) {
       console.error('🔑 Error', error);
+      toast.error(error?.message);
     } finally {
       setState({ fetching: undefined });
     }
