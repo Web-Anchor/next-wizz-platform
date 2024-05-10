@@ -2,10 +2,10 @@
 
 import InvoiceTable from '@app/components/InvoiceTable';
 import Wrapper from '@app/components/Wrapper';
-import CustomBlackWhite from '@app/components/templates/CustomBlackWhite';
-import Modal from '@app/components/templates/Modal';
-import Simple from '@app/components/templates/Simple';
-import Stripe from '@app/components/templates/Stripe';
+import CustomBlackWhite from '@templates/CustomBlackWhite';
+import Modal from '@templates/Modal';
+import Simple from '@templates/Simple';
+import Stripe from '@templates/Stripe';
 
 export default function Page() {
   return (
