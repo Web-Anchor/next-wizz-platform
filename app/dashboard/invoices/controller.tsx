@@ -3,9 +3,9 @@
 import InvoiceTable from '@app/components/InvoiceTable';
 import Wrapper from '@app/components/Wrapper';
 import CustomBlackWhite from '@templates/CustomBlackWhite';
-import Modal from '@templates/Modal';
-import Simple from '@templates/Simple';
-// import Stripe from '@templates/Stripe';
+import Modal from '../../components/templates/Modal';
+import Simple from '../../components/templates/Simple';
+import Stripe from '../../components/templates/Stripe';
 
 export default function Page() {
   return (
@@ -61,7 +61,7 @@ export default function Page() {
       <Simple />
       <Modal />
       <CustomBlackWhite />
-      {/* <Stripe /> */}
+      <Stripe />
     </Wrapper>
   );
 }
