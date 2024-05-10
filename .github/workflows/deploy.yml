@@ -29,14 +29,14 @@ jobs:
           node-version: lts/*
 
       - name: Install step
-        run: "yarn install"
+        run: "npm install"
 
       - name: Build step
-        run: "yarn run build"
+        run: "npm run build"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "invoice-wiz"
+          project: "edancerys-invoice-wiz-36"
           entrypoint: "https://deno.land/std@0.217.0/http/file_server.ts"
           root: "app"
