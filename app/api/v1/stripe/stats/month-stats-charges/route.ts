@@ -41,6 +41,9 @@ export async function POST(request: NextRequest) {
     const key = keys.find((k) => k.id === keyId); // 🔑 find key by id
 
     const apiKey = key ?? keys?.[0]?.restrictedAPIKey; // 🔑 use first key if no keyId
+    if (!apiKey) {
+      return NextResponse.json({ error: 'No API key found' });
+    }
     const stripe = require('stripe')(apiKey);
 
     // --------------------------------------------------------------------------------
