@@ -23,7 +23,7 @@
       "@lib/*": ["./lib/*"],
       "@hooks/*": ["./hooks/*"],
       "@types/*": ["./types/*"],
-      "@templates/*": ["app/components/samples/*"],
+      "@templates/*": ["./app/components/samples/*"],
       "@helpers/*": ["./helpers/*"],
       "@components/*": ["./app/components/*"]
     }
