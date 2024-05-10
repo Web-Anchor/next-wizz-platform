@@ -20,10 +20,15 @@ import {
   useTotalCharges,
   useTotalCustomers,
 } from '@hooks/index';
+import { useEffect, useRef } from 'react';
+import { toast } from 'sonner';
 
 export default function Navigation() {
   const { isSignedIn, user, isLoaded } = useUser();
+  const { data, isLoading: keyFetching } = useStripeKeys({});
   const path = usePathname();
+  console.log('path', data);
+  const loadRef = useRef(true);
 
   const { count, isLoading: stLoading } = useStripeKeys({});
   const { charges } = useTotalCharges({});
@@ -98,6 +103,15 @@ export default function Navigation() {
       current: path === '/dashboard/subscriptions',
     },
   ];
+
+  useEffect(() => {
+    if (data && !data?.data?.keys?.length && loadRef.current) {
+      toast.error('Please add Stripe API keys to use a platform.');
+      loadRef.current = false;
+    }
+
+    console.log('StripeKeys', data);
+  }, [data]);
 
   return (
     <div className="hidden sm:flex fixed inset-x-0 bg-white z-10 top-0 min-w-56 w-fit grow flex-col gap-y-5 border-r border-gray-200 min-h-screen px-6">

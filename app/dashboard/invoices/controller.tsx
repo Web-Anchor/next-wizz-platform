@@ -2,10 +2,10 @@
 
 import InvoiceTable from '@app/components/InvoiceTable';
 import Wrapper from '@app/components/Wrapper';
-// import CustomBlackWhite from '@templates/CustomBlackWhite';
-// import Modal from '../../components/templates/Modal';
-// import Simple from '../../components/templates/Simple';
-// import Stripe from '../../components/templates/Stripe';
+import CustomBlackWhite from '@templates/CustomBlackWhite';
+import Modal from '@components/templates/Modal';
+import Simple from '@components/templates/Simple';
+import Stripe from '@components/templates/Stripe';
 
 export default function Page() {
   return (
@@ -58,10 +58,10 @@ export default function Page() {
         </a>
       </div>
 
-      {/* <Simple />
+      <Simple />
       <Modal />
       <CustomBlackWhite />
-      <Stripe /> */}
+      <Stripe />
     </Wrapper>
   );
 }
