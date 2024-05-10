@@ -95,7 +95,7 @@ export default function Header(props: Props) {
                     </div>
                   </div>
                 )}
-                {!isSignedIn && landingPath && (
+                {!isSignedIn && landingPath && isLoaded && (
                   <Link
                     href="/sign-in"
                     className="rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
@@ -103,7 +103,7 @@ export default function Header(props: Props) {
                     Sign in
                   </Link>
                 )}
-                {!isSignedIn && !isLoaded && !path?.includes('/dashboard') && (
+                {!isSignedIn && isLoaded && !path?.includes('/dashboard') && (
                   <Link
                     href="/"
                     className="rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"

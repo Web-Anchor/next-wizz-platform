@@ -100,7 +100,7 @@ export default function Navigation() {
   ];
 
   return (
-    <div className="hidden sm:flex fixed inset-x-0 top-0 w-fit grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 min-h-screen px-6">
+    <div className="hidden sm:flex fixed inset-x-0 bg-white z-10 top-0 min-w-56 w-fit grow flex-col gap-y-5 border-r border-gray-200 min-h-screen px-6">
       <div className="flex h-16 shrink-0 items-center">
         <Logo />
       </div>

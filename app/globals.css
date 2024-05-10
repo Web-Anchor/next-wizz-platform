@@ -14,6 +14,11 @@
   display: none !important; /* Hide Clerk component footer */
 }
 
+/* account popup */
+.left-popup-container {
+  transform: translateX(calc(-100% - 1.25rem));
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;

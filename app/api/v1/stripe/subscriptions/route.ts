@@ -25,11 +25,11 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     const stripe = require('stripe')(STRIPE_RESTRICTED_KEY);
     const activeSubs = await stripe.subscriptions.list({
-      // customer: dbUser[0].stripeCustomerId,
+      customer: dbUser[0].stripeCustomerId,
       status: 'active',
     });
     const canceledSubs = await stripe.subscriptions.list({
-      // customer: dbUser[0].stripeCustomerId,
+      customer: dbUser[0].stripeCustomerId,
       status: 'canceled',
     });
     const subscriptions = [...canceledSubs?.data, ...activeSubs?.data];
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
     console.log('👤 Stripe Subscriptions ', subscriptions);
 
-    return NextResponse.json({ subscriptions });
+    return NextResponse.json({ subscriptions, canceledSubs, activeSubs });
   } catch (error: any) {
     console.error('🔑 error', error);
     return NextResponse.json({ error: error?.message });
