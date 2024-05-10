@@ -20,10 +20,12 @@ const tiers = [
     price: { monthly: '$49', annually: '$144' },
     description: 'The essentials to provide your best work for clients.',
     features: [
-      '5 products',
-      'Up to 1,000 subscribers',
+      'Unlimited invoicing',
+      'Self-print feature',
       'Basic analytics',
       '48-hour support response time',
+      'Connect your Stripe account with your API key',
+      'Send up to 250 invoices to customers',
     ],
     featured: false,
     cta: 'Buy plan',
@@ -34,13 +36,14 @@ const tiers = [
     price: { monthly: '$69', annually: '$288' },
     description: 'A plan that scales with your rapidly growing business.',
     features: [
-      '25 products',
-      'Up to 10,000 subscribers',
+      'All features in Freelancer plan',
+      'Customizable templates',
       'Advanced analytics',
       '24-hour support response time',
+      'Send up to 500 invoices to customers',
       'Marketing automations',
     ],
-    featured: false,
+    featured: true,
     cta: 'Buy plan',
   },
   {
@@ -49,14 +52,14 @@ const tiers = [
     price: '$249',
     description: 'Dedicated support and infrastructure for your company.',
     features: [
-      'Unlimited products',
-      'Unlimited subscribers',
-      'Advanced analytics',
-      '1-hour, dedicated support response time',
-      'Marketing automation',
-      'Custom reporting tools',
+      'All features in Startup plan',
+      'Unlimited invoices',
+      'Custom domain',
+      'Priority support',
+      'Send up to 5000 invoices to customers',
+      'Custom integrations & features',
     ],
-    featured: true,
+    featured: false,
     cta: 'Buy plan',
   },
 ];
@@ -112,10 +115,12 @@ export default function Pricing() {
           </p>
         </div>
         <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
-          Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et
-          quasi iusto modi velit ut non voluptas in. Explicabo id ut laborum.
+          Choose the plan that best suits your needs and enjoy the increasing
+          benefits as you scale up from Freelancer to Startup and Enterprise
+          plans.
         </p>
-        <div className="mt-16 flex justify-center">
+
+        {/* <div className="mt-16 flex justify-center">
           <RadioGroup
             value={frequency}
             onChange={setFrequency}
@@ -139,7 +144,8 @@ export default function Pricing() {
               </RadioGroup.Option>
             ))}
           </RadioGroup>
-        </div>
+        </div> */}
+
         <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {tiers.map((tier, key) => (
             <div
