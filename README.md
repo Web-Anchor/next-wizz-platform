@@ -1,6 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-# Invoicing APP
+# Invoice Wizard. Invoicing made easy
+
+#### Streamline your invoicing process with our user-friendly platform.
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0548f707-26db-4ce6-a892-bea743f43858/deploy-status)](https://app.netlify.com/sites/invoice-wizz/deploys)
 
 ## Page Structure & Layout for Customer Invoicing App MVP
 
