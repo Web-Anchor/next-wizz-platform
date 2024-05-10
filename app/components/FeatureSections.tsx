@@ -4,34 +4,49 @@ import {
   ArrowPathIcon,
   CloudArrowUpIcon,
   FingerPrintIcon,
-  LockClosedIcon,
+  CursorArrowRaysIcon,
+  UserGroupIcon,
+  ArrowTrendingUpIcon,
+  SwatchIcon,
 } from '@heroicons/react/24/outline';
 import { usePathname } from 'next/navigation';
 
 const features = [
   {
-    name: 'Push to deploy',
+    name: 'Effortless Invoicing',
     description:
-      'Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.',
+      'Seamlessly connect your Stripe account via API and send invoices directly to your customers with ease.',
     icon: CloudArrowUpIcon,
   },
   {
-    name: 'SSL certificates',
+    name: 'Convenient Self-Printing',
     description:
-      'Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.',
-    icon: LockClosedIcon,
+      'Empower users to access and download their invoices at their convenience, making the billing process hassle-free.',
+    icon: UserGroupIcon,
   },
   {
-    name: 'Simple queues',
+    name: 'Secure Integration',
     description:
-      'Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.',
-    icon: ArrowPathIcon,
-  },
-  {
-    name: 'Advanced security',
-    description:
-      'Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.',
+      'Enjoy the security of Stripe`s robust API`s integrated into our app, ensuring safe and reliable interactions.',
     icon: FingerPrintIcon,
+  },
+  {
+    name: 'User-Friendly Interface',
+    description:
+      'Navigate our intuitive platform with ease, making invoicing a smooth and efficient experience for both you and your customers.',
+    icon: CursorArrowRaysIcon,
+  },
+  {
+    name: 'Customizable Templates',
+    description:
+      'Personalize your invoices with customizable templates to reflect your brand identity and create a professional image for your business.',
+    icon: SwatchIcon,
+  },
+  {
+    name: 'Detailed Reporting',
+    description:
+      'Gain insights into your invoicing activities with detailed reporting features, allowing you to track payments, pending invoices, and overall financial performance easily.',
+    icon: ArrowTrendingUpIcon,
   },
 ];
 
@@ -43,15 +58,20 @@ export default function FeatureSections() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
-            Deploy faster
+            Invoicing made easy
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Everything you need to deploy your app
+            Streamline your invoicing process with our user-friendly platform.
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
-            Suspendisse eget egestas a elementum pulvinar et feugiat blandit at.
-            In mi viverra elit nunc.
+            Connect your Stripe account via API and start sending invoices
+            directly to your customers effortlessly. Take control of your
+            invoicing with our self-print feature. Easily access and download
+            your invoices anytime, anywhere with just a click.
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Join us today and experience the convenience of modern invoicing.
+            Start simplifying your billing process now!
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
