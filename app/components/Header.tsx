@@ -27,7 +27,7 @@ export default function Header(props: Props) {
     <Disclosure
       as="nav"
       className={classNames(
-        'fixed inset-x-0 top-0 z-50 backdrop-blur bg-white bg-opacity-80',
+        'fixed inset-x-0 top-0 z-50 backdrop-blur bg-white bg-opacity-90',
         props.class
       )}
     >
@@ -47,8 +47,8 @@ export default function Header(props: Props) {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                {landingPath && <Logo />}
+              <div className="flex flex-1 items-center ml-16 sm:ml-0 sm:items-stretch sm:justify-start">
+                <Logo />
                 {landingPath && (
                   <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                     {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
@@ -116,7 +116,7 @@ export default function Header(props: Props) {
           </div>
 
           <Disclosure.Panel className="sm:hidden">
-            {isSignedIn && !landingPath && (
+            {isSignedIn && (
               <div className="space-y-1 pb-4 pt-2">
                 {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
                 <Link
@@ -168,12 +168,6 @@ export default function Header(props: Props) {
             {landingPath && (
               <div className="space-y-1 pb-4 pt-2">
                 {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
-                <Link
-                  href="#"
-                  className="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700"
-                >
-                  Dashboard
-                </Link>
                 <Link
                   href="#projects"
                   className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
