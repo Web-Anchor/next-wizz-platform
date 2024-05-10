@@ -5,7 +5,7 @@ import Wrapper from '@app/components/Wrapper';
 import CustomBlackWhite from '@templates/CustomBlackWhite';
 import Modal from '@templates/Modal';
 import Simple from '@templates/Simple';
-import Stripe from '@templates/Stripe';
+// import Stripe from '@templates/Stripe';
 
 export default function Page() {
   return (
@@ -61,7 +61,7 @@ export default function Page() {
       <Simple />
       <Modal />
       <CustomBlackWhite />
-      <Stripe />
+      {/* <Stripe /> */}
     </Wrapper>
   );
 }
