@@ -4,10 +4,12 @@ import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { classNames } from '@helpers/index';
 import Link from 'next/link';
-import { useUser } from '@clerk/nextjs';
-import { usePathname } from 'next/navigation';
+import { useClerk, useUser } from '@clerk/nextjs';
+import { usePathname, useRouter } from 'next/navigation';
 import UserProfileCard from './UserProfileCard';
-import Logo from './Logo';
+import Logo from '@components/Logo';
+import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/24/outline';
+import Button from '@components/Button';
 
 type Props = {
   class?: string;
@@ -16,6 +18,16 @@ type Props = {
 export default function Header(props: Props) {
   const path = usePathname();
   const { isSignedIn, user, isLoaded } = useUser();
+  const { signOut } = useClerk();
+  const router = useRouter();
+
+  function signOutUser(e: { preventDefault: () => void }) {
+    e.preventDefault();
+    // --------------------------------------------------------------------------------
+    // 📌 Sign Out User from current session
+    // --------------------------------------------------------------------------------
+    signOut(() => router.push('/'));
+  }
 
   const landingPath = path === '/';
   const link =
@@ -103,7 +115,7 @@ export default function Header(props: Props) {
                     Sign in
                   </Link>
                 )}
-                {!isSignedIn && isLoaded && !path?.includes('/dashboard') && (
+                {isLoaded && !path?.includes('/dashboard') && !landingPath && (
                   <Link
                     href="/"
                     className="rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
@@ -163,9 +175,17 @@ export default function Header(props: Props) {
                 >
                   Profile
                 </Link>
+
+                <button
+                  onClick={signOutUser}
+                  className="px-3 py-1 btn-ghost flex flex-row justify-center gap-2 hover:bg-transparent hover:opacity-80"
+                >
+                  <ArrowRightStartOnRectangleIcon className="h-4 w-4 self-center" />
+                  <p className="text-sm font-semibold">Sign out</p>
+                </button>
               </div>
             )}
-            {landingPath && (
+            {landingPath && !isSignedIn && (
               <div className="space-y-1 pb-4 pt-2">
                 {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
                 <Link

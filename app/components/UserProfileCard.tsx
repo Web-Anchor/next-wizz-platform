@@ -35,8 +35,6 @@ export default function UserProfileCard({
         <UserNotifications
           open={state?.open}
           setter={() => setState((prev) => ({ ...prev, open: !prev.open }))}
-          // add class with position fixed bottom right
-          // class="fixed bottom-0 right-0"
         />
         <section
           onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
