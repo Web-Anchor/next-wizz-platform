@@ -238,6 +238,7 @@ export default function Header(props: Props) {
                         imgSrc={user?.imageUrl}
                         firstName={user?.firstName as string}
                         order="left"
+                        disabled
                       />
                     )}
                     {!isLoaded && (

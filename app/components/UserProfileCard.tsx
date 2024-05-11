@@ -6,15 +6,7 @@ import { classNames } from '@helpers/index';
 import UserNotifications from './UserNotification';
 import { useState } from 'react';
 
-export default function UserProfileCard({
-  href,
-  imgSrc,
-  imgAlt,
-  firstName,
-  lastName,
-  description,
-  order = 'left',
-}: Readonly<{
+type Props = {
   href?: string;
   imgSrc?: string;
   imgAlt?: string;
@@ -22,12 +14,15 @@ export default function UserProfileCard({
   lastName?: string;
   description?: string;
   order?: 'left' | 'right';
-}>) {
+  disabled?: boolean;
+};
+
+export default function UserProfileCard(props: Readonly<Props>) {
   const [state, setState] = useState<{ open?: boolean }>({});
 
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
-    if (href) {
-      return <Link href={href}>{children}</Link>;
+    if (props?.href) {
+      return <Link href={props?.href}>{children}</Link>;
     }
 
     return (
@@ -37,7 +32,10 @@ export default function UserProfileCard({
           setter={() => setState((prev) => ({ ...prev, open: !prev.open }))}
         />
         <section
-          onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
+          onClick={() =>
+            !props?.disabled &&
+            setState((prev) => ({ ...prev, open: !prev.open }))
+          }
           className="cursor-pointer"
         >
           {children}
@@ -52,10 +50,10 @@ export default function UserProfileCard({
         <div
           className={classNames(
             'order-1',
-            order === 'right' ? 'order-2' : undefined
+            props?.order === 'right' ? 'order-2' : undefined
           )}
         >
-          {!imgSrc && (
+          {!props?.imgSrc && (
             <span className="inline-block h-9 w-9 overflow-hidden rounded-full bg-gray-100">
               <svg
                 className="h-full w-full text-gray-300"
@@ -66,11 +64,11 @@ export default function UserProfileCard({
               </svg>
             </span>
           )}
-          {imgSrc && (
+          {props?.imgSrc && (
             <Image
               className="inline-block rounded-full"
-              src={imgSrc}
-              alt={imgAlt ?? 'user-profile'}
+              src={props?.imgSrc}
+              alt={props?.imgAlt ?? 'user-profile'}
               width={36}
               height={36}
             />
@@ -79,14 +77,14 @@ export default function UserProfileCard({
         <div
           className={classNames(
             'order-2',
-            order === 'right' ? 'order-1 text-right' : undefined
+            props?.order === 'right' ? 'order-1 text-right' : undefined
           )}
         >
           <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-            {firstName} {lastName}
+            {props?.firstName} {props?.lastName}
           </p>
           <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-            {description}
+            {props?.description}
           </p>
         </div>
       </div>
