@@ -3,6 +3,7 @@ import Pricing from '@components/Pricing';
 import FeatureSections from '@components/FeatureSections';
 import FrequentlyAskedQuestions from '@components/FrequentlyAskedQuestions';
 import Workflow from '@components/Workflow';
+import CustomerWorkflow from '@components/CustomerWorkflow';
 
 export default function Page() {
   return (
@@ -10,6 +11,7 @@ export default function Page() {
       <FeatureSections />
       <Pricing />
       <Workflow />
+      <CustomerWorkflow />
       <FrequentlyAskedQuestions />
     </Layout>
   );
