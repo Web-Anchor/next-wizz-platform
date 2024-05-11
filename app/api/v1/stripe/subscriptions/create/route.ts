@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const id = body?.id; // 🚧 This is the product ID
     const product = products?.data?.find((product: any) => product.id === id);
+    const stripeCustomerId = dbUser?.[0]?.stripeCustomerId;
 
     const session = await stripe.checkout.sessions.create({
       success_url: `${APP_URL}/api/v1/stripe/subscriptions/validate?session_id={CHECKOUT_SESSION_ID}`,
@@ -48,8 +49,8 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
-      customer_email: dbUser?.[0]?.emailAddress,
-      customer: dbUser?.[0]?.stripeCustomerId,
+      customer_email: stripeCustomerId ? undefined : dbUser?.[0]?.emailAddress, // If customer is found in Stripe, no need to provide email
+      customer: stripeCustomerId,
       // billing_address_collection: 'required',
     });
     const sessionUrl = session?.url;
