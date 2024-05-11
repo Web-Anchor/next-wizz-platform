@@ -33,14 +33,14 @@ export default function UserNotification(props: Props) {
     <>
       <div
         className={classNames(
-          'absolute top-5 left-[100vw] w-[480px] left-popup-container rounded-md bg-white bg-opacity-95 p-4',
+          'absolute shadow-md top-5 left-[100vw] w-[480px] left-popup-container rounded-md bg-white bg-opacity-95 p-4',
           !props?.open && 'hidden'
         )}
       >
         <div className="flex">
           <div className="flex-shrink-0" onClick={() => props?.setter?.(false)}>
             <XCircleIcon
-              className="cursor-pointer h-5 w-5 text-red-400"
+              className="cursor-pointer h-5 w-5 text-gray-800"
               aria-hidden="true"
             />
           </div>
@@ -65,8 +65,7 @@ export default function UserNotification(props: Props) {
                 onClick={signOutUser}
                 className="px-3 py-1 btn-ghost flex flex-row justify-center gap-2 hover:bg-transparent hover:opacity-80"
               >
-                <ArrowRightStartOnRectangleIcon className="h-4 w-4 self-center" />
-                <p className="text-sm font-semibold">Sign out</p>
+                <p>Sign out</p>
               </button>
             </section>
           </div>

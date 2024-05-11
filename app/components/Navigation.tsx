@@ -105,7 +105,10 @@ export default function Navigation() {
   ];
 
   useEffect(() => {
-    if (data && !data?.data?.keys?.length && loadRef.current) {
+    // --------------------------------------------------------------------------------
+    // 📌  Notification hook
+    // --------------------------------------------------------------------------------
+    if (data && !data?.length && loadRef.current) {
       toast.error('Please add Stripe API keys to use a platform.');
       loadRef.current = false;
     }

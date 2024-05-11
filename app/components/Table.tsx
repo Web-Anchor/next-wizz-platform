@@ -1,4 +1,5 @@
 import { classNames } from '@helpers/index';
+import { TableSkeleton } from '@components/Skeleton';
 
 type Row = { item?: string | React.ReactElement; class?: string };
 
@@ -6,9 +7,14 @@ type Props = {
   footer?: React.ReactElement;
   header?: Row[];
   data?: { row: Row[]; class?: string }[];
+  fetching?: boolean;
 };
 
 export default function Table(props: Props) {
+  if (props.fetching) {
+    return <TableSkeleton />;
+  }
+
   return (
     <div className="flex flex-col gap-5 px-4 sm:px-6 lg:px-8">
       <div className="-mx-4 mt-8 sm:-mx-0">

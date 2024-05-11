@@ -16,7 +16,7 @@ export function useKeyValidate(props: Props) {
 
   return {
     data,
-    error: data?.data?.error || error,
+    error: data?.data?.error || error || !data?.data?.charges,
     isLoading,
   };
 }

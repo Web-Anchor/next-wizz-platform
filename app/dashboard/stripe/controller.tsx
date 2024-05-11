@@ -1,24 +1,136 @@
 'use client';
 
 import Button from '@app/components/Button';
-import StripeKeys from '@app/components/StripeKeys';
+import Table from '@app/components/Table';
 import Wrapper from '@app/components/Wrapper';
 import { useStripeKeys } from '@hooks/stripe-keys';
+import { StripeKey } from '../../../types';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import {
+  classNames,
+  convertToAsterisks,
+  getDateDifference,
+} from '@helpers/index';
+import AddStripeKeyDialog from '@app/components/AddStripeKeyDialog';
+import { useKeyValidate } from '@hooks/validate-api-keys';
+import { RowSkeleton } from '@app/components/Skeleton';
+
+const KeyStatus = ({ stripeKey }: { stripeKey: StripeKey }) => {
+  const { data, error, isLoading } = useKeyValidate({
+    key: stripeKey.restrictedAPIKey,
+  });
+  console.log('🔑 key check', error, data);
+
+  return (
+    <div className={classNames('px-3 py-3.5 text-sm text-gray-500')}>
+      {isLoading && <RowSkeleton />}
+      {!isLoading && (
+        <div
+          className={classNames(
+            'flex items-center gap-x-2 justify-start',
+            error ? 'text-rose-400' : 'text-green-400'
+          )}
+        >
+          <div
+            className={classNames(
+              'flex-none rounded-full p-1 shadow-md bg-opacity-25',
+              error ? 'bg-rose-400' : 'bg-green-400'
+            )}
+          >
+            <div className="h-1.5 w-1.5 rounded-full bg-current" />
+          </div>
+          <div className="font-semibold">{error ? 'Error' : 'Valid'}</div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default function Page() {
-  const { data, isLoading } = useStripeKeys({});
+  const [state, setState] = useState<{ edit?: boolean; open?: boolean }>({});
+  const { keys, isLoading } = useStripeKeys({});
   const router = useRouter();
 
   function redirectToStripe() {
     // router.push('https://docs.stripe.com/keys#obtain-api-keys');
     window.open('https://docs.stripe.com/keys#obtain-api-keys', '_blank');
   }
-  console.log('StripeKeys', data);
+
+  function dialogClose() {
+    setState((prev) => ({ ...prev, open: false }));
+  }
+  // console.log('StripeKeys', keys);
 
   return (
     <Wrapper>
-      <StripeKeys keys={data} fetching={isLoading} />
+      <AddStripeKeyDialog open={state?.open} setter={dialogClose} />
+      <div className="sm:flex sm:items-center">
+        <div className="sm:flex-auto">
+          <h1 className="text-base font-semibold leading-6 text-gray-900">
+            Connected Stripe API Keys
+          </h1>
+          <p className="mt-2 text-sm text-gray-700">
+            Your team is on the{' '}
+            <strong className="font-semibold text-gray-900">Startup</strong>{' '}
+            key. You can upgrade or downgrade your plan at any time.
+          </p>
+        </div>
+        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+          <Button
+            title="Add a new key"
+            onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
+          />
+        </div>
+      </div>
+      <Table
+        fetching={isLoading}
+        header={[
+          { item: 'Key name' },
+          { item: 'Key value', class: 'hidden sm:flex' },
+          { item: 'Status' },
+          { item: 'Created At', class: 'hidden sm:flex' },
+        ]}
+        data={keys?.map((key: StripeKey) => ({
+          row: [
+            { item: key.name },
+            {
+              item: (
+                <span className="blur">
+                  {convertToAsterisks(key.restrictedAPIKey!)}
+                </span>
+              ),
+              class: 'hidden sm:flex',
+            },
+            { item: <KeyStatus stripeKey={key} /> },
+            {
+              item: getDateDifference(key.createdAt!),
+              class: 'hidden sm:flex',
+            },
+            {
+              item: (
+                <Button
+                  title="Edit"
+                  style="ghost"
+                  class="text-indigo-600"
+                  onClick={() => setState((prev) => ({ ...prev, edit: true }))}
+                />
+              ),
+              class: 'hidden sm:flex',
+            },
+            {
+              item: (
+                <Button
+                  title="Delete"
+                  style="ghost"
+                  class="text-indigo-600"
+                  onClick={() => setState((prev) => ({ ...prev, edit: true }))}
+                />
+              ),
+            },
+          ],
+        }))}
+      />
 
       <div className="flex flex-col gap-5">
         <p className="text-base font-semibold leading-7 text-indigo-600">

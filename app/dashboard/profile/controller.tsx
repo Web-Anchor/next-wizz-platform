@@ -19,7 +19,9 @@ export default function Page() {
 
   return (
     <Wrapper>
-      <UserProfile />
+      <section>
+        <UserProfile />
+      </section>
     </Wrapper>
   );
 }
