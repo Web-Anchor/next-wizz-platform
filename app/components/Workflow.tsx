@@ -49,18 +49,20 @@ export default function Workflow() {
         <div className="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-start">
           <div className="px-6 lg:px-0 lg:pr-4 lg:pt-4">
             <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
-              <h2 className="text-base font-semibold leading-7 text-indigo-600">
-                Streamline Your Invoicing Process with Ease
-              </h2>
-              <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                A better workflow
-              </p>
-              <p className="mt-6 text-lg leading-8 text-gray-600">
-                Enhance your productivity and efficiency with our intuitive
-                invoicing app designed to simplify your workflow. Experience
-                seamless invoicing from creation to payment with our
-                user-friendly platform.
-              </p>
+              <section className="text-center">
+                <h2 className="text-base font-semibold leading-7 text-indigo-600">
+                  Streamline Your Invoicing Process with Ease
+                </h2>
+                <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+                  A better workflow
+                </p>
+                <p className="mt-6 text-lg leading-8 text-gray-600">
+                  Enhance your productivity and efficiency with our intuitive
+                  invoicing app designed to simplify your workflow. Experience
+                  seamless invoicing from creation to payment with our
+                  user-friendly platform.
+                </p>
+              </section>
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
                 {features.map((feature) => (
                   <div key={feature.name} className="relative pl-9">

@@ -61,9 +61,15 @@ export default function FrequentlyAskedQuestions() {
     <div id="facts" className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-6 sm:py-10">
         <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
-          <h2 className="text-2xl font-bold leading-10 tracking-tight text-gray-900">
-            Frequently asked questions
-          </h2>
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="text-base font-semibold leading-7 text-indigo-600">
+              FAQ
+            </h2>
+            <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+              Frequently asked questions
+            </p>
+          </div>
+
           <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
             {faqs?.map((faq) => (
               <Disclosure as="div" key={faq.question} className="pt-6">

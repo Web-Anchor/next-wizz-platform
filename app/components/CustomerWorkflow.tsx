@@ -21,7 +21,7 @@ export default function CustomerWorkflow() {
           </div>
         </div>
         <div className="px-6 lg:contents">
-          <div className="mx-auto max-w-2xl pb-24 pt-16 sm:pb-32 sm:pt-20 lg:ml-8 lg:mr-0 lg:w-full lg:max-w-lg lg:flex-none lg:pt-32 xl:w-1/2">
+          <div className="mx-auto max-w-2xl pb-12 pt-16 sm:pb-12 sm:pt-20 lg:ml-8 lg:mr-0 lg:w-full lg:max-w-lg lg:flex-none lg:pt-32 xl:w-1/2">
             <p className="text-base font-semibold leading-7 text-indigo-600">
               Customer Workflow
             </p>

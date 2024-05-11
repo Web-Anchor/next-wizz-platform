@@ -14,9 +14,7 @@ export default function AuthLayout({
       <section className="flex flex-1 flex-col sm:ml-56">
         <Header class="sm:hidden" />
         <Breadcrumbs class="hidden sm:block" />
-        <section className="flex-auto pt-20 sm:pt-6 bg-slate-100">
-          {children}
-        </section>
+        <section className="flex-auto pt-20 sm:pt-6">{children}</section>
         <Footer />
       </section>
     </main>
