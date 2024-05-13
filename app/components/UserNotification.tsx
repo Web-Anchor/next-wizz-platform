@@ -27,8 +27,6 @@ export default function UserNotification(props: Props) {
     signOut(() => router.push('/'));
   }
 
-  console.log(props);
-
   return (
     <>
       <div

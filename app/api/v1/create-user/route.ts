@@ -17,7 +17,7 @@ export async function GET(
     const user = await currentUser();
 
     const { searchParams } = new URL(request.url);
-    const redirect = searchParams.get('redirect');
+    const redirect = searchParams.get('redirect') ?? '/dashboard';
 
     await db
       .insert(users)
@@ -29,11 +29,12 @@ export async function GET(
         lastName: user?.lastName,
       })
       .returning({ id: users.id });
+    console.log('👤 User record created. Redirecting to: ', redirect);
 
     return new Response(null, {
       status: 302,
       headers: {
-        Location: APP_URL + redirect ?? '/dashboard',
+        Location: APP_URL + redirect,
       },
     });
   } catch (err) {

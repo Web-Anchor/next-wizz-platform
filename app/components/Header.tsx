@@ -70,7 +70,7 @@ export default function Header(props: Props) {
       <Disclosure
         as="nav"
         className={classNames(
-          'fixed inset-x-0 top-0 z-50 backdrop-blur bg-white bg-opacity-90',
+          'fixed inset-x-0 top-0 z-50 backdrop-blur bg-white bg-opacity-95',
           props.class
         )}
       >
@@ -78,14 +78,13 @@ export default function Header(props: Props) {
           <>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex h-16 justify-between">
-                <div className="flex">
+                <div className="flex flex-1 gap-5">
                   <div className="flex flex-shrink-0 items-center">
                     <Logo />
                   </div>
-                  <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+                  <div className="hidden sm:flex sm:space-x-8">
                     {landingPath && (
-                      <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
+                      <div className="hidden sm:flex sm:space-x-8">
                         {isSignedIn && (
                           <Link
                             href="/dashboard"
@@ -110,6 +109,14 @@ export default function Header(props: Props) {
                       </div>
                     )}
                   </div>
+                  {!isSignedIn && landingPath && isLoaded && (
+                    <Link
+                      href="/sign-in"
+                      className="mr-5 sm:mr-0 rounded-md self-center ml-auto bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
+                    >
+                      Sign in
+                    </Link>
+                  )}
                 </div>
                 <div className="hidden sm:ml-6 sm:flex sm:items-center">
                   <button
@@ -185,15 +192,6 @@ export default function Header(props: Props) {
                 </div>
                 <div className="-mr-2 flex flex-row gap-2 items-center sm:hidden">
                   {/* Mobile menu button */}
-                  {!isSignedIn && landingPath && isLoaded && (
-                    <Link
-                      href="/sign-in"
-                      className="rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
-                    >
-                      Sign in
-                    </Link>
-                  )}
-
                   <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Open main menu</span>
@@ -231,6 +229,7 @@ export default function Header(props: Props) {
                   </>
                 )}
               </div>
+
               {isSignedIn && (
                 <div className="border-t border-gray-200 pb-3 pt-4">
                   <section className="px-4">

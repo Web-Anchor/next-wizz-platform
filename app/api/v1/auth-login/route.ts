@@ -15,10 +15,9 @@ export async function GET(request: NextRequest) {
       .select()
       .from(users)
       .where(eq(users.clerkId, userId!));
-    console.log('👤 User ', userId, dbUser);
 
     const { searchParams } = new URL(request.url);
-    const redirect = searchParams.get('redirect');
+    const redirect = searchParams.get('redirect') ?? '/dashboard';
 
     if (!dbUser?.length) {
       console.log('No user record found. Creating user in database');
@@ -33,11 +32,11 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    console.log('User record found. Redirecting to dashboard');
+    console.log('👤 User record found. Redirecting to: ', dbUser);
     return new Response(null, {
       status: 302,
       headers: {
-        Location: APP_URL + redirect ?? '/dashboard',
+        Location: APP_URL + redirect,
       },
     });
   } catch (err) {
