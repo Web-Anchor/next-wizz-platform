@@ -20,7 +20,7 @@ export default function Page() {
         {!isLoaded && <CardSkeleton />}
         <SignIn
           afterSignInUrl={
-            `/api/v1/auth-login` + redirect && `?redirect=${redirect}`
+            `/api/v1/auth-login` + (redirect ? `?redirect=${redirect}` : '')
           }
           path="/sign-in"
         />

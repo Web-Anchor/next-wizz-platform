@@ -63,7 +63,7 @@ export default function Navigation() {
       current: path === '/dashboard/invoices',
     },
     {
-      name: 'Stripe API',
+      name: 'Stripe API keys',
       href: '/dashboard/stripe',
       icon: LinkIcon,
       count: count,

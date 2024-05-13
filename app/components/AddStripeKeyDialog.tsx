@@ -24,7 +24,7 @@ export default function AddStripeKeyDialog(props: Props) {
       const name = form.get('name');
 
       const { data, status } = await cFetch({
-        url: '/api/v1/add-key',
+        url: '/api/v1/stripe/add-key',
         method: 'POST',
         data: { key, name },
       });
@@ -34,7 +34,7 @@ export default function AddStripeKeyDialog(props: Props) {
       }
 
       console.log(data, status);
-      mutate(`/api/v1/keys`);
+      mutate(`/api/v1/stripe/keys`);
     } catch (err) {
       console.error(err);
     } finally {

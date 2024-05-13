@@ -15,6 +15,8 @@ import {
 import AddStripeKeyDialog from '@app/components/AddStripeKeyDialog';
 import { useKeyValidate } from '@hooks/validate-api-keys';
 import { RowSkeleton } from '@app/components/Skeleton';
+import { cFetch } from '@lib/cFetcher';
+import { mutate } from 'swr';
 
 const KeyStatus = ({ stripeKey }: { stripeKey: StripeKey }) => {
   const { data, error, isLoading } = useKeyValidate({
@@ -48,9 +50,14 @@ const KeyStatus = ({ stripeKey }: { stripeKey: StripeKey }) => {
 };
 
 export default function Page() {
-  const [state, setState] = useState<{ edit?: boolean; open?: boolean }>({});
+  const [state, setState] = useState<{
+    edit?: boolean;
+    open?: boolean;
+    fetching?: boolean;
+  }>({});
   const { keys, isLoading } = useStripeKeys({});
   const router = useRouter();
+  // console.log('StripeKeys', keys);
 
   function redirectToStripe() {
     // router.push('https://docs.stripe.com/keys#obtain-api-keys');
@@ -60,7 +67,33 @@ export default function Page() {
   function dialogClose() {
     setState((prev) => ({ ...prev, open: false }));
   }
-  // console.log('StripeKeys', keys);
+
+  async function deleteKey(id: string) {
+    try {
+      // --------------------------------------------------------------------------------
+      // 📌  Add Stripe API key to db
+      // --------------------------------------------------------------------------------
+      setState((prev) => ({ ...prev, fetching: true }));
+      console.log('🔑 key', id);
+
+      // const { data, status } = await cFetch({
+      //   url: '/api/v1/stripe/add-key',
+      //   method: 'POST',
+      //   data: { key, name },
+      // });
+
+      // if (status !== 200) {
+      //   throw new Error(data?.message);
+      // }
+
+      // console.log(data, status);
+      // mutate(`/api/v1/stripe/keys`);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setState((prev) => ({ ...prev, fetching: false }));
+    }
+  }
 
   return (
     <Wrapper>
@@ -104,8 +137,8 @@ export default function Page() {
             },
             { item: <KeyStatus stripeKey={key} /> },
             {
-              item: getDateDifference(key.createdAt!),
-              class: 'hidden sm:flex',
+              item: <p>{getDateDifference(key.createdAt!)}</p>,
+              class: 'hidden sm:flex bg-green-200',
             },
             {
               item: (
@@ -124,7 +157,8 @@ export default function Page() {
                   title="Delete"
                   style="ghost"
                   class="text-indigo-600"
-                  onClick={() => setState((prev) => ({ ...prev, edit: true }))}
+                  type="submit"
+                  onClick={() => deleteKey(key.id!)}
                 />
               ),
             },

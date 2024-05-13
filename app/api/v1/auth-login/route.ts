@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
       .select()
       .from(users)
       .where(eq(users.clerkId, userId!));
+    console.log('👤 User record found. Redirecting to: ', dbUser);
 
     const { searchParams } = new URL(request.url);
     const redirect = searchParams.get('redirect') ?? '/dashboard';
@@ -32,7 +33,7 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    console.log('👤 User record found. Redirecting to: ', dbUser);
+    console.log('👤 User record found. Redirecting to: ', redirect);
     return new Response(null, {
       status: 302,
       headers: {

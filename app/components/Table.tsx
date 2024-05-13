@@ -40,7 +40,7 @@ export default function Table(props: Props) {
           <tbody className="divide-y divide-gray-200">
             {props?.data?.map((rows, key) => {
               return (
-                <tr key={key} className={classNames(rows.class)}>
+                <tr key={key}>
                   {rows?.row?.map((item, key) => {
                     return (
                       <td
