@@ -6,7 +6,7 @@ import Wrapper from '@app/components/Wrapper';
 import { useStripeKeys } from '@hooks/stripe-keys';
 import { StripeKey } from '../../../types';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   classNames,
   convertToAsterisks,
@@ -17,12 +17,13 @@ import { useKeyValidate } from '@hooks/validate-api-keys';
 import { RowSkeleton } from '@app/components/Skeleton';
 import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
+import { toast } from 'sonner';
 
 const KeyStatus = ({ stripeKey }: { stripeKey: StripeKey }) => {
   const { data, error, isLoading } = useKeyValidate({
     key: stripeKey.restrictedAPIKey,
   });
-  console.log('🔑 key check', error, data);
+  // console.log('🔑 key check', error, data);
 
   return (
     <div className={classNames('px-3 py-3.5 text-sm text-gray-500')}>
@@ -51,13 +52,15 @@ const KeyStatus = ({ stripeKey }: { stripeKey: StripeKey }) => {
 
 export default function Page() {
   const [state, setState] = useState<{
-    edit?: boolean;
+    edit?: string;
     open?: boolean;
     fetching?: boolean;
   }>({});
   const { keys, isLoading } = useStripeKeys({});
   const router = useRouter();
-  // console.log('StripeKeys', keys);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const keyRef = useRef<HTMLInputElement>(null);
+  console.log('StripeKeys', keys, state);
 
   function redirectToStripe() {
     // router.push('https://docs.stripe.com/keys#obtain-api-keys');
@@ -76,30 +79,63 @@ export default function Page() {
       setState((prev) => ({ ...prev, fetching: true }));
       console.log('🔑 key', id);
 
-      // const { data, status } = await cFetch({
-      //   url: '/api/v1/stripe/add-key',
-      //   method: 'POST',
-      //   data: { key, name },
-      // });
+      const { data, status } = await cFetch({
+        url: '/api/v1/stripe/keys/delete-key',
+        method: 'POST',
+        data: { id },
+      });
 
-      // if (status !== 200) {
-      //   throw new Error(data?.message);
-      // }
+      if (status !== 200 || data?.error) {
+        throw new Error(data?.error);
+      }
 
-      // console.log(data, status);
-      // mutate(`/api/v1/stripe/keys`);
-    } catch (err) {
+      mutate(`/api/v1/stripe/keys`);
+      toast.success(`API key deleted successfully`);
+    } catch (err: any) {
       console.error(err);
+      toast.error(err.message);
     } finally {
       setState((prev) => ({ ...prev, fetching: false }));
+    }
+  }
+
+  async function editKey(id: string) {
+    try {
+      // --------------------------------------------------------------------------------
+      // 📌  Add Stripe API key to db
+      // --------------------------------------------------------------------------------
+      setState((prev) => ({ ...prev, fetching: true }));
+      const name = nameRef.current?.value;
+      const key = keyRef.current?.value;
+
+      // add 2s delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const { data, status } = await cFetch({
+        url: '/api/v1/stripe/keys/edit-key',
+        method: 'POST',
+        data: { key, name },
+      });
+
+      if (status !== 200 || data?.error) {
+        throw new Error(data?.error);
+      }
+
+      mutate(`/api/v1/stripe/keys`);
+      toast.success(`API key updated successfully`);
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message);
+    } finally {
+      setState((prev) => ({ ...prev, fetching: false, edit: undefined }));
     }
   }
 
   return (
     <Wrapper>
       <AddStripeKeyDialog open={state?.open} setter={dialogClose} />
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
+      <div className="sm:table-cell sm:items-center">
+        <div className="sm:table-cell-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-900">
             Connected Stripe API Keys
           </h1>
@@ -109,7 +145,7 @@ export default function Page() {
             key. You can upgrade or downgrade your plan at any time.
           </p>
         </div>
-        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+        <div className="mt-4 sm:ml-16 sm:mt-0 sm:table-cell-none">
           <Button
             title="Add a new key"
             onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
@@ -120,50 +156,95 @@ export default function Page() {
         fetching={isLoading}
         header={[
           { item: 'Key name' },
-          { item: 'Key value', class: 'hidden sm:flex' },
+          { item: 'Key value', class: 'hidden sm:table-cell' },
           { item: 'Status' },
-          { item: 'Created At', class: 'hidden sm:flex' },
+          { item: 'Created At', class: 'hidden sm:table-cell' },
         ]}
-        data={keys?.map((key: StripeKey) => ({
-          row: [
-            { item: key.name },
-            {
-              item: (
-                <span className="blur">
-                  {convertToAsterisks(key.restrictedAPIKey!)}
-                </span>
-              ),
-              class: 'hidden sm:flex',
-            },
-            { item: <KeyStatus stripeKey={key} /> },
-            {
-              item: <p>{getDateDifference(key.createdAt!)}</p>,
-              class: 'hidden sm:flex bg-green-200',
-            },
-            {
-              item: (
-                <Button
-                  title="Edit"
-                  style="ghost"
-                  class="text-indigo-600"
-                  onClick={() => setState((prev) => ({ ...prev, edit: true }))}
-                />
-              ),
-              class: 'hidden sm:flex',
-            },
-            {
-              item: (
-                <Button
-                  title="Delete"
-                  style="ghost"
-                  class="text-indigo-600"
-                  type="submit"
-                  onClick={() => deleteKey(key.id!)}
-                />
-              ),
-            },
-          ],
-        }))}
+        data={keys?.map((key: StripeKey) => {
+          const edit = state?.edit === key.id;
+
+          return {
+            row: [
+              {
+                item: (
+                  <section>
+                    {!edit && <p>{key.name}</p>}
+                    {edit && (
+                      <input
+                        type="text"
+                        className="input input-bordered max-w-24"
+                        placeholder="Key name"
+                        defaultValue={key.name}
+                        ref={nameRef}
+                      />
+                    )}
+                  </section>
+                ),
+                class: 'sm:table-cell-auto min-w-24',
+              },
+              {
+                item: (
+                  <section>
+                    {!edit && (
+                      <p className="blur">
+                        {convertToAsterisks(key.restrictedAPIKey!)}
+                      </p>
+                    )}
+                    {edit && (
+                      <input
+                        type="text"
+                        className="input input-bordered max-w-24"
+                        placeholder="Key value"
+                        defaultValue={key.restrictedAPIKey}
+                        ref={keyRef}
+                      />
+                    )}
+                  </section>
+                ),
+                class: 'hidden sm:table-cell min-w-24',
+              },
+              { item: <KeyStatus stripeKey={key} /> },
+              {
+                item: <p>{getDateDifference(key.createdAt!)}</p>,
+                class: 'hidden sm:table-cell',
+              },
+              {
+                item: (
+                  <Button
+                    title={edit ? 'Save' : 'Edit'}
+                    style="ghost"
+                    class="text-indigo-600"
+                    onClick={() => {
+                      if (!edit) {
+                        setState((prev) => ({ ...prev, edit: key.id }));
+                      }
+                      if (edit) {
+                        editKey(key.id!);
+                      }
+                    }}
+                    fetching={state.fetching && edit}
+                    disabled={state.fetching}
+                  />
+                ),
+                class: 'hidden sm:table-cell',
+              },
+              {
+                item: (
+                  <Button
+                    title="Delete"
+                    style="ghost"
+                    class="text-indigo-600"
+                    type="submit"
+                    onClick={() => deleteKey(key.id!)}
+                    fetching={state.fetching && edit}
+                    disabled={state.fetching}
+                  />
+                ),
+                class: 'hidden sm:table-cell',
+              },
+            ],
+          };
+        })}
       />
 
       <div className="flex flex-col gap-5">

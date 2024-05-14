@@ -32,9 +32,13 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     const body = await request.json();
     const id = body.id;
-    await db
-      .delete(stripeKeys)
+    const name = body.name;
+    const key = body.key;
+    const res = await db
+      .update(stripeKeys)
+      .set({ name, restrictedAPIKey: key })
       .where(and(eq(stripeKeys.id, id), eq(stripeKeys.userId, dbUser[0].id)));
+    console.log('🔑 Updated key ', res);
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

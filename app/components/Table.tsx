@@ -46,7 +46,7 @@ export default function Table(props: Props) {
                       <td
                         key={key}
                         className={classNames(
-                          'px-3 py-3.5 text-sm text-gray-900',
+                          'px-3 py-3.5 text-sm text-gray-800',
                           item.class
                         )}
                       >
