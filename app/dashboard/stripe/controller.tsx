@@ -114,7 +114,7 @@ export default function Page() {
       const { data, status } = await cFetch({
         url: '/api/v1/stripe/keys/edit-key',
         method: 'POST',
-        data: { key, name },
+        data: { key, name, id },
       });
 
       if (status !== 200 || data?.error) {
@@ -134,8 +134,8 @@ export default function Page() {
   return (
     <Wrapper>
       <AddStripeKeyDialog open={state?.open} setter={dialogClose} />
-      <div className="sm:table-cell sm:items-center">
-        <div className="sm:table-cell-auto">
+      <div className="sm:flex sm:items-center">
+        <div className="sm:flex-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-900">
             Connected Stripe API Keys
           </h1>
@@ -145,7 +145,7 @@ export default function Page() {
             key. You can upgrade or downgrade your plan at any time.
           </p>
         </div>
-        <div className="mt-4 sm:ml-16 sm:mt-0 sm:table-cell-none">
+        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
           <Button
             title="Add a new key"
             onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
@@ -180,7 +180,7 @@ export default function Page() {
                     )}
                   </section>
                 ),
-                class: 'sm:table-cell-auto min-w-24',
+                class: 'sm:table-cell-auto min-w-28',
               },
               {
                 item: (
@@ -201,7 +201,7 @@ export default function Page() {
                     )}
                   </section>
                 ),
-                class: 'hidden sm:table-cell min-w-24',
+                class: 'hidden sm:table-cell min-w-28',
               },
               { item: <KeyStatus stripeKey={key} /> },
               {
@@ -231,11 +231,18 @@ export default function Page() {
               {
                 item: (
                   <Button
-                    title="Delete"
+                    title={edit ? 'Cancel' : 'Delete'}
                     style="ghost"
                     class="text-indigo-600"
                     type="submit"
-                    onClick={() => deleteKey(key.id!)}
+                    onClick={() => {
+                      if (!edit) {
+                        deleteKey(key.id!);
+                      }
+                      if (edit) {
+                        setState((prev) => ({ ...prev, edit: undefined }));
+                      }
+                    }}
                     fetching={state.fetching && edit}
                     disabled={state.fetching}
                   />
