@@ -178,7 +178,7 @@ export default function Header(props: Props) {
                             <button
                               onClick={signOutUser}
                               className={classNames(
-                                'px-3 py-1 btn-ghost flex flex-row justify-center gap-2 hover:bg-transparent hover:opacity-80',
+                                'block px-4 py-2 text-sm text-gray-700',
                                 active && 'bg-gray-100'
                               )}
                             >

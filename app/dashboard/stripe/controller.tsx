@@ -150,7 +150,7 @@ export default function Page() {
           { item: 'Key name' },
           { item: 'Key value', class: 'hidden sm:table-cell' },
           { item: 'Status' },
-          { item: 'Created At', class: 'hidden sm:table-cell' },
+          { item: 'Created At' },
         ]}
         data={keys?.map((key: StripeKey) => {
           const edit = state?.edit === key.id;
@@ -199,7 +199,6 @@ export default function Page() {
               { item: <KeyStatus stripeKey={key} /> },
               {
                 item: <p>{getTimeAgo(key.createdAt!)}</p>,
-                class: 'hidden sm:table-cell',
               },
               {
                 item: (
@@ -240,76 +239,55 @@ export default function Page() {
                     disabled={fetching}
                   />
                 ),
-                class: 'hidden sm:table-cell',
               },
             ],
           };
         })}
       />
 
-      <div className="flex flex-col gap-5">
-        <p className="text-base font-semibold leading-7 text-indigo-600">
-          Restricted API key
-        </p>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-          Create a restricted API key
-        </h1>
-
-        <div className="card w-fill bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title">
-              A restricted API key only allows the level of access that you
-              specify.
+      <div className="bg-white px-6 py-8 lg:px-5">
+        <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
+          <p className="text-base font-semibold leading-7 text-indigo-600">
+            Restricted API key
+          </p>
+          <div className="mt-4 max-w-2xl">
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+              Creating a restricted API key
             </h2>
-            <p>To create a restricted API key:</p>
-
-            <section className="flex flex-col gap-2 text-xs font-medium text-slate-500 text-justify">
-              <p>Open the API keys page.</p>
-              <p>
-                You can create a restricted key from scratch or start by cloning
-                an existing restricted key.
-              </p>
-              <p>
-                To create a restricted key from scratch, click Create restricted
-                key. In this case, the default value for all permissions is
-                None. To clone an existing key, in the row for the key you want
-                to clone, click the overflow menu (), then select Duplicate
-                key…. In this case, the default value for each permission is its
-                value in the cloned key.
-              </p>
-              <p>
-                In the Key name field, enter a name. If you cloned an existing
-                key, the default name is the cloned key’s name.
-              </p>
-              <p>
-                For each resource you want the new key to access, select the
-                permission for this key to allow. If you use Connect, you can
-                also select the permission for this key to allow when accessing
-                connected accounts. Available permissions are None, Read, or
-                Write.
-              </p>
-              <p>Click Create key.</p>
-              <p>
-                Stripe sends a verification code to your email address or in a
-                text message. (As with any email or text message, it might not
-                arrive immediately.) Enter the code in the dialog. If the dialog
-                doesn’t continue automatically, click Continue.
-              </p>
-              <p>
-                The dialog displays the new key value. Copy it by clicking it.
-              </p>
-              <p>Save the key value. You can’t retrieve it later.</p>
-              <p>
-                In the Add a note field, enter the location where you saved the
-                key and click Done.
-              </p>
-            </section>
-
-            <Button
-              title="Stripe API docs"
-              style="ghost"
-              onClick={redirectToStripe}
-            />
+            <p className="mt-6">
+              You can create a restricted key from scratch or start by cloning
+              an existing restricted key.
+            </p>
+            <p className="mt-6">
+              To create a restricted key from scratch, click Create restricted
+              key. In this case, the default value for all permissions is None.
+              To clone an existing key, in the row for the key you want to
+              clone, click the overflow menu (), then select Duplicate key…. In
+              this case, the default value for each permission is its value in
+              the cloned key.
+            </p>
+            <p className="mt-6">
+              In the Key name field, enter a name. If you cloned an existing
+              key, the default name is the cloned key’s name.
+            </p>
+            <p className="mt-6">
+              For each resource you want the new key to access, select the
+              permission for this key to allow. If you use Connect, you can also
+              select the permission for this key to allow when accessing
+              connected accounts. Available permissions are None, Read, or
+              Write.
+            </p>
+            <p className="mt-6">Click Create key.</p>
+            <p className="mt-6">
+              The dialog displays the new key value. Copy it by clicking it.
+            </p>
+            <p className="mt-6">
+              Save the key value. You can’t retrieve it later.
+            </p>
+            <p className="mt-6">
+              In the Add a note field, enter the location where you saved the
+              key and click Done.
+            </p>
           </div>
         </div>
       </div>
