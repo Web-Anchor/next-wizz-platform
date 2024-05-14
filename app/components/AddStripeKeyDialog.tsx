@@ -24,7 +24,7 @@ export default function AddStripeKeyDialog(props: Props) {
       const name = form.get('name');
 
       const { data, status } = await cFetch({
-        url: '/api/v1/stripe/add-key',
+        url: '/api/v1/stripe/keys/add-key',
         method: 'POST',
         data: { key, name },
       });
@@ -132,7 +132,7 @@ export default function AddStripeKeyDialog(props: Props) {
                       </div>
                     </div>
                   </div>
-                  <div className="py-3 gap-5 sm:flex sm:flex-row-reverse">
+                  <div className="py-3 gap-5 flex sm:flex-row-reverse">
                     <Button
                       title="Add New Key"
                       type="submit"

@@ -7,11 +7,7 @@ import { useStripeKeys } from '@hooks/stripe-keys';
 import { StripeKey } from '../../../types';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
-import {
-  classNames,
-  convertToAsterisks,
-  getDateDifference,
-} from '@helpers/index';
+import { classNames, convertToAsterisks, getTimeAgo } from '@helpers/index';
 import AddStripeKeyDialog from '@app/components/AddStripeKeyDialog';
 import { useKeyValidate } from '@hooks/validate-api-keys';
 import { RowSkeleton } from '@app/components/Skeleton';
@@ -54,7 +50,7 @@ export default function Page() {
   const [state, setState] = useState<{
     edit?: string;
     open?: boolean;
-    fetching?: boolean;
+    fetching?: string;
   }>({});
   const { keys, isLoading } = useStripeKeys({});
   const router = useRouter();
@@ -76,8 +72,7 @@ export default function Page() {
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: true }));
-      console.log('🔑 key', id);
+      setState((prev) => ({ ...prev, fetching: id }));
 
       const { data, status } = await cFetch({
         url: '/api/v1/stripe/keys/delete-key',
@@ -95,7 +90,7 @@ export default function Page() {
       console.error(err);
       toast.error(err.message);
     } finally {
-      setState((prev) => ({ ...prev, fetching: false }));
+      setState((prev) => ({ ...prev, fetching: undefined }));
     }
   }
 
@@ -104,12 +99,9 @@ export default function Page() {
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: true }));
+      setState((prev) => ({ ...prev, fetching: id }));
       const name = nameRef.current?.value;
       const key = keyRef.current?.value;
-
-      // add 2s delay
-      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       const { data, status } = await cFetch({
         url: '/api/v1/stripe/keys/edit-key',
@@ -127,7 +119,7 @@ export default function Page() {
       console.error(err);
       toast.error(err.message);
     } finally {
-      setState((prev) => ({ ...prev, fetching: false, edit: undefined }));
+      setState((prev) => ({ ...prev, fetching: undefined, edit: undefined }));
     }
   }
 
@@ -162,6 +154,7 @@ export default function Page() {
         ]}
         data={keys?.map((key: StripeKey) => {
           const edit = state?.edit === key.id;
+          const fetching = state?.fetching === key.id;
 
           return {
             row: [
@@ -205,7 +198,7 @@ export default function Page() {
               },
               { item: <KeyStatus stripeKey={key} /> },
               {
-                item: <p>{getDateDifference(key.createdAt!)}</p>,
+                item: <p>{getTimeAgo(key.createdAt!)}</p>,
                 class: 'hidden sm:table-cell',
               },
               {
@@ -222,8 +215,8 @@ export default function Page() {
                         editKey(key.id!);
                       }
                     }}
-                    fetching={state.fetching && edit}
-                    disabled={state.fetching}
+                    fetching={fetching && edit}
+                    disabled={fetching}
                   />
                 ),
                 class: 'hidden sm:table-cell',
@@ -243,8 +236,8 @@ export default function Page() {
                         setState((prev) => ({ ...prev, edit: undefined }));
                       }
                     }}
-                    fetching={state.fetching && edit}
-                    disabled={state.fetching}
+                    fetching={fetching && !edit}
+                    disabled={fetching}
                   />
                 ),
                 class: 'hidden sm:table-cell',
