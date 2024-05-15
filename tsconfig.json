@@ -23,6 +23,7 @@
       "@lib/*": ["./lib/*"],
       "@hooks/*": ["./hooks/*"],
       "@types/*": ["./types/*"],
+      "@config/*": ["./config/*"],
       "@templates/*": ["./app/components/samples/*"],
       "@helpers/*": ["./helpers/*"],
       "@components/*": ["./app/components/*"]

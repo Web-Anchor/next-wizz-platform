@@ -5,6 +5,11 @@ import { stripeKeys } from '@db/schema/stripeKeys';
 import { eq } from 'drizzle-orm';
 import { users } from '@db/schema/users';
 import { v4 as uuidv4 } from 'uuid';
+import { subscription } from '@lib/subscription';
+import { plans } from '@config/index';
+import { Plan } from '../../../../../../types/index';
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -26,7 +31,25 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     // 📌  Validate & validate sub type
     // --------------------------------------------------------------------------------
-    console.log('👤 DB User. Validate User permissions ', dbUser);
+    const { product, name: planName, status } = await subscription({ userId });
+
+    if (status !== 'active') {
+      return NextResponse.json({
+        error: 'Subscription not active. Please subscribe!',
+      });
+    }
+    const config = plans[planName] as Plan;
+
+    const userKeys = await db
+      .select()
+      .from(stripeKeys)
+      .where(eq(stripeKeys.userId, dbUser[0].id.toString()));
+
+    if (userKeys.length >= config.keyLimit) {
+      return NextResponse.json({
+        error: 'Key limit reached. Please upgrade your plan!',
+      });
+    }
 
     // --------------------------------------------------------------------------------
     // 📌  Add key to db

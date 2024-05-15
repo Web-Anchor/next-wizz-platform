@@ -83,3 +83,9 @@ export type StripeSubscription = {
   };
   currency?: string;
 };
+
+export type Plan = {
+  keyLimit: number;
+  emailLimit: number;
+  name: string;
+};

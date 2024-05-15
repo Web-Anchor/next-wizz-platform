@@ -39,8 +39,8 @@ export async function POST(request: NextRequest) {
     const stripeCustomerId = dbUser?.[0]?.stripeCustomerId;
 
     const session = await stripe.checkout.sessions.create({
-      success_url: `${APP_URL}/api/v1/stripe/subscriptions/validate?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${APP_URL}/api/v1/stripe/subscriptions/validate?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${APP_URL}/api/v1/stripe/subscriptions/add?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${APP_URL}/api/v1/stripe/subscriptions/add?session_id={CHECKOUT_SESSION_ID}`,
       payment_method_types: ['card'],
       mode: 'subscription',
       line_items: [

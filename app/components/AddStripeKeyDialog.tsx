@@ -5,6 +5,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
 import Button from './Button';
+import { toast } from 'sonner';
 
 type Props = {
   open?: boolean;
@@ -29,14 +30,16 @@ export default function AddStripeKeyDialog(props: Props) {
         data: { key, name },
       });
 
-      if (status !== 200) {
-        throw new Error(data?.message);
+      if (status !== 200 || data?.error) {
+        throw new Error(data?.error);
       }
 
       console.log(data, status);
       mutate(`/api/v1/stripe/keys`);
-    } catch (err) {
-      console.error(err);
+      toast.success('API key added successfully');
+    } catch (err: any) {
+      console.error(err.message);
+      toast.error(err.message);
     } finally {
       props.setter?.(false);
       setState((prev) => ({ ...prev, fetching: false }));

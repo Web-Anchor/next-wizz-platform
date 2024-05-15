@@ -65,7 +65,7 @@ const tiers = [
 ];
 
 export default function Pricing() {
-  const [state, setState] = useState<{ fetching?: boolean }>({});
+  const [state, setState] = useState<{ fetching?: string }>({});
   const [frequency, setFrequency] = useState(frequencies[0]);
   const router = useRouter();
 
@@ -73,7 +73,7 @@ export default function Pricing() {
 
   async function createSubscription(id: string) {
     try {
-      setState({ fetching: true });
+      setState({ fetching: id });
 
       if (!isSignedIn) {
         const redirect = encodeURIComponent(`/#pricing`);
@@ -99,7 +99,7 @@ export default function Pricing() {
     } catch (error) {
       console.error('🔑 Error', error);
     } finally {
-      setState({ fetching: false });
+      setState({ fetching: undefined });
     }
   }
 
@@ -147,87 +147,92 @@ export default function Pricing() {
         </div> */}
 
         <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-          {tiers.map((tier, key) => (
-            <div
-              key={key}
-              className={classNames(
-                tier.featured ? 'bg-gray-900 ring-gray-900' : 'ring-gray-200',
-                'rounded-3xl p-8 ring-1 xl:p-10'
-              )}
-            >
-              <h3
-                id={key.toString()}
+          {tiers.map((tier, key) => {
+            const fetching = state?.fetching === tier.id;
+
+            return (
+              <div
+                key={key}
                 className={classNames(
-                  tier.featured ? 'text-white' : 'text-gray-900',
-                  'text-lg font-semibold leading-8'
+                  tier.featured ? 'bg-gray-900 ring-gray-900' : 'ring-gray-200',
+                  'rounded-3xl p-8 ring-1 xl:p-10'
                 )}
               >
-                {tier.name}
-              </h3>
-              <p
-                className={classNames(
-                  tier.featured ? 'text-gray-300' : 'text-gray-600',
-                  'mt-4 text-sm leading-6'
-                )}
-              >
-                {tier.description}
-              </p>
-              <p className="mt-6 flex items-baseline gap-x-1">
-                <span
+                <h3
+                  id={key.toString()}
                   className={classNames(
                     tier.featured ? 'text-white' : 'text-gray-900',
-                    'text-4xl font-bold tracking-tight'
+                    'text-lg font-semibold leading-8'
                   )}
                 >
-                  {typeof tier.price === 'string'
-                    ? tier.price
-                    : tier.price[frequency.value as keyof typeof tier.price]}
-                </span>
-                {typeof tier.price !== 'string' ? (
+                  {tier.name}
+                </h3>
+                <p
+                  className={classNames(
+                    tier.featured ? 'text-gray-300' : 'text-gray-600',
+                    'mt-4 text-sm leading-6'
+                  )}
+                >
+                  {tier.description}
+                </p>
+                <p className="mt-6 flex items-baseline gap-x-1">
                   <span
                     className={classNames(
-                      tier.featured ? 'text-gray-300' : 'text-gray-600',
-                      'text-sm font-semibold leading-6'
+                      tier.featured ? 'text-white' : 'text-gray-900',
+                      'text-4xl font-bold tracking-tight'
                     )}
                   >
-                    {frequency.priceSuffix}
+                    {typeof tier.price === 'string'
+                      ? tier.price
+                      : tier.price[frequency.value as keyof typeof tier.price]}
                   </span>
-                ) : null}
-              </p>
-              <Button
-                title={tier.cta}
-                aria-describedby={key}
-                class={classNames(
-                  tier.featured
-                    ? 'bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white'
-                    : 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600',
-                  'mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
-                )}
-                onClick={() => createSubscription(tier.id)}
-                fetching={state?.fetching}
-              />
-              <ul
-                role="list"
-                className={classNames(
-                  tier.featured ? 'text-gray-300' : 'text-gray-600',
-                  'mt-8 space-y-3 text-sm leading-6 xl:mt-10'
-                )}
-              >
-                {tier.features.map((feature) => (
-                  <li key={feature} className="flex gap-x-3">
-                    <CheckIcon
+                  {typeof tier.price !== 'string' ? (
+                    <span
                       className={classNames(
-                        tier.featured ? 'text-white' : 'text-indigo-600',
-                        'h-6 w-5 flex-none'
+                        tier.featured ? 'text-gray-300' : 'text-gray-600',
+                        'text-sm font-semibold leading-6'
                       )}
-                      aria-hidden="true"
-                    />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+                    >
+                      {frequency.priceSuffix}
+                    </span>
+                  ) : null}
+                </p>
+                <Button
+                  title={tier.cta}
+                  aria-describedby={key}
+                  class={classNames(
+                    tier.featured
+                      ? 'bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white'
+                      : 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600',
+                    'mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+                  )}
+                  onClick={() => createSubscription(tier.id)}
+                  fetching={fetching}
+                  disabled={!!state?.fetching}
+                />
+                <ul
+                  role="list"
+                  className={classNames(
+                    tier.featured ? 'text-gray-300' : 'text-gray-600',
+                    'mt-8 space-y-3 text-sm leading-6 xl:mt-10'
+                  )}
+                >
+                  {tier.features.map((feature) => (
+                    <li key={feature} className="flex gap-x-3">
+                      <CheckIcon
+                        className={classNames(
+                          tier.featured ? 'text-white' : 'text-indigo-600',
+                          'h-6 w-5 flex-none'
+                        )}
+                        aria-hidden="true"
+                      />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
