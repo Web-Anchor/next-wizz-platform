@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     // 📌  Validate & validate sub type
     // --------------------------------------------------------------------------------
-    const { product, name: planName, status } = await subscription({ userId });
+    const { name: planName, status } = await subscription({ userId });
 
     if (status !== 'active') {
       return NextResponse.json({

@@ -56,10 +56,10 @@ export default function Navigation() {
       current: path === '/dashboard/customers',
     },
     {
-      name: 'Invoices',
+      name: 'Templates',
       href: '/dashboard/invoices',
       icon: DocumentDuplicateIcon,
-      count: '12',
+      count: '1',
       current: path === '/dashboard/invoices',
     },
     {

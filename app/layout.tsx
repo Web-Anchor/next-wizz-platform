@@ -26,9 +26,9 @@ export default function RootLayout({
       >
         <body className={classNames(inter.className, 'h-full')}>
           <Toaster
-            // richColors
-            // closeButton
-            position="top-center"
+            // richColors // enable rich colors
+            // closeButton // close button cta on toast
+            position="top-center" // toast position
           />
           {children}
         </body>

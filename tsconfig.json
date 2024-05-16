@@ -24,7 +24,7 @@
       "@hooks/*": ["./hooks/*"],
       "@types/*": ["./types/*"],
       "@config/*": ["./config/*"],
-      "@templates/*": ["./app/components/samples/*"],
+      "@templates/*": ["./app/components/templates/*"],
       "@helpers/*": ["./helpers/*"],
       "@components/*": ["./app/components/*"]
     }

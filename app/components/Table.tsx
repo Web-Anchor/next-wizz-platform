@@ -1,5 +1,6 @@
 import { classNames } from '@helpers/index';
 import { TableSkeleton } from '@components/Skeleton';
+import NoData from './NoData';
 
 type Row = { item?: string | React.ReactElement; class?: string };
 
@@ -8,11 +9,21 @@ type Props = {
   header?: Row[];
   data?: { row: Row[]; class?: string }[];
   fetching?: boolean;
+  noDate?: { title?: string; description?: string };
 };
 
 export default function Table(props: Props) {
   if (props.fetching) {
     return <TableSkeleton />;
+  }
+
+  if (!!props?.data?.length) {
+    return (
+      <NoData
+        title={props.noDate?.title ?? "You don't have any templates."}
+        description={props.noDate?.description ?? 'Create a new template.'}
+      />
+    );
   }
 
   return (

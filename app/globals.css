@@ -6,6 +6,10 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  /* Paper Sizes */
+  --print-size-a4: 210mm 297mm;
+  --print-size-letter: 8.5in 11in;
+  --print-size-a5: 210mm 148mm;
 }
 
 .cl-footer,
@@ -17,6 +21,14 @@
 /* account popup */
 .left-popup-container {
   transform: translateX(calc(-100% - 1.25rem));
+}
+
+@media print {
+  @page {
+    size: var(--print-size-a4);
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
