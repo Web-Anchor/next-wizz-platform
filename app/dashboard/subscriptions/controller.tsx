@@ -47,11 +47,11 @@ export default function Page() {
         header={[
           { item: 'Plan' },
           { item: 'Amount' },
-          { item: 'Currency' },
-          { item: 'Period End Date' },
-          { item: 'Created' },
+          { item: 'Currency', class: 'hidden lg:table-cell' },
+          { item: 'Period End Date', class: 'hidden lg:table-cell' },
+          { item: 'Created', class: 'hidden lg:table-cell' },
           { item: 'Active' },
-          { item: 'Ending' },
+          { item: 'Ending', class: 'hidden lg:table-cell' },
           { item: '' },
         ]}
         data={subscriptions?.map((subscription) => {
@@ -59,9 +59,15 @@ export default function Page() {
             row: [
               { item: planName(subscription?.plan?.amount!) },
               { item: convertToCurrency(subscription?.plan?.amount!) },
-              { item: subscription.currency },
-              { item: convertToYearMonthDay(subscription.current_period_end!) },
-              { item: convertToYearMonthDay(subscription.created!) },
+              { item: subscription.currency, class: 'hidden lg:table-cell' },
+              {
+                item: convertToYearMonthDay(subscription.current_period_end!),
+                class: 'hidden lg:table-cell',
+              },
+              {
+                item: convertToYearMonthDay(subscription.created!),
+                class: 'hidden lg:table-cell',
+              },
               {
                 item: isSubActive(subscription) ? (
                   <CheckCircleIcon
@@ -79,6 +85,7 @@ export default function Page() {
                 item: subscription.ended_at
                   ? convertToYearMonthDay(subscription.ended_at)
                   : '-',
+                class: 'hidden lg:table-cell',
               },
               {
                 item: (

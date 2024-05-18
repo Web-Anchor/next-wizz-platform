@@ -148,7 +148,7 @@ export default function Page() {
         fetching={isLoading}
         header={[
           { item: 'Key name' },
-          { item: 'Key value', class: 'hidden sm:table-cell' },
+          { item: 'Key value', class: 'hidden lg:table-cell' },
           { item: 'Status' },
           { item: 'Created At' },
         ]}
@@ -173,7 +173,7 @@ export default function Page() {
                     )}
                   </section>
                 ),
-                class: 'sm:table-cell-auto min-w-28',
+                class: 'md:table-cell-auto min-w-28',
               },
               {
                 item: (
@@ -194,7 +194,7 @@ export default function Page() {
                     )}
                   </section>
                 ),
-                class: 'hidden sm:table-cell min-w-28',
+                class: 'hidden lg:table-cell min-w-28',
               },
               { item: <KeyStatus stripeKey={key} /> },
               {
@@ -218,7 +218,7 @@ export default function Page() {
                     disabled={fetching}
                   />
                 ),
-                class: 'hidden sm:table-cell',
+                class: 'hidden lg:table-cell',
               },
               {
                 item: (

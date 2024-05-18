@@ -32,7 +32,7 @@ export default function ChargesTable(props: Props) {
               <thead className="sr-only">
                 <tr>
                   <th>Amount</th>
-                  <th className="hidden sm:table-cell">Client</th>
+                  <th className="hidden lg:table-cell">Client</th>
                   <th>More details</th>
                 </tr>
               </thead>
@@ -71,7 +71,7 @@ export default function ChargesTable(props: Props) {
                       <div className="absolute bottom-0 right-full h-px w-screen bg-gray-100" />
                       <div className="absolute bottom-0 left-0 h-px w-screen bg-gray-100" />
                     </td>
-                    <td className="hidden py-5 pr-6 sm:table-cell">
+                    <td className="hidden py-5 pr-6 md:table-cell">
                       <div className="text-sm leading-6 text-gray-900">
                         {charge?.calculated_statement_descriptor}
                       </div>

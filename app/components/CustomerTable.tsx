@@ -50,7 +50,7 @@ export default function CustomerTable(props: Props) {
               </th>
               <th
                 scope="col"
-                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell"
               >
                 Email
               </th>
@@ -87,7 +87,7 @@ export default function CustomerTable(props: Props) {
                 <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
                   {person?.currency}
                 </td>
-                <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                <td className="hidden px-3 py-4 text-sm text-gray-500 md:table-cell">
                   {person.email}
                 </td>
                 <td className="px-3 py-4 text-sm text-gray-500">

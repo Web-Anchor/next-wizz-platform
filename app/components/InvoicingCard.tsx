@@ -72,7 +72,7 @@ export default function InvoiceTable() {
       return console.log(form.entries(), header, footer, customFields);
 
       const { data, status } = await cFetch({
-        url: '/api/v1/stripe/keys/add-key',
+        url: '/api/v1/templates/add',
         method: 'POST',
         data: { header },
       });
