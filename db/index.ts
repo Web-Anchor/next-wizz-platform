@@ -1,8 +1,6 @@
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
-import * as stripeKeys from './schema/stripeKeys';
-import * as users from './schema/users';
-import * as invoiceTemplates from './schema/invoiceTemplates';
+import * as schema from './schema';
 
 const client = createClient({
   url: process.env.DATABASE_URL!,
@@ -10,5 +8,5 @@ const client = createClient({
 });
 
 export const db = drizzle(client, {
-  // schema: { ...stripeKeys, ...users, ...invoiceTemplates },
+  schema: { ...schema },
 });

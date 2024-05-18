@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@app/components/Button';
-import InvoiceTable from '@app/components/InvoiceTable';
+import InvoicingCard from '@app/components/InvoicingCard';
 import Wrapper from '@app/components/Wrapper';
 import TemplateOne from '@app/components/templates/TemplateOne';
 import { useRef } from 'react';
@@ -43,7 +43,7 @@ export default function Page() {
 
   return (
     <Wrapper>
-      <InvoiceTable />
+      <InvoicingCard />
       <TemplateOne printRef={contentToPrint} />
 
       <div className="flex flex-row gap-5 self-end">

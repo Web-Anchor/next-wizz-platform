@@ -1,9 +1,8 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
-import { stripeKeys } from '@db/schema/stripeKeys';
+import { keys as strKeys, users } from '@db/schema';
 import { eq } from 'drizzle-orm';
-import { users } from '@db/schema/users';
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,14 +24,14 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     const keys = await db
       .select({
-        id: stripeKeys.id,
-        name: stripeKeys.name,
-        userId: stripeKeys.userId,
-        restrictedAPIKey: stripeKeys.restrictedAPIKey,
-        createdAt: stripeKeys.createdAt,
+        id: strKeys.id,
+        name: strKeys.name,
+        userId: strKeys.userId,
+        restrictedAPIKey: strKeys.restrictedAPIKey,
+        createdAt: strKeys.createdAt,
       })
-      .from(stripeKeys)
-      .where(eq(stripeKeys.userId, dbUser[0].id.toString()));
+      .from(strKeys)
+      .where(eq(strKeys.userId, dbUser[0].id.toString()));
 
     return NextResponse.json({ keys });
   } catch (err) {

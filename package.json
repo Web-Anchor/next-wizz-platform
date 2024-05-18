@@ -10,6 +10,7 @@
     "db-build": "drizzle-kit generate:sqlite && drizzle-kit push:sqlite",
     "generate": "drizzle-kit generate:sqlite",
     "migrate": "drizzle-kit push:sqlite",
+    "drop": "drizzle-kit drop",
     "studio": "drizzle-kit studio",
     "lint": "next lint"
   },

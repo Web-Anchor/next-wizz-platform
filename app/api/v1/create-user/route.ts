@@ -1,7 +1,7 @@
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
-import { users } from '@db/schema/users';
+import { users } from '@db/schema';
 import { v4 as uuidv4 } from 'uuid';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;

@@ -18,9 +18,12 @@
   display: none !important; /* Hide Clerk component footer */
 }
 
-/* account popup */
+::-webkit-scrollbar {
+  display: none; /* remove scroll bar */
+}
+
 .left-popup-container {
-  transform: translateX(calc(-100% - 1.25rem));
+  transform: translateX(calc(-100% - 1.25rem)); /* account popup custom css */
 }
 
 @media print {

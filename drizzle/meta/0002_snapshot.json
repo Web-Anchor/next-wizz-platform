@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "cfec52a8-02a4-4a2b-84b8-255038bac3ce",
-  "prevId": "0861b084-fbc5-440b-b3dd-4e193998ecc2",
+  "id": "77e96f2f-be5e-4504-a34b-8a5f75ed7748",
+  "prevId": "cfec52a8-02a4-4a2b-84b8-255038bac3ce",
   "tables": {
     "invoices": {
       "name": "invoices",
@@ -18,7 +18,7 @@
           "name": "user_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "template": {

@@ -1,9 +1,8 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
-import { stripeKeys } from '@db/schema/stripeKeys';
+import { keys as strKeys, users } from '@db/schema';
 import { eq } from 'drizzle-orm';
-import { users } from '@db/schema/users';
 import { v4 as uuidv4 } from 'uuid';
 import { subscription } from '@lib/subscription';
 import { plans } from '@config/index';
@@ -42,8 +41,8 @@ export async function POST(request: NextRequest) {
 
     const userKeys = await db
       .select()
-      .from(stripeKeys)
-      .where(eq(stripeKeys.userId, dbUser[0].id.toString()));
+      .from(strKeys)
+      .where(eq(strKeys.userId, dbUser[0].id.toString()));
 
     if (userKeys.length >= config.keyLimit) {
       return NextResponse.json({
@@ -58,7 +57,7 @@ export async function POST(request: NextRequest) {
     const key = body.key;
     const name = body.name;
 
-    await db.insert(stripeKeys).values({
+    await db.insert(strKeys).values({
       id: uuidv4(),
       userId: dbUser[0].id.toString(),
       restrictedAPIKey: key,

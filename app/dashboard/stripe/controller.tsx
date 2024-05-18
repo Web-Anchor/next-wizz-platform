@@ -246,7 +246,7 @@ export default function Page() {
       />
 
       <div className="bg-white px-6 py-8 lg:px-5">
-        <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
+        <div className="mx-auto sm:mx-0 max-w-3xl text-base leading-7 text-gray-700">
           <p className="text-base font-semibold leading-7 text-indigo-600">
             Restricted API key
           </p>

@@ -2,7 +2,7 @@ import 'server-only';
 
 import { db } from '@db/index';
 import { eq } from 'drizzle-orm';
-import { users } from '@db/schema/users';
+import { users } from '@db/schema';
 
 const STRIPE_RESTRICTED_KEY = process.env.STRIPE_RESTRICTED_KEY;
 

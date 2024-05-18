@@ -1,9 +1,8 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
-import { stripeKeys } from '@db/schema/stripeKeys';
+import { keys as strKeys, users } from '@db/schema';
 import { and, eq } from 'drizzle-orm';
-import { users } from '@db/schema/users';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -33,8 +32,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const id = body.id;
     const key = await db
-      .delete(stripeKeys)
-      .where(and(eq(stripeKeys.id, id), eq(stripeKeys.userId, dbUser[0].id)));
+      .delete(strKeys)
+      .where(and(eq(strKeys.id, id), eq(strKeys.userId, dbUser[0].id)));
     console.log('🔑 Deleted key ', key);
 
     return NextResponse.json({ success: true });

@@ -1,9 +1,8 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
-import { stripeKeys } from '@db/schema/stripeKeys';
+import { keys as strKeys, users } from '@db/schema';
 import { and, eq } from 'drizzle-orm';
-import { users } from '@db/schema/users';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -36,9 +35,9 @@ export async function POST(request: NextRequest) {
     const key = body.key;
     console.log('🔑 Updated key ', body);
     await db
-      .update(stripeKeys)
+      .update(strKeys)
       .set({ name, restrictedAPIKey: key })
-      .where(and(eq(stripeKeys.id, id), eq(stripeKeys.userId, dbUser[0].id)));
+      .where(and(eq(strKeys.id, id), eq(strKeys.userId, dbUser[0].id)));
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

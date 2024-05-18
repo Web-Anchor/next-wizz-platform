@@ -17,15 +17,6 @@ export default function Table(props: Props) {
     return <TableSkeleton />;
   }
 
-  if (!!props?.data?.length) {
-    return (
-      <NoData
-        title={props.noDate?.title ?? "You don't have any templates."}
-        description={props.noDate?.description ?? 'Create a new template.'}
-      />
-    );
-  }
-
   return (
     <div className="flex flex-col gap-5 px-4 sm:px-6 lg:px-8">
       <div className="-mx-4 mt-8 sm:-mx-0">
@@ -49,6 +40,15 @@ export default function Table(props: Props) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
+            {!props?.data?.length && (
+              <NoData
+                title={props.noDate?.title ?? "You don't have any templates."}
+                description={
+                  props.noDate?.description ?? 'Create a new template.'
+                }
+              />
+            )}
+
             {props?.data?.map((rows, key) => {
               return (
                 <tr key={key}>
