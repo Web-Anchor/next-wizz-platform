@@ -7,12 +7,17 @@ type Props = {
   fetching?: boolean;
   disabled?: boolean;
   class?: string;
-  style?: 'primary' | 'secondary' | 'ghost' | 'badge'; // Defaults to 'primary'
+  style?: 'primary' | 'secondary' | 'ghost' | 'badge' | 'link'; // Defaults to 'primary'
   type?: 'button' | 'submit' | 'reset';
+  hide?: boolean;
 };
 
 export default function Button(props: Props): React.ReactElement {
   const content = props.children || props.title;
+
+  if (props.hide) {
+    return <></>;
+  }
 
   return (
     <button
@@ -25,6 +30,7 @@ export default function Button(props: Props): React.ReactElement {
           'bg-transparent inline-flex items-center border-b-2 border-transparent px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-transparent shadow-none',
         props.style === 'badge' &&
           'center relative inline-block select-none whitespace-nowrap rounded-lg bg-amber-500 text-white py-2 px-3.5 align-baseline font-sans text-xs font-bold uppercase leading-none',
+        props.style === 'link' && 'text-indigo-600 bg-transparent',
         props?.disabled && 'opacity-50 cursor-not-allowed',
         props.class
       )}

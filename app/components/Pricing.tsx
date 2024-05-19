@@ -149,6 +149,7 @@ export default function Pricing() {
         <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {tiers.map((tier, key) => {
             const fetching = state?.fetching === tier.id;
+            const isEnterprise = tier.name === 'Enterprise';
 
             return (
               <div
@@ -201,15 +202,22 @@ export default function Pricing() {
                   title={tier.cta}
                   aria-describedby={key}
                   class={classNames(
+                    'mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
                     tier.featured
                       ? 'bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white'
                       : 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600',
-                    'mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+                    isEnterprise && 'opacity-100 cursor-default'
                   )}
                   onClick={() => createSubscription(tier.id)}
                   fetching={fetching}
                   disabled={!!state?.fetching}
+                  hide={isEnterprise}
                 />
+                {isEnterprise && (
+                  <p className="mt-4 font-extrabold text-sm text-indigo-600">
+                    Coming soon
+                  </p>
+                )}
                 <ul
                   role="list"
                   className={classNames(
