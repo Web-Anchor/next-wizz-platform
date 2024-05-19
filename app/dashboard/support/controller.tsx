@@ -1,8 +1,10 @@
 'use client';
 
+import Badge from '@app/components/Badge';
 import Button from '@app/components/Button';
 import Select from '@app/components/Select';
 import Wrapper from '@app/components/Wrapper';
+import { useSupportTickets } from '@hooks/index';
 import { cFetch } from '@lib/cFetcher';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -10,6 +12,9 @@ import { toast } from 'sonner';
 export default function Example() {
   const [state, setState] = useState<{ fetching?: boolean }>({});
   const formRef = useRef<HTMLFormElement>(null);
+
+  const { count, isLoading } = useSupportTickets({});
+  console.log(count, isLoading);
 
   async function submit(form: any) {
     try {
@@ -52,6 +57,12 @@ export default function Example() {
 
   return (
     <Wrapper>
+      <section>
+        <Badge
+          title={`${count} Support Tickets`}
+          class={count !== 0 ? 'bg-yellow-100 text-yellow-700' : undefined}
+        />
+      </section>
       <form
         ref={formRef}
         className="card max-w-4xl px-10 py-8 bg-base-100 shadow-xl"

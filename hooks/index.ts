@@ -18,3 +18,4 @@ export * from './customers';
 export * from './stats';
 export * from './users';
 export * from './subscriptions';
+export * from './support-tickets';

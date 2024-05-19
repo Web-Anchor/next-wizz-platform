@@ -89,3 +89,13 @@ export type Plan = {
   emailLimit: number;
   name: string;
 };
+
+export type Ticket = {
+  id?: string;
+  userId?: string;
+  subject?: string;
+  message?: string;
+  status?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
