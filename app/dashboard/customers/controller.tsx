@@ -24,6 +24,7 @@ export default function Page() {
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
       setState((prev) => ({ ...prev, fetching: id }));
+      const customer = customers.find((c: Customer) => c.id === id);
       console.log('Email Invoice');
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -37,7 +38,7 @@ export default function Page() {
       //   throw new Error(data?.error);
       // }
 
-      toast.success(`Invoice sent to ${id}`);
+      toast.success(`Latest invoice sent to ${customer?.name}`);
     } catch (err: any) {
       console.error(err);
       toast.error(err.message);
@@ -48,6 +49,21 @@ export default function Page() {
 
   return (
     <Wrapper>
+      <section className="max-w-4xl">
+        <h2 className="mx-autotext-base font-bold leading-6 text-gray-900 lg:mx-0 lg:max-w-none">
+          Stripe Customers. Manage Your Transactions with Ease
+        </h2>
+        <h2 className="mx-autotext-base font-medium leading-6 text-gray-900 lg:mx-0 lg:max-w-none">
+          Empowering Seamless Transactions, One Click at a Time!
+        </h2>
+        <p className="mt-2 text-sm text-gray-500">
+          Navigate your Stripe transactions effortlessly with our Stripe
+          Customers page. Access detailed information, track payments, and
+          manage customer interactions seamlessly to stay on top of your
+          financial transactions. Simplify your payment management process and
+          gain insights into your customer activity with ease.
+        </p>
+      </section>
       <Table
         fetching={isLoading}
         header={[
@@ -80,7 +96,6 @@ export default function Page() {
                 item: (
                   <Button
                     title="Email Invoice"
-                    style="ghost"
                     onClick={() => emailInvoice(item?.id!)}
                     fetching={state?.fetching === item?.id}
                   />

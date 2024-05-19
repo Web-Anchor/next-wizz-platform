@@ -15,6 +15,7 @@ export type Charge = {
   description?: string;
   receipt_url?: string;
   status?: string;
+  paid?: boolean;
 };
 
 type Address = {
