@@ -22,7 +22,7 @@ const KeyStatus = ({ stripeKey }: { stripeKey: StripeKey }) => {
   // console.log('🔑 key check', error, data);
 
   return (
-    <div className={classNames('px-3 py-3.5 text-sm text-gray-500')}>
+    <div className={classNames('text-sm text-gray-500')}>
       {isLoading && <RowSkeleton />}
       {!isLoading && (
         <div

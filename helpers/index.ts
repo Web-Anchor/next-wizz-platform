@@ -17,7 +17,9 @@ export function getTimeAgo(dateString: string): string {
 }
 
 export function convertToAsterisks(inputString: string): string {
-  return inputString.replace(/./g, '*');
+  const str = inputString.replace(/./g, '*')?.slice(0, 16);
+
+  return str;
 }
 
 export function convertToYearMonthDay(inputDate: number): string {
