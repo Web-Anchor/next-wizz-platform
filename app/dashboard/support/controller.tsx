@@ -4,11 +4,12 @@ import Button from '@app/components/Button';
 import Select from '@app/components/Select';
 import Wrapper from '@app/components/Wrapper';
 import { cFetch } from '@lib/cFetcher';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function Example() {
   const [state, setState] = useState<{ fetching?: boolean }>({});
+  const formRef = useRef<HTMLFormElement>(null);
 
   async function submit(form: any) {
     try {
@@ -30,8 +31,9 @@ export default function Example() {
       }
 
       toast.success(
-        'Thanks for submitting a message! We will get back to you soon.'
+        'Thanks for submitting a message! We will get back to you shortly.'
       );
+      formRef.current?.reset(); // Reset form ref after successful submission
     } catch (err: any) {
       console.error(err.message);
       toast.error(err.message);
@@ -40,14 +42,20 @@ export default function Example() {
     }
   }
 
+  function formHandler(e: {
+    preventDefault: () => void;
+    currentTarget: HTMLFormElement | undefined;
+  }) {
+    e.preventDefault();
+    submit(new FormData(e.currentTarget));
+  }
+
   return (
     <Wrapper>
       <form
+        ref={formRef}
         className="card max-w-4xl px-10 py-8 bg-base-100 shadow-xl"
-        onSubmit={(e) => {
-          e.preventDefault();
-          submit(new FormData(e.currentTarget));
-        }}
+        onSubmit={formHandler}
       >
         <div className="space-y-12">
           <div className="flex flex-col gap-10 lg:flex-row">
@@ -109,7 +117,9 @@ export default function Example() {
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-6">
-          <Button type="submit">Submit Ticket</Button>
+          <Button fetching={state?.fetching} type="submit">
+            Submit Ticket
+          </Button>
         </div>
       </form>
     </Wrapper>

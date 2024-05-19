@@ -15,3 +15,12 @@ export const plans: { [key: string]: Plan } = {
     name: 'Startup',
   },
 };
+
+// --------------------------------------------------------------------------------
+// 📌  Ticket status configuration
+// --------------------------------------------------------------------------------
+export enum TicketStatus {
+  Open = 'open',
+  Closed = 'closed',
+  Pending = 'pending',
+}

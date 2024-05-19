@@ -1,8 +1,10 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
-import { and, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { tickets, users } from '@db/schema';
+import { TicketStatus } from '@config/index';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -16,6 +18,7 @@ export async function POST(request: NextRequest) {
       .select()
       .from(users)
       .where(eq(users.clerkId, userId!));
+    console.log('👤 User: ', dbUser);
 
     // --------------------------------------------------------------------------------
     // 📌  Add support ticket
@@ -29,6 +32,7 @@ export async function POST(request: NextRequest) {
       userId: dbUser[0].id.toString(),
       subject,
       message,
+      status: TicketStatus?.Open,
     });
 
     return NextResponse.json({
@@ -39,10 +43,4 @@ export async function POST(request: NextRequest) {
     console.error('🔑 error', error);
     return NextResponse.json({ error: error?.message });
   }
-}
-function uuidv4():
-  | string
-  | import('drizzle-orm').SQL<unknown>
-  | import('drizzle-orm').Placeholder<string, any> {
-  throw new Error('Function not implemented.');
 }
