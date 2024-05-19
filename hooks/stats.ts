@@ -7,7 +7,9 @@ type Props = {
 
 export function useTotalCharges(props: Props) {
   const { data, error, isLoading } = useSWR(
-    `/api/v1/stripe/stats/total-charges?keyId=${props.keyId}`,
+    props.keyId
+      ? `/api/v1/stripe/stats/total-charges?keyId=${props.keyId}`
+      : undefined,
     (url: string) => bodyFetcher(url, { keyId: props.keyId }),
     {
       revalidateOnFocus: true,
@@ -25,7 +27,9 @@ export function useTotalCharges(props: Props) {
 
 export function useTotalCustomers(props: Props) {
   const { data, error, isLoading } = useSWR(
-    `/api/v1/stripe/stats/total-customers?keyId=${props.keyId}`,
+    props.keyId
+      ? `/api/v1/stripe/stats/total-customers?keyId=${props.keyId}`
+      : undefined,
     (url: string) => bodyFetcher(url, { keyId: props.keyId }),
     {
       revalidateOnFocus: true,
@@ -43,7 +47,9 @@ export function useTotalCustomers(props: Props) {
 
 export function useCustomersMonthGrowth(props: Props) {
   const { data, error, isLoading } = useSWR(
-    `/api/v1/stripe/stats/month-stats-customers?keyId=${props.keyId}`,
+    props.keyId
+      ? `/api/v1/stripe/stats/month-stats-customers?keyId=${props.keyId}`
+      : undefined,
     (url: string) => bodyFetcher(url, { keyId: props.keyId }),
     {
       revalidateOnFocus: true,
@@ -64,7 +70,9 @@ export function useCustomersMonthGrowth(props: Props) {
 
 export function useChargesMonthGrowth(props: Props) {
   const { data, error, isLoading } = useSWR(
-    `/api/v1/stripe/stats/month-stats-charges?keyId=${props.keyId}`,
+    props.keyId
+      ? `/api/v1/stripe/stats/month-stats-charges?keyId=${props.keyId}`
+      : undefined,
     (url: string) => bodyFetcher(url, { keyId: props.keyId }),
     {
       revalidateOnFocus: true,

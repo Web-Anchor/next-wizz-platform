@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
     const { name: planName, status } = await subscription({ userId });
 
     if (status !== 'active') {
+      console.log('👤 Subscription not active');
       return NextResponse.json({
         error: 'Subscription not active. Please subscribe!',
       });
@@ -42,9 +43,11 @@ export async function POST(request: NextRequest) {
     const userKeys = await db
       .select()
       .from(strKeys)
-      .where(eq(strKeys.userId, dbUser[0].id.toString()));
+      .where(eq(strKeys.userId, dbUser[0].id));
 
     if (userKeys.length >= config.keyLimit) {
+      console.log('🔑 Key limit reached');
+
       return NextResponse.json({
         error: 'Key limit reached. Please upgrade your plan!',
       });
@@ -56,13 +59,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const key = body.key;
     const name = body.name;
+    console.log('🔑 Key: ', key, name);
 
-    await db.insert(strKeys).values({
+    const res = await db.insert(strKeys).values({
       id: uuidv4(),
       userId: dbUser[0].id.toString(),
       restrictedAPIKey: key,
       name,
     });
+    console.log('🔑 Key added: ', res);
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

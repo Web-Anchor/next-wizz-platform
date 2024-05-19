@@ -21,7 +21,10 @@ export async function POST(request: NextRequest) {
       .from(users)
       .where(eq(users.clerkId, userId!));
     console.log('👤 User ', dbUser);
-    // TODO restrict access if no sub expires | Use own Stripe API key
+
+    // --------------------------------------------------------------------------------
+    // 📌  User validation
+    // --------------------------------------------------------------------------------
 
     // --------------------------------------------------------------------------------
     // 📌  Get Account API keys
@@ -29,7 +32,7 @@ export async function POST(request: NextRequest) {
     const keys = await db
       .select()
       .from(strKeys)
-      .where(eq(strKeys.userId, dbUser[0].id.toString()));
+      .where(eq(strKeys.userId, dbUser[0].id));
     console.log('🔑 keys', keys);
 
     // --------------------------------------------------------------------------------
@@ -38,7 +41,7 @@ export async function POST(request: NextRequest) {
     const apiKey = keys?.[0]?.restrictedAPIKey;
     const stripe = require('stripe')(apiKey);
 
-    const customers = await stripe.customers.list({
+    const customers = await stripe?.customers?.list({
       limit: 2,
     });
     console.log('🧾 Customers', customers);

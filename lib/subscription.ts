@@ -16,6 +16,15 @@ export async function subscription({ userId }: { userId?: string | null }) {
   console.log('👤 User ', userId, dbUser);
   const stripeCustomerId = dbUser[0].stripeCustomerId;
 
+  if (!stripeCustomerId) {
+    console.log('👤 Stripe Customer Id not found');
+    return {
+      error: 'Stripe Customer Id not found',
+      status: undefined,
+      name: undefined,
+    };
+  }
+
   const stripe = require('stripe')(STRIPE_RESTRICTED_KEY);
   const customer = await stripe.customers.retrieve(stripeCustomerId);
   console.log('👤 Stripe Customer ', customer);
