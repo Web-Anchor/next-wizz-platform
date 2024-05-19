@@ -54,6 +54,7 @@ export const tickets = sqliteTable('tickets', {
   message: text('message'),
   status: text('status'),
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: text('updated_at').default(sql`CURRENT_TIMESTAMP`),
 });
 
 export const features = sqliteTable('features', {
@@ -65,4 +66,5 @@ export const features = sqliteTable('features', {
   description: text('description'),
   status: text('status'),
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: text('updated_at').default(sql`CURRENT_TIMESTAMP`),
 });

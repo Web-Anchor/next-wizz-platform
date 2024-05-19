@@ -9,7 +9,7 @@ import { cFetch } from '@lib/cFetcher';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-export default function Example() {
+export default function Page() {
   const [state, setState] = useState<{ fetching?: boolean }>({});
   const formRef = useRef<HTMLFormElement>(null);
 
