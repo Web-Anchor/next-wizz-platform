@@ -14,7 +14,9 @@ export const users = sqliteTable('users', {
 
 export const invoices = sqliteTable('invoices', {
   id: text('id').unique().notNull().primaryKey(),
-  userId: text('user_id').references(() => users.id),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id),
   template: text('template'),
   name: text('name'),
   description: text('description'),
@@ -40,5 +42,27 @@ export const keys = sqliteTable('keys', {
   stripePublishableKey: text('stripe_publishable_key'),
   restrictedAPIKey: text('restricted_api_key'),
   name: text('name'),
+  createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const tickets = sqliteTable('tickets', {
+  id: text('id').unique().notNull().primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id),
+  subject: text('subject'),
+  message: text('message'),
+  status: text('status'),
+  createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const features = sqliteTable('features', {
+  id: text('id').unique().notNull().primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id),
+  featureName: text('feature_name'),
+  description: text('description'),
+  status: text('status'),
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
 });

@@ -10,38 +10,46 @@ export async function GET(request: NextRequest) {
   try {
     auth().protect();
 
+    const redirect = handleIsRedirect(
+      request.nextUrl.searchParams.get('redirect')
+    );
     const { userId } = auth();
     const dbUser = await db
       .select()
       .from(users)
       .where(eq(users.clerkId, userId!));
-    console.log('👤 User record found. Redirecting to: ', dbUser);
-
-    const { searchParams } = new URL(request.url);
-    const redirect = searchParams.get('redirect') ?? '/dashboard';
+    console.log('👤 User record: ', dbUser);
 
     if (!dbUser?.length) {
-      console.log('No user record found. Creating user in database');
+      console.log('No user record found. Creating record in database');
 
       return new Response(null, {
         status: 302,
         headers: {
           Location:
-            APP_URL + '/api/v1/create-user' + redirect &&
-            `?redirect=${redirect}`,
+            APP_URL +
+            `/api/v1/create-user` +
+            (redirect ? `?redirect=${redirect}` : ''),
         },
       });
     }
 
-    console.log('👤 User record found. Redirecting to: ', redirect);
+    console.log('👤 User record found');
     return new Response(null, {
       status: 302,
       headers: {
-        Location: APP_URL + redirect,
+        Location: APP_URL + (redirect ? redirect : '/dashboard'),
       },
     });
   } catch (err) {
     console.error(err);
     return NextResponse.error();
   }
+}
+
+export function handleIsRedirect(param: string | null) {
+  if (typeof param === 'string' && param !== 'null' && param.trim() !== '') {
+    return param;
+  }
+  return null;
 }

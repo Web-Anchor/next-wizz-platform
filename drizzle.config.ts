@@ -1,6 +1,7 @@
 import type { Config } from 'drizzle-kit';
 
 export default {
+  dialect: 'sqlite', // "postgresql" | "mysql" | "sqlite"
   schema: './db/schema/*',
   out: './drizzle',
   driver: 'turso', // 'pg' | 'mysql2' | 'better-sqlite' | 'libsql' | 'turso'

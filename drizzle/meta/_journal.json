@@ -1,26 +1,12 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1716032102409,
-      "tag": "0000_graceful_payback",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1716032200299,
-      "tag": "0001_loose_living_lightning",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1716032289889,
-      "tag": "0002_lethal_sersi",
+      "version": "6",
+      "when": 1716041548937,
+      "tag": "0000_natural_deathstrike",
       "breakpoints": true
     }
   ]
