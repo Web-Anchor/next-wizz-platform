@@ -4,16 +4,17 @@ import Badge from '@app/components/Badge';
 import Button from '@app/components/Button';
 import Select from '@app/components/Select';
 import Wrapper from '@app/components/Wrapper';
-import { useSupportTickets } from '@hooks/index';
+import { useFeatures } from '@hooks/index';
 import { cFetch } from '@lib/cFetcher';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
+import { mutate } from 'swr';
 
 export default function Page() {
   const [state, setState] = useState<{ fetching?: boolean }>({});
   const formRef = useRef<HTMLFormElement>(null);
 
-  const { count, isLoading } = useSupportTickets({});
+  const { count, isLoading } = useFeatures({});
   console.log(count, isLoading);
 
   async function submit(form: any) {
@@ -38,6 +39,7 @@ export default function Page() {
       toast.success(
         'Thanks for submitting your feature request. We will review it and get back to you soon.'
       );
+      mutate(`/api/v1/support/features`);
       formRef.current?.reset(); // Reset form ref after successful submission
     } catch (err: any) {
       console.error(err.message);
@@ -58,10 +60,7 @@ export default function Page() {
   return (
     <Wrapper>
       <section>
-        <Badge
-          title={`${count} Support Tickets`}
-          class={count !== 0 ? 'bg-yellow-100 text-yellow-700' : undefined}
-        />
+        <Badge title={`${count} Requests`} />
       </section>
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900">
         Inspire Change, Drive Innovation - Your Ideas Matter!

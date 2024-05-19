@@ -2,7 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { eq } from 'drizzle-orm';
-import { tickets, users } from '@db/schema';
+import { features, users } from '@db/schema';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -19,16 +19,18 @@ export async function POST(request: NextRequest) {
     console.log('👤 User: ', dbUser);
 
     // --------------------------------------------------------------------------------
-    // 📌  Retrieve customer tickets
+    // 📌  Retrieve features from db
     // --------------------------------------------------------------------------------
-    const dbTickets = await db
+    const dbFeatures = await db
       .select()
-      .from(tickets)
-      .where(eq(tickets.userId, dbUser[0].id.toString()));
+      .from(features)
+      .where(eq(features.userId, dbUser?.[0]?.id));
+
+    console.log('🔑 Features: ', dbFeatures);
 
     return NextResponse.json({
       status: 200,
-      tickets: dbTickets,
+      features: dbFeatures,
     });
   } catch (error: any) {
     console.error('🔑 error', error);

@@ -99,3 +99,13 @@ export type Ticket = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export type Feature = {
+  id?: string;
+  userId?: string;
+  featureName?: string;
+  description?: string;
+  status?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};

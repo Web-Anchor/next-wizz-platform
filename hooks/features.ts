@@ -1,21 +1,22 @@
 import useSWR from 'swr';
 import { bodyFetcher } from '.';
-import { Ticket } from '../types';
+import { Feature } from '../types';
 
 type Props = {
-  tickets?: Ticket[];
+  tickets?: Feature[];
 };
 
-export function useSupportTickets(props: Props) {
+export function useFeatures(props: Props) {
   const { data, error, isLoading } = useSWR(
-    `/api/v1/support/tickets`,
+    `/api/v1/support/features`,
     (url: string) => bodyFetcher(url),
     {
       revalidateOnFocus: true,
       fallbackData: props?.tickets as any,
     }
   );
-  const obj = data?.data?.tickets as Ticket[];
+  const obj = data?.data?.features as Feature[];
+  console.log('🔑 Features: ', obj);
 
   return {
     data: obj,

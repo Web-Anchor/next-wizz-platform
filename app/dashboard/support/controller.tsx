@@ -8,6 +8,7 @@ import { useSupportTickets } from '@hooks/index';
 import { cFetch } from '@lib/cFetcher';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
+import { mutate } from 'swr';
 
 export default function Page() {
   const [state, setState] = useState<{ fetching?: boolean }>({});
@@ -38,6 +39,7 @@ export default function Page() {
       toast.success(
         'Thanks for submitting a message! We will get back to you shortly.'
       );
+      mutate(`/api/v1/support/tickets`);
       formRef.current?.reset(); // Reset form ref after successful submission
     } catch (err: any) {
       console.error(err.message);
