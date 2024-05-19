@@ -11,7 +11,7 @@ export function classNames(...classes: any[]) {
   return twMerge(merged);
 }
 
-export function getTimeAgo(dateString: string): string {
+export function getTimeAgo(dateString: string | number): string {
   const inputDate = new Date(dateString);
   return formatDistanceToNow(inputDate, { addSuffix: true });
 }

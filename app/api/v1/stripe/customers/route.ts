@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     const stripe = require('stripe')(apiKey);
 
     const customers = await stripe?.customers?.list({
-      limit: 2,
+      limit: 10,
     });
     console.log('🧾 Customers', customers);
 
