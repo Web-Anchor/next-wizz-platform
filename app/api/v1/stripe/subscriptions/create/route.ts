@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const id = body?.id; // 🚧 This is the product ID
     const product = products?.data?.find((product: any) => product.id === id);
-    const stripeCustomerId = dbUser?.[0]?.stripeCustomerId;
+    const stripeCustomerId = validateString(dbUser?.[0]?.stripeCustomerId);
 
     const session = await stripe.checkout.sessions.create({
       success_url: `${APP_URL}/api/v1/stripe/subscriptions/add?session_id={CHECKOUT_SESSION_ID}`,
@@ -79,4 +79,10 @@ export async function POST(request: NextRequest) {
     console.error('🔑 error', error);
     return NextResponse.json({ error: error?.message });
   }
+}
+
+function validateString(value: string | undefined | null) {
+  return typeof value === 'string' && value.length > 0 && value
+    ? value
+    : undefined;
 }

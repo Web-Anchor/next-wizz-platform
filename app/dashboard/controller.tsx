@@ -9,17 +9,29 @@ import {
 } from '@hooks/stats';
 import StatsCard from '@app/components/StatsCard';
 import NumbersCard from '@app/components/NumbersCard';
-import { useUser } from '@hooks/index';
+import { useSubscriptions, useUser } from '@hooks/index';
+import Pricing from '@components/Pricing';
 
 export default function Page() {
   const { user } = useUser({});
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
-  const { data: statsCustomers, isLoading: customersLoading } =
-    useCustomersMonthGrowth({});
-  const { data: statsCharges, isLoading: chargesLoading } =
-    useChargesMonthGrowth({});
+  const { data: statsCustomers } = useCustomersMonthGrowth({});
+  const { data: statsCharges } = useChargesMonthGrowth({});
+  const { subscriptions, isLoading } = useSubscriptions({});
+  console.log('Subs ', subscriptions);
   console.log(`user `, user);
+
+  if (!subscriptions) {
+    // --------------------------------------------------------------------------------
+    // 📌  Fallback Component if no subscriptions
+    // --------------------------------------------------------------------------------
+    return (
+      <Wrapper>
+        <Pricing />
+      </Wrapper>
+    );
+  }
 
   return (
     <Wrapper>

@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { RadioGroup } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { classNames } from '@helpers/index';
 import Button from './Button';
 import { cFetch } from '@lib/cFetcher';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/clerk-react';
+import { toast } from 'sonner';
 
 const frequencies = [
   { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
@@ -68,7 +68,6 @@ export default function Pricing() {
   const [state, setState] = useState<{ fetching?: string }>({});
   const [frequency, setFrequency] = useState(frequencies[0]);
   const router = useRouter();
-
   const { isSignedIn, user, isLoaded } = useUser();
 
   async function createSubscription(id: string) {
@@ -87,8 +86,8 @@ export default function Pricing() {
         data: { id },
       });
 
-      if (status !== 200) {
-        throw new Error(data?.message);
+      if (status !== 200 || data?.error) {
+        throw new Error(data?.error);
       }
 
       if (data?.url) {
@@ -96,8 +95,9 @@ export default function Pricing() {
       }
 
       console.log('🔑 Data', data);
-    } catch (error) {
+    } catch (error: any) {
       console.error('🔑 Error', error);
+      toast.error(`Failed to create subscription!`);
     } finally {
       setState({ fetching: undefined });
     }
