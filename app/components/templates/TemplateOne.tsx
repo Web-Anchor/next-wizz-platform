@@ -48,8 +48,8 @@ export default function TemplateOne(props: Props) {
   return (
     <div
       className={classNames(
-        'bg-white rounded-lg shadow-lg px-8 py-10',
-        `w-[${pageWidth}px] h-[${1200}px]`
+        'bg-white rounded-lg shadow-lg px-8 py-10 mx-auto',
+        `w-[${pageWidth}px] h-[${pageHeight}px]`
       )}
       ref={props.printRef}
     >

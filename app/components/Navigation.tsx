@@ -126,7 +126,7 @@ export default function Navigation({
   }, [data]);
 
   return (
-    <section>
+    <section className="z-10">
       <Transition.Root show={state?.open} as={Fragment}>
         <Dialog
           className="relative z-50 lg:hidden"

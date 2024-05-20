@@ -4,6 +4,8 @@ import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
 import { toast } from 'sonner';
 import Button from './Button';
+import Dialog from './Dialog';
+import TemplateOne from '@components/templates/TemplateOne';
 
 const table = {
   header: {
@@ -69,6 +71,7 @@ export default function InvoiceTable() {
     header?: string;
     memo?: string;
     footer?: string;
+    preview?: boolean;
   }>(BASE_STATE);
 
   const handleChange = (index: number, key: string, value: string) => {
@@ -123,6 +126,13 @@ export default function InvoiceTable() {
 
   return (
     <form onSubmit={submit} className="flex flex-col gap-5">
+      <Dialog
+        open={state?.preview}
+        callBack={() => setState({ ...state, preview: false })}
+      >
+        <TemplateOne />
+      </Dialog>
+
       <Section>
         <div className="flex flex-row gap-5 justify-between">
           <label>
@@ -281,6 +291,10 @@ export default function InvoiceTable() {
 
       <div className="card-actions justify-end">
         <Button title="Submit" type="submit" />
+        <Button
+          title="Preview"
+          onClick={() => setState({ ...state, preview: true })}
+        />
         <Button
           title="Cancel"
           style="secondary"
