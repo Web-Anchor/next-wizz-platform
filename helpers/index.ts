@@ -62,3 +62,10 @@ export function printToPDF(id: string, pageFormat: string) {
 export function isSubActive(subscription: StripeSubscription): boolean {
   return subscription.status === 'active';
 }
+
+export function handleIsRedirect(param: string | null) {
+  if (typeof param === 'string' && param !== 'null' && param.trim() !== '') {
+    return param;
+  }
+  return null;
+}

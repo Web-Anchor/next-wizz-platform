@@ -1,3 +1,5 @@
+'use client';
+
 import { classNames } from '@helpers/index';
 import DOMPurify from 'dompurify';
 
