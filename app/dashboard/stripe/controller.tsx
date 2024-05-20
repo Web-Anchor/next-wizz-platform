@@ -14,6 +14,7 @@ import { RowSkeleton } from '@app/components/Skeleton';
 import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
 import { toast } from 'sonner';
+import PageHeadings from '@app/components/PageHeadings';
 
 const KeyStatus = ({ stripeKey }: { stripeKey: StripeKey }) => {
   const { data, error, isLoading } = useKeyValidate({
@@ -126,23 +127,26 @@ export default function Page() {
   return (
     <Wrapper>
       <AddStripeKeyDialog open={state?.open} setter={dialogClose} />
-      <div className="sm:flex sm:items-center">
+
+      <PageHeadings
+        title="Stripe API Keys. Enhance Your Platform with Secure Payment Integration"
+        description="Manage and secure your payment transactions by adding your Stripe API keys on our platform. Seamlessly integrate Stripe's powerful payment solutions, enhance transaction security, and unlock a world of possibilities for your business. Take control of your payment processes with ease and efficiency."
+        slogan="Powering Secure Transactions, One Key at a Time!"
+      />
+      <div className="flex flex-col gap-3 lg:flex-row">
         <div className="sm:flex-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-900">
             Connected Stripe API Keys
           </h1>
-          <p className="mt-2 text-sm text-gray-700">
-            Your team is on the{' '}
-            <strong className="font-semibold text-gray-900">Startup</strong>{' '}
-            key. You can upgrade or downgrade your plan at any time.
+          <p className="text-sm font-medium leading-6 text-gray-500">
+            Manage your connected Stripe API keys and enhance your platform with
+            secure payment integration.
           </p>
         </div>
-        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <Button
-            title="Add a new key"
-            onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
-          />
-        </div>
+        <Button
+          title="Add a new key"
+          onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
+        />
       </div>
       <Table
         fetching={isLoading}

@@ -23,7 +23,7 @@ export default function Button(props: Props): React.ReactElement {
     <button
       type={props.type || 'button'}
       className={classNames(
-        'block relative rounded-md bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700',
+        'block relative rounded-md h-fit bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700',
         props.style === 'secondary' &&
           'rounded-md bg-indigo-600 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
         props.style === 'ghost' &&
