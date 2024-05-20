@@ -25,6 +25,7 @@ import { useEffect, useRef, useState, Fragment } from 'react';
 import { toast } from 'sonner';
 import { Dialog, Transition } from '@headlessui/react';
 import ProfileButton from './ProfileButton';
+import Link from 'next/link';
 
 export default function Navigation({
   children,
@@ -190,7 +191,7 @@ export default function Navigation({
                         <ul role="list" className="-mx-2 space-y-1">
                           {navigation.map((item) => (
                             <li key={item.name}>
-                              <a
+                              <Link
                                 href={item.href}
                                 className={classNames(
                                   item.current
@@ -209,7 +210,7 @@ export default function Navigation({
                                   aria-hidden="true"
                                 />
                                 {item.name}
-                              </a>
+                              </Link>
                             </li>
                           ))}
                         </ul>
@@ -221,7 +222,7 @@ export default function Navigation({
                         <ul role="list" className="-mx-2 mt-2 space-y-1">
                           {teams.map((team) => (
                             <li key={team.name}>
-                              <a
+                              <Link
                                 href={team.href}
                                 className={classNames(
                                   team.current
@@ -241,7 +242,7 @@ export default function Navigation({
                                   {team.initial}
                                 </span>
                                 <span className="truncate">{team.name}</span>
-                              </a>
+                              </Link>
                             </li>
                           ))}
                         </ul>
@@ -268,7 +269,7 @@ export default function Navigation({
                 <ul role="list" className="-mx-2 space-y-1">
                   {navigation.map((item) => (
                     <li key={item.name}>
-                      <a
+                      <Link
                         href={item.href}
                         className={classNames(
                           item.current
@@ -287,7 +288,7 @@ export default function Navigation({
                           aria-hidden="true"
                         />
                         {item.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -299,7 +300,7 @@ export default function Navigation({
                 <ul role="list" className="-mx-2 mt-2 space-y-1">
                   {teams.map((team) => (
                     <li key={team.name}>
-                      <a
+                      <Link
                         href={team.href}
                         className={classNames(
                           team.current
@@ -319,7 +320,7 @@ export default function Navigation({
                           {team.initial}
                         </span>
                         <span className="truncate">{team.name}</span>
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

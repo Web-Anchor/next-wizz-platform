@@ -11,6 +11,7 @@ import StatsCard from '@app/components/StatsCard';
 import NumbersCard from '@app/components/NumbersCard';
 import { useSubscriptions, useUser } from '@hooks/index';
 import Pricing from '@components/Pricing';
+import { TableSkeleton } from '@app/components/Skeleton';
 
 export default function Page() {
   const { user } = useUser({});
@@ -21,6 +22,14 @@ export default function Page() {
   const { subscriptions, isLoading } = useSubscriptions({});
   console.log('Subs ', subscriptions);
   console.log(`user `, user);
+
+  if (isLoading) {
+    return (
+      <Wrapper>
+        <TableSkeleton />
+      </Wrapper>
+    );
+  }
 
   if (!subscriptions) {
     // --------------------------------------------------------------------------------
