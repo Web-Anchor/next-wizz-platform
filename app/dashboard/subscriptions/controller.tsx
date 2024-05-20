@@ -3,7 +3,7 @@
 import Button from '@app/components/Button';
 import Table from '@app/components/Table';
 import Wrapper from '@app/components/Wrapper';
-import { convertToYearMonthDay, isSubActive } from '@helpers/index';
+import { classNames, convertToYearMonthDay, isSubActive } from '@helpers/index';
 import { useSubscriptions } from '@hooks/index';
 import { CheckCircleIcon, NoSymbolIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
@@ -11,6 +11,8 @@ import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
 import { toast } from 'sonner';
 import PageHeadings from '@app/components/PageHeadings';
+import { TIER_PLANS } from '@app/components/Pricing';
+import { CheckIcon } from '@heroicons/react/20/solid';
 
 export default function Page() {
   const [state, setState] = useState<{ fetching?: number | string }>({});
@@ -108,18 +110,57 @@ export default function Page() {
           };
         })}
         footer={
-          <p className="text-sm leading-7 text-gray-600">
-            Excepteur occaecat ex ad irure reprehenderit officia mollit ut nisi
-            quis anim consequat veniam. Ad mollit quis occaecat culpa est ut
-            nostrud. Laboris veniam commodo irure duis aliquip pariatur labore
-            exercitation aliqua magna nostrud aliqua labore nostrud. Anim
-            occaecat cillum cillum in sit esse cillum amet magna elit. Nostrud
-            ut aliqua culpa qui amet. Dolor deserunt amet ullamco nostrud magna
-            veniam adipisicing in pariatur reprehenderit exercitation cupidatat
-            consequat. Ex pariatur ad in excepteur est duis mollit esse culpa in
-            sunt ullamco id. Officia culpa est sit officia nostrud laborum et
-            sit enim consequat incididunt occaecat.
-          </p>
+          <section className="flex flex-wrap gap-5 mt-16">
+            <p className="font-bold text-xl leading-6 text-gray-600 w-full mb-3">
+              Your subscription plan determines the features you have access to.
+            </p>
+            {TIER_PLANS?.map((tier, key) => (
+              <section
+                key={key}
+                className={classNames(
+                  'flex flex-col gap-2 rounded-3xl p-8 ring-1 card w-full lg:w-72 bg-base-100 shadow-xl py-6 px-4',
+                  tier.featured
+                    ? 'bg-gray-900 bg-opacity-90 ring-gray-900'
+                    : 'ring-gray-200'
+                )}
+              >
+                <h2
+                  className={classNames(
+                    'text-xl font-medium text-gray-900',
+                    tier.featured ? 'text-white' : ''
+                  )}
+                >
+                  {tier.name}
+                </h2>
+                <p
+                  className={classNames(
+                    'text-sm text-gray-500',
+                    tier.featured ? 'text-white' : ''
+                  )}
+                >
+                  {tier.description}
+                </p>
+                {tier.features.map((feature) => (
+                  <li
+                    key={feature}
+                    className={classNames(
+                      'flex text-sm gap-x-3',
+                      tier.featured ? 'text-white' : ''
+                    )}
+                  >
+                    <CheckIcon
+                      className={classNames(
+                        tier.featured ? 'text-white' : 'text-indigo-600',
+                        'h-6 w-5 flex-none'
+                      )}
+                      aria-hidden="true"
+                    />
+                    {feature}
+                  </li>
+                ))}
+              </section>
+            ))}
+          </section>
         }
       />
     </Wrapper>

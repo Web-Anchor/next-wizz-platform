@@ -13,7 +13,7 @@ const frequencies = [
   { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
   { value: 'annually', label: 'Annually', priceSuffix: '/year' },
 ];
-const tiers = [
+export const TIER_PLANS = [
   {
     name: 'Freelancer',
     id: 'prod_PxZwoEH77CM8jJ',
@@ -147,7 +147,7 @@ export default function Pricing() {
         </div> */}
 
         <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-          {tiers.map((tier, key) => {
+          {TIER_PLANS.map((tier, key) => {
             const fetching = state?.fetching === tier.id;
             const isEnterprise = tier.name === 'Enterprise';
 
