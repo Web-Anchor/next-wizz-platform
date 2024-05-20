@@ -2,8 +2,10 @@
 
 import Badge from '@app/components/Badge';
 import Button from '@app/components/Button';
+import PageHeadings from '@app/components/PageHeadings';
 import Select from '@app/components/Select';
 import Wrapper from '@app/components/Wrapper';
+import { maxLength } from '@config/index';
 import { useSupportTickets } from '@hooks/index';
 import { cFetch } from '@lib/cFetcher';
 import { useRef, useState } from 'react';
@@ -59,12 +61,17 @@ export default function Page() {
 
   return (
     <Wrapper>
-      <section>
-        <Badge
-          title={`${count} Support Tickets`}
-          class={count !== 0 ? 'bg-yellow-100 text-yellow-700' : undefined}
-        />
-      </section>
+      <PageHeadings
+        title="Help & Support Form."
+        description=" Discover our Help & Support Center, where your queries are
+        prioritized, and our team is dedicated to providing prompt
+        responses to ensure your needs are addressed swiftly. Rest
+        assured that your tickets are handled with urgency, and we
+        strive to get back to you as soon as possible to offer the
+        assistance you deserve. Please fill out the form below with your inquiry, and our support team will get back to you as soon as possible. Your satisfaction is our priority, and we are committed to providing you with the help you need."
+        slogan="Your Guide to Seamless Assistance."
+      />
+
       <form
         ref={formRef}
         className="card max-w-4xl px-10 py-8 bg-base-100 shadow-xl"
@@ -76,16 +83,16 @@ export default function Page() {
               <h2 className="text-base font-semibold leading-7 text-gray-900">
                 Support Ticket
               </h2>
-              <h4 className="text-xs text-gray-600">
-                Your Guide to Seamless Assistance
-              </h4>
+              <Badge
+                title={`${count} Tickets`}
+                class={
+                  count !== 0 ? 'bg-yellow-100 text-yellow-700' : undefined
+                }
+              />
               <p className="mt-1 text-sm leading-6 text-gray-600 text-justify">
-                Discover our Help & Support Center, where your queries are
-                prioritized, and our team is dedicated to providing prompt
-                responses to ensure your needs are addressed swiftly. Rest
-                assured that your tickets are handled with urgency, and we
-                strive to get back to you as soon as possible to offer the
-                assistance you deserve.
+                Feel free to reach out to us with any questions, concerns, or
+                feedback. We appreciate your communication and look forward to
+                resolving any issues promptly.
               </p>
             </div>
 
@@ -116,7 +123,7 @@ export default function Page() {
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="Enter your message"
                     defaultValue={''}
-                    maxLength={4000}
+                    maxLength={maxLength?.comment}
                     required
                   />
                 </div>
