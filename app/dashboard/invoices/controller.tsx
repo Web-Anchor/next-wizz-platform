@@ -2,6 +2,7 @@
 
 import Button from '@app/components/Button';
 import InvoicingCard from '@app/components/InvoicingCard';
+import PageHeadings from '@app/components/PageHeadings';
 import Wrapper from '@app/components/Wrapper';
 import TemplateOne from '@app/components/templates/TemplateOne';
 import { useRef } from 'react';
@@ -43,6 +44,11 @@ export default function Page() {
 
   return (
     <Wrapper>
+      <PageHeadings
+        title="Invoice Templates. Personalize Your Brand, Impress Your Clients."
+        description="Discover a collection of customizable invoice templates on our platform to elevate your brand identity and create professional invoices effortlessly. Tailor your invoices to reflect your unique style, enhance client interactions, and make a lasting impression. Personalize your billing documents with ease and professionalism."
+        slogan="Crafting Elegance, Sealing Deals - Your Invoices, Your Brand!"
+      />
       <InvoicingCard />
       <TemplateOne printRef={contentToPrint} />
 

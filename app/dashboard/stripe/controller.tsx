@@ -129,7 +129,7 @@ export default function Page() {
       <AddStripeKeyDialog open={state?.open} setter={dialogClose} />
 
       <PageHeadings
-        title="Stripe API Keys. Enhance Your Platform with Secure Payment Integration"
+        title="Stripe API Keys. Enhance Your Platform with Secure Payment Integration."
         description="Manage and secure your payment transactions by adding your Stripe API keys on our platform. Seamlessly integrate Stripe's powerful payment solutions, enhance transaction security, and unlock a world of possibilities for your business. Take control of your payment processes with ease and efficiency."
         slogan="Powering Secure Transactions, One Key at a Time!"
       />
