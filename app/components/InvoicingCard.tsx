@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import Button from './Button';
 import Dialog from './Dialog';
 import TemplateOne from '@components/templates/TemplateOne';
+import { maxLength } from '@config/index';
 
 const table = {
   header: {
@@ -13,33 +14,32 @@ const table = {
     description:
       'Invoice header text is the text that appears at the top of the page.',
     stateKey: 'header',
-    maxLength: 100,
+    maxLength: maxLength?.subject,
   },
   memo: {
     title: 'Memo',
     description:
       'Memo text is the text that appears above the invoice pricing section.',
     stateKey: 'memo',
-    maxLength: 100,
+    maxLength: maxLength?.subject,
   },
   footer: {
     title: 'Footer',
     description:
       'Footer text is the text that appears at the bottom of the invoice.',
     stateKey: 'footer',
-    maxLength: 200,
+    maxLength: maxLength?.message,
   },
   customFields: {
     title: 'Custom Fields',
     description:
       'Custom fields are additional fields you can add to your invoice.',
     stateKey: 'customFields',
-    maxLength: 20,
+    maxLength: maxLength?.customField,
   },
 };
 
 type CustomField = {
-  name: string;
   value: string;
 };
 
@@ -59,7 +59,7 @@ export default function InvoiceTable() {
     header: '',
     memo: '',
     footer: '',
-    customFields: [{ name: '', value: '' }],
+    customFields: [{ value: '' }],
   };
   const [state, setState] = useState<{
     isHeader?: boolean;
@@ -83,7 +83,7 @@ export default function InvoiceTable() {
   const addCustomField = () => {
     setState({
       ...state,
-      customFields: [...state.customFields, { name: '', value: '' }],
+      customFields: [...state.customFields, { value: '' }],
     });
   };
 
@@ -161,6 +161,7 @@ export default function InvoiceTable() {
             value={state.header}
             onChange={(e) => setState({ ...state, header: e.target.value })}
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            maxLength={table?.header?.maxLength}
           />
         </Section>
       </Section>
@@ -192,6 +193,7 @@ export default function InvoiceTable() {
             value={state.footer}
             onChange={(e) => setState({ ...state, footer: e.target.value })}
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            maxLength={table?.footer?.maxLength}
           />
         </Section>
       </Section>
@@ -223,6 +225,7 @@ export default function InvoiceTable() {
             value={state.memo}
             onChange={(e) => setState({ ...state, memo: e.target.value })}
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            maxLength={table?.memo?.maxLength}
           />
         </Section>
       </Section>
@@ -259,17 +262,11 @@ export default function InvoiceTable() {
             <div key={index} className="flex flex-row gap-5 items-center">
               <input
                 type="text"
-                placeholder="Name"
-                value={field.name}
-                onChange={(e) => handleChange(index, 'name', e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-              <input
-                type="text"
-                placeholder="Value"
+                placeholder="Define a custom field value"
                 value={field.value}
                 onChange={(e) => handleChange(index, 'value', e.target.value)}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                maxLength={table?.customFields?.maxLength}
               />
               <Button
                 title="Remove"
