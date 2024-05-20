@@ -27,11 +27,8 @@ export enum TicketStatus {
 
 export const maxLength = {
   description: 10000,
-  comment: 200,
-  name: 100,
-  email: 100,
-  subject: 100,
+  comment: 2000,
   message: 500,
   phoneNumber: 20,
-  customField: 20,
+  customField: 50,
 };

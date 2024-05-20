@@ -7,6 +7,7 @@ import Button from './Button';
 import Dialog from './Dialog';
 import TemplateOne from '@components/templates/TemplateOne';
 import { maxLength } from '@config/index';
+import { dummyData } from '@app/dashboard/invoices/controller';
 
 const table = {
   header: {
@@ -14,14 +15,14 @@ const table = {
     description:
       'Invoice header text is the text that appears at the top of the page.',
     stateKey: 'header',
-    maxLength: maxLength?.subject,
+    maxLength: maxLength?.message,
   },
   memo: {
     title: 'Memo',
     description:
       'Memo text is the text that appears above the invoice pricing section.',
     stateKey: 'memo',
-    maxLength: maxLength?.subject,
+    maxLength: maxLength?.message,
   },
   footer: {
     title: 'Footer',
@@ -51,6 +52,7 @@ const Section = ({
   hidden?: boolean;
 }) => {
   if (hidden) return null;
+
   return <section className="flex flex-col gap-5">{children}</section>;
 };
 
@@ -134,7 +136,22 @@ export default function InvoiceTable() {
         open={state?.preview}
         callBack={() => setState({ ...state, preview: false })}
       >
-        <TemplateOne format="a4" header={state?.header} memo={state?.memo} />
+        <TemplateOne
+          header={state?.header}
+          memo={state?.memo}
+          footer={state?.footer}
+          customFields={state?.customFields}
+          invoiceNumber={dummyData.invoiceNumber}
+          date={dummyData.date}
+          billToName={dummyData.billToName}
+          billToAddress={dummyData.billToAddress}
+          items={dummyData.items}
+          subtotal={dummyData.subtotal}
+          tax={dummyData.tax}
+          total={dummyData.total}
+          dueDate={dummyData.dueDate}
+          companyName={dummyData.companyName}
+        />
       </Dialog>
 
       <Section>
