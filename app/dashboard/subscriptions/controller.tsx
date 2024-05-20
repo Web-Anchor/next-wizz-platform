@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
 import { toast } from 'sonner';
+import PageHeadings from '@app/components/PageHeadings';
 
 export default function Page() {
   const [state, setState] = useState<{ fetching?: number | string }>({});
@@ -43,6 +44,12 @@ export default function Page() {
 
   return (
     <Wrapper>
+      <PageHeadings
+        title="Your subscriptions. Unlock Premium Features & Exclusive Content."
+        description="Subscribe to access your premium features, exclusive content, and member benefits tailored to enhance your experience. Choose a subscription plan that suits your needs and enjoy a seamless journey with our platform. Elevate your experience with our subscription services today."
+        slogan="Unlock Premium Perks, Elevate Your Experience!"
+      />
+
       <Table
         header={[
           { item: 'Plan' },
