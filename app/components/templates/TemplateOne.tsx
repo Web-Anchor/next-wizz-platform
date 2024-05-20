@@ -1,32 +1,32 @@
 import { classNames } from '@helpers/index';
+import DOMPurify from 'dompurify';
 
-type Customer = {
-  zip: string;
-  city: string;
-  name: string;
-  state: string;
-  address: string;
-  country: string;
-};
-
-type LineItem = {
-  tax: string;
-  item: string;
-  price: string;
-  total: string;
-  quantity: string;
-  description: string;
+type CustomField = {
+  value: string;
 };
 
 type Props = {
-  date?: string;
-  dueDate?: string;
-  customer?: Customer;
-  lineItems?: LineItem[];
-  invoiceTotal?: string;
-  invoiceNumber?: string;
   printRef?: React.MutableRefObject<null>;
-  format?: string;
+  format?: 'a4' | 'a5';
+  invoiceNumber?: string | React.ReactNode;
+  date?: string | React.ReactNode;
+  billToName?: string;
+  billToAddress?: string;
+  items?: {
+    description: string;
+    amount: string;
+    quantity?: number;
+    units?: number;
+  }[];
+  subtotal?: string | React.ReactNode;
+  tax?: string | React.ReactNode;
+  total?: string | React.ReactNode;
+  dueDate?: string | React.ReactNode;
+  companyName?: string | React.ReactNode;
+  footer?: string;
+  memo?: string;
+  header?: string;
+  customFields?: CustomField[];
 };
 
 const format = {
@@ -40,6 +40,31 @@ const format = {
   },
 };
 
+const Content = ({ content, show }: { content?: string; show?: boolean }) => {
+  const sanitizedHtml = DOMPurify.sanitize(content as string) as string;
+
+  return show ? (
+    <section
+      className="text-justify"
+      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+    />
+  ) : null;
+};
+
+const CustomFiled = ({
+  content,
+  show,
+}: {
+  content?: string;
+  show?: boolean;
+}) => {
+  return show ? (
+    <section>
+      <p>{content}</p>
+    </section>
+  ) : null;
+};
+
 export default function TemplateOne(props: Props) {
   const pageFormat = props.format || 'a4';
   const pageWidth = format[pageFormat as keyof typeof format].width;
@@ -47,89 +72,102 @@ export default function TemplateOne(props: Props) {
 
   return (
     <div
-      className={classNames(
-        'bg-white rounded-lg shadow-lg px-8 py-10 mx-auto',
-        `w-[${pageWidth}px] h-[${pageHeight}px]`
-      )}
       ref={props.printRef}
+      className={classNames(
+        'flex flex-1 gap-10 flex-col h-full px-8 py-10 bg-white rounded-lg shadow-md'
+      )}
     >
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center">
-          <img
-            className="h-8 w-8 mr-2"
-            src="https://tailwindflex.com/public/images/logos/favicon-32x32.png"
-            alt="Logo"
-          />
-          <div className="text-gray-700 font-semibold text-lg">
-            Your Company Name
+      <Content content={props?.header} show={!!props?.header} />
+      <div className="flex justify-between">
+        <div>
+          <h1 className="text-lg font-bold">Invoice</h1>
+          <p className="text-gray-500">Invoice Number: {props.invoiceNumber}</p>
+          <p className="text-gray-500">Date: {props?.date}</p>
+        </div>
+        <div>
+          <p className="text-gray-500 text-right font-semibold text-xl">
+            {props?.companyName}
+          </p>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <h2 className="text-lg font-semibold">Bill To:</h2>
+        <CustomFiled content={props?.billToName} show={!!props?.billToName} />
+        <CustomFiled
+          content={props?.billToAddress}
+          show={!!props?.billToAddress}
+        />
+        {props?.customFields?.map((field, index) => (
+          <CustomFiled key={index} content={field.value} show={!!field.value} />
+        ))}
+      </div>
+      <Content content={props?.memo} show={!!props?.memo} />
+
+      <section
+        className={classNames(
+          `flex-1 min-h-[595px] min-w-[600px] pdf-printable-content`
+        )}
+      >
+        <table className="w-full mb-6">
+          <thead className="border-b border-gray-300">
+            <tr>
+              <th className="py-3 text-left pl-5">Description</th>
+              <th className="py-3 text-right w-20">Qty</th>
+              <th className="py-3 text-right w-20">Units</th>
+              <th className="text-right w-36 pr-5">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {props?.items?.map((item, index) => (
+              <tr key={index}>
+                <td
+                  className={classNames(
+                    'text-right py-2 text-sm text-gray-800'
+                  )}
+                >
+                  {item.description}
+                </td>
+                <td
+                  className={classNames(
+                    'text-right py-2 text-sm text-gray-800'
+                  )}
+                >
+                  {item.quantity}
+                </td>
+                <td
+                  className={classNames(
+                    'text-right py-2 text-sm text-gray-800'
+                  )}
+                >
+                  {item.units}
+                </td>
+                <td className="text-sm font-semibold text-right pr-5">
+                  {item.amount}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <section className="flex flex-col gap-10 border-t pt-4">
+        <div className="flex justify-between">
+          <div>
+            {props?.dueDate && (
+              <p className="text-sm text-gray-500">
+                Payment Due By: {props?.dueDate}
+              </p>
+            )}
+          </div>
+          <div className="flex flex-col gap-2 font-semibold text-gray-800 text-right">
+            <p className="text-gray-500">Subtotal: {props?.subtotal}</p>
+            {props?.tax && <p className="text-gray-500">Tax: {props?.tax}</p>}
+            <h2>Total: {props?.total}</h2>
           </div>
         </div>
-        <div className="text-gray-700">
-          <div className="font-bold text-xl mb-2">INVOICE</div>
-          <div className="text-sm">Date: 01/05/2023</div>
-          <div className="text-sm">Invoice #: INV12345</div>
-        </div>
-      </div>
-      <div className="border-b-2 border-gray-300 pb-8 mb-8">
-        <h2 className="text-2xl font-bold mb-4">Bill To:</h2>
-        <div className="text-gray-700 mb-2">John Doe</div>
-        <div className="text-gray-700 mb-2">123 Main St.</div>
-        <div className="text-gray-700 mb-2">Anytown, USA 12345</div>
-        <div className="text-gray-700">johndoe@example.com</div>
-      </div>
-      <table className="w-full text-left mb-8">
-        <thead>
-          <tr>
-            <th className="text-gray-700 font-bold uppercase py-2">
-              Description
-            </th>
-            <th className="text-gray-700 font-bold uppercase py-2">Quantity</th>
-            <th className="text-gray-700 font-bold uppercase py-2">Price</th>
-            <th className="text-gray-700 font-bold uppercase py-2">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="py-4 text-gray-700">Product 1</td>
-            <td className="py-4 text-gray-700">1</td>
-            <td className="py-4 text-gray-700">$100.00</td>
-            <td className="py-4 text-gray-700">$100.00</td>
-          </tr>
-          <tr>
-            <td className="py-4 text-gray-700">Product 2</td>
-            <td className="py-4 text-gray-700">2</td>
-            <td className="py-4 text-gray-700">$50.00</td>
-            <td className="py-4 text-gray-700">$100.00</td>
-          </tr>
-          <tr>
-            <td className="py-4 text-gray-700">Product 3</td>
-            <td className="py-4 text-gray-700">3</td>
-            <td className="py-4 text-gray-700">$75.00</td>
-            <td className="py-4 text-gray-700">$225.00</td>
-          </tr>
-        </tbody>
-      </table>
-      <div className="flex justify-end mb-8">
-        <div className="text-gray-700 mr-2">Subtotal:</div>
-        <div className="text-gray-700">$425.00</div>
-      </div>
-      <div className="text-right mb-8">
-        <div className="text-gray-700 mr-2">Tax:</div>
-        <div className="text-gray-700">$25.50</div>
-      </div>
-      <div className="flex justify-end mb-8">
-        <div className="text-gray-700 mr-2">Total:</div>
-        <div className="text-gray-700 font-bold text-xl">$450.50</div>
-      </div>
-      <div className="border-t-2 border-gray-300 pt-8 mb-8">
-        <div className="text-gray-700 mb-2">
-          Payment is due within 30 days. Late payments are subject to fees.
-        </div>
-        <div className="text-gray-700 mb-2">
-          Please make checks payable to Your Company Name and mail to:
-        </div>
-        <div className="text-gray-700">123 Main St., Anytown, USA 12345</div>
-      </div>
+        <Content content={props?.footer} show={!!props?.footer} />
+      </section>
     </div>
   );
 }

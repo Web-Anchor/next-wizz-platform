@@ -8,6 +8,36 @@ import TemplateOne from '@app/components/templates/TemplateOne';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
+export const dummyData = {
+  invoiceNumber: 'INV12345',
+  date: '01/05/2023',
+  billToName: 'John Doe',
+  billToAddress: '123 Main St.',
+  items: [
+    {
+      description: 'Product 1',
+      amount: '$100.00',
+      quantity: 1,
+    },
+    {
+      description: 'Product 2',
+      amount: '$100.00',
+      quantity: 1,
+      units: 2,
+    },
+    {
+      description: 'Product 3',
+      amount: '$225.00',
+      quantity: 1,
+    },
+  ],
+  subtotal: '$425.00',
+  tax: '$25.50',
+  total: '$450.50',
+  dueDate: '01/30/2023',
+  companyName: 'Your Company Name',
+};
+
 export default function Page() {
   const contentToPrint = useRef(null);
 
@@ -50,7 +80,34 @@ export default function Page() {
         slogan="Crafting Elegance, Sealing Deals - Your Invoices, Your Brand!"
       />
       <InvoicingCard />
-      <TemplateOne printRef={contentToPrint} />
+      <TemplateOne
+        printRef={contentToPrint}
+        invoiceNumber={dummyData.invoiceNumber}
+        date={dummyData.date}
+        billToName={dummyData.billToName}
+        billToAddress={dummyData.billToAddress}
+        items={dummyData.items}
+        subtotal={dummyData.subtotal}
+        tax={dummyData.tax}
+        total={dummyData.total}
+        dueDate={dummyData.dueDate}
+        companyName={dummyData.companyName}
+        memo="Thank you for your business! <br/> If you have any questions about this invoice, please contact us at: Your Company Name, 123 Main St., Your City, Your State, 12345, (123) 456-7890"
+        footer="<strong>Thank you for your business!</strong> <br/> If you have any questions about this invoice, please contact us at: <br/> <strong>Your Company Name</strong> <br/> 123 Main St. <br/> Your City, Your State, 12345 <br/> (123) 456-7890"
+        customFields={[
+          {
+            value: 'Net 30: Main Street',
+          },
+          {
+            value: 'Invoice #INV12345',
+          },
+        ]}
+        header='<img class="h-8 w-auto"
+        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Company Logo" />
+        <br/>
+        <p class="text-sm text-gray-600">Customize your invoice with your company logo and brand colors.</p>
+        '
+      />
 
       <div className="flex flex-row gap-5 self-end">
         <Button onClick={printPDF}>

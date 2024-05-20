@@ -37,6 +37,17 @@
     margin: 0 !important;
     padding: 0 !important;
   }
+
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pdf-printable-content {
+    min-height: auto;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

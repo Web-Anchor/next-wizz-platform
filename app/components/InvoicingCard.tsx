@@ -130,7 +130,28 @@ export default function InvoiceTable() {
         open={state?.preview}
         callBack={() => setState({ ...state, preview: false })}
       >
-        <TemplateOne />
+        <TemplateOne
+          format="a4"
+          header={state?.header}
+          memo={state?.memo}
+          footer={
+            state?.footer || (
+              <section>
+                <div className="text-gray-700 mb-2">
+                  Payment is due within 30 days. Late payments are subject to
+                  fees.
+                </div>
+                <div className="text-gray-700 mb-2">
+                  Please make checks payable to Your Company Name and mail to:
+                </div>
+                <div className="text-gray-700">
+                  123 Main St., Anytown, USA 12345
+                </div>
+              </section>
+            )
+          }
+          customFields={state?.customFields}
+        />
       </Dialog>
 
       <Section>
