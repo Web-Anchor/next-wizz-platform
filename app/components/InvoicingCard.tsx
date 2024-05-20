@@ -53,6 +53,12 @@ const Section = ({
 };
 
 export default function InvoiceTable() {
+  const BASE_STATE = {
+    header: '',
+    memo: '',
+    footer: '',
+    customFields: [{ name: '', value: '' }],
+  };
   const [state, setState] = useState<{
     isHeader?: boolean;
     isMemo?: boolean;
@@ -63,12 +69,7 @@ export default function InvoiceTable() {
     header?: string;
     memo?: string;
     footer?: string;
-  }>({
-    header: '',
-    memo: '',
-    footer: '',
-    customFields: [{ name: '', value: '' }],
-  });
+  }>(BASE_STATE);
 
   const handleChange = (index: number, key: string, value: string) => {
     const updatedFields = [...state.customFields];
@@ -280,7 +281,11 @@ export default function InvoiceTable() {
 
       <div className="card-actions justify-end">
         <Button title="Submit" type="submit" />
-        <Button title="Cancel" style="secondary" />
+        <Button
+          title="Cancel"
+          style="secondary"
+          onClick={() => setState(BASE_STATE)}
+        />
       </div>
     </form>
   );
