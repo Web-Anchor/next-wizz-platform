@@ -6,6 +6,7 @@ import { useCharges } from '@hooks/index';
 import { Charge } from '../../../types';
 import { classNames, getTimeAgo } from '@helpers/index';
 import Link from 'next/link';
+import PageHeadings from '@app/components/PageHeadings';
 
 export default function Page() {
   const { data, charges, isLoading } = useCharges({});
@@ -13,6 +14,12 @@ export default function Page() {
 
   return (
     <Wrapper>
+      <PageHeadings
+        title="Stripe Charges: Monitor and Manage Your Payment Activity"
+        description="Stay informed and in control of your payment activity with our Stripe Charges page. Monitor transaction details, track payment statuses, and manage charges effectively to ensure smooth financial operations. Streamline your payment monitoring process and gain valuable insights into your transaction history effortlessly."
+        slogan="Tracking Transactions, Empowering Financial Clarity!"
+      />
+
       <Table
         fetching={isLoading}
         header={[

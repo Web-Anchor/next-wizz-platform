@@ -9,6 +9,7 @@ import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { getTimeAgo } from '@helpers/index';
+import PageHeadings from '@app/components/PageHeadings';
 
 export default function Page() {
   const [state, setState] = useState<{
@@ -49,21 +50,12 @@ export default function Page() {
 
   return (
     <Wrapper>
-      <section className="max-w-4xl">
-        <h2 className="mx-autotext-base font-bold leading-6 text-gray-900 lg:mx-0 lg:max-w-none">
-          Stripe Customers. Manage Your Transactions with Ease
-        </h2>
-        <h2 className="mx-autotext-base font-medium leading-6 text-gray-900 lg:mx-0 lg:max-w-none">
-          Empowering Seamless Transactions, One Click at a Time!
-        </h2>
-        <p className="mt-2 text-sm text-gray-500">
-          Navigate your Stripe transactions effortlessly with our Stripe
-          Customers page. Access detailed information, track payments, and
-          manage customer interactions seamlessly to stay on top of your
-          financial transactions. Simplify your payment management process and
-          gain insights into your customer activity with ease.
-        </p>
-      </section>
+      <PageHeadings
+        title="Stripe Customers. Manage Your Transactions with Ease"
+        description="Navigate your Stripe transactions effortlessly with our Stripe Customers page. Access detailed information, track payments, and manage customer interactions seamlessly to stay on top of your financial transactions. Simplify your payment management process and gain insights into your customer activity with ease."
+        slogan="Empowering Seamless Transactions, One Click at a Time!"
+      />
+
       <Table
         fetching={isLoading}
         header={[
