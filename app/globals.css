@@ -12,10 +12,15 @@
   --print-size-a5: 210mm 148mm;
 }
 
+/* Clerk CSS snags */
 .cl-footer,
 .cl-internal-b3fm6y,
 .cl-userButtonPopoverFooter {
   display: none !important; /* Hide Clerk component footer */
+}
+.cl-internal-rx251b {
+  margin: 0;
+  box-shadow: none;
 }
 
 ::-webkit-scrollbar {
