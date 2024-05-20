@@ -5,6 +5,8 @@ import { eq } from 'drizzle-orm';
 import { invoices, users } from '@db/schema';
 import { v4 as uuidv4 } from 'uuid';
 import { subscription } from '@lib/subscription';
+import { plans } from '@config/index';
+import { Plan } from '../../../../../types';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -29,6 +31,12 @@ export async function POST(request: NextRequest) {
       console.log('👤 Subscription not active');
       return NextResponse.json({
         error: 'Subscription not active. Please subscribe!',
+      });
+    }
+    const config = plans[planName] as Plan;
+    if (config.name === 'freelancer') {
+      return NextResponse.json({
+        error: 'Please upgrade your plan to add invoice templates',
       });
     }
 

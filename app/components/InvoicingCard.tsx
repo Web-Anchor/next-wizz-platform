@@ -355,17 +355,18 @@ export default function InvoiceTable() {
           title={!count ? 'Submit' : 'Update'}
           type="submit"
           fetching={state?.fetching}
+          disabled={isLoading}
         />
         <Button
           title="Preview"
           onClick={() => setState({ ...state, preview: true })}
-          disabled={state?.fetching}
+          disabled={state?.fetching || isLoading}
         />
         <Button
           title="Cancel"
           style="secondary"
           onClick={() => setState(BASE_STATE)}
-          disabled={state?.fetching}
+          disabled={state?.fetching || isLoading}
         />
       </div>
     </form>
