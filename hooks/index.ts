@@ -20,3 +20,4 @@ export * from './users';
 export * from './subscriptions';
 export * from './support-tickets';
 export * from './features';
+export * from './templates';

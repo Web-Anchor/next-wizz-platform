@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { eq } from 'drizzle-orm';
 import { invoices, users } from '@db/schema';
-import { v4 as uuidv4 } from 'uuid';
-import { subscription } from '@lib/subscription';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -21,38 +19,19 @@ export async function POST(request: NextRequest) {
     console.log('👤 User: ', dbUser);
 
     // --------------------------------------------------------------------------------
-    // 📌  Validate & validate sub type
+    // 📌  Retrieve customers templates
     // --------------------------------------------------------------------------------
-    const { name: planName, status } = await subscription({ userId });
+    const templates = await db
+      .select()
+      .from(invoices)
+      .where(eq(invoices.userId, dbUser[0].id))
+      .limit(10);
 
-    if (status !== 'active') {
-      console.log('👤 Subscription not active');
-      return NextResponse.json({
-        error: 'Subscription not active. Please subscribe!',
-      });
-    }
-
-    // --------------------------------------------------------------------------------
-    // 📌  Add invoice template
-    // --------------------------------------------------------------------------------
-    const body = await request.json();
-    const header = body.header;
-    const memo = body.memo;
-    const footer = body.footer;
-    const customFields = body.customFields;
-
-    await db.insert(invoices).values({
-      id: uuidv4(),
-      userId: dbUser[0].id.toString(),
-      header,
-      memo,
-      footer,
-      customFields,
-    });
+    console.log('🧾 Templates: ', templates);
 
     return NextResponse.json({
       status: 200,
-      data: 'Ticket added successfully',
+      templates,
     });
   } catch (error: any) {
     console.error('🔑 error', error);

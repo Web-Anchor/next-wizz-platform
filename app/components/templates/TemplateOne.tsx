@@ -44,6 +44,10 @@ const format = {
 };
 
 const Content = ({ content, show }: { content?: string; show?: boolean }) => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   if (show && content) {
     const sanitizedHtml = DOMPurify?.sanitize(content!);
     return (

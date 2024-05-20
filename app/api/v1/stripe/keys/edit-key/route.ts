@@ -33,7 +33,6 @@ export async function POST(request: NextRequest) {
     const id = body.id;
     const name = body.name;
     const key = body.key;
-    console.log('🔑 Updated key ', body);
     await db
       .update(strKeys)
       .set({ name, restrictedAPIKey: key })

@@ -55,6 +55,23 @@ export type User = {
   stripeKeys?: StripeKey[];
 };
 
+export type Template = {
+  id?: string;
+  userId?: string;
+  name?: string;
+  description?: string;
+  logoUrl?: string;
+  memo?: string;
+  footer?: string;
+  header?: string;
+  customFields?: CustomField[];
+  createdAt?: string;
+};
+
+export type CustomField = {
+  value: string;
+};
+
 export type StripeSubscription = {
   id?: string;
   customer?: string;

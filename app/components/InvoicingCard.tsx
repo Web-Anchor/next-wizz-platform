@@ -8,6 +8,8 @@ import Dialog from './Dialog';
 import TemplateOne from '@components/templates/TemplateOne';
 import { maxLength } from '@config/index';
 import { dummyData } from '@app/dashboard/invoices/controller';
+import { useTemplates } from '@hooks/index';
+import { CustomField } from '../../types';
 
 const table = {
   header: {
@@ -38,10 +40,6 @@ const table = {
     stateKey: 'customFields',
     maxLength: maxLength?.customField,
   },
-};
-
-type CustomField = {
-  value: string;
 };
 
 const Section = ({
@@ -75,6 +73,14 @@ export default function InvoiceTable() {
     footer?: string;
     preview?: boolean;
   }>(BASE_STATE);
+  const { templates, count, isLoading } = useTemplates({});
+
+  console.log(
+    'TEMPLATES ',
+    templates
+    // templates?.[0]?.customFields
+    // JSON.parse(templates?.[0]?.customFields as string ?? '')
+  );
 
   const handleChange = (index: number, key: string, value: string) => {
     const updatedFields = [...state.customFields];
@@ -96,14 +102,8 @@ export default function InvoiceTable() {
     });
   }
 
-  async function submit(e: React.FormEvent) {
+  async function createTemplate() {
     try {
-      e.preventDefault();
-      // --------------------------------------------------------------------------------
-      // 📌  Add Stripe API key to db
-      // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: true }));
-
       const { data, status } = await cFetch({
         url: '/api/v1/templates/add',
         method: 'POST',
@@ -120,8 +120,51 @@ export default function InvoiceTable() {
       }
 
       console.log(data, status);
-      mutate(`/api/v1/stripe/keys`);
-      toast.success('Template created successfully!');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function updateTemplate(id: string) {
+    try {
+      const { data, status } = await cFetch({
+        url: '/api/v1/templates/update',
+        method: 'POST',
+        data: {
+          id,
+          header: state?.header,
+          memo: state?.memo,
+          footer: state?.footer,
+          customFields: state?.customFields,
+        },
+      });
+
+      if (status !== 200 || data?.error) {
+        throw new Error(data?.error);
+      }
+
+      console.log(data, status);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function submit(e: React.FormEvent) {
+    try {
+      e.preventDefault();
+      // --------------------------------------------------------------------------------
+      // 📌  Add Stripe API key to db
+      // --------------------------------------------------------------------------------
+      setState((prev) => ({ ...prev, fetching: true }));
+      !count && (await createTemplate()); // Create template if none exist
+      count && (await updateTemplate(templates?.[0]?.id!)); // Update template if one exist
+
+      mutate(`/api/v1/templates`);
+      toast.success(
+        !!count
+          ? 'Template updated successfully!'
+          : 'Template created successfully!'
+      );
     } catch (err: any) {
       console.error(err.message);
       toast.error(err.message);
@@ -308,7 +351,11 @@ export default function InvoiceTable() {
       </Section>
 
       <div className="card-actions justify-end">
-        <Button title="Submit" type="submit" fetching={state?.fetching} />
+        <Button
+          title={!count ? 'Submit' : 'Update'}
+          type="submit"
+          fetching={state?.fetching}
+        />
         <Button
           title="Preview"
           onClick={() => setState({ ...state, preview: true })}
