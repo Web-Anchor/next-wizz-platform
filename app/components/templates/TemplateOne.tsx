@@ -8,6 +8,7 @@ type CustomField = {
 };
 
 type Props = {
+  id?: string;
   printRef?: React.MutableRefObject<null>;
   format?: 'a4' | 'a5';
   invoiceNumber?: string | React.ReactNode;
@@ -43,14 +44,17 @@ const format = {
 };
 
 const Content = ({ content, show }: { content?: string; show?: boolean }) => {
-  const sanitizedHtml = DOMPurify.sanitize(content as string) as string;
+  if (show && content) {
+    const sanitizedHtml = DOMPurify?.sanitize(content!);
+    return (
+      <section
+        className="text-justify"
+        dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+      />
+    );
+  }
 
-  return show ? (
-    <section
-      className="text-justify"
-      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-    />
-  ) : null;
+  return null;
 };
 
 const CustomFiled = ({
@@ -74,6 +78,7 @@ export default function TemplateOne(props: Props) {
 
   return (
     <div
+      id={props.id ?? 'template-one'}
       ref={props.printRef}
       className={classNames(
         'flex flex-1 gap-10 flex-col h-full px-8 py-10 bg-white rounded-lg shadow-md'

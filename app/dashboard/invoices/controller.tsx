@@ -7,6 +7,7 @@ import Wrapper from '@app/components/Wrapper';
 import TemplateOne from '@app/components/templates/TemplateOne';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
+import { toast } from 'sonner';
 
 export const dummyData = {
   invoiceNumber: 'INV12345',
@@ -39,12 +40,12 @@ export const dummyData = {
 };
 
 export default function Page() {
-  const contentToPrint = useRef(null);
+  const componentRef = useRef(null);
 
   const handlePrint = useReactToPrint({
-    documentTitle: 'Print This Document',
+    documentTitle: 'Invoice Sample',
     onBeforePrint: () => console.log('before printing...'),
-    onAfterPrint: () => console.log('after printing...'),
+    onAfterPrint: () => toast?.success('Document downloaded successfully!'),
     removeAfterPrint: true,
   });
 
@@ -58,18 +59,7 @@ export default function Page() {
       }
     `;
 
-    handlePrint(null, () => contentToPrint.current);
-  }
-
-  function downloadPDF() {
-    console.log('Download PDF');
-
-    // const pdf = new jsPDF();
-    // pdf.html(contentToPrint.current, {
-    //   callback: function (pdf: any) {
-    //     pdf.save('invoice.pdf');
-    //   },
-    // });
+    handlePrint(null, () => componentRef.current);
   }
 
   return (
@@ -80,8 +70,10 @@ export default function Page() {
         slogan="Crafting Elegance, Sealing Deals - Your Invoices, Your Brand!"
       />
       <InvoicingCard />
+
+      <PageHeadings title="Invoice Templates Example" />
       <TemplateOne
-        printRef={contentToPrint}
+        printRef={componentRef}
         invoiceNumber={dummyData.invoiceNumber}
         date={dummyData.date}
         billToName={dummyData.billToName}
@@ -131,28 +123,27 @@ export default function Page() {
             <p>Print Sample</p>
           </section>
         </Button>
-        <a
-          className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-lg border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
-          href="#"
-        >
-          <svg
-            className="flex-shrink-0 size-4"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" x2="12" y1="15" y2="3" />
-          </svg>
-          Invoice PDF
-        </a>
+        <Button style="secondary">
+          <section className="flex flex-row gap-2">
+            <svg
+              className="flex-shrink-0 size-4"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" x2="12" y1="15" y2="3" />
+            </svg>
+            <p>Invoice PDF</p>
+          </section>
+        </Button>
       </div>
     </Wrapper>
   );

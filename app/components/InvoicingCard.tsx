@@ -97,7 +97,6 @@ export default function InvoiceTable() {
   async function submit(e: React.FormEvent) {
     try {
       e.preventDefault();
-      return console.log(state);
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
@@ -106,7 +105,12 @@ export default function InvoiceTable() {
       const { data, status } = await cFetch({
         url: '/api/v1/templates/add',
         method: 'POST',
-        // data: { header },
+        data: {
+          header: state?.header,
+          memo: state?.memo,
+          footer: state?.footer,
+          customFields: state?.customFields,
+        },
       });
 
       if (status !== 200 || data?.error) {
@@ -115,7 +119,7 @@ export default function InvoiceTable() {
 
       console.log(data, status);
       mutate(`/api/v1/stripe/keys`);
-      toast.success('API key added successfully');
+      toast.success('Template created successfully!');
     } catch (err: any) {
       console.error(err.message);
       toast.error(err.message);
@@ -157,7 +161,7 @@ export default function InvoiceTable() {
         </Section>
         <Section hidden={!state?.isHeader}>
           <textarea
-            placeholder="Memo"
+            placeholder="Add Header Content"
             value={state.header}
             onChange={(e) => setState({ ...state, header: e.target.value })}
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -189,7 +193,7 @@ export default function InvoiceTable() {
         </Section>
         <Section hidden={!state?.isFooter}>
           <textarea
-            placeholder="Memo"
+            placeholder="Add Footer Content"
             value={state.footer}
             onChange={(e) => setState({ ...state, footer: e.target.value })}
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -221,7 +225,7 @@ export default function InvoiceTable() {
         </Section>
         <Section hidden={!state?.isMemo}>
           <textarea
-            placeholder="Memo"
+            placeholder="Add a new Memo"
             value={state.memo}
             onChange={(e) => setState({ ...state, memo: e.target.value })}
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -287,15 +291,17 @@ export default function InvoiceTable() {
       </Section>
 
       <div className="card-actions justify-end">
-        <Button title="Submit" type="submit" />
+        <Button title="Submit" type="submit" fetching={state?.fetching} />
         <Button
           title="Preview"
           onClick={() => setState({ ...state, preview: true })}
+          disabled={state?.fetching}
         />
         <Button
           title="Cancel"
           style="secondary"
           onClick={() => setState(BASE_STATE)}
+          disabled={state?.fetching}
         />
       </div>
     </form>
