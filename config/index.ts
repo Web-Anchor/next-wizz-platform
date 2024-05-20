@@ -24,3 +24,8 @@ export enum TicketStatus {
   Closed = 'closed',
   Pending = 'pending',
 }
+
+export const maxLength = {
+  description: 10000,
+  comment: 200,
+};

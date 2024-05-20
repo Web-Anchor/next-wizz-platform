@@ -2,8 +2,10 @@
 
 import Badge from '@app/components/Badge';
 import Button from '@app/components/Button';
+import PageHeadings from '@app/components/PageHeadings';
 import Select from '@app/components/Select';
 import Wrapper from '@app/components/Wrapper';
+import { maxLength } from '@config/index';
 import { useFeatures } from '@hooks/index';
 import { cFetch } from '@lib/cFetcher';
 import { useRef, useState } from 'react';
@@ -25,11 +27,12 @@ export default function Page() {
       setState((prev) => ({ ...prev, fetching: true }));
       const featureName = form.get('featureName');
       const description = form.get('description');
+      const comments = form.get('comments');
 
       const { data, status } = await cFetch({
         url: '/api/v1/support/feature-request',
         method: 'POST',
-        data: { featureName, description },
+        data: { featureName, description, comments },
       });
 
       if (status !== 200 || data?.error) {
@@ -59,12 +62,12 @@ export default function Page() {
 
   return (
     <Wrapper>
-      <section>
-        <Badge title={`${count} Requests`} />
-      </section>
-      <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900">
-        Inspire Change, Drive Innovation - Your Ideas Matter!
-      </h1>
+      <PageHeadings
+        title="Inspire Change, Drive Innovation - Your Ideas Matter!"
+        description="Submit your ideas and suggestions for new features to our Request New Features page. Your feedback is invaluable in helping us enhance our platform and tailor it to meet your evolving needs."
+        slogan="Shape the Future of Our Platform!"
+      />
+
       <form
         ref={formRef}
         className="card max-w-4xl px-10 py-8 bg-base-100 shadow-xl"
@@ -76,15 +79,11 @@ export default function Page() {
               <h2 className="text-base font-semibold leading-7 text-gray-900">
                 Request New Features
               </h2>
-              <h4 className="text-xs text-gray-600">
-                Shape the Future of Our Platform
-              </h4>
-              <p className="mt-1 text-sm leading-6 text-gray-600 text-justify">
-                Submit your ideas and suggestions for new features to our
-                Request New Features page. Your feedback is invaluable in
-                helping us enhance our platform and tailor it to meet your
-                evolving needs. We value your input and look forward to
-                incorporating innovative features that elevate your experience.
+              <Badge title={`${count} Requests`} />
+              <p className="text-sm leading-6 text-gray-600">
+                Help us enhance our platform by sharing your ideas for new
+                features! We value your feedback and strive to continuously
+                improve our services based on your suggestions.
               </p>
             </div>
 
@@ -109,29 +108,39 @@ export default function Page() {
                 required
               />
 
-              <div>
-                <label
-                  htmlFor="about"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Description <span className="text-xs text-red-500">*</span>
-                </label>
-                <div className="mt-2">
-                  <textarea
-                    rows={5}
-                    name="description"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Description of the feature you would like to see added to the platform."
-                    defaultValue={''}
-                    maxLength={10000}
-                    required
-                  />
-                </div>
-                <p className="mt-3 text-xs leading-6 text-gray-600">
-                  Please provide as much detail as possible so we can assist you
-                  better.
-                </p>
-              </div>
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Description <span className="text-xs text-red-500">*</span>
+              </label>
+              <textarea
+                rows={5}
+                name="description"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                placeholder="Description of the feature you would like to see added to the platform."
+                defaultValue={''}
+                maxLength={maxLength?.description}
+                required
+              />
+              <p className="text-xs leading-6 text-gray-600">
+                Please provide as much detail as possible so we can assist you
+                better.
+              </p>
+
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Expected Impact
+              </label>
+              <input
+                type="text"
+                placeholder="Expected Impact"
+                name="comments"
+                maxLength={maxLength?.comment}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
             </div>
           </div>
         </div>

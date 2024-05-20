@@ -15,7 +15,7 @@ export default function Badge(props: Props): React.ReactElement {
   return (
     <span
       className={classNames(
-        'inline-flex items-center gap-x-1.5 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700',
+        'inline-flex w-fit items-center gap-x-1.5 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700',
         props.class
       )}
       onClick={() => props.onClick?.()}

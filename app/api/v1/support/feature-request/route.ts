@@ -25,12 +25,14 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const featureName = body.featureName;
     const description = body.description;
+    const comments = body.comments;
 
     await db.insert(features).values({
       id: uuidv4(),
       userId: dbUser[0].id,
       featureName,
       description,
+      comments,
     });
 
     return NextResponse.json({
