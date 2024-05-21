@@ -12,6 +12,7 @@ import NumbersCard from '@app/components/NumbersCard';
 import { useSubscriptions, useUser } from '@hooks/index';
 import Pricing from '@components/Pricing';
 import { TableSkeleton } from '@app/components/Skeleton';
+import PageHeadings from '@app/components/PageHeadings';
 
 export default function Page() {
   const { user } = useUser({});
@@ -44,6 +45,12 @@ export default function Page() {
 
   return (
     <Wrapper>
+      <PageHeadings
+        title="Dashboard. Your Central Hub for Insights and Control."
+        description="Access real-time data, analytics, and key metrics on our Dashboard, empowering you with valuable insights to make informed decisions. Monitor performance, track trends, and stay in control of your operations from a centralized platform designed to streamline your workflow."
+        slogan="Invoice Smarter, Grow Stronger - Empowering Your Business!"
+      />
+
       <section className="flex flex-1 flex-row gap-5 flex-wrap">
         <NumbersCard number={customers} icon="customers" title="Customers" />
         <NumbersCard number={charges} icon="payments" title="Charges" />
