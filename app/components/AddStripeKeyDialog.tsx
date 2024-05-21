@@ -50,7 +50,7 @@ export default function AddStripeKeyDialog(props: Props) {
     <Transition.Root show={props?.open ?? false} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-50"
         onClose={() => props.setter?.(false)}
       >
         <Transition.Child
