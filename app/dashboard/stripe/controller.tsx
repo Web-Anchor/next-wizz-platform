@@ -249,52 +249,48 @@ export default function Page() {
         })}
       />
 
-      <div className="bg-white px-6 py-8 lg:px-5">
-        <div className="mx-auto sm:mx-0 max-w-3xl text-base leading-7 text-gray-700">
-          <p className="text-base font-semibold leading-7 text-indigo-600">
-            Restricted API key
-          </p>
-          <div className="mt-4 max-w-2xl">
-            <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-              Creating a restricted API key
-            </h2>
-            <p className="mt-6">
-              You can create a restricted key from scratch or start by cloning
-              an existing restricted key.
-            </p>
-            <p className="mt-6">
-              To create a restricted key from scratch, click Create restricted
-              key. In this case, the default value for all permissions is None.
-              To clone an existing key, in the row for the key you want to
-              clone, click the overflow menu (), then select Duplicate key…. In
-              this case, the default value for each permission is its value in
-              the cloned key.
-            </p>
-            <p className="mt-6">
-              In the Key name field, enter a name. If you cloned an existing
-              key, the default name is the cloned key’s name.
-            </p>
-            <p className="mt-6">
-              For each resource you want the new key to access, select the
-              permission for this key to allow. If you use Connect, you can also
-              select the permission for this key to allow when accessing
-              connected accounts. Available permissions are None, Read, or
-              Write.
-            </p>
-            <p className="mt-6">Click Create key.</p>
-            <p className="mt-6">
-              The dialog displays the new key value. Copy it by clicking it.
-            </p>
-            <p className="mt-6">
-              Save the key value. You can’t retrieve it later.
-            </p>
-            <p className="mt-6">
-              In the Add a note field, enter the location where you saved the
-              key and click Done.
-            </p>
-          </div>
-        </div>
-      </div>
+      <section
+        className={classNames('max-w-none lg:max-w-4xl flex flex-col gap-3')}
+      >
+        <h2 className="font-xs leading-6 text-indigo-600 lg:mx-0 lg:max-w-none">
+          Restricted API key
+        </h2>
+        <h2 className="font-bold text-xl leading-6 text-gray-600 lg:mx-0 ">
+          Restricted API key
+        </h2>
+        <p className="text-sm text-gray-500">
+          You can create a restricted key from scratch or start by cloning an
+          existing restricted key.
+        </p>
+        <p className="text-sm text-gray-500">
+          To create a restricted key from scratch, click Create restricted key.
+          In this case, the default value for all permissions is None. To clone
+          an existing key, in the row for the key you want to clone, click the
+          overflow menu (), then select Duplicate key…. In this case, the
+          default value for each permission is its value in the cloned key.
+        </p>
+        <p className="text-sm text-gray-500">
+          In the Key name field, enter a name. If you cloned an existing key,
+          the default name is the cloned key`s name.
+        </p>
+        <p className="text-sm text-gray-500">
+          For each resource you want the new key to access, select the
+          permission for this key to allow. If you use Connect, you can also
+          select the permission for this key to allow when accessing connected
+          accounts. Available permissions are None, Read, or Write. Click Create
+          key.
+        </p>
+        <p className="text-sm text-gray-500">
+          The dialog displays the new key value. Copy it by clicking it.
+        </p>
+        <p className="text-sm text-gray-500">
+          Save the key value. You can`t retrieve it later.
+        </p>
+        <p className="text-sm text-gray-500">
+          In the Add a note field, enter the location where you saved the key
+          and click Done.
+        </p>
+      </section>
     </Wrapper>
   );
 }
