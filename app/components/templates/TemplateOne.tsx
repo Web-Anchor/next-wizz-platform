@@ -29,7 +29,7 @@ type Props = {
   footer?: string;
   memo?: string;
   header?: string;
-  customFields?: CustomField[];
+  customFields?: { [key: string]: CustomField };
 };
 
 const format = {
@@ -109,8 +109,12 @@ export default function TemplateOne(props: Props) {
           content={props?.billToAddress}
           show={!!props?.billToAddress}
         />
-        {props?.customFields?.map((field, index) => (
-          <CustomFiled key={index} content={field.value} show={!!field.value} />
+        {Object.values(props.customFields ?? {})?.map((field, index) => (
+          <CustomFiled
+            key={index}
+            content={field?.value}
+            show={!!field?.value}
+          />
         ))}
       </div>
       <Content content={props?.memo} show={!!props?.memo} />

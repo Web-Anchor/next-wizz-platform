@@ -86,14 +86,14 @@ export default function Page() {
         companyName={dummyData.companyName}
         memo="Thank you for your business! <br/> If you have any questions about this invoice, please contact us at: Your Company Name, 123 Main St., Your City, Your State, 12345, (123) 456-7890"
         footer="<strong>Thank you for your business!</strong> <br/> If you have any questions about this invoice, please contact us at: <br/> <strong>Your Company Name</strong> <br/> 123 Main St. <br/> Your City, Your State, 12345 <br/> (123) 456-7890"
-        customFields={[
-          {
+        customFields={{
+          0: {
             value: 'Net 30: Main Street',
           },
-          {
+          1: {
             value: 'Invoice #INV12345',
           },
-        ]}
+        }}
         header='<img class="h-8 w-auto"
         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Company Logo" />
         <br/>

@@ -64,7 +64,7 @@ export type Template = {
   memo?: string;
   footer?: string;
   header?: string;
-  customFields?: CustomField[];
+  customFields?: { [key: string]: CustomField };
   createdAt?: string;
 };
 

@@ -1,5 +1,5 @@
 import Switch from './Switch';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
 import { toast } from 'sonner';
@@ -59,7 +59,7 @@ export default function InvoiceTable() {
     header: '',
     memo: '',
     footer: '',
-    customFields: [{ value: '' }],
+    customFields: { 0: { value: '' } },
   };
   const [state, setState] = useState<{
     isHeader?: boolean;
@@ -67,38 +67,74 @@ export default function InvoiceTable() {
     isFooter?: boolean;
     isCustomFields?: boolean;
     fetching?: boolean;
-    customFields: CustomField[];
+    customFields: { [key: string]: CustomField };
     header?: string;
     memo?: string;
     footer?: string;
     preview?: boolean;
   }>(BASE_STATE);
   const { templates, count, isLoading } = useTemplates({});
+  const TEMPLATE = templates?.[0];
 
-  console.log(
-    'TEMPLATES ',
-    templates
-    // templates?.[0]?.customFields
-    // JSON.parse(templates?.[0]?.customFields as string ?? '')
-  );
+  console.log('TEMPLATES  ', TEMPLATE);
 
-  const handleChange = (index: number, key: string, value: string) => {
-    const updatedFields = [...state.customFields];
-    (updatedFields as any)[index][key] = value;
-    setState({ ...state, customFields: updatedFields });
+  useEffect(() => {
+    // --------------------------------------------------------------------------------
+    // 📌  Update state with templates data
+    // --------------------------------------------------------------------------------
+    if (templates) {
+      setState((prev) => ({
+        ...prev,
+        header: TEMPLATE?.header ?? '',
+        isHeader: !!TEMPLATE?.header,
+        memo: TEMPLATE?.memo ?? '',
+        isMemo: !!TEMPLATE?.memo,
+        footer: TEMPLATE?.footer ?? '',
+        isFooter: !!TEMPLATE?.footer,
+        customFields: TEMPLATE?.customFields ?? { 0: { value: '' } },
+        isCustomFields: !!TEMPLATE?.customFields,
+      }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templates]);
+
+  const handleChange = (key: number, value: string) => {
+    setState((prevState) => ({
+      ...prevState,
+      customFields: {
+        ...prevState.customFields,
+        [key]: {
+          value,
+        },
+      },
+    }));
   };
 
   const addCustomField = () => {
-    setState({
-      ...state,
-      customFields: [...state.customFields, { value: '' }],
-    });
+    setState((prevState) => ({
+      ...prevState,
+      customFields: {
+        ...prevState.customFields,
+        [Object.keys(prevState.customFields).length]: { value: '' },
+      },
+    }));
   };
 
-  function removeCustomField(index: number) {
-    setState({
-      ...state,
-      customFields: state.customFields.filter((_, i) => i !== index),
+  function removeCustomField(key: number) {
+    const normalizeKeys = (obj: { [x: string]: CustomField }) => {
+      const normalizedObj: { [key: number]: CustomField } = {};
+      Object.keys(obj).forEach((key, index) => {
+        normalizedObj[index] = obj[key];
+      });
+      return normalizedObj;
+    };
+
+    setState((prevState) => {
+      const updatedCustomFields = { ...prevState.customFields };
+      delete updatedCustomFields[key];
+      const normalizedCustomFields = normalizeKeys(updatedCustomFields); // Normalize keys
+
+      return { ...prevState, customFields: normalizedCustomFields };
     });
   }
 
@@ -309,9 +345,7 @@ export default function InvoiceTable() {
               setState((prev) => ({
                 ...prev,
                 isCustomFields: !prev.isCustomFields,
-                customFields: prev.customFields
-                  ? [{ name: '', value: '' }]
-                  : prev.customFields,
+                customFields: { 0: { value: '' } },
               }))
             }
           />
@@ -322,20 +356,20 @@ export default function InvoiceTable() {
           </p>
         </Section>
         <Section hidden={!state?.isCustomFields}>
-          {state?.customFields?.map((field, index) => (
+          {Object.keys(state.customFields)?.map((_, index) => (
             <div key={index} className="flex flex-row gap-5 items-center">
               <input
                 type="text"
                 placeholder="Define a custom field value"
-                value={field.value}
-                onChange={(e) => handleChange(index, 'value', e.target.value)}
+                value={state.customFields?.[index]?.value}
+                onChange={(e) => handleChange(index, e.target.value)}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 maxLength={table?.customFields?.maxLength}
               />
               <Button
                 title="Remove"
                 style="ghost"
-                hide={state?.customFields?.length === 1}
+                hide={Object.keys(state.customFields)?.length === 1}
                 onClick={() => removeCustomField(index)}
               />
             </div>

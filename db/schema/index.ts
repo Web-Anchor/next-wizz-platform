@@ -24,7 +24,7 @@ export const invoices = sqliteTable('invoices', {
   memo: text('memo'),
   footer: text('footer'),
   header: text('header'),
-  customFields: text('custom_fields'),
+  customFields: text('data_typed', { mode: 'json' }).$type<{ a: 1 }>(),
   lineItems: text('line_items'),
   amount: text('amount'),
   total: text('total'),
