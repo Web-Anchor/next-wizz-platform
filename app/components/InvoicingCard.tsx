@@ -76,7 +76,7 @@ export default function InvoiceTable() {
   const { templates, count, isLoading } = useTemplates({});
   const TEMPLATE = templates?.[0];
 
-  console.log('TEMPLATES  ', TEMPLATE);
+  console.log('TEMPLATES  ', state);
 
   useEffect(() => {
     // --------------------------------------------------------------------------------
@@ -168,10 +168,10 @@ export default function InvoiceTable() {
         method: 'POST',
         data: {
           id,
-          header: state?.header,
-          memo: state?.memo,
-          footer: state?.footer,
-          customFields: state?.customFields,
+          header: state?.isHeader ? state?.header : null,
+          memo: state?.isMemo ? state?.memo : null,
+          footer: state?.isFooter ? state?.footer : null,
+          customFields: state?.isCustomFields ? state?.customFields : {},
         },
       });
 
