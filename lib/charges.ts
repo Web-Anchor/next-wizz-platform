@@ -9,7 +9,6 @@ export async function charges({ apiKey }: { apiKey?: string }) {
     // 📌  Compute stats for user account
     // --------------------------------------------------------------------------------
     const stripe = require('stripe')(apiKey);
-    const CHARGE_ADJUSTMENT = 100; // 📌 Stripe charges amount in cents
     let chargesCurrentMont: any = [];
     let hasMoreChargesCM = true;
 
@@ -48,13 +47,17 @@ export async function charges({ apiKey }: { apiKey?: string }) {
       // 📌  Charge Stats
       // --------------------------------------------------------------------------------
       // Total Revenue:
-      revenueCurrentMonth: chargesCurrentMont.reduce(
-        (acc: number, charge: any) => acc + charge.amount,
-        0
+      revenueCurrentMonth: chargesConversion(
+        chargesCurrentMont.reduce(
+          (acc: number, charge: any) => acc + charge.amount,
+          0
+        )
       ),
-      revenueLastMonth: chargesLastMonth.reduce(
-        (acc: number, charge: any) => acc + charge.amount,
-        0
+      revenueLastMonth: chargesConversion(
+        chargesLastMonth.reduce(
+          (acc: number, charge: any) => acc + charge.amount,
+          0
+        )
       ),
       // Number of Charges:
       totalCurrentCharges: chargesCurrentMont.length,
@@ -90,16 +93,18 @@ export async function charges({ apiKey }: { apiKey?: string }) {
         0
       ),
       // Average Transaction Value:
-      avgTransactionValueCurrentMonth:
+      avgTransactionValueCurrentMonth: chargesConversion(
         chargesCurrentMont.reduce(
           (acc: number, charge: any) => acc + charge.amount,
           0
-        ) / chargesCurrentMont.length,
-      avgTransactionValueLastMonth:
+        ) / chargesCurrentMont.length
+      ),
+      avgTransactionValueLastMonth: chargesConversion(
         chargesLastMonth.reduce(
           (acc: number, charge: any) => acc + charge.amount,
           0
-        ) / chargesLastMonth.length,
+        ) / chargesLastMonth.length
+      ),
       // Payment Success Rate
       paymentSuccessRateCurrentMonth:
         chargesCurrentMont.filter(
@@ -153,16 +158,18 @@ export async function charges({ apiKey }: { apiKey?: string }) {
         chargesLastMonth.filter((charge: any) => charge.dispute).length /
         chargesLastMonth.length,
       // Average Revenue Per User (ARPU):
-      avgRevenuePerUserCurrentMonth:
+      avgRevenuePerUserCurrentMonth: chargesConversion(
         chargesCurrentMont.reduce(
           (acc: number, charge: any) => acc + charge.amount,
           0
-        ) / chargesCurrentMont.length,
-      avgRevenuePerUserLastMonth:
+        ) / chargesCurrentMont.length
+      ),
+      avgRevenuePerUserLastMonth: chargesConversion(
         chargesLastMonth.reduce(
           (acc: number, charge: any) => acc + charge.amount,
           0
-        ) / chargesLastMonth.length,
+        ) / chargesLastMonth.length
+      ),
       // Monthly Active Customers:
       totalCurrentCustomers: chargesCurrentMont.reduce(
         (acc: any, charge: any) => {
@@ -231,6 +238,17 @@ export async function charges({ apiKey }: { apiKey?: string }) {
     console.error('🔑 error', error);
     return { error: error?.message };
   }
+}
+
+function chargesConversion(charge: number): number {
+  // --------------------------------------------------------------------------------
+  // 📌  Conversion from cents to dollars
+  // --------------------------------------------------------------------------------
+  if (charge && charge > 0) {
+    return Number((charge / 100).toFixed(2));
+  }
+
+  return charge;
 }
 
 // --------------------------------------------------------------------------------
