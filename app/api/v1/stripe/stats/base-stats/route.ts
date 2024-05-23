@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     const subRes = await subscription({ userId });
     validateActiveSubMiddleware({ status: subRes?.subscription?.status });
-    validateBasicSubMiddleware({ name: subRes?.product?.name });
+    validateBasicSubMiddleware({ name: 'subRes?.product?.name' });
 
     // --------------------------------------------------------------------------------
     // 📌  Get Account API keys
@@ -69,6 +69,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     console.error('🔑 error', error);
-    return NextResponse.json({ error: error?.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error?.message },
+      { status: error?.status || 500 }
+    );
   }
 }

@@ -72,9 +72,13 @@ export function validateActiveSubMiddleware(props: {
   message?: string;
 }): void {
   if (props?.status !== 'active') {
-    throw new Error(
+    const error = new Error(
       props?.message ?? 'Subscription not active. Please subscribe!'
-    );
+    ) as unknown as { status: number };
+
+    error.status = 401;
+
+    throw error;
   }
 }
 
@@ -85,9 +89,13 @@ export function validateBasicSubMiddleware(props: {
   const config = props.name ? (plans[props.name] as Plan) : undefined;
 
   if (!config?.basic) {
-    throw new Error(
-      props?.message ?? 'Please upgrade to a basic plan to access this feature'
-    );
+    const error = new Error(
+      props?.message ?? 'Please upgrade plan to access this feature'
+    ) as unknown as { status: number };
+
+    error.status = 401;
+
+    throw error;
   }
 }
 
@@ -98,10 +106,13 @@ export function validateAdvancedSubMiddleware(props: {
   const config = props.name ? (plans[props.name] as Plan) : undefined;
 
   if (!config?.advanced) {
-    throw new Error(
-      props?.message ??
-        'Please upgrade to an advanced plan to access this feature'
-    );
+    const error = new Error(
+      props?.message ?? 'Please upgrade plan to access this feature'
+    ) as unknown as { status: number };
+
+    error.status = 401;
+
+    throw error;
   }
 }
 
@@ -112,8 +123,12 @@ export function validateProSubMiddleware(props: {
   const config = props.name ? (plans[props.name] as Plan) : undefined;
 
   if (!config?.pro) {
-    throw new Error(
-      props?.message ?? 'Please upgrade to a pro plan to access this feature'
-    );
+    const error = new Error(
+      props?.message ?? 'Please upgrade plan to access this feature'
+    ) as unknown as { status: number };
+
+    error.status = 401;
+
+    throw error;
   }
 }
