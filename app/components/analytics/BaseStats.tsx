@@ -15,14 +15,12 @@ import { cFetch } from '@lib/cFetcher';
 import Button from '../Button';
 
 export default function BaseStats() {
-  const { user } = useUser({});
-  const { charges } = useTotalCharges({});
-  const { customers } = useTotalCustomers({});
-  const { data: statsCustomers } = useCustomersMonthGrowth({});
-  const { data: statsCharges } = useChargesMonthGrowth({});
-  const { subscriptions, isLoading } = useSubscriptions({});
-  console.log('Subs ', subscriptions);
-  console.log(`user `, user);
+  // const { user } = useUser({});
+  // const { charges } = useTotalCharges({});
+  // const { customers } = useTotalCustomers({});
+  // const { data: statsCustomers } = useCustomersMonthGrowth({});
+  // const { data: statsCharges } = useChargesMonthGrowth({});
+  // const { subscriptions, isLoading } = useSubscriptions({});
 
   // if (isLoading) {
   //   return (
@@ -60,7 +58,7 @@ export default function BaseStats() {
     <section className="flex flex-1 flex-col gap-10">
       <Button onClick={testHandler}>Test</Button>
 
-      <section className="flex flex-1 flex-row gap-5 flex-wrap">
+      {/* <section className="flex flex-1 flex-row gap-5 flex-wrap">
         <NumbersCard number={customers} icon="customers" title="Customers" />
         <NumbersCard number={charges} icon="payments" title="Charges" />
         <NumbersCard number={charges} icon="payments" title="Charges" />
@@ -87,7 +85,7 @@ export default function BaseStats() {
             link="/dashboard/charges"
           />
         </section>
-      </section>
+      </section> */}
     </section>
   );
 }

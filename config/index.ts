@@ -8,11 +8,17 @@ export const plans: { [key: string]: Plan } = {
     keyLimit: 1,
     emailLimit: 100,
     name: 'Freelancer',
+    basic: true,
+    advanced: false,
+    pro: false,
   },
   Startup: {
     keyLimit: 5,
     emailLimit: 500,
     name: 'Startup',
+    basic: true,
+    advanced: true,
+    pro: false,
   },
 };
 

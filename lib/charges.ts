@@ -252,7 +252,7 @@ function chargesConversion(charge: number): number {
 }
 
 // --------------------------------------------------------------------------------
-// 📌 Based on the data returned by stripe.charges.list(), you can compute various statistics and metrics to gain insights into your payment transactions. Here is a list of possible statistics and metrics you can calculate based on the Stripe charges API data:
+// 📌 Stripe charges API data:
 // --------------------------------------------------------------------------------
 // 1. Total Revenue: Sum of the amount field from all successful charges.
 // 2. Number of Successful Charges: Count of all successful charges returned.

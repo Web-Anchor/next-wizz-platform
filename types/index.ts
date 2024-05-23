@@ -106,6 +106,9 @@ export type Plan = {
   keyLimit: number;
   emailLimit: number;
   name: string;
+  basic: boolean;
+  advanced: boolean;
+  pro: boolean;
 };
 
 export type Ticket = {

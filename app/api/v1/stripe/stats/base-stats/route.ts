@@ -7,6 +7,7 @@ import { subscription } from '@lib/subscription';
 import { plans } from '@config/index';
 import { charges } from '@lib/charges';
 import { Plan } from '../../../../../../types';
+import { customers } from '@lib/customers';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -30,11 +31,22 @@ export async function POST(request: NextRequest) {
 
     if (status !== 'active') {
       console.log('👤 Subscription not active');
-      return NextResponse.json({
-        error: 'Subscription not active. Please subscribe!',
-      });
+      return NextResponse.json(
+        {
+          error: 'Subscription not active. Please subscribe!',
+        },
+        { status: 401 }
+      );
     }
     const config = plans[planName] as Plan;
+    if (!config.basic) {
+      return NextResponse.json(
+        {
+          error: 'Please upgrade your plan to add invoice templates',
+        },
+        { status: 401 }
+      );
+    }
 
     // --------------------------------------------------------------------------------
     // 📌  Get Account API keys
@@ -56,15 +68,18 @@ export async function POST(request: NextRequest) {
     if (!apiKey) {
       return NextResponse.json({ error: 'No API key found' });
     }
-    const stripe = require('stripe')(apiKey);
 
     // --------------------------------------------------------------------------------
     // 📌  Compute stats for user account
     // --------------------------------------------------------------------------------
     const chargesRes = await charges({ apiKey }); // 🔑 get charges & relevant stats
-    console.log('🔑 charges', chargesRes);
+    const customersRes = await customers({ apiKey }); // 🔑 get customers & relevant stats
 
-    return NextResponse.json({ status: 200, charges: chargesRes });
+    return NextResponse.json({
+      status: 200,
+      charges: chargesRes,
+      customers: customersRes,
+    });
   } catch (error: any) {
     console.error('🔑 error', error);
     return NextResponse.json({ error: error?.message });

@@ -34,10 +34,13 @@ export async function POST(request: NextRequest) {
       });
     }
     const config = plans[planName] as Plan;
-    if (config.name === 'freelancer') {
-      return NextResponse.json({
-        error: 'Please upgrade your plan to add invoice templates',
-      });
+    if (!config.advanced) {
+      return NextResponse.json(
+        {
+          error: 'Please upgrade your plan to add invoice templates',
+        },
+        { status: 401 }
+      );
     }
 
     // --------------------------------------------------------------------------------
