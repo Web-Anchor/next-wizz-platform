@@ -67,6 +67,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ customers: totalCustomers });
   } catch (error: any) {
     console.error('🔑 error', error);
-    return NextResponse.json({ error: error?.message });
+    return NextResponse.json({ error: error?.message }, { status: 500 });
   }
 }

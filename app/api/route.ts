@@ -10,5 +10,5 @@ export async function GET() {
 
   // Add your Route Handler logic here
 
-  return NextResponse.json({ message: 'Hello world!' });
+  return NextResponse.json({ message: 'Hello world!' }, { status: 200 });
 }

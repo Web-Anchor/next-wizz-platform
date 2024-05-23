@@ -130,3 +130,11 @@ export type Feature = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export type StripeProduct = {
+  id?: string;
+  name?: string;
+  description?: string;
+  active?: boolean;
+  created?: number;
+};

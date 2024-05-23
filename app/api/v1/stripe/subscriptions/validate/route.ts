@@ -10,11 +10,11 @@ export async function POST(request: NextRequest) {
     // 📌  Check if customer exist in Stripe
     // --------------------------------------------------------------------------------
     const { userId } = auth();
-    const data = await subscription({ userId });
+    const subRes = await subscription({ userId });
 
-    return NextResponse.json({ ...data });
+    return NextResponse.json({ ...subRes });
   } catch (error: any) {
     console.error('🔑 error', error);
-    return NextResponse.json({ error: error?.message });
+    return NextResponse.json({ error: error?.message }, { status: 500 });
   }
 }

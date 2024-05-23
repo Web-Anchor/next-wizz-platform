@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
       .where(eq(strKeys.userId, dbUser[0].id.toString()));
 
     return NextResponse.json({ keys });
-  } catch (err) {
-    console.error(err);
-    return NextResponse.error();
+  } catch (error: any) {
+    console.error(error);
+    return NextResponse.json({ error: error?.message }, { status: 500 });
   }
 }

@@ -68,6 +68,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ charges: totalCharges });
   } catch (error: any) {
     console.error('🔑 error', error);
-    return NextResponse.json({ error: error?.message });
+    return NextResponse.json({ error: error?.message }, { status: 500 });
   }
 }

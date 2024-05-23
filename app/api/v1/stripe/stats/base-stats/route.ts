@@ -2,8 +2,12 @@ import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { keys as strKeys, users } from '@db/schema';
-import { eq, gte } from 'drizzle-orm';
-import { subscription } from '@lib/subscription';
+import { eq } from 'drizzle-orm';
+import {
+  subscription,
+  validateActiveSubMiddleware,
+  validateBasicSubMiddleware,
+} from '@lib/subscription';
 import { plans } from '@config/index';
 import { charges } from '@lib/charges';
 import { Plan } from '../../../../../../types';
@@ -27,26 +31,9 @@ export async function POST(request: NextRequest) {
       .where(eq(users.clerkId, userId!));
     console.log('👤 User ', userId, dbUser);
 
-    const { name: planName, status } = await subscription({ userId });
-
-    if (status !== 'active') {
-      console.log('👤 Subscription not active');
-      return NextResponse.json(
-        {
-          error: 'Subscription not active. Please subscribe!',
-        },
-        { status: 401 }
-      );
-    }
-    const config = plans[planName] as Plan;
-    if (!config.basic) {
-      return NextResponse.json(
-        {
-          error: 'Please upgrade your plan to add invoice templates',
-        },
-        { status: 401 }
-      );
-    }
+    const subRes = await subscription({ userId });
+    validateActiveSubMiddleware({ status: subRes?.subscription?.status });
+    validateBasicSubMiddleware({ name: subRes?.product?.name });
 
     // --------------------------------------------------------------------------------
     // 📌  Get Account API keys
@@ -82,6 +69,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     console.error('🔑 error', error);
-    return NextResponse.json({ error: error?.message });
+    return NextResponse.json({ error: error?.message }, { status: 500 });
   }
 }

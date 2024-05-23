@@ -4,7 +4,7 @@ import { db } from '@db/index';
 import { keys as strKeys, users } from '@db/schema';
 import { eq } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
-import { subscription } from '@lib/subscription';
+import { subscription, validateActiveSubMiddleware } from '@lib/subscription';
 import { plans } from '@config/index';
 import { Plan } from '../../../../../../types/index';
 
@@ -30,15 +30,9 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     // 📌  Validate & validate sub type
     // --------------------------------------------------------------------------------
-    const { name: planName, status } = await subscription({ userId });
-
-    if (status !== 'active') {
-      console.log('👤 Subscription not active');
-      return NextResponse.json({
-        error: 'Subscription not active. Please subscribe!',
-      });
-    }
-    const config = plans[planName] as Plan;
+    const subRes = await subscription({ userId });
+    validateActiveSubMiddleware({ status: subRes?.subscription?.status });
+    const config = plans[subRes?.product?.name!] as Plan;
 
     const userKeys = await db
       .select()
@@ -72,6 +66,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error('🔑 error', error);
-    return NextResponse.json({ error: error?.message });
+    return NextResponse.json({ error: error?.message }, { status: 500 });
   }
 }
