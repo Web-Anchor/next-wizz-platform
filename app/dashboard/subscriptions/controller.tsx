@@ -118,7 +118,7 @@ export default function Page() {
               <section
                 key={key}
                 className={classNames(
-                  'flex flex-col gap-2 rounded-3xl p-8 ring-1 card w-full lg:w-72 bg-base-100 shadow-xl py-6 px-4',
+                  'flex flex-col gap-2 rounded-3xl p-8 ring-1 card w-full lg:w-72 bg-base-100 lg:shadow-xl py-6 px-4',
                   tier.featured
                     ? 'bg-gray-900 bg-opacity-90 ring-gray-900'
                     : 'ring-gray-200'

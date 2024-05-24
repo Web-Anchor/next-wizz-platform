@@ -34,6 +34,7 @@ export default function ProfileButton(props: Props): React.ReactElement {
               imgSrc={user?.imageUrl}
               firstName={user?.firstName as string}
               order="right"
+              disabled
             />
           )}
           {!isLoaded && (
