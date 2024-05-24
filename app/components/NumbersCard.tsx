@@ -21,7 +21,7 @@ export default function NumbersCard(props: Props): React.ReactElement {
   const Icon = ICON[props?.icon ?? 'customers'];
 
   return (
-    <section className="relative min-w-full sm:max-w-xs sm:min-w-64 overflow-hidden rounded-lg bg-white shadow">
+    <section className="relative min-w-full lg:max-w-xs sm:min-w-64 overflow-hidden rounded-lg bg-white shadow">
       <div className="stat">
         <div className="stat-figure absolute">
           <Icon className="inline-block w-8 h-8 stroke-current" />

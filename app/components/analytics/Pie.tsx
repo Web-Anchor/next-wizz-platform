@@ -1,7 +1,6 @@
 'use client';
 
 import { Pie as PieChart } from '@ant-design/plots';
-import { classNames } from '@helpers/index';
 
 type Props = {
   title?: string;
