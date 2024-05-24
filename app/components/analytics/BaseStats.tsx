@@ -4,26 +4,20 @@ import { SectionWrapper } from '@app/components/Wrapper';
 import { format, addMonths, startOfMonth, addDays } from 'date-fns';
 import StatsCard from '@app/components/StatsCard';
 import Pie from '@app/components/analytics/Pie';
-import BarChart from '@app/components/analytics/BarChart';
 import NumbersCard from '@app/components/NumbersCard';
-import PageHeadings from '../PageHeadings';
+import PageHeadings from '@components/PageHeadings';
 import { useStatistics } from '@hooks/statistics';
+import RadialBar from '@components/analytics/RadialBar';
 
 export default function BaseStats() {
   const { data, charges, customers, isLoading } = useStatistics({
     type: 'advanced',
   });
-  const pieClass = 'lg:max-w-[calc(50%-5rem)]';
+  const pieClass = 'lg:max-w-[calc(50%-5rem)] h-[360px]';
   console.log('🚧 API Stats ', customers);
 
   return (
     <SectionWrapper>
-      <PageHeadings
-        title="Metrics Overview."
-        description="Visualize key metrics from Stripe charges and customers API data in an easy-to-understand format with our Basic Charts Component. Gain insights into revenue trends, customer behavior, and payment performance at a glance."
-        slogan="Simplify Insights, Drive Growth - Charting Your Success!"
-      />
-
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
         <StatsCard
           currentTotal={customers?.customersTotalCurrentMonth}
@@ -49,10 +43,9 @@ export default function BaseStats() {
         />
 
         <PageHeadings
-          title="Customer Pulse"
-          description="Get a pulse on customer behavior, lifetime value trends, and acquisition insights with our Customers Insights Module. Understand your customer base better, segment effectively, and enhance retention strategies for sustainable growth."
-          slogan="Connecting with Customers, Growing Together!"
-          class="order-1 lg:-order-none"
+          title="Customer Pulse."
+          description="Visualize key metrics from Stripe charges and customers API data in an easy-to-understand format with our Basic Charts Component. Gain insights into revenue trends, customer behavior, and payment performance at a glance."
+          slogan="Simplify Insights, Drive Growth - Charting Your Success!"
         />
 
         <NumbersCard
@@ -78,7 +71,12 @@ export default function BaseStats() {
         />
       </SectionWrapper>
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
-        <PageHeadings title="Advanced Customer Analytics" />
+        <PageHeadings
+          title="Advanced Customer Analytics."
+          description="Get a pulse on customer behavior, lifetime value trends, and acquisition insights with our Customers Insights Module. Understand your customer base better, segment effectively, and enhance retention strategies for sustainable growth."
+          slogan="Connecting with Customers, Growing Together!"
+          class="order-1 lg:-order-none"
+        />
         <Pie
           title={`Geographical Customer\nDistribution`}
           data={convertObjToArray(customers?.customerDemographics)}
@@ -98,14 +96,20 @@ export default function BaseStats() {
           loading={isLoading}
         />
         <Pie
-          title={`Customer Segmentation`}
-          data={convertObjToArray(customers?.customerSegmentation)}
+          title={`Customer Creation\nDay of Week`}
+          data={convertObjToArray(customers?.customerCreationDayOfWeek)}
           class={pieClass}
           loading={isLoading}
         />
-        <BarChart
-          title={`Customer Segmentation`}
-          data={convertObjToArray(customers?.customerSegmentation)}
+        <RadialBar
+          title={`Customer Creation\nDay of Week`}
+          data={convertObjToArray(customers?.customerCreationDayOfWeek)}
+          class={pieClass}
+          loading={isLoading}
+        />
+        <RadialBar
+          title={`Customer Payment\nMethod Distribution`}
+          data={convertObjToArray(customers?.customerPaymentMethod)}
           class={pieClass}
           loading={isLoading}
         />

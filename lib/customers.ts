@@ -100,15 +100,18 @@ export async function customers({ apiKey }: { apiKey?: string }) {
         return acc;
       }, {}),
       // Customer Email Domain Distribution: Customer Segmentation:
-      customerSegmentation: customers?.reduce((acc: any, customer: any) => {
-        const email = customer?.email;
-        if (acc[email]) {
-          acc[email]++;
-        } else {
-          acc[email] = 1;
-        }
-        return acc;
-      }, {}),
+      customerEmailSegmentation: customers?.reduce(
+        (acc: any, customer: any) => {
+          const email = customer?.email;
+          if (acc[email]) {
+            acc[email]++;
+          } else {
+            acc[email] = 1;
+          }
+          return acc;
+        },
+        {}
+      ),
       customerCreationDateDistribution: customers?.reduce(
         (acc: any, customer: any) => {
           const created = new Date(customer.created * 1000);

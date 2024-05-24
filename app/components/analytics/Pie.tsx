@@ -30,9 +30,7 @@ export default function Pie(props: Props): React.ReactElement | null {
     labels: [
       {
         text: (props: any) => {
-          const name = props?.name === 'undefined' ? 'Others' : props?.name;
-
-          return name;
+          return notDefined(props?.name);
         },
         style: { fontSize: 14, fontWeight: 'bold' },
         position: props?.labelPosition,
@@ -80,4 +78,15 @@ export default function Pie(props: Props): React.ReactElement | null {
       <PieChart {...config} />
     </section>
   );
+}
+
+function notDefined(value: any) {
+  const input =
+    value === 'undefined' ||
+    value === 'null' ||
+    value === undefined ||
+    value === null ||
+    value === '';
+
+  return input ? 'Other' : value;
 }
