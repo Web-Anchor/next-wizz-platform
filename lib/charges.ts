@@ -56,8 +56,8 @@ export async function charges({ apiKey }: { apiKey?: string }) {
       // 📌  Charge Stats
       // --------------------------------------------------------------------------------
       // Total Revenue:
-      revenueCurrentMonth,
-      revenueLastMonth,
+      revenueCurrentMonth: chargesConversion(revenueCurrentMonth),
+      revenueLastMonth: chargesConversion(revenueLastMonth),
       // revenue growth rate
       revenueGrowthRate: Number(
         ((revenueCurrentMonth - revenueLastMonth) / revenueLastMonth) * 100
@@ -178,7 +178,7 @@ export async function charges({ apiKey }: { apiKey?: string }) {
         ) / chargesLastMonth.length
       ),
       // Monthly Active Customers:
-      totalCurrentCustomers: chargesCurrentMont.reduce(
+      totalCurrentCustomerDistribution: chargesCurrentMont.reduce(
         (acc: any, charge: any) => {
           if (!acc[charge.customer]) {
             acc[charge.customer] = 1;
@@ -187,10 +187,10 @@ export async function charges({ apiKey }: { apiKey?: string }) {
         },
         {}
       ),
-      totalLastMonthCustomers: chargesLastMonth.reduce(
+      totalLastMonthCustomerDistribution: chargesLastMonth.reduce(
         (acc: any, charge: any) => {
-          if (!acc[charge.customer]) {
-            acc[charge.customer] = 1;
+          if (!acc[charge?.customer]) {
+            acc[charge?.customer] = 1;
           }
           return acc;
         },
@@ -210,10 +210,10 @@ export async function charges({ apiKey }: { apiKey?: string }) {
       // Geographical Distribution of Sales based on country:
       geographicalDistributionCurrentMonth: chargesCurrentMont.reduce(
         (acc: any, charge: any) => {
-          if (!acc[charge.payment_method_details.card.country]) {
-            acc[charge.payment_method_details.card.country] = 1;
+          if (!acc[charge?.payment_method_details?.card.country]) {
+            acc[charge?.payment_method_details.card?.country] = 1;
           } else {
-            acc[charge.payment_method_details.card.country]++;
+            acc[charge?.payment_method_details?.card.country]++;
           }
           return acc;
         },
@@ -221,10 +221,10 @@ export async function charges({ apiKey }: { apiKey?: string }) {
       ),
       geographicalDistributionLastMonth: chargesLastMonth.reduce(
         (acc: any, charge: any) => {
-          if (!acc[charge.payment_method_details.card.country]) {
-            acc[charge.payment_method_details.card.country] = 1;
+          if (!acc[charge?.payment_method_details?.card.country]) {
+            acc[charge?.payment_method_details?.card.country] = 1;
           } else {
-            acc[charge.payment_method_details.card.country]++;
+            acc[charge?.payment_method_details?.card.country]++;
           }
           return acc;
         },
@@ -238,6 +238,42 @@ export async function charges({ apiKey }: { apiKey?: string }) {
         chargesCurrentMont.filter(
           (charge: any) => charge.status === 'succeeded'
         ).length,
+      // charges source brand distribution
+      chargesSourceBrandDistributionCurrentMonth: chargesCurrentMont.reduce(
+        (acc: any, charge: any) => {
+          if (!acc[charge?.source?.brand]) {
+            acc[charge?.source?.brand] = 1;
+          } else {
+            acc[charge?.source?.brand]++;
+          }
+          return acc;
+        },
+        {}
+      ),
+      // charges source funding distribution
+      chargesSourceFundingDistributionCurrentMonth: chargesCurrentMont.reduce(
+        (acc: any, charge: any) => {
+          if (!acc[charge?.source?.funding]) {
+            acc[charge?.source?.funding] = 1;
+          } else {
+            acc[charge?.source?.funding]++;
+          }
+          return acc;
+        },
+        {}
+      ),
+      // risk_score distribution
+      riskScoreDistributionCurrentMonth: chargesCurrentMont.reduce(
+        (acc: any, charge: any) => {
+          if (!acc[charge?.outcome?.risk_score]) {
+            acc[charge?.outcome?.risk_score] = 1;
+          } else {
+            acc[charge?.outcome?.risk_score]++;
+          }
+          return acc;
+        },
+        {}
+      ),
     };
 
     return stats;

@@ -10,11 +10,10 @@ import { useStatistics } from '@hooks/statistics';
 import RadialBar from '@components/analytics/RadialBar';
 
 export default function BaseStats() {
-  const { data, charges, customers, isLoading } = useStatistics({
+  const { charges, customers, isLoading } = useStatistics({
     type: 'advanced',
   });
   const pieClass = 'lg:max-w-[calc(50%-5rem)] h-[360px]';
-  console.log('🚧 API Stats ', customers);
 
   return (
     <SectionWrapper>
@@ -139,7 +138,17 @@ export default function BaseStats() {
           link="/dashboard/charges"
           description={currentMonth()}
         />
+        <StatsCard
+          currentTotal={charges?.totalCurrentCharges}
+          previousTotal={`${charges?.totalLastMonthCharges} prev`}
+          percentage={charges?.chargesPercentageGrowth}
+          type="payments"
+          title="Transactions"
+          link="/dashboard/charges"
+          description={currentMonth()}
+        />
 
+        <PageHeadings title="Advanced Revenue Analytics Suite" />
         <NumbersCard
           number={charges?.avgRevenuePerUserCurrentMonth}
           icon="customers"
@@ -157,15 +166,6 @@ export default function BaseStats() {
           about="Revenue per Customer (RPC) is the average amount of money a customer spends on your products or services in a given period. It is calculated by dividing the total revenue generated in a month by the total number of customers in that month."
         />
 
-        <StatsCard
-          currentTotal={charges?.totalCurrentCharges}
-          previousTotal={`${charges?.totalLastMonthCharges} prev`}
-          percentage={charges?.chargesPercentageGrowth}
-          type="payments"
-          title="Transactions"
-          link="/dashboard/charges"
-          description={currentMonth()}
-        />
         <NumbersCard
           number={charges?.totalCurrentSuccessfulCharges}
           icon="payments"
@@ -180,22 +180,6 @@ export default function BaseStats() {
           description={lastMonth()}
           subDescription="Total Successful Transactions"
         />
-
-        <NumbersCard
-          number={charges?.totalCurrentSuccessfulCharges}
-          icon="payments"
-          title="Current Successful Transactions"
-          description={currentMonth()}
-          subDescription="Total Successful Transactions"
-        />
-        <NumbersCard
-          number={charges?.totalLastMonthSuccessfulCharges}
-          icon="payments"
-          title="Previous Month Successful Transactions"
-          description={lastMonth()}
-          subDescription="Total Successful Transactions"
-        />
-
         <NumbersCard
           number={charges?.totalCurrentFailedCharges}
           icon="payments"
@@ -209,6 +193,12 @@ export default function BaseStats() {
           title="Previous Month Failed Transactions"
           description={lastMonth()}
           subDescription="Total Failed Transactions"
+        />
+
+        <PageHeadings
+          title="Revenue Insights Pro"
+          description="Elevate your revenue analysis with our Advanced Revenue Analytics Suite, offering sophisticated chart components for in-depth financial metrics exploration. Uncover revenue trends, customer spending patterns, and subscription performance to drive strategic decision-making."
+          slogan="Charting Success, Unveiling Opportunities!"
         />
 
         <NumbersCard
@@ -240,12 +230,38 @@ export default function BaseStats() {
           description={lastMonth()}
           subDescription="Total Refunds"
         />
+        <NumbersCard
+          number={charges?.subscriptionRenewalRateCurrentMonth}
+          icon="payments"
+          title="Current Subscription Renewal Rate"
+          description={currentMonth()}
+          subDescription="Subscription Renewal Rate"
+        />
       </SectionWrapper>
-      <Pie
-        title={`Geographical Customer\nDistribution`}
-        data={convertObjToArray(charges?.geographicalDistributionCurrentMonth)}
-        labelPosition="outside"
-      />
+      <SectionWrapper class="lg:flex-row flex-wrap gap-5">
+        <RadialBar
+          title={`Charges Source\nBrand Distribution`}
+          data={convertObjToArray(
+            charges?.chargesSourceBrandDistributionCurrentMonth
+          )}
+          class={pieClass}
+          loading={isLoading}
+        />
+        <Pie
+          title={`Charges Source\nBrand Distribution`}
+          data={convertObjToArray(
+            charges?.chargesSourceFundingDistributionCurrentMonth
+          )}
+          class={pieClass}
+          loading={isLoading}
+        />
+        <Pie
+          title={`Risk Score\nDistribution`}
+          data={convertObjToArray(charges?.riskScoreDistributionCurrentMonth)}
+          class={pieClass}
+          loading={isLoading}
+        />
+      </SectionWrapper>
     </SectionWrapper>
   );
 }
