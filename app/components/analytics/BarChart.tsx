@@ -1,6 +1,7 @@
 'use client';
 
 import { Bar } from '@ant-design/plots';
+import { classNames } from '@helpers/index';
 
 type Props = {
   title?: string;
@@ -42,6 +43,12 @@ export default function BarChart(props: Props): React.ReactElement | null {
 
   return (
     <section className={props.class}>
+      <div
+        className={classNames(
+          'flex lg:hidden absolute left-0 top-0 z-10 items-center justify-center w-[360px] h-[360px]',
+          props.class
+        )}
+      />
       <Bar {...config} />
     </section>
   );

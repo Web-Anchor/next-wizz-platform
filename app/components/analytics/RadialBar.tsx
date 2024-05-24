@@ -54,6 +54,12 @@ export default function RadialBar(props: Props): React.ReactElement | null {
 
   return (
     <section className={props.class}>
+      <div
+        className={classNames(
+          'flex lg:hidden absolute left-0 top-0 z-10 items-center justify-center w-[360px] h-[360px]',
+          props.class
+        )}
+      />
       <RadialBarChart {...config} />
     </section>
   );
