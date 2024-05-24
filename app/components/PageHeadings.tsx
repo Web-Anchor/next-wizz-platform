@@ -11,7 +11,7 @@ export default function PageHeadings(props: Props): React.ReactElement {
   return (
     <section
       className={classNames(
-        'max-w-none lg:max-w-4xl flex flex-col gap-3',
+        'w-full max-w-none lg:max-w-4xl flex flex-col gap-3',
         props?.class
       )}
     >

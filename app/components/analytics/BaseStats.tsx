@@ -4,6 +4,7 @@ import { SectionWrapper } from '@app/components/Wrapper';
 import { format, addMonths, startOfMonth } from 'date-fns';
 import StatsCard from '@app/components/StatsCard';
 import Pie from '@app/components/analytics/Pie';
+import BarChart from '@app/components/analytics/BarChart';
 import NumbersCard from '@app/components/NumbersCard';
 import PageHeadings from '../PageHeadings';
 import { useStatistics } from '@hooks/statistics';
@@ -12,7 +13,8 @@ export default function BaseStats() {
   const { data, charges, customers, isLoading } = useStatistics({
     type: 'advanced',
   });
-  console.log('🚧 API Stats ', charges);
+  const pieClass = 'lg:max-w-[calc(50%-5rem)]';
+  console.log('🚧 API Stats ', customers);
 
   return (
     <SectionWrapper>
@@ -22,26 +24,90 @@ export default function BaseStats() {
         slogan="Simplify Insights, Drive Growth - Charting Your Success!"
       />
 
-      {/* <SectionWrapper class="lg:flex-row flex-wrap">
-        <NumbersCard
-          number={customers?.totalCustomers}
-          icon="customers"
-          title="Customers"
-        />
-        <NumbersCard
-          number={customers?.totalCustomers}
-          icon="payments"
-          title="Charges"
-        />
-        <NumbersCard
-          number={customers?.totalCustomers}
-          icon="payments"
-          title="Charges"
-        />
-      </SectionWrapper> */}
-
-      <PageHeadings slogan="Revenue Explorer" />
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
+        <NumbersCard
+          number={customers?.customersTotal}
+          icon="customers"
+          title="Total Customers"
+          subDescription="Total Number of Customers"
+        />
+        <NumbersCard
+          number={customers?.customersTotalCurrentMonth}
+          icon="customers"
+          title="Current Month Customers"
+          description={currentMonth()}
+          subDescription="Total Number of Customers"
+        />
+        <NumbersCard
+          number={customers?.customersTotalLastMonth}
+          icon="customers"
+          title="Last Month Customers"
+          description={lastMonth()}
+          subDescription="Total Number of Customers"
+        />
+        <PageHeadings
+          title="Customer Pulse"
+          description="Get a pulse on customer behavior, lifetime value trends, and acquisition insights with our Customers Insights Module. Understand your customer base better, segment effectively, and enhance retention strategies for sustainable growth."
+          slogan="Connecting with Customers, Growing Together!"
+          class="order-1 lg:-order-none"
+        />
+        <StatsCard
+          currentTotal={customers?.customersTotalCurrentMonth}
+          previousTotal={`${customers?.customersTotalLastMonth} prev`}
+          percentage={customers?.customersPercentageGrowth}
+          type="customers"
+          title="Customer Growth Rate"
+          link="/dashboard/customers"
+          description={currentMonth()}
+        />
+        <NumbersCard
+          number={customers?.useCustomersCurrentMonthGrowth}
+          icon="customers"
+          title="Customer Growth Rate"
+          description={lastMonth()}
+          subDescription="Customer Growth Rate"
+        />
+      </SectionWrapper>
+      <SectionWrapper class="lg:flex-row flex-wrap gap-5">
+        <PageHeadings title="Advanced Customer Analytics" />
+        <Pie
+          title={`Geographical Customer\nDistribution`}
+          data={convertObjToArray(customers?.customerDemographics)}
+          class={pieClass}
+          loading={isLoading}
+        />
+        <Pie
+          title={`Preferred Customer\nLocales`}
+          data={convertObjToArray(customers?.customerPreferredLocales)}
+          class={pieClass}
+          loading={isLoading}
+        />
+        <Pie
+          title={`Customer Currency\nDistribution`}
+          data={convertObjToArray(customers?.customerCurrencies)}
+          class={pieClass}
+          loading={isLoading}
+        />
+        <Pie
+          title={`Customer Segmentation`}
+          data={convertObjToArray(customers?.customerSegmentation)}
+          class={pieClass}
+          loading={isLoading}
+        />
+        <BarChart
+          title={`Customer Segmentation`}
+          data={convertObjToArray(customers?.customerSegmentation)}
+          class={pieClass}
+          loading={isLoading}
+        />
+      </SectionWrapper>
+
+      <SectionWrapper class="lg:flex-row flex-wrap gap-5">
+        <PageHeadings
+          title="Revenue Explorer"
+          description=" Dive into detailed revenue analytics, transaction trends, and payment performance metrics with our Charges Insights Module. Unlock valuable insights into your financial data to optimize revenue streams and drive business growth."
+          slogan="Navigate Revenue Waters, Chart Your Success!"
+        />
         <StatsCard
           currentTotal={charges?.totalCurrentCharges}
           previousTotal={`${charges?.totalLastMonthCharges} prev`}
@@ -165,12 +231,7 @@ export default function BaseStats() {
       <Pie
         title={`Geographical Customer\nDistribution`}
         data={convertObjToArray(charges?.geographicalDistributionCurrentMonth)}
-      />
-
-      <PageHeadings
-        title="Charges Insights Module"
-        description="Dive into detailed revenue analytics, transaction trends, and payment performance metrics with our Charges Insights Module. Unlock valuable insights into your financial data to optimize revenue streams and drive business growth."
-        slogan="Navigate Revenue Waters, Chart Your Success!"
+        labelPosition="outside"
       />
     </SectionWrapper>
   );

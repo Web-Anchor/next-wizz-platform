@@ -41,9 +41,11 @@ export default function StatsCard(props: Props): React.ReactElement {
           )}
 
           <section className="flex items-baseline">
-            <p className="text-2xl font-semibold text-gray-900">
-              {props?.currentTotal}
-            </p>
+            {props?.currentTotal && (
+              <p className="text-2xl font-semibold text-gray-900">
+                {props?.currentTotal}
+              </p>
+            )}
             <p
               className={classNames(
                 percentage >= 0 ? 'text-green-600' : 'text-red-600',

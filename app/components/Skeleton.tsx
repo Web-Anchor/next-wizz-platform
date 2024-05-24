@@ -48,3 +48,9 @@ export function RowSkeleton() {
     </section>
   );
 }
+
+export function PieSkeleton() {
+  return (
+    <section className="flex justify-center rounded-full skeleton h-[360px] w-[360px]" />
+  );
+}

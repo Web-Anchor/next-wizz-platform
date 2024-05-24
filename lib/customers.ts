@@ -44,6 +44,7 @@ export async function customers({ apiKey }: { apiKey?: string }) {
       customers,
       customersCurrentMonth, // or Customer Acquisition Rate per month
       customersLastMonth,
+      customersTotal: customers?.length,
       customersTotalCurrentMonth: customersCurrentMonth?.length,
       customersTotalLastMonth: customersLastMonth?.length,
       customersPercentageGrowth: Number(
