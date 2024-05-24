@@ -58,7 +58,7 @@ export default function Pie(props: Props): React.ReactElement | null {
           x: '50%',
           y: '50%',
           textAlign: 'center',
-          fontSize: 20,
+          fontSize: 16,
           fontStyle: 'bold',
         },
       },

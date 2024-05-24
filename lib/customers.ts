@@ -5,6 +5,7 @@ import {
   subMonths,
   format,
   parseISO,
+  addDays,
 } from 'date-fns';
 
 export async function customers({ apiKey }: { apiKey?: string }) {
@@ -39,6 +40,13 @@ export async function customers({ apiKey }: { apiKey?: string }) {
         created <= endOfMonth(subMonths(new Date(), 1))
       );
     });
+    const customersLast7Days = customers?.filter((customer: any) => {
+      const currentDate = new Date();
+      const last7Days = addDays(currentDate, -7);
+      const created = new Date(customer.created * 1000);
+
+      return created >= last7Days && created <= currentDate;
+    });
 
     const stats = {
       customers,
@@ -47,6 +55,10 @@ export async function customers({ apiKey }: { apiKey?: string }) {
       customersTotal: customers?.length,
       customersTotalCurrentMonth: customersCurrentMonth?.length,
       customersTotalLastMonth: customersLastMonth?.length,
+      customersLast7Days: customersLast7Days?.length,
+      // --------------------------------------------------------------------------------
+      // 📌  Customer Stats
+      // --------------------------------------------------------------------------------
       customersPercentageGrowth: Number(
         ((customersCurrentMonth?.length - customersLastMonth?.length) /
           customersLastMonth?.length) *
@@ -54,11 +66,6 @@ export async function customers({ apiKey }: { apiKey?: string }) {
       ).toFixed(2), // Customer Growth Rate:
       customersGrowthRate:
         customersCurrentMonth?.length - customersLastMonth?.length,
-      // --------------------------------------------------------------------------------
-      // 📌  Charge Stats
-      // --------------------------------------------------------------------------------
-      // Total Number of Customers:
-      totalCustomers: customers?.length,
       // Customer Growth Rate current month:
       useCustomersCurrentMonthGrowth:
         customersCurrentMonth?.length - customersLastMonth?.length,

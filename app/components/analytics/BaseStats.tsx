@@ -1,7 +1,7 @@
 'use client';
 
 import { SectionWrapper } from '@app/components/Wrapper';
-import { format, addMonths, startOfMonth } from 'date-fns';
+import { format, addMonths, startOfMonth, addDays } from 'date-fns';
 import StatsCard from '@app/components/StatsCard';
 import Pie from '@app/components/analytics/Pie';
 import BarChart from '@app/components/analytics/BarChart';
@@ -25,32 +25,6 @@ export default function BaseStats() {
       />
 
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
-        <NumbersCard
-          number={customers?.customersTotal}
-          icon="customers"
-          title="Total Customers"
-          subDescription="Total Number of Customers"
-        />
-        <NumbersCard
-          number={customers?.customersTotalCurrentMonth}
-          icon="customers"
-          title="Current Month Customers"
-          description={currentMonth()}
-          subDescription="Total Number of Customers"
-        />
-        <NumbersCard
-          number={customers?.customersTotalLastMonth}
-          icon="customers"
-          title="Last Month Customers"
-          description={lastMonth()}
-          subDescription="Total Number of Customers"
-        />
-        <PageHeadings
-          title="Customer Pulse"
-          description="Get a pulse on customer behavior, lifetime value trends, and acquisition insights with our Customers Insights Module. Understand your customer base better, segment effectively, and enhance retention strategies for sustainable growth."
-          slogan="Connecting with Customers, Growing Together!"
-          class="order-1 lg:-order-none"
-        />
         <StatsCard
           currentTotal={customers?.customersTotalCurrentMonth}
           previousTotal={`${customers?.customersTotalLastMonth} prev`}
@@ -61,11 +35,46 @@ export default function BaseStats() {
           description={currentMonth()}
         />
         <NumbersCard
+          number={customers?.customersTotal}
+          icon="customers"
+          title="Total Customers"
+          subDescription="Total Number of Customers"
+        />
+        <NumbersCard
           number={customers?.useCustomersCurrentMonthGrowth}
           icon="customers"
           title="Customer Growth Rate"
           description={lastMonth()}
           subDescription="Customer Growth Rate"
+        />
+
+        <PageHeadings
+          title="Customer Pulse"
+          description="Get a pulse on customer behavior, lifetime value trends, and acquisition insights with our Customers Insights Module. Understand your customer base better, segment effectively, and enhance retention strategies for sustainable growth."
+          slogan="Connecting with Customers, Growing Together!"
+          class="order-1 lg:-order-none"
+        />
+
+        <NumbersCard
+          number={customers?.customersLast7Days}
+          icon="customers"
+          title="Last 7 Days Customers"
+          description={last7Days()}
+          subDescription="Total Number of Customers"
+        />
+        <NumbersCard
+          number={customers?.customersTotalCurrentMonth}
+          icon="customers"
+          title="Current Month Customers Growth"
+          description={currentMonth()}
+          subDescription="Total Number of Customers"
+        />
+        <NumbersCard
+          number={customers?.customersTotalLastMonth}
+          icon="customers"
+          title="Last Month Customers Growth"
+          description={lastMonth()}
+          subDescription="Total Number of Customers"
         />
       </SectionWrapper>
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
@@ -248,7 +257,6 @@ function currentMonth() {
   return `${formattedStartOfMonth} - ${formattedNextMonthStart}`;
 }
 
-// last month
 function lastMonth() {
   const currentDate = new Date();
   const startOfMonthDate = startOfMonth(currentDate);
@@ -259,6 +267,13 @@ function lastMonth() {
   const formattedEndOfMonth = format(lastMonthEndDate, 'MMM do');
 
   return `${formattedStartOfMonth} - ${formattedEndOfMonth}`;
+}
+
+function last7Days() {
+  const currentDate = new Date();
+  const last7Days = addDays(currentDate, -7);
+
+  return `${format(last7Days, 'MMM do')} - ${format(currentDate, 'MMM do')}`;
 }
 
 function convertObjToArray(input?: {

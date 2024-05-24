@@ -1,5 +1,6 @@
-import { capitalize, classNames, convertToK } from '@helpers/index';
+import { convertToK } from '@helpers/index';
 import { CurrencyDollarIcon, UserGroupIcon } from '@heroicons/react/20/solid';
+import { StatsCardSkeleton } from './Skeleton';
 
 type Props = {
   number?: number;
@@ -10,6 +11,7 @@ type Props = {
   description?: string;
   subDescription?: string;
   about?: string;
+  loading?: boolean;
 };
 
 const ICON = {
@@ -19,6 +21,14 @@ const ICON = {
 
 export default function NumbersCard(props: Props): React.ReactElement {
   const Icon = ICON[props?.icon ?? 'customers'];
+
+  if (props.loading) {
+    return (
+      <section className="relative min-w-full lg:max-w-xs sm:min-w-64 overflow-hidden rounded-lg bg-white shadow p-3">
+        <StatsCardSkeleton />
+      </section>
+    );
+  }
 
   return (
     <section className="relative min-w-full lg:max-w-xs sm:min-w-64 overflow-hidden rounded-lg bg-white shadow">
