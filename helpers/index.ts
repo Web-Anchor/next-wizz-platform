@@ -1,6 +1,12 @@
 import { StripeSubscription } from '../types/index';
 import { twMerge } from 'tailwind-merge';
-import { formatDistanceToNow } from 'date-fns';
+import {
+  formatDistanceToNow,
+  format,
+  addMonths,
+  startOfMonth,
+  addDays,
+} from 'date-fns';
 
 export function classNames(...classes: any[]) {
   // --------------------------------------------------------------------------------
@@ -68,4 +74,46 @@ export function handleIsRedirect(param: string | null) {
     return param;
   }
   return null;
+}
+
+export function currentMonth() {
+  const currentDate = new Date();
+  const startOfMonthDate = startOfMonth(currentDate);
+  const nextMonthStartDate = startOfMonth(addMonths(currentDate, 1));
+
+  const formattedStartOfMonth = format(startOfMonthDate, 'MMM do');
+  const formattedNextMonthStart = format(nextMonthStartDate, 'MMM do');
+
+  return `${formattedStartOfMonth} - ${formattedNextMonthStart}`;
+}
+
+export function lastMonth() {
+  const currentDate = new Date();
+  const startOfMonthDate = startOfMonth(currentDate);
+  const lastMonthStartDate = startOfMonth(addMonths(currentDate, -1));
+  const lastMonthEndDate = startOfMonth(currentDate);
+
+  const formattedStartOfMonth = format(lastMonthStartDate, 'MMM do');
+  const formattedEndOfMonth = format(lastMonthEndDate, 'MMM do');
+
+  return `${formattedStartOfMonth} - ${formattedEndOfMonth}`;
+}
+
+export function last7Days() {
+  const currentDate = new Date();
+  const last7Days = addDays(currentDate, -7);
+
+  return `${format(last7Days, 'MMM do')} - ${format(currentDate, 'MMM do')}`;
+}
+
+export function convertObjToArray(input?: {
+  [key: string]: number;
+}): { name?: string; value?: number }[] {
+  console.log('INPUT ', input);
+
+  if (!input) {
+    return [];
+  }
+
+  return Object.entries(input)?.map(([name, value]) => ({ name, value }));
 }

@@ -1,13 +1,18 @@
 'use client';
 
 import { SectionWrapper } from '@app/components/Wrapper';
-import { format, addMonths, startOfMonth, addDays } from 'date-fns';
 import StatsCard from '@app/components/StatsCard';
 import Pie from '@app/components/analytics/Pie';
 import NumbersCard from '@app/components/NumbersCard';
 import PageHeadings from '@components/PageHeadings';
 import { useStatistics } from '@hooks/statistics';
 import RadialBar from '@components/analytics/RadialBar';
+import {
+  convertObjToArray,
+  currentMonth,
+  last7Days,
+  lastMonth,
+} from '@helpers/index';
 
 export default function BaseStats() {
   const { charges, customers, isLoading } = useStatistics({
@@ -50,7 +55,7 @@ export default function BaseStats() {
         <NumbersCard
           number={customers?.customersLast7Days}
           icon="customers"
-          title="Last 7 Days Customers"
+          title="Customers Last 7 Days"
           description={last7Days()}
           subDescription="Total Number of Customers"
         />
@@ -165,7 +170,6 @@ export default function BaseStats() {
           subDescription="Revenue per Customer (RPC)"
           about="Revenue per Customer (RPC) is the average amount of money a customer spends on your products or services in a given period. It is calculated by dividing the total revenue generated in a month by the total number of customers in that month."
         />
-
         <NumbersCard
           number={charges?.totalCurrentSuccessfulCharges}
           icon="payments"
@@ -173,6 +177,7 @@ export default function BaseStats() {
           description={currentMonth()}
           subDescription="Total Successful Transactions"
         />
+
         <NumbersCard
           number={charges?.totalLastMonthSuccessfulCharges}
           icon="payments"
@@ -264,48 +269,6 @@ export default function BaseStats() {
       </SectionWrapper>
     </SectionWrapper>
   );
-}
-
-function currentMonth() {
-  const currentDate = new Date();
-  const startOfMonthDate = startOfMonth(currentDate);
-  const nextMonthStartDate = startOfMonth(addMonths(currentDate, 1));
-
-  const formattedStartOfMonth = format(startOfMonthDate, 'MMM do');
-  const formattedNextMonthStart = format(nextMonthStartDate, 'MMM do');
-
-  return `${formattedStartOfMonth} - ${formattedNextMonthStart}`;
-}
-
-function lastMonth() {
-  const currentDate = new Date();
-  const startOfMonthDate = startOfMonth(currentDate);
-  const lastMonthStartDate = startOfMonth(addMonths(currentDate, -1));
-  const lastMonthEndDate = startOfMonth(currentDate);
-
-  const formattedStartOfMonth = format(lastMonthStartDate, 'MMM do');
-  const formattedEndOfMonth = format(lastMonthEndDate, 'MMM do');
-
-  return `${formattedStartOfMonth} - ${formattedEndOfMonth}`;
-}
-
-function last7Days() {
-  const currentDate = new Date();
-  const last7Days = addDays(currentDate, -7);
-
-  return `${format(last7Days, 'MMM do')} - ${format(currentDate, 'MMM do')}`;
-}
-
-function convertObjToArray(input?: {
-  [key: string]: number;
-}): { name?: string; value?: number }[] {
-  console.log('INPUT ', input);
-
-  if (!input) {
-    return [];
-  }
-
-  return Object.entries(input)?.map(([name, value]) => ({ name, value }));
 }
 
 // Charges Insights Module

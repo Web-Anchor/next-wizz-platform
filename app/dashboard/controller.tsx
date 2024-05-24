@@ -1,38 +1,25 @@
 'use client';
 
-import Wrapper from '@app/components/Wrapper';
-import {
-  useChargesMonthGrowth,
-  useCustomersMonthGrowth,
-  useTotalCharges,
-  useTotalCustomers,
-} from '@hooks/stats';
-import StatsCard from '@app/components/StatsCard';
-import NumbersCard from '@app/components/NumbersCard';
+import Wrapper, { SectionWrapper } from '@app/components/Wrapper';
 import { useSubscriptions, useUser } from '@hooks/index';
 import Pricing from '@components/Pricing';
-import { TableSkeleton } from '@app/components/Skeleton';
 import PageHeadings from '@app/components/PageHeadings';
+import { useStatistics } from '@hooks/statistics';
+import StatsCard from '@app/components/StatsCard';
+import { currentMonth, lastMonth } from '@helpers/index';
+import NumbersCard from '@app/components/NumbersCard';
+import Link from 'next/link';
 
 export default function Page() {
   const { user } = useUser({});
-  const { charges } = useTotalCharges({});
-  const { customers } = useTotalCustomers({});
-  const { data: statsCustomers } = useCustomersMonthGrowth({});
-  const { data: statsCharges } = useChargesMonthGrowth({});
   const { subscriptions, isLoading } = useSubscriptions({});
+  const { charges, customers } = useStatistics({
+    type: 'advanced',
+  });
   console.log('Subs ', subscriptions);
   console.log(`user `, user);
 
-  if (isLoading) {
-    return (
-      <Wrapper>
-        <TableSkeleton />
-      </Wrapper>
-    );
-  }
-
-  if (!subscriptions) {
+  if (!subscriptions && !isLoading) {
     // --------------------------------------------------------------------------------
     // 📌  Fallback Component if no subscriptions
     // --------------------------------------------------------------------------------
@@ -51,50 +38,66 @@ export default function Page() {
         slogan="Invoice Smarter, Grow Stronger - Empowering Your Business!"
       />
 
-      <section className="flex flex-1 flex-row gap-5 flex-wrap">
-        <NumbersCard number={customers} icon="customers" title="Customers" />
-        <NumbersCard number={charges} icon="payments" title="Charges" />
-        <NumbersCard number={charges} icon="payments" title="Charges" />
-      </section>
-
       <section>
-        <h3 className="text-base font-semibold leading-6 text-gray-900 mb-5">
-          Last 30 days
-        </h3>
-
-        <section className="flex flex-1 flex-row gap-5 flex-wrap">
+        <SectionWrapper class="lg:flex-row flex-wrap gap-5">
           <StatsCard
-            currentTotal={statsCustomers?.currentTotalCustomers}
-            previousTotal={statsCustomers?.previousTotalCustomers}
-            percentage={statsCustomers?.percentage}
-            type="customers"
-            link="/dashboard/customers"
-          />
-          <StatsCard
-            currentTotal={statsCharges?.currentTotalCharges}
-            previousTotal={statsCharges?.previousTotalCharges}
-            percentage={statsCharges?.percentage}
+            currentTotal={charges?.totalCurrentCharges}
+            previousTotal={`${charges?.totalLastMonthCharges} prev`}
+            percentage={charges?.chargesPercentageGrowth}
             type="payments"
+            title="Payments"
             link="/dashboard/charges"
+            description={currentMonth()}
           />
-        </section>
-      </section>
+          <StatsCard
+            currentTotal={charges?.revenueCurrentMonth}
+            previousTotal={`${charges?.revenueLastMonth} prev`}
+            percentage={charges?.revenueGrowthRate}
+            type="payments"
+            title="Revenue"
+            link="/dashboard/charges"
+            description={currentMonth()}
+          />
+          <NumbersCard
+            number={customers?.customersTotal}
+            icon="customers"
+            title="Total Customers"
+            subDescription="Total Number of Customers"
+          />
+          <NumbersCard
+            number={charges?.avgRevenuePerUserCurrentMonth}
+            icon="customers"
+            title="Current Month (RPC)"
+            description={currentMonth()}
+            subDescription="Revenue per Customer (RPC)"
+            about="Revenue per Customer (RPC) is the average amount of money a customer spends on your products or services in a given period. It is calculated by dividing the total revenue generated in a month by the total number of customers in that month."
+          />
+          <NumbersCard
+            number={charges?.avgRevenuePerUserLastMonth}
+            icon="customers"
+            title="Previous Month (RPC)"
+            description={lastMonth()}
+            subDescription="Revenue per Customer (RPC)"
+            about="Revenue per Customer (RPC) is the average amount of money a customer spends on your products or services in a given period. It is calculated by dividing the total revenue generated in a month by the total number of customers in that month."
+          />
+          <NumbersCard
+            number={charges?.totalCurrentSuccessfulCharges}
+            icon="payments"
+            title="Current Transactions"
+            description={currentMonth()}
+            subDescription="Total Successful Transactions"
+          />
+        </SectionWrapper>
 
-      <div className="card card-side bg-base-100 shadow-xl">
-        <figure>
-          <img
-            src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
-            alt="Movie"
-          />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">New movie is released!</h2>
-          <p>Click the button to watch on Jetflix app.</p>
-          <div className="card-actions justify-end">
-            <button className="btn btn-primary">Watch</button>
-          </div>
-        </div>
-      </div>
+        <SectionWrapper>
+          <Link
+            href="/dashboard/charges"
+            className="w-fit my-5 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            View All Reports
+          </Link>
+        </SectionWrapper>
+      </section>
     </Wrapper>
   );
 }
