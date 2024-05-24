@@ -40,6 +40,15 @@ export async function charges({ apiKey }: { apiKey?: string }) {
       hasMoreChargesLM = res.has_more;
     }
 
+    const revenueCurrentMonth = chargesCurrentMont.reduce(
+      (acc: number, charge: any) => acc + charge.amount,
+      0
+    );
+    const revenueLastMonth = chargesLastMonth.reduce(
+      (acc: number, charge: any) => acc + charge.amount,
+      0
+    );
+
     const stats = {
       chargesCurrentMont,
       chargesLastMonth,
@@ -47,21 +56,19 @@ export async function charges({ apiKey }: { apiKey?: string }) {
       // 📌  Charge Stats
       // --------------------------------------------------------------------------------
       // Total Revenue:
-      revenueCurrentMonth: chargesConversion(
-        chargesCurrentMont.reduce(
-          (acc: number, charge: any) => acc + charge.amount,
-          0
-        )
-      ),
-      revenueLastMonth: chargesConversion(
-        chargesLastMonth.reduce(
-          (acc: number, charge: any) => acc + charge.amount,
-          0
-        )
-      ),
-      // Number of Charges:
+      revenueCurrentMonth,
+      revenueLastMonth,
+      // revenue growth rate
+      revenueGrowthRate: Number(
+        ((revenueCurrentMonth - revenueLastMonth) / revenueLastMonth) * 100
+      ).toFixed(2), // Revenue Growth Rate:
       totalCurrentCharges: chargesCurrentMont.length,
       totalLastMonthCharges: chargesLastMonth.length,
+      chargesPercentageGrowth: Number(
+        ((chargesCurrentMont?.length - chargesLastMonth?.length) /
+          chargesLastMonth?.length) *
+          100
+      ).toFixed(2), // Charge Growth Rate:
       // Number of Successful Charges:
       totalCurrentSuccessfulCharges: chargesCurrentMont.filter(
         (charge: any) => charge.status === 'succeeded'

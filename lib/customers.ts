@@ -46,10 +46,11 @@ export async function customers({ apiKey }: { apiKey?: string }) {
       customersLastMonth,
       customersTotalCurrentMonth: customersCurrentMonth?.length,
       customersTotalLastMonth: customersLastMonth?.length,
-      customersPercentageGrowth:
+      customersPercentageGrowth: Number(
         ((customersCurrentMonth?.length - customersLastMonth?.length) /
           customersLastMonth?.length) *
-        100, // Customer Growth Rate:
+          100
+      ).toFixed(2), // Customer Growth Rate:
       customersGrowthRate:
         customersCurrentMonth?.length - customersLastMonth?.length,
       // --------------------------------------------------------------------------------

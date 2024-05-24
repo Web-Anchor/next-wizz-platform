@@ -8,9 +8,7 @@ import {
   validateActiveSubMiddleware,
   validateBasicSubMiddleware,
 } from '@lib/subscription';
-import { plans } from '@config/index';
 import { charges } from '@lib/charges';
-import { Plan } from '../../../../../../types';
 import { customers } from '@lib/customers';
 
 export async function POST(request: NextRequest) {
@@ -33,7 +31,7 @@ export async function POST(request: NextRequest) {
 
     const subRes = await subscription({ userId });
     validateActiveSubMiddleware({ status: subRes?.subscription?.status });
-    validateBasicSubMiddleware({ name: 'subRes?.product?.name' });
+    validateBasicSubMiddleware({ name: subRes?.product?.name });
 
     // --------------------------------------------------------------------------------
     // 📌  Get Account API keys
@@ -48,12 +46,12 @@ export async function POST(request: NextRequest) {
     // 📌  Get User Customer
     // --------------------------------------------------------------------------------
     const body = await request.json();
-    const keyId = body?.keyId;
+    const keyId = body.keyId;
     const key = keys.find((k) => k.id === keyId)?.restrictedAPIKey; // 🔑 find key by id
 
     const apiKey = key ?? keys?.[0]?.restrictedAPIKey; // 🔑 use first key if no keyId
     if (!apiKey) {
-      return NextResponse.json({ error: 'No API key found' });
+      return NextResponse.json({ error: 'No API key found' }, { status: 401 });
     }
 
     // --------------------------------------------------------------------------------
