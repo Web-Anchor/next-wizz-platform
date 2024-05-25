@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     );
     const { userId } = auth();
     const user = await currentUser();
-    console.log('👤 Creating User record. Clerk User: ', user);
+    console.log('👤 Creating User record. Clerk data: ', userId, user);
 
     await db
       .insert(users)
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
         lastName: user?.lastName,
       })
       .returning({ id: users.id });
-    console.log('👤 User record created successfully');
+    console.log('👤 User record created successfully 🙌');
 
     return new Response(null, {
       status: 302,

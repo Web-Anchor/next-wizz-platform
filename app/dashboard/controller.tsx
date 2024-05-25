@@ -9,6 +9,7 @@ import StatsCard from '@app/components/StatsCard';
 import { currentMonth, lastMonth } from '@helpers/index';
 import NumbersCard from '@app/components/NumbersCard';
 import Link from 'next/link';
+import { Spinner } from '@app/components/Skeleton';
 
 export default function Page() {
   const { user } = useUser({});
@@ -18,6 +19,14 @@ export default function Page() {
   });
   console.log('Subs ', subscriptions);
   console.log(`user `, user);
+
+  if (isLoading) {
+    return (
+      <Wrapper>
+        <Spinner />
+      </Wrapper>
+    );
+  }
 
   if (!subscriptions && !isLoading) {
     // --------------------------------------------------------------------------------

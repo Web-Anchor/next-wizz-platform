@@ -1,6 +1,7 @@
 'use client';
 
 import Logo from '@app/components/Logo';
+import Wrapper from '@app/components/Wrapper';
 import { SignIn } from '@clerk/nextjs';
 import { useSignIn } from '@clerk/nextjs';
 import { CardSkeleton } from '@components/Skeleton';
@@ -12,11 +13,9 @@ export default function Page() {
   const redirect = searchParams.get('redirect');
 
   return (
-    <section className="flex flex-1 flex-col h-screen justify-center content-center">
-      <section className="self-center flex flex-col gap-5 justify-center content-center">
-        <div className="self-center">
-          <Logo />
-        </div>
+    <Wrapper>
+      <section className="justify-center items-center flex flex-col gap-5 h-full">
+        <Logo />
         {!isLoaded && <CardSkeleton />}
         <SignIn
           afterSignInUrl={
@@ -25,6 +24,6 @@ export default function Page() {
           path="/sign-in"
         />
       </section>
-    </section>
+    </Wrapper>
   );
 }

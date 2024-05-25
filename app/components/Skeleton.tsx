@@ -66,3 +66,9 @@ export function PieSkeleton() {
     <section className="flex justify-center rounded-full skeleton h-[360px] w-[360px]" />
   );
 }
+
+export function Spinner() {
+  return (
+    <span className="loading loading-ring loading-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+  );
+}
