@@ -23,11 +23,11 @@ export default function Page() {
       <Table
         fetching={isLoading}
         header={[
-          { item: 'Customer' },
+          { item: 'Customer', class: 'max-w-10 lg:max-w-none__' },
           { item: 'Amount' },
           { item: 'Phone', class: 'hidden lg:table-cell' },
           { item: 'Status', class: 'hidden lg:table-cell' },
-          { item: 'Created At' },
+          { item: 'Created At', class: 'text-nowrap' },
           { item: 'Address', class: 'hidden lg:table-cell' },
         ]}
         data={charges?.map((item: Charge) => {
@@ -35,11 +35,11 @@ export default function Page() {
             row: [
               {
                 item: (
-                  <section className="flex flex-col">
-                    <p className="text-sm font-medium leading-6 text-gray-900">
+                  <section className="flex flex-col max-w-20 lg:max-w-none">
+                    <p className="text-sm font-medium leading-6 text-gray-900 truncate text-ellipsis">
                       {item?.billing_details?.name}
                     </p>
-                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <p className="mt-1 text-xs leading-5 text-gray-500 truncate text-ellipsis">
                       {item?.billing_details?.email}
                     </p>
                   </section>
@@ -91,7 +91,10 @@ export default function Page() {
                       </span>
                     </Link>
                     <div className="mt-1 text-xs leading-5 text-gray-500">
-                      Invoice <span className="text-gray-900">{item.id}</span>
+                      Invoice{' '}
+                      <span className="hidden lg:flex text-gray-900">
+                        {item.id}
+                      </span>
                     </div>
                   </section>
                 ),

@@ -68,10 +68,18 @@ export default function Page() {
           return {
             row: [
               {
-                item: <p>{item?.name}</p>,
+                item: (
+                  <p className="max-w-24 lg:max-w-none truncate text-ellipsis">
+                    {item?.name}
+                  </p>
+                ),
               },
               {
-                item: <p>{item?.email}</p>,
+                item: (
+                  <p className="max-w-24 lg:max-w-none truncate text-ellipsis">
+                    {item?.email}
+                  </p>
+                ),
               },
               {
                 item: <p>{item?.currency}</p>,
@@ -87,7 +95,7 @@ export default function Page() {
               {
                 item: (
                   <Button
-                    title="Email Invoice"
+                    title="Send Invoice"
                     onClick={() => emailInvoice(item?.id!)}
                     fetching={state?.fetching === item?.id}
                   />
