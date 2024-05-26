@@ -143,10 +143,12 @@ export default function Page() {
             secure payment integration.
           </p>
         </div>
-        <Button
-          title="Add a new key"
-          onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
-        />
+        <section>
+          <Button
+            title="Add a new key"
+            onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
+          />
+        </section>
       </div>
       <Table
         fetching={isLoading}
@@ -165,7 +167,11 @@ export default function Page() {
               {
                 item: (
                   <section>
-                    {!edit && <p>{key.name}</p>}
+                    {!edit && (
+                      <p className="max-w-24 lg:max-w-none truncate text-ellipsis">
+                        {key.name}
+                      </p>
+                    )}
                     {edit && (
                       <input
                         type="text"

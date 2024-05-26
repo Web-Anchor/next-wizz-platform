@@ -74,7 +74,7 @@ export default function Page() {
 
       <form
         ref={formRef}
-        className="card max-w-4xl px-10 py-8 bg-base-100 lg:shadow-xl"
+        className="card max-w-4xl lg:px-10 lg:py-8 bg-base-100 lg:shadow-xl"
         onSubmit={formHandler}
       >
         <div className="space-y-12">
@@ -84,10 +84,8 @@ export default function Page() {
                 Support Ticket
               </h2>
               <Badge
-                title={`${count} Tickets`}
-                class={
-                  count !== 0 ? 'bg-yellow-100 text-yellow-700' : undefined
-                }
+                title={count}
+                description={`Ticket${count > 1 ? 's' : ''} Submitted`}
               />
               <p className="mt-1 text-sm leading-6 text-gray-600 text-justify">
                 Feel free to reach out to us with any questions, concerns, or
