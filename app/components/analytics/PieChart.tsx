@@ -32,7 +32,7 @@ export default function PieChart(props: Props): React.ReactElement | null {
     labels: [
       {
         text: (props: any) => {
-          return notDefined(props?.name);
+          return capitalize(notDefined(props?.name));
         },
         style: { fontSize: 14, fontWeight: 'bold' },
         position: props?.labelPosition,
@@ -94,26 +94,20 @@ export default function PieChart(props: Props): React.ReactElement | null {
     ],
   };
 
-  if (props?.loading) {
-    return (
-      <section className={classNames('m-auto', props.class)}>
-        <PieSkeleton />
-      </section>
-    );
-  }
-  if (!props?.data?.length) return null;
-
   return (
     <section className={classNames('relative', props.class)}>
       <div
         className={classNames(
-          props.class,
-          'flex lg:hidden absolute left-0 top-0 z-10 items-center justify-center w-full h-[360px]'
+          'flex lg:hidden absolute left-0 top-0 z-10 items-center justify-center w-full h-[340px]'
         )}
       />
-
-      {props.type === 'pie' && <Pie {...pieConfig} />}
-      {props.type === 'radial' && <RadialBar {...radialConfig} />}
+      <section className="mx-auto w-[340px] h-[340px]">
+        {props.loading && <PieSkeleton />}
+        {props.type === 'pie' && !props.loading && <Pie {...pieConfig} />}
+        {props.type === 'radial' && !props.loading && (
+          <RadialBar {...radialConfig} />
+        )}
+      </section>
 
       {props?.description && (
         <p className="text-center text-gray-500 text-sm mt-2">
@@ -133,4 +127,11 @@ function notDefined(value: any) {
     value === '';
 
   return input ? 'Other' : value;
+}
+
+function capitalize(value: string) {
+  return value
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }

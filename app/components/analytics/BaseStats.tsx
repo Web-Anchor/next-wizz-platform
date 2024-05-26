@@ -17,7 +17,7 @@ export default function BaseStats() {
   const { charges, customers, isLoading } = useStatistics({
     type: 'advanced',
   });
-  const pieClass = 'lg:max-w-[calc(50%-5rem)] h-[360px]';
+  console.log('charges', charges);
 
   return (
     <SectionWrapper>
@@ -83,44 +83,37 @@ export default function BaseStats() {
         <PieChart
           title={`Geographical Customer\nDistribution`}
           data={convertObjToArray(customers?.customerDemographics)}
-          class={pieClass}
           loading={isLoading}
           type="pie"
+          description="Visualize the distribution of your customers across different regions on a map to gain insights into where your customer base is located."
         />
         <PieChart
           title={`Preferred Customer\nLocales`}
           data={convertObjToArray(customers?.customerPreferredLocales)}
-          class={pieClass}
           loading={isLoading}
           type="pie"
+          description="Identify the top locations where your customers are concentrated, helping you target specific regions for marketing and growth strategies."
         />
         <PieChart
           title={`Customer Currency\nDistribution`}
           data={convertObjToArray(customers?.customerCurrencies)}
-          class={pieClass}
           loading={isLoading}
           type="pie"
+          description="Analyze the currencies used by your customers for transactions to optimize pricing strategies and tailor payment options based on popular currencies."
         />
         <PieChart
           title={`Customer Creation\nDay of Week`}
           data={convertObjToArray(customers?.customerCreationDayOfWeek)}
-          class={pieClass}
-          loading={isLoading}
-          type="pie"
-        />
-        <PieChart
-          title={`Customer Creation\nDay of Week`}
-          data={convertObjToArray(customers?.customerCreationDayOfWeek)}
-          class={pieClass}
           loading={isLoading}
           type="radial"
+          description="Chart the distribution of payment methods preferred by customers to understand their payment preferences and optimize payment processing options for a seamless customer experience."
         />
         <PieChart
           title={`Customer Payment\nMethod Distribution`}
           data={convertObjToArray(customers?.customerPaymentMethod)}
-          class={pieClass}
           loading={isLoading}
           type="radial"
+          description="Visualize the distribution of payment methods used by customers to understand preferred payment options and tailor your payment processing strategies accordingly."
         />
       </SectionWrapper>
 
@@ -248,31 +241,38 @@ export default function BaseStats() {
           subDescription="Subscription Renewal Rate"
         />
       </SectionWrapper>
-      <SectionWrapper class="lg:flex-row flex-wrap gap-5">
+      <SectionWrapper class="lg:flex-row flex-wrap gap-5 mb-10">
         <PieChart
-          title={`Charges Source\nBrand Distribution`}
-          data={convertObjToArray(
-            charges?.chargesSourceBrandDistributionCurrentMonth
-          )}
-          class={pieClass}
-          loading={isLoading}
-          type="radial"
-        />
-        <PieChart
-          title={`Charges Source\nBrand Distribution`}
+          title={`Charges Source\nFunding Distribution`}
           data={convertObjToArray(
             charges?.chargesSourceFundingDistributionCurrentMonth
           )}
-          class={pieClass}
           loading={isLoading}
           type="pie"
+          description="Chart the distribution of charge funding sources (e.g., credit cards, bank accounts) to track payment trends and optimize payment processing methods based on customer preferences."
+        />
+        <PieChart
+          title={`Charges Source\n By Brand Distribution`}
+          data={convertObjToArray(
+            charges?.chargesSourceBrandDistributionCurrentMonth
+          )}
+          loading={isLoading}
+          type="radial"
+          description="Analyze the distribution of charges by different brands or sources to identify top-performing sources and optimize marketing strategies for each brand."
         />
         <PieChart
           title={`Risk Score\nDistribution`}
           data={convertObjToArray(charges?.riskScoreDistributionCurrentMonth)}
-          class={pieClass}
           loading={isLoading}
           type="pie"
+          description="Evaluate the distribution of risk scores assigned to transactions to assess potential fraud risks and implement targeted risk management measures for fraud prevention."
+        />
+        <PieChart
+          title={`Risk Level\nDistribution`}
+          data={convertObjToArray(charges?.riskLevelDistributionCurrentMonth)}
+          loading={isLoading}
+          type="pie"
+          description="Categorize risk levels associated with transactions to identify high-risk activities and implement appropriate security measures to mitigate risks effectively."
         />
       </SectionWrapper>
     </SectionWrapper>

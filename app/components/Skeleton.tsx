@@ -65,7 +65,7 @@ export function RowSkeleton() {
 
 export function PieSkeleton() {
   return (
-    <section className="flex justify-center rounded-full skeleton h-[360px] w-[360px]" />
+    <section className="flex justify-center rounded-full skeleton h-full w-full" />
   );
 }
 

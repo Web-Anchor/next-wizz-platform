@@ -109,8 +109,6 @@ export function last7Days() {
 export function convertObjToArray(input?: {
   [key: string]: number;
 }): { name?: string; value?: number }[] {
-  console.log('INPUT ', input);
-
   if (!input) {
     return [];
   }

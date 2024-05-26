@@ -274,6 +274,18 @@ export async function charges({ apiKey }: { apiKey?: string }) {
         },
         {}
       ),
+      // risk_level distribution
+      riskLevelDistributionCurrentMonth: chargesCurrentMont.reduce(
+        (acc: any, charge: any) => {
+          if (!acc[charge?.outcome?.risk_level]) {
+            acc[charge?.outcome?.risk_level] = 1;
+          } else {
+            acc[charge?.outcome?.risk_level]++;
+          }
+          return acc;
+        },
+        {}
+      ),
     };
 
     return stats;
