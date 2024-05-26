@@ -10,6 +10,7 @@ import { maxLength } from '@config/index';
 import { dummyData } from '@app/dashboard/invoices/controller';
 import { useTemplates } from '@hooks/index';
 import { CustomField } from '../../types';
+import { Spinner } from './Skeleton';
 
 const table = {
   header: {
@@ -207,6 +208,10 @@ export default function InvoiceTable() {
     } finally {
       setState((prev) => ({ ...prev, fetching: false }));
     }
+  }
+
+  if (isLoading) {
+    return <Spinner />;
   }
 
   return (

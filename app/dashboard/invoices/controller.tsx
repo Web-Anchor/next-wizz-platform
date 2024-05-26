@@ -8,6 +8,7 @@ import TemplateOne from '@app/components/templates/TemplateOne';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { toast } from 'sonner';
+import { jsPDF } from 'jspdf';
 
 export const dummyData = {
   invoiceNumber: 'INV12345',
@@ -62,6 +63,26 @@ export default function Page() {
     handlePrint(null, () => componentRef.current);
   }
 
+  function exportPDF() {
+    const templateOneElement = document.getElementById('template-one');
+    console.log('templateOneElement', templateOneElement);
+
+    if (templateOneElement) {
+      const doc = new jsPDF();
+
+      // doc.html(templateOneElement, {
+      //   callback: function (pdf) {
+      //     pdf.save('invoice.pdf');
+      //   },
+      // });
+
+      doc.html(templateOneElement, {
+        // width: 170,
+      });
+      doc.save('test.pdf');
+    }
+  }
+
   return (
     <Wrapper>
       <PageHeadings
@@ -74,6 +95,7 @@ export default function Page() {
       <SectionWrapper class="hidden lg:flex">
         <PageHeadings title="Invoice Templates Sample" />
         <TemplateOne
+          id="template-one"
           printRef={componentRef}
           invoiceNumber={dummyData.invoiceNumber}
           date={dummyData.date}
@@ -125,7 +147,7 @@ export default function Page() {
             <p>Print Sample PDF</p>
           </section>
         </Button>
-        <Button style="secondary">
+        <Button style="secondary" onClick={exportPDF}>
           <section className="flex flex-row gap-2">
             <svg
               className="flex-shrink-0 size-4"
