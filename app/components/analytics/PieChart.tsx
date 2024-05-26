@@ -1,16 +1,18 @@
 'use client';
 
-import { Pie as PieChart } from '@ant-design/plots';
+import { Pie, RadialBar } from '@ant-design/plots';
 import { PieSkeleton } from '@components/Skeleton';
 import { classNames } from '@helpers/index';
 
 type Props = {
   title?: string;
+  description?: string;
   data?: { type?: string; value?: number }[];
   style?: 'spectral';
   labelPosition?: 'outside' | 'spider';
   loading?: boolean;
   class?: string;
+  type: 'pie' | 'radial';
 };
 
 const spectral = {
@@ -20,8 +22,8 @@ const spectral = {
   },
 };
 
-export default function Pie(props: Props): React.ReactElement | null {
-  const config = {
+export default function PieChart(props: Props): React.ReactElement | null {
+  const pieConfig = {
     data: props.data,
     angleField: 'value',
     colorField: 'name',
@@ -63,6 +65,34 @@ export default function Pie(props: Props): React.ReactElement | null {
     ],
     scale: props?.style === 'spectral' ? spectral : undefined,
   };
+  const radialConfig = {
+    data: props.data,
+    xField: 'name',
+    yField: 'value',
+    startAngle: Math.PI * 0.5,
+    maxAngle: 270, //最大旋转角度,
+    radius: 1,
+    innerRadius: 0.2,
+    legend: false,
+    axis: { y: false },
+    tooltip: {
+      items: ['count'],
+    },
+    sizeField: 10,
+    annotations: [
+      {
+        type: 'text',
+        style: {
+          text: props.title,
+          x: '50%',
+          y: '50%',
+          textAlign: 'center',
+          fontSize: 12,
+          fontStyle: 'bold',
+        },
+      },
+    ],
+  };
 
   if (props?.loading) {
     return (
@@ -77,12 +107,19 @@ export default function Pie(props: Props): React.ReactElement | null {
     <section className={classNames('relative', props.class)}>
       <div
         className={classNames(
-          'flex lg:hidden absolute left-0 top-0 z-10 items-center justify-center w-[360px] h-[360px]',
-          props.class
+          props.class,
+          'flex lg:hidden absolute left-0 top-0 z-10 items-center justify-center w-full h-[360px]'
         )}
       />
 
-      <PieChart {...config} />
+      {props.type === 'pie' && <Pie {...pieConfig} />}
+      {props.type === 'radial' && <RadialBar {...radialConfig} />}
+
+      {props?.description && (
+        <p className="text-center text-gray-500 text-sm mt-2">
+          {props.description}
+        </p>
+      )}
     </section>
   );
 }

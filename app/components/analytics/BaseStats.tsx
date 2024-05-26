@@ -2,11 +2,10 @@
 
 import { SectionWrapper } from '@app/components/Wrapper';
 import StatsCard from '@app/components/StatsCard';
-import Pie from '@app/components/analytics/Pie';
+import PieChart from '@app/components/analytics/PieChart';
 import NumbersCard from '@app/components/NumbersCard';
 import PageHeadings from '@components/PageHeadings';
 import { useStatistics } from '@hooks/statistics';
-import RadialBar from '@components/analytics/RadialBar';
 import {
   convertObjToArray,
   currentMonth,
@@ -81,41 +80,47 @@ export default function BaseStats() {
           slogan="Connecting with Customers, Growing Together!"
           class="order-1 lg:-order-none"
         />
-        <Pie
+        <PieChart
           title={`Geographical Customer\nDistribution`}
           data={convertObjToArray(customers?.customerDemographics)}
           class={pieClass}
           loading={isLoading}
+          type="pie"
         />
-        <Pie
+        <PieChart
           title={`Preferred Customer\nLocales`}
           data={convertObjToArray(customers?.customerPreferredLocales)}
           class={pieClass}
           loading={isLoading}
+          type="pie"
         />
-        <Pie
+        <PieChart
           title={`Customer Currency\nDistribution`}
           data={convertObjToArray(customers?.customerCurrencies)}
           class={pieClass}
           loading={isLoading}
+          type="pie"
         />
-        <Pie
+        <PieChart
           title={`Customer Creation\nDay of Week`}
           data={convertObjToArray(customers?.customerCreationDayOfWeek)}
           class={pieClass}
           loading={isLoading}
+          type="pie"
         />
-        <RadialBar
+        <PieChart
           title={`Customer Creation\nDay of Week`}
           data={convertObjToArray(customers?.customerCreationDayOfWeek)}
           class={pieClass}
           loading={isLoading}
+          type="radial"
         />
-        <RadialBar
+        <PieChart
           title={`Customer Payment\nMethod Distribution`}
           data={convertObjToArray(customers?.customerPaymentMethod)}
           class={pieClass}
           loading={isLoading}
+          type="radial"
         />
       </SectionWrapper>
 
@@ -244,27 +249,30 @@ export default function BaseStats() {
         />
       </SectionWrapper>
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
-        <RadialBar
+        <PieChart
           title={`Charges Source\nBrand Distribution`}
           data={convertObjToArray(
             charges?.chargesSourceBrandDistributionCurrentMonth
           )}
           class={pieClass}
           loading={isLoading}
+          type="radial"
         />
-        <Pie
+        <PieChart
           title={`Charges Source\nBrand Distribution`}
           data={convertObjToArray(
             charges?.chargesSourceFundingDistributionCurrentMonth
           )}
           class={pieClass}
           loading={isLoading}
+          type="pie"
         />
-        <Pie
+        <PieChart
           title={`Risk Score\nDistribution`}
           data={convertObjToArray(charges?.riskScoreDistributionCurrentMonth)}
           class={pieClass}
           loading={isLoading}
+          type="pie"
         />
       </SectionWrapper>
     </SectionWrapper>
