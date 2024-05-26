@@ -36,7 +36,6 @@ export default function Navigation({
   const { isSignedIn, user, isLoaded } = useUser();
   const { data, isLoading: keyFetching } = useStripeKeys({});
   const path = usePathname();
-  console.log('path', data);
   const loadRef = useRef(true);
 
   const { count, isLoading: stLoading } = useStripeKeys({});
@@ -360,9 +359,17 @@ export default function Navigation({
           <span className="sr-only">Open sidebar</span>
           <Bars3Icon className="h-6 w-6" aria-hidden="true" />
         </button>
-        <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
-          Dashboard
-        </div>
+        <section className="flex-1">
+          <Link
+            href="/dashboard"
+            className={classNames(
+              'items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:border-gray-300 hover:text-gray-700',
+              path !== '/dashboard' && 'text-indigo-600'
+            )}
+          >
+            Dashboard
+          </Link>
+        </section>
         <ProfileButton />
       </div>
 

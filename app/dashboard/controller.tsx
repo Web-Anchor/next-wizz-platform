@@ -16,8 +16,8 @@ import { useRouter } from 'next/navigation';
 export default function Page() {
   const router = useRouter();
   const { user } = useUser({});
-  const { subscriptions, isLoading } = useSubscriptions({});
-  const { charges, customers } = useStatistics({
+  const { subscriptions } = useSubscriptions({});
+  const { charges, customers, isLoading } = useStatistics({
     type: 'advanced',
   });
   console.log('Subs ', subscriptions);
@@ -56,6 +56,7 @@ export default function Page() {
             title="Payments"
             link="/dashboard/charges"
             description={currentMonth()}
+            isLoading={isLoading}
           />
           <StatsCard
             currentTotal={charges?.revenueCurrentMonth}
@@ -65,12 +66,14 @@ export default function Page() {
             title="Revenue"
             link="/dashboard/charges"
             description={currentMonth()}
+            isLoading={isLoading}
           />
           <NumbersCard
             number={customers?.customersTotal}
             icon="customers"
             title="Total Customers"
             subDescription="Total Number of Customers"
+            isLoading={isLoading}
           />
           <NumbersCard
             number={charges?.avgRevenuePerUserCurrentMonth}
@@ -79,6 +82,7 @@ export default function Page() {
             description={currentMonth()}
             subDescription="Revenue per Customer (RPC)"
             about="Revenue per Customer (RPC) is the average amount of money a customer spends on your products or services in a given period. It is calculated by dividing the total revenue generated in a month by the total number of customers in that month."
+            isLoading={isLoading}
           />
           <NumbersCard
             number={charges?.avgRevenuePerUserLastMonth}
@@ -87,6 +91,7 @@ export default function Page() {
             description={lastMonth()}
             subDescription="Revenue per Customer (RPC)"
             about="Revenue per Customer (RPC) is the average amount of money a customer spends on your products or services in a given period. It is calculated by dividing the total revenue generated in a month by the total number of customers in that month."
+            isLoading={isLoading}
           />
           <NumbersCard
             number={charges?.totalCurrentSuccessfulCharges}
@@ -94,6 +99,7 @@ export default function Page() {
             title="Current Transactions"
             description={currentMonth()}
             subDescription="Total Successful Transactions"
+            isLoading={isLoading}
           />
         </SectionWrapper>
 
