@@ -20,6 +20,7 @@ export default function Page() {
         title="Home"
         onClick={() => router.push('/')}
         class="sticky top-4 lg:top-8 self-end w-fit"
+        style="link"
       />
       {!isLoaded && <Spinner />}
       <section className="justify-center items-center flex flex-col gap-5 h-full">

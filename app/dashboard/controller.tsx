@@ -10,8 +10,11 @@ import { currentMonth, lastMonth } from '@helpers/index';
 import NumbersCard from '@app/components/NumbersCard';
 import Link from 'next/link';
 import { Spinner } from '@app/components/Skeleton';
+import Button from '@app/components/Button';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
+  const router = useRouter();
   const { user } = useUser({});
   const { subscriptions, isLoading } = useSubscriptions({});
   const { charges, customers } = useStatistics({
@@ -20,7 +23,7 @@ export default function Page() {
   console.log('Subs ', subscriptions);
   console.log(`user `, user);
 
-  if (isLoading) {
+  if (isLoading && !subscriptions) {
     return <Spinner wrapper />;
   }
 
@@ -94,14 +97,12 @@ export default function Page() {
           />
         </SectionWrapper>
 
-        <SectionWrapper>
-          <Link
-            href="/dashboard/charges"
-            className="w-fit my-5 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            View All Reports
-          </Link>
-        </SectionWrapper>
+        <Button
+          title="View All Reports"
+          style="link"
+          onClick={() => router.push('/dashboard/reports')}
+          class="mt-10"
+        />
       </section>
     </Wrapper>
   );
