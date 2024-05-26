@@ -5,6 +5,7 @@ import { PieSkeleton } from '@components/Skeleton';
 import { classNames } from '@helpers/index';
 
 type Props = {
+  header?: string;
   title?: string;
   description?: string;
   data?: { type?: string; value?: number }[];
@@ -101,6 +102,13 @@ export default function PieChart(props: Props): React.ReactElement | null {
           'flex lg:hidden absolute left-0 top-0 z-10 items-center justify-center w-full h-[340px]'
         )}
       />
+      {props?.header && (
+        <header className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-800">
+            {props.header}
+          </h2>
+        </header>
+      )}
       <section className="mx-auto w-[340px] h-[340px]">
         {props.loading && <PieSkeleton />}
         {props.type === 'pie' && !props.loading && <Pie {...pieConfig} />}
