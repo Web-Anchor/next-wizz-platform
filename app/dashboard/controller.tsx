@@ -21,11 +21,7 @@ export default function Page() {
   console.log(`user `, user);
 
   if (isLoading) {
-    return (
-      <Wrapper>
-        <Spinner />
-      </Wrapper>
-    );
+    return <Spinner wrapper />;
   }
 
   if (!subscriptions && !isLoading) {

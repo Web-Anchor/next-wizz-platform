@@ -1,3 +1,5 @@
+import Wrapper from '@components/Wrapper';
+
 export function CardSkeleton() {
   return (
     <section className="flex flex-1 justify-center">
@@ -67,7 +69,15 @@ export function PieSkeleton() {
   );
 }
 
-export function Spinner() {
+export function Spinner(props: { wrapper?: boolean }): React.ReactElement {
+  if (props.wrapper) {
+    return (
+      <Wrapper>
+        <span className="loading loading-ring loading-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+      </Wrapper>
+    );
+  }
+
   return (
     <span className="loading loading-ring loading-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
   );
