@@ -106,6 +106,12 @@ export default function Header(props: Props) {
                         >
                           Facts
                         </Link>
+                        <Link
+                          href="#"
+                          className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                        >
+                          Contact
+                        </Link>
                       </div>
                     )}
                   </div>
@@ -167,6 +173,9 @@ export default function Header(props: Props) {
                     </Link>
                     <Link href="#facts" className={classNames(mobInactive)}>
                       Facts
+                    </Link>
+                    <Link href="#facts" className={classNames(mobInactive)}>
+                      Contact
                     </Link>
                   </>
                 )}
