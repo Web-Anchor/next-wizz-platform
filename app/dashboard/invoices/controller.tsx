@@ -71,7 +71,7 @@ export default function Page() {
       />
       <InvoicingCard />
 
-      <PageHeadings title="Invoice Templates Example" />
+      <PageHeadings title="Invoice Templates Sample" />
       <TemplateOne
         printRef={componentRef}
         invoiceNumber={dummyData.invoiceNumber}

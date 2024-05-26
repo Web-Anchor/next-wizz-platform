@@ -71,12 +71,12 @@ const navigation = {
 
 export default function Example() {
   return (
-    <footer className="mt-10" aria-labelledby="footer-heading">
+    <footer className="pt-10" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
       <div className="mx-auto max-w-7xl px-6 pb-8 lg:px-8">
-        <div className="border-t border-gray-900/10 pt-8 md:flex md:items-center md:justify-between">
+        <div className="border-t border-gray-900/10 mt-10 pt-10 md:flex md:items-center md:justify-between">
           <div className="flex space-x-6 md:order-2">
             {navigation.social.map((item) => (
               <Link

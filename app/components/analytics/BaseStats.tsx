@@ -241,7 +241,7 @@ export default function BaseStats() {
           subDescription="Subscription Renewal Rate"
         />
       </SectionWrapper>
-      <SectionWrapper class="lg:flex-row flex-wrap gap-5 mb-10">
+      <SectionWrapper class="lg:flex-row flex-wrap gap-5">
         <PieChart
           title={`Charges Source\nFunding Distribution`}
           data={convertObjToArray(
