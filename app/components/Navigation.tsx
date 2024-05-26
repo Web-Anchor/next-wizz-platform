@@ -91,7 +91,7 @@ export default function Navigation({
     },
   ];
 
-  const teams = [
+  const dashboard = [
     {
       name: 'Feature Request',
       href: '/dashboard/new-features',
@@ -216,10 +216,10 @@ export default function Navigation({
                       </li>
                       <li>
                         <div className="text-xs font-semibold leading-6 text-gray-400">
-                          Your teams
+                          Manage & Support
                         </div>
                         <ul role="list" className="-mx-2 mt-2 space-y-1">
-                          {teams.map((team) => (
+                          {dashboard.map((team) => (
                             <li key={team.name}>
                               <Link
                                 href={team.href}
@@ -294,10 +294,10 @@ export default function Navigation({
               </li>
               <li>
                 <div className="text-xs font-semibold leading-6 text-gray-400">
-                  Your teams
+                  Manage & Support
                 </div>
                 <ul role="list" className="-mx-2 mt-2 space-y-1">
-                  {teams.map((team) => (
+                  {dashboard.map((team) => (
                     <li key={team.name}>
                       <Link
                         href={team.href}
