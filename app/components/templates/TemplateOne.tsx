@@ -121,7 +121,7 @@ export default function TemplateOne(props: Props) {
 
       <section
         className={classNames(
-          `flex-1 min-h-[595px] w-full pdf-printable-content`
+          `flex-1 min-h-[595px] min-w-[600px] pdf-printable-content`
         )}
       >
         <table className="w-full mb-6">

@@ -30,7 +30,7 @@ export default function Dialog({
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full lg:justify-center p-4 text-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -47,7 +47,7 @@ export default function Dialog({
                   class="absolute top-0 right-0 -m-4 text-gray-400 hover:text-gray-500"
                 >
                   <XCircleIcon
-                    className="h-8 w-8 bg-white rounded-full hover:bg-gray-100 transition-colors"
+                    className="h-10 w-10 bg-white rounded-full hover:bg-gray-100 transition-colors"
                     aria-hidden="true"
                   />
                 </Button>

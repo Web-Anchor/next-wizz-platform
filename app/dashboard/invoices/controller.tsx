@@ -3,7 +3,7 @@
 import Button from '@app/components/Button';
 import InvoicingCard from '@app/components/InvoicingCard';
 import PageHeadings from '@app/components/PageHeadings';
-import Wrapper from '@app/components/Wrapper';
+import Wrapper, { SectionWrapper } from '@app/components/Wrapper';
 import TemplateOne from '@app/components/templates/TemplateOne';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
@@ -71,35 +71,37 @@ export default function Page() {
       />
       <InvoicingCard />
 
-      <PageHeadings title="Invoice Templates Sample" />
-      <TemplateOne
-        printRef={componentRef}
-        invoiceNumber={dummyData.invoiceNumber}
-        date={dummyData.date}
-        billToName={dummyData.billToName}
-        billToAddress={dummyData.billToAddress}
-        items={dummyData.items}
-        subtotal={dummyData.subtotal}
-        tax={dummyData.tax}
-        total={dummyData.total}
-        dueDate={dummyData.dueDate}
-        companyName={dummyData.companyName}
-        memo="Thank you for your business! <br/> If you have any questions about this invoice, please contact us at: Your Company Name, 123 Main St., Your City, Your State, 12345, (123) 456-7890"
-        footer="<strong>Thank you for your business!</strong> <br/> If you have any questions about this invoice, please contact us at: <br/> <strong>Your Company Name</strong> <br/> 123 Main St. <br/> Your City, Your State, 12345 <br/> (123) 456-7890"
-        customFields={{
-          0: {
-            value: 'Net 30: Main Street',
-          },
-          1: {
-            value: 'Invoice #INV12345',
-          },
-        }}
-        header='<img class="h-8 w-auto"
+      <SectionWrapper class="hidden lg:flex">
+        <PageHeadings title="Invoice Templates Sample" />
+        <TemplateOne
+          printRef={componentRef}
+          invoiceNumber={dummyData.invoiceNumber}
+          date={dummyData.date}
+          billToName={dummyData.billToName}
+          billToAddress={dummyData.billToAddress}
+          items={dummyData.items}
+          subtotal={dummyData.subtotal}
+          tax={dummyData.tax}
+          total={dummyData.total}
+          dueDate={dummyData.dueDate}
+          companyName={dummyData.companyName}
+          memo="Thank you for your business! <br/> If you have any questions about this invoice, please contact us at: Your Company Name, 123 Main St., Your City, Your State, 12345, (123) 456-7890"
+          footer="<strong>Thank you for your business!</strong> <br/> If you have any questions about this invoice, please contact us at: <br/> <strong>Your Company Name</strong> <br/> 123 Main St. <br/> Your City, Your State, 12345 <br/> (123) 456-7890"
+          customFields={{
+            0: {
+              value: 'Net 30: Main Street',
+            },
+            1: {
+              value: 'Invoice #INV12345',
+            },
+          }}
+          header='<img class="h-8 w-auto"
         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Company Logo" />
         <br/>
         <p class="text-sm text-gray-600">Customize your invoice with your company logo and brand colors.</p>
         '
-      />
+        />
+      </SectionWrapper>
 
       <div className="flex flex-row gap-5 self-end">
         <Button onClick={printPDF}>
@@ -120,7 +122,7 @@ export default function Page() {
               <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
               <rect width="12" height="8" x="6" y="14" />
             </svg>
-            <p>Print Sample</p>
+            <p>Print Sample PDF</p>
           </section>
         </Button>
         <Button style="secondary">
@@ -141,7 +143,7 @@ export default function Page() {
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" x2="12" y1="15" y2="3" />
             </svg>
-            <p>Invoice PDF</p>
+            <p>Sample PDF</p>
           </section>
         </Button>
       </div>

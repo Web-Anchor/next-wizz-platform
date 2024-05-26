@@ -397,7 +397,7 @@ export default function InvoiceTable() {
           disabled={state?.fetching || isLoading}
         />
         <Button
-          title="Cancel"
+          title="Reset"
           style="secondary"
           onClick={() => setState(BASE_STATE)}
           disabled={state?.fetching || isLoading}
