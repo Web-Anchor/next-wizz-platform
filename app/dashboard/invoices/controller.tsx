@@ -8,7 +8,7 @@ import TemplateOne from '@app/components/templates/TemplateOne';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { toast } from 'sonner';
-import { jsPDF } from 'jspdf';
+import html2pdf from 'html2pdf.js';
 
 export const dummyData = {
   invoiceNumber: 'INV12345',
@@ -64,22 +64,24 @@ export default function Page() {
   }
 
   function exportPDF() {
-    const templateOneElement = document.getElementById('template-one');
-    console.log('templateOneElement', templateOneElement);
+    try {
+      const templateOneElement = document.getElementById('template-one');
 
-    if (templateOneElement) {
-      const doc = new jsPDF();
+      if (templateOneElement) {
+        html2pdf(templateOneElement, {
+          margin: 0,
+          filename: 'sample.pdf',
+          image: { type: 'png', quality: 1 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all'] },
+          enableLinks: true,
+        });
+      }
 
-      // doc.html(templateOneElement, {
-      //   callback: function (pdf) {
-      //     pdf.save('invoice.pdf');
-      //   },
-      // });
-
-      doc.html(templateOneElement, {
-        // width: 170,
-      });
-      doc.save('test.pdf');
+      toast?.success('Document downloaded successfully!');
+    } catch (error) {
+      toast?.error('An error occurred while downloading the document.');
     }
   }
 

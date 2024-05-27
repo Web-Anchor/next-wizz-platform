@@ -30,6 +30,7 @@ type Props = {
   memo?: string;
   header?: string;
   customFields?: { [key: string]: CustomField };
+  class?: string;
 };
 
 const format = {
@@ -77,15 +78,14 @@ const CustomFiled = ({
 
 export default function TemplateOne(props: Props) {
   const pageFormat = props.format || 'a4';
-  const pageWidth = format[pageFormat as keyof typeof format].width;
-  const pageHeight = format[pageFormat as keyof typeof format].height;
 
   return (
     <div
       id={props.id ?? 'template-one'}
       ref={props.printRef}
       className={classNames(
-        'flex flex-1 gap-10 flex-col max-w-6xl h-full px-8 py-10 bg-white rounded-lg shadow-md'
+        'flex flex-1 gap-10 flex-col max-w-6xl h-full px-8 py-10 w-full bg-white rounded-lg shadow-md',
+        props.class
       )}
     >
       <Content content={props?.header} show={!!props?.header} />
@@ -119,11 +119,7 @@ export default function TemplateOne(props: Props) {
       </div>
       <Content content={props?.memo} show={!!props?.memo} />
 
-      <section
-        className={classNames(
-          `flex-1 min-h-[595px] min-w-[600px] pdf-printable-content`
-        )}
-      >
+      <section className={classNames(`flex-1 pdf-printable-content`)}>
         <table className="w-full mb-6">
           <thead className="border-b border-gray-300">
             <tr>
