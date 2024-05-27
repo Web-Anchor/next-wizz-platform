@@ -1,7 +1,7 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
-import { invoices, users } from '@db/schema';
+import { templates, users } from '@db/schema';
 import { and, eq } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
@@ -37,14 +37,14 @@ export async function POST(request: NextRequest) {
     const customFields = body.customFields;
 
     await db
-      .update(invoices)
+      .update(templates)
       .set({
         header,
         memo,
         footer,
         customFields,
       })
-      .where(and(eq(invoices.id, id), eq(invoices.userId, dbUser[0].id)));
+      .where(and(eq(templates.id, id), eq(templates.userId, dbUser[0].id)));
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

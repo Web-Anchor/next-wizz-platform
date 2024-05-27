@@ -2,7 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { eq } from 'drizzle-orm';
-import { invoices, users } from '@db/schema';
+import { templates, users } from '@db/schema';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -21,17 +21,17 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     // 📌  Retrieve customers templates
     // --------------------------------------------------------------------------------
-    const templates = await db
+    const dbTemplates = await db
       .select()
-      .from(invoices)
-      .where(eq(invoices.userId, dbUser[0].id))
+      .from(templates)
+      .where(eq(templates.userId, dbUser[0].id))
       .limit(10);
 
-    console.log('🧾 Templates: ', templates);
+    console.log('🧾 Templates: ', dbTemplates);
 
     return NextResponse.json({
       status: 200,
-      templates,
+      templates: dbTemplates,
     });
   } catch (error: any) {
     console.error('🔑 error', error);

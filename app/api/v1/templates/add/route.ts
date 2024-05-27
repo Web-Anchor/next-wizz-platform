@@ -2,15 +2,13 @@ import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { eq } from 'drizzle-orm';
-import { invoices, users } from '@db/schema';
+import { templates, users } from '@db/schema';
 import { v4 as uuidv4 } from 'uuid';
 import {
   subscription,
   validateActiveSubMiddleware,
   validateAdvancedSubMiddleware,
 } from '@lib/subscription';
-import { plans } from '@config/index';
-import { Plan } from '../../../../../types';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -42,7 +40,7 @@ export async function POST(request: NextRequest) {
     const footer = body.footer;
     const customFields = body.customFields;
 
-    await db.insert(invoices).values({
+    await db.insert(templates).values({
       id: uuidv4(),
       userId: dbUser[0].id.toString(),
       header,

@@ -12,7 +12,7 @@ export const users = sqliteTable('users', {
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
 });
 
-export const invoices = sqliteTable('invoices', {
+export const templates = sqliteTable('templates', {
   id: text('id').unique().notNull().primaryKey(),
   userId: text('user_id')
     .notNull()
@@ -29,6 +29,9 @@ export const invoices = sqliteTable('invoices', {
   amount: text('amount'),
   total: text('total'),
   currency: text('currency'),
+  companyName: text('company_name'),
+  invoiceNumber: text('invoice_number'),
+  companyAddress: text('company_address'),
   pageSize: text('page_size'),
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
 });

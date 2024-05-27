@@ -110,15 +110,16 @@ export default function Page() {
               value: 'Invoice #INV12345',
             },
           }}
-          header='<img class="h-8 w-auto"
-        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Company Logo" />
-        <br/>
-        <p class="text-sm text-gray-600">Customize your invoice with your company logo and brand colors.</p>
-        '
+          header='
+            <img class="h-8 w-auto"
+            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Company Logo" />
+            <br/>
+            <p class="text-sm text-gray-600">Customize your invoice with your company logo and brand colors.</p>
+          '
         />
       </SectionWrapper>
 
-      <div className="flex flex-row gap-5 self-end">
+      <SectionWrapper class="flex-row gap-5 self-end">
         <Button onClick={printPDF} class="hidden lg:flex">
           <section className="flex flex-row gap-2">
             <svg
@@ -161,7 +162,7 @@ export default function Page() {
             <p>Sample PDF</p>
           </section>
         </Button>
-      </div>
+      </SectionWrapper>
     </Wrapper>
   );
 }
