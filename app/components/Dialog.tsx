@@ -44,7 +44,7 @@ export default function Dialog({
                 <Button
                   onClick={callBack}
                   style="ghost"
-                  class="sticky top-0 lg:translate-x-[-3rem] translate-y-[1rem] w-full text-gray-400 hover:text-gray-500"
+                  class="sticky top-0 lg:translate-x-[-3rem] z-10 translate-y-[1rem] w-full text-gray-400 hover:text-gray-500"
                 >
                   <XCircleIcon
                     className="h-10 w-10 bg-white rounded-full hover:bg-gray-100 transition-colors"

@@ -169,7 +169,7 @@ export default function Page() {
 export async function exportToPDF({
   name,
   format = 'a4',
-  type = 'png',
+  type = 'jpeg',
   id,
   margin = 0,
 }: {
@@ -188,19 +188,42 @@ export async function exportToPDF({
   margin?: number;
 }) {
   try {
-    const templateOneElement = document?.getElementById(id);
-    templateOneElement?.classList.remove('hidden'); // remove class hidden
+    const component = document?.getElementById(id);
 
-    if (templateOneElement) {
-      html2pdf(templateOneElement, {
+    if (component) {
+      // component?.classList.remove('hidden'); // remove class hidden
+      const templateHeight = component.clientHeight!;
+      const templateWidth = component.clientWidth!;
+      const templateRatio = templateWidth / templateHeight;
+
+      const FACTOR = 1;
+      const a4Height = 842 * FACTOR;
+      const a4Width = 595 * FACTOR;
+      const ratio = a4Width / a4Height;
+
+      if (templateRatio > ratio) {
+        const ADJUSTER = Number((ratio * 100).toFixed()); // 70; // Adjust height based on ratio
+        const minAdjHeight = templateWidth / ratio + ADJUSTER;
+
+        component.setAttribute('style', `min-height: ${minAdjHeight}px`);
+      }
+
+      const opt = {
         margin,
         filename: `${name}.pdf`,
-        image: { type, quality: 1 },
+        image: { type, quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'mm', format, orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all'] },
-        enableLinks: true,
-      });
+      };
+
+      // New Promise-based usage:
+      html2pdf()
+        .set(opt)
+        .from(component)
+        .save()
+        .then(() => {
+          // component?.classList.add('hidden'); // add class hidden
+        });
     }
   } catch (error) {
     console.error(error);

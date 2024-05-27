@@ -229,25 +229,6 @@ export default function InvoiceTable() {
 
   return (
     <form onSubmit={submit} className="flex flex-col gap-5">
-      <TemplateOne
-        id="custom-template-one"
-        header={state?.header}
-        memo={state?.memo}
-        footer={state?.footer}
-        customFields={state?.customFields}
-        invoiceNumber={dummyData.invoiceNumber}
-        date={dummyData.date}
-        billToName={dummyData.billToName}
-        billToAddress={dummyData.billToAddress}
-        items={dummyData.items}
-        subtotal={dummyData.subtotal}
-        tax={dummyData.tax}
-        total={dummyData.total}
-        dueDate={dummyData.dueDate}
-        companyName={dummyData.companyName}
-        class="hidden"
-      />
-
       <Dialog
         open={state?.preview}
         callBack={() => setState({ ...state, preview: false })}
@@ -421,6 +402,24 @@ export default function InvoiceTable() {
           </div>
         </Section>
       </Section>
+
+      <TemplateOne
+        id="custom-template-one"
+        header={state?.header}
+        memo={state?.memo}
+        footer={state?.footer}
+        customFields={state?.customFields}
+        invoiceNumber={dummyData.invoiceNumber}
+        date={dummyData.date}
+        billToName={dummyData.billToName}
+        billToAddress={dummyData.billToAddress}
+        items={dummyData.items}
+        subtotal={dummyData.subtotal}
+        tax={dummyData.tax}
+        total={dummyData.total}
+        dueDate={dummyData.dueDate}
+        companyName={dummyData.companyName}
+      />
 
       <div className="card-actions justify-end">
         <Button style="secondary" onClick={exportPDF}>

@@ -88,7 +88,7 @@ export default function TemplateOne(props: Props) {
       id={props.id ?? 'template-one'}
       ref={props.printRef}
       className={classNames(
-        'relative flex flex-1 gap-5 flex-col max-w-6xl min-h-[842px] h-full px-8 py-10 min-w-[595px] w-full text-left bg-white rounded-lg shadow-md',
+        'relative flex flex-1 gap-5 flex-col max-w-6xl min-h-[842px] h-full min-w-[595px] w-full px-8 py-10 text-left bg-white rounded-lg shadow-md',
         props.class
       )}
     >
@@ -124,9 +124,7 @@ export default function TemplateOne(props: Props) {
       <Content content={props?.memo} show={!!props?.memo} />
 
       <section
-        className={classNames(
-          `flex-1 mt-5 w-full h-full pdf-printable-content`
-        )}
+        className={classNames(`flex-1 mt-5 w-full pdf-printable-content`)}
       >
         <table className="w-full mb-6">
           <thead className="border-b border-gray-300">
@@ -185,11 +183,14 @@ export default function TemplateOne(props: Props) {
             <h2>Total: {props?.total}</h2>
           </div>
         </div>
-        <Content
-          content={props?.footer}
-          show={!!props?.footer}
-          class="mt-auto"
-        />
+
+        <footer>
+          <Content
+            content={props?.footer}
+            show={!!props?.footer}
+            // class="fixed bottom-0 w-full"
+          />
+        </footer>
       </section>
     </div>
   );

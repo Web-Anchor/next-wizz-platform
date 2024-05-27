@@ -4,9 +4,14 @@
 // --------------------------------------------------------------------------------
 
 declare module 'html2pdf.js' {
-  const self = typeof window !== 'undefined' ? window : global;
+  interface Html2PdfInstance {
+    set(options: Html2PdfOptions): this;
+    from(component: HTMLElement): this;
+    save(): this;
+    then(callback: () => void): void;
+  }
   interface Html2PdfFunction {
-    (element: HTMLElement, options?: Html2PdfOptions): Promise<void>;
+    (): Html2PdfInstance;
   }
 
   interface Html2PdfOptions {
@@ -19,6 +24,7 @@ declare module 'html2pdf.js' {
     pagebreak?: object;
     after?: string | array;
     enableLinks?: boolean;
+    onAfterDownload?: Function;
   }
 
   const html2pdf: Html2PdfFunction;
