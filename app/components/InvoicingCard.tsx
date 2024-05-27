@@ -79,8 +79,6 @@ export default function InvoiceTable() {
   const { templates, count, isLoading } = useTemplates({});
   const TEMPLATE = templates?.[0];
 
-  console.log('TEMPLATES  ', state);
-
   useEffect(() => {
     // --------------------------------------------------------------------------------
     // 📌  Update state with templates data
@@ -143,7 +141,7 @@ export default function InvoiceTable() {
 
   async function createTemplate() {
     try {
-      const { data, status } = await cFetch({
+      const res = await cFetch({
         url: '/api/v1/templates/add',
         method: 'POST',
         data: {
@@ -154,11 +152,7 @@ export default function InvoiceTable() {
         },
       });
 
-      if (status !== 200 || data?.error) {
-        throw new Error(data?.error);
-      }
-
-      console.log(data, status);
+      return res;
     } catch (error) {
       console.error(error);
     }
@@ -166,7 +160,7 @@ export default function InvoiceTable() {
 
   async function updateTemplate(id: string) {
     try {
-      const { data, status } = await cFetch({
+      const res = await cFetch({
         url: '/api/v1/templates/update',
         method: 'POST',
         data: {
@@ -178,11 +172,7 @@ export default function InvoiceTable() {
         },
       });
 
-      if (status !== 200 || data?.error) {
-        throw new Error(data?.error);
-      }
-
-      console.log(data, status);
+      return res;
     } catch (error) {
       console.error(error);
     }
@@ -195,8 +185,24 @@ export default function InvoiceTable() {
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
       setState((prev) => ({ ...prev, fetching: true }));
-      !count && (await createTemplate()); // Create template if none exist
-      count && (await updateTemplate(templates?.[0]?.id!)); // Update template if one exist
+      let status;
+      let error;
+
+      if (!count) {
+        const res = await createTemplate();
+        status = res?.status;
+        error = res?.error?.response?.data?.error;
+      }
+
+      if (!!count) {
+        const res = await updateTemplate(templates?.[0]?.id!);
+        status = res?.status;
+        error = res?.error?.response?.data?.error;
+      }
+
+      if (status !== 200 || error) {
+        throw new Error(error);
+      }
 
       mutate(`/api/v1/templates`);
       toast.success(
@@ -237,7 +243,6 @@ export default function InvoiceTable() {
           callBack={() => setState({ ...state, preview: false })}
         >
           <TemplateOne
-            id="custom-template-one"
             header={state?.header}
             memo={state?.memo}
             footer={state?.footer}

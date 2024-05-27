@@ -3,6 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { templates, users } from '@db/schema';
 import { and, eq } from 'drizzle-orm';
+import {
+  subscription,
+  validateActiveSubMiddleware,
+  validateAdvancedSubMiddleware,
+} from '@lib/subscription';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -24,7 +29,9 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     // 📌  Validate & validate sub type
     // --------------------------------------------------------------------------------
-    console.log('👤 DB User. Validate User permissions ', dbUser);
+    const subRes = await subscription({ userId });
+    validateActiveSubMiddleware({ status: subRes?.subscription?.status });
+    validateAdvancedSubMiddleware({ name: subRes?.product?.name });
 
     // --------------------------------------------------------------------------------
     // 📌  Update invoice templates

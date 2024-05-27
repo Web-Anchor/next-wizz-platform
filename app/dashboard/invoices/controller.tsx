@@ -191,7 +191,9 @@ export async function exportToPDF({
     const component = document?.getElementById(id);
 
     if (component) {
-      // component?.classList.remove('hidden'); // remove class hidden
+      // const hasHiddenClass = component.classList.contains('hidden');
+      // hasHiddenClass && component.classList.remove('hidden');
+
       const templateHeight = component.clientHeight!;
       const templateWidth = component.clientWidth!;
       const templateRatio = templateWidth / templateHeight;
@@ -222,7 +224,7 @@ export async function exportToPDF({
         .from(component)
         .save()
         .then(() => {
-          // component?.classList.add('hidden'); // add class hidden
+          // hasHiddenClass && component?.classList.add('hidden'); // add class hidden
         });
     }
   } catch (error) {
