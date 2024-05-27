@@ -40,19 +40,18 @@ export default function Dialog({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <DialogUI.Panel className="relative transform rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 w-fit sm:p-6">
+              <DialogUI.Panel className="mx-auto -mt-16 lg:-mt-10">
                 <Button
                   onClick={callBack}
                   style="ghost"
-                  class="absolute top-0 right-0 -m-4 text-gray-400 hover:text-gray-500"
+                  class="sticky top-0 lg:translate-x-[-3rem] translate-y-[1rem] w-full text-gray-400 hover:text-gray-500"
                 >
                   <XCircleIcon
                     className="h-10 w-10 bg-white rounded-full hover:bg-gray-100 transition-colors"
                     aria-hidden="true"
                   />
                 </Button>
-
-                {children}
+                <section className="p-5 h-full">{children}</section>
               </DialogUI.Panel>
             </Transition.Child>
           </div>

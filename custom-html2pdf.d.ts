@@ -4,6 +4,7 @@
 // --------------------------------------------------------------------------------
 
 declare module 'html2pdf.js' {
+  const self = typeof window !== 'undefined' ? window : global;
   interface Html2PdfFunction {
     (element: HTMLElement, options?: Html2PdfOptions): Promise<void>;
   }

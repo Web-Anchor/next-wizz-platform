@@ -31,7 +31,7 @@ export default function Button(props: Props): React.ReactElement {
         props.style === 'badge' &&
           'center relative inline-block select-none whitespace-nowrap rounded-lg bg-amber-500 text-white py-2 px-3.5 align-baseline font-sans text-xs font-bold uppercase leading-none',
         props.style === 'link' &&
-          'bg-transparent px-0 py-0.5 text-sm font-semibold text-indigo-600 shadow-none hover:bg-transparent hover:text-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+          'bg-transparent items-center px-0 text-sm font-semibold text-indigo-600 shadow-none hover:bg-transparent hover:text-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
         props?.disabled && 'opacity-50 cursor-not-allowed',
         props.class
       )}

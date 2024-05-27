@@ -63,21 +63,12 @@ export default function Page() {
     handlePrint(null, () => componentRef.current);
   }
 
-  function exportPDF() {
+  async function exportPDF() {
     try {
-      const templateOneElement = document.getElementById('template-one');
-
-      if (templateOneElement) {
-        html2pdf(templateOneElement, {
-          margin: 0,
-          filename: 'sample.pdf',
-          image: { type: 'png', quality: 1 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak: { mode: ['avoid-all'] },
-          enableLinks: true,
-        });
-      }
+      await exportToPDF({
+        name: 'invoice-sample',
+        id: 'template-one',
+      });
 
       toast?.success('Document downloaded successfully!');
     } catch (error) {
@@ -128,7 +119,7 @@ export default function Page() {
       </SectionWrapper>
 
       <div className="flex flex-row gap-5 self-end">
-        <Button onClick={printPDF}>
+        <Button onClick={printPDF} class="hidden lg:flex">
           <section className="flex flex-row gap-2">
             <svg
               className="flex-shrink-0 size-4 self-center"
@@ -173,4 +164,45 @@ export default function Page() {
       </div>
     </Wrapper>
   );
+}
+
+export async function exportToPDF({
+  name,
+  format = 'a4',
+  type = 'png',
+  id,
+  margin = 0,
+}: {
+  name: string;
+  format?:
+    | 'a4'
+    | 'a3'
+    | 'a5'
+    | 'letter'
+    | 'legal'
+    | 'tabloid'
+    | 'ledger'
+    | 'custom';
+  id: string;
+  type?: string;
+  margin?: number;
+}) {
+  try {
+    const templateOneElement = document?.getElementById(id);
+    templateOneElement?.classList.remove('hidden'); // remove class hidden
+
+    if (templateOneElement) {
+      html2pdf(templateOneElement, {
+        margin,
+        filename: `${name}.pdf`,
+        image: { type, quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format, orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all'] },
+        enableLinks: true,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }

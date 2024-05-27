@@ -44,16 +44,20 @@ const format = {
   },
 };
 
-const Content = ({ content, show }: { content?: string; show?: boolean }) => {
+const Content = (props: {
+  content?: string;
+  show?: boolean;
+  class?: string;
+}) => {
   if (typeof window === 'undefined') {
     return null;
   }
 
-  if (show && content) {
-    const sanitizedHtml = DOMPurify?.sanitize(content!);
+  if (props.show && props.content) {
+    const sanitizedHtml = DOMPurify?.sanitize(props.content!);
     return (
       <section
-        className="text-justify"
+        className={classNames('text-justify', props.class)}
         dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
       />
     );
@@ -84,7 +88,7 @@ export default function TemplateOne(props: Props) {
       id={props.id ?? 'template-one'}
       ref={props.printRef}
       className={classNames(
-        'flex flex-1 gap-10 flex-col max-w-6xl h-full px-8 py-10 w-full bg-white rounded-lg shadow-md',
+        'relative flex flex-1 gap-5 flex-col max-w-6xl min-h-[842px] h-full px-8 py-10 min-w-[595px] w-full text-left bg-white rounded-lg shadow-md',
         props.class
       )}
     >
@@ -119,7 +123,11 @@ export default function TemplateOne(props: Props) {
       </div>
       <Content content={props?.memo} show={!!props?.memo} />
 
-      <section className={classNames(`flex-1 pdf-printable-content`)}>
+      <section
+        className={classNames(
+          `flex-1 mt-5 w-full h-full pdf-printable-content`
+        )}
+      >
         <table className="w-full mb-6">
           <thead className="border-b border-gray-300">
             <tr>
@@ -162,7 +170,7 @@ export default function TemplateOne(props: Props) {
         </table>
       </section>
 
-      <section className="flex flex-col gap-10 border-t pt-4">
+      <section className="flex flex-col gap-10 border-t pt-5">
         <div className="flex justify-between">
           <div>
             {props?.dueDate && (
@@ -177,7 +185,11 @@ export default function TemplateOne(props: Props) {
             <h2>Total: {props?.total}</h2>
           </div>
         </div>
-        <Content content={props?.footer} show={!!props?.footer} />
+        <Content
+          content={props?.footer}
+          show={!!props?.footer}
+          class="mt-auto"
+        />
       </section>
     </div>
   );

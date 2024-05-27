@@ -7,7 +7,7 @@ import Button from './Button';
 import Dialog from './Dialog';
 import TemplateOne from '@components/templates/TemplateOne';
 import { maxLength } from '@config/index';
-import { dummyData } from '@app/dashboard/invoices/controller';
+import { dummyData, exportToPDF } from '@app/dashboard/invoices/controller';
 import { useTemplates } from '@hooks/index';
 import { CustomField } from '../../types';
 import { Spinner } from './Skeleton';
@@ -210,17 +210,50 @@ export default function InvoiceTable() {
     }
   }
 
+  async function exportPDF() {
+    try {
+      await exportToPDF({
+        name: 'invoice-sample',
+        id: 'custom-template-one',
+      });
+
+      toast?.success('Document downloaded successfully!');
+    } catch (error) {
+      toast?.error('An error occurred while downloading the document.');
+    }
+  }
+
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
     <form onSubmit={submit} className="flex flex-col gap-5">
+      <TemplateOne
+        id="custom-template-one"
+        header={state?.header}
+        memo={state?.memo}
+        footer={state?.footer}
+        customFields={state?.customFields}
+        invoiceNumber={dummyData.invoiceNumber}
+        date={dummyData.date}
+        billToName={dummyData.billToName}
+        billToAddress={dummyData.billToAddress}
+        items={dummyData.items}
+        subtotal={dummyData.subtotal}
+        tax={dummyData.tax}
+        total={dummyData.total}
+        dueDate={dummyData.dueDate}
+        companyName={dummyData.companyName}
+        class="hidden"
+      />
+
       <Dialog
         open={state?.preview}
         callBack={() => setState({ ...state, preview: false })}
       >
         <TemplateOne
+          id="custom-template-one"
           header={state?.header}
           memo={state?.memo}
           footer={state?.footer}
@@ -390,20 +423,42 @@ export default function InvoiceTable() {
       </Section>
 
       <div className="card-actions justify-end">
+        <Button style="secondary" onClick={exportPDF}>
+          <section className="flex flex-row gap-2">
+            <svg
+              className="flex-shrink-0 size-4"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" x2="12" y1="15" y2="3" />
+            </svg>
+            <p>PDF</p>
+          </section>
+        </Button>
         <Button
-          title={!count ? 'Submit' : 'Update'}
+          title={!count ? 'Save' : 'Update'}
           type="submit"
           fetching={state?.fetching}
           disabled={isLoading}
         />
         <Button
           title="Preview"
+          style="ghost"
           onClick={() => setState({ ...state, preview: true })}
           disabled={state?.fetching || isLoading}
         />
         <Button
           title="Reset"
-          style="secondary"
+          style="ghost"
           onClick={() => setState(BASE_STATE)}
           disabled={state?.fetching || isLoading}
         />
