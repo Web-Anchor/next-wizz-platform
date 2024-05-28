@@ -88,7 +88,7 @@ export default function TemplateOne(props: Props) {
       id={props.id ?? 'template-one'}
       ref={props.printRef}
       className={classNames(
-        'relative flex flex-1 gap-5 flex-col max-w-6xl min-h-[842px] h-full min-w-[595px] w-full px-8 py-10 text-left bg-white rounded-lg shadow-md',
+        'relative flex flex-1 gap-5 flex-col max-w-6xl h-full min-w-[595px] w-full px-8 py-10 text-left bg-white rounded-lg shadow-md',
         props.class
       )}
     >
