@@ -1,14 +1,13 @@
 'use client';
 
 import Wrapper, { SectionWrapper } from '@app/components/Wrapper';
-import { useSubscriptions, useUser } from '@hooks/index';
+import { useSubscription, useUser } from '@hooks/index';
 import Pricing from '@components/Pricing';
 import PageHeadings from '@app/components/PageHeadings';
 import { useStatistics } from '@hooks/statistics';
 import StatsCard from '@app/components/StatsCard';
 import { currentMonth, lastMonth } from '@helpers/index';
 import NumbersCard from '@app/components/NumbersCard';
-import Link from 'next/link';
 import { Spinner } from '@app/components/Skeleton';
 import Button from '@app/components/Button';
 import { useRouter } from 'next/navigation';
@@ -16,20 +15,20 @@ import { useRouter } from 'next/navigation';
 export default function Page() {
   const router = useRouter();
   const { user } = useUser({});
-  const { subscriptions } = useSubscriptions({});
+  const { subscription } = useSubscription({});
   const { charges, customers, isLoading } = useStatistics({
     type: 'advanced',
   });
-  console.log('Subs ', subscriptions);
-  console.log(`user `, user);
+  console.log('🚧 Subs ', subscription);
+  console.log(`🚧 User `, user);
 
-  if (isLoading && !subscriptions) {
+  if (isLoading && !subscription) {
     return <Spinner wrapper />;
   }
 
-  if (!subscriptions && !isLoading) {
+  if (!subscription && !isLoading) {
     // --------------------------------------------------------------------------------
-    // 📌  Fallback Component if no subscriptions
+    // 📌  Fallback Component if no subscription
     // --------------------------------------------------------------------------------
     return (
       <Wrapper>

@@ -12,6 +12,8 @@ type Response = {
   error?: string;
   status: 200 | 401 | 500;
   subscription?: StripeSubscription;
+  canceledSubs?: StripeSubscription[];
+  activeSubs?: StripeSubscription[];
   customer?: Customer;
   product?: StripeProduct;
 };
@@ -47,12 +49,23 @@ export async function subscription({
       customer: stripeCustomerId,
       status: 'active',
     });
+    const canceledSubs = await stripe.subscriptions.list({
+      customer: stripeCustomerId,
+      status: 'canceled',
+    });
     console.log('👤 Stripe Active Subscriptions ', activeSubs);
 
     const subscription = activeSubs?.data?.[0]; // ⚠️ default to last subscription
     const product = await stripe.products.retrieve(subscription?.plan?.product);
 
-    return { subscription, customer, product, status: 200 };
+    return {
+      subscription,
+      customer,
+      product,
+      canceledSubs,
+      activeSubs,
+      status: 200,
+    };
   } catch (err: any) {
     console.error('🔑 error', err);
     return { error: err?.message, status: 500 };

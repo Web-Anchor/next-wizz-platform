@@ -4,7 +4,7 @@ import Button from '@app/components/Button';
 import Table from '@app/components/Table';
 import Wrapper from '@app/components/Wrapper';
 import { classNames, convertToYearMonthDay, isSubActive } from '@helpers/index';
-import { useSubscriptions } from '@hooks/index';
+import { useSubscription } from '@hooks/index';
 import { CheckCircleIcon, NoSymbolIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
 import { cFetch } from '@lib/cFetcher';
@@ -13,11 +13,11 @@ import { toast } from 'sonner';
 import PageHeadings from '@app/components/PageHeadings';
 import { TIER_PLANS } from '@app/components/Pricing';
 import { CheckIcon } from '@heroicons/react/20/solid';
+import Tiers from '@app/components/Tiers';
 
 export default function Page() {
   const [state, setState] = useState<{ fetching?: number | string }>({});
-  const { subscriptions } = useSubscriptions({});
-  console.log('Subs ', subscriptions);
+  const { activeSubscriptions } = useSubscription({});
 
   async function cancelSubscription(id: string) {
     try {
@@ -63,7 +63,7 @@ export default function Page() {
           { item: 'Ending', class: 'hidden lg:table-cell' },
           { item: '' },
         ]}
-        data={subscriptions?.map((subscription) => {
+        data={activeSubscriptions?.map((subscription) => {
           return {
             row: [
               { item: planName(subscription?.plan?.amount!) },
@@ -114,52 +114,7 @@ export default function Page() {
             <p className="font-bold text-xl leading-6 text-gray-600 w-full mb-3">
               Your subscription plan determines the features you have access to.
             </p>
-            {TIER_PLANS?.map((tier, key) => (
-              <section
-                key={key}
-                className={classNames(
-                  'flex flex-col gap-2 rounded-3xl p-8 ring-1 card w-full lg:w-72 bg-base-100 lg:shadow-xl py-6 px-4',
-                  tier.featured
-                    ? 'bg-gray-900 bg-opacity-90 ring-gray-900'
-                    : 'ring-gray-200'
-                )}
-              >
-                <h2
-                  className={classNames(
-                    'text-xl font-medium text-gray-900',
-                    tier.featured ? 'text-white' : ''
-                  )}
-                >
-                  {tier.name}
-                </h2>
-                <p
-                  className={classNames(
-                    'text-sm text-gray-500',
-                    tier.featured ? 'text-white' : ''
-                  )}
-                >
-                  {tier.description}
-                </p>
-                {tier.features.map((feature) => (
-                  <li
-                    key={feature}
-                    className={classNames(
-                      'flex text-sm gap-x-3',
-                      tier.featured ? 'text-white' : ''
-                    )}
-                  >
-                    <CheckIcon
-                      className={classNames(
-                        tier.featured ? 'text-white' : 'text-indigo-600',
-                        'h-6 w-5 flex-none'
-                      )}
-                      aria-hidden="true"
-                    />
-                    {feature}
-                  </li>
-                ))}
-              </section>
-            ))}
+            <Tiers />
           </section>
         }
       />

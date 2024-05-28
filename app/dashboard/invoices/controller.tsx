@@ -9,6 +9,8 @@ import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { toast } from 'sonner';
 import html2pdf from 'html2pdf.js';
+import { useSubscription } from '@hooks/subscriptions';
+import Tiers from '@app/components/Tiers';
 
 export const dummyData = {
   invoiceNumber: 'INV12345',
@@ -42,6 +44,9 @@ export const dummyData = {
 
 export default function Page() {
   const componentRef = useRef(null);
+  const { advanced, pro, subscription } = useSubscription({});
+  const isAdvancedPlus = advanced || pro;
+  console.log('Subs ', subscription);
 
   const handlePrint = useReactToPrint({
     documentTitle: 'Invoice Sample',
@@ -83,7 +88,13 @@ export default function Page() {
         description="Discover a collection of customizable invoice templates on our platform to elevate your brand identity and create professional invoices effortlessly. Tailor your invoices to reflect your unique style, enhance client interactions, and make a lasting impression. Personalize your billing documents with ease and professionalism."
         slogan="Crafting Elegance, Sealing Deals - Your Invoices, Your Brand!"
       />
-      <InvoicingCard />
+      {isAdvancedPlus && <InvoicingCard />}
+      {!isAdvancedPlus && (
+        <SectionWrapper>
+          <PageHeadings title="Upgrade to access advanced features and unlock premium invoice templates." />
+          <Tiers />
+        </SectionWrapper>
+      )}
 
       <PageHeadings title="Invoice Templates Sample" class="hidden lg:flex" />
       <TemplateOne
