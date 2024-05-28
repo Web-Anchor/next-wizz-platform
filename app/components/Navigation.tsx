@@ -26,6 +26,7 @@ import { toast } from 'sonner';
 import { Dialog, Transition } from '@headlessui/react';
 import ProfileButton from './ProfileButton';
 import Link from 'next/link';
+import Badge from './Badge';
 
 export default function Navigation({
   children,
@@ -111,6 +112,43 @@ export default function Navigation({
       current: path === '/dashboard/subscriptions',
     },
   ];
+
+  const Support = () => {
+    return dashboard.map((team) => {
+      const isSupport = team.name === 'Help & Support';
+
+      return (
+        <li key={team.name}>
+          <Link
+            href={team.href}
+            className={classNames(
+              team.current
+                ? 'bg-gray-50 text-indigo-600'
+                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+              'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+            )}
+          >
+            <span
+              className={classNames(
+                'relative flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white',
+                team.current
+                  ? 'text-indigo-600 border-indigo-600'
+                  : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600',
+                team.name === 'Help & Support' &&
+                  'border-green-500 text-green-500 bg-green-50'
+              )}
+            >
+              {team.initial}
+              {isSupport && (
+                <Badge class="absolute top-0 right-0 p-0 -m-[2px]" />
+              )}
+            </span>
+            <span className="truncate">{team.name}</span>
+          </Link>
+        </li>
+      );
+    });
+  };
 
   useEffect(() => {
     // --------------------------------------------------------------------------------
@@ -219,31 +257,7 @@ export default function Navigation({
                           Manage & Support
                         </div>
                         <ul role="list" className="-mx-2 mt-2 space-y-1">
-                          {dashboard.map((team) => (
-                            <li key={team.name}>
-                              <Link
-                                href={team.href}
-                                className={classNames(
-                                  team.current
-                                    ? 'bg-gray-50 text-indigo-600'
-                                    : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                )}
-                              >
-                                <span
-                                  className={classNames(
-                                    team.current
-                                      ? 'text-indigo-600 border-indigo-600'
-                                      : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600',
-                                    'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'
-                                  )}
-                                >
-                                  {team.initial}
-                                </span>
-                                <span className="truncate">{team.name}</span>
-                              </Link>
-                            </li>
-                          ))}
+                          <Support />
                         </ul>
                       </li>
                     </ul>
@@ -297,31 +311,7 @@ export default function Navigation({
                   Manage & Support
                 </div>
                 <ul role="list" className="-mx-2 mt-2 space-y-1">
-                  {dashboard.map((team) => (
-                    <li key={team.name}>
-                      <Link
-                        href={team.href}
-                        className={classNames(
-                          team.current
-                            ? 'bg-gray-50 text-indigo-600'
-                            : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                        )}
-                      >
-                        <span
-                          className={classNames(
-                            team.current
-                              ? 'text-indigo-600 border-indigo-600'
-                              : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600',
-                            'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'
-                          )}
-                        >
-                          {team.initial}
-                        </span>
-                        <span className="truncate">{team.name}</span>
-                      </Link>
-                    </li>
-                  ))}
+                  <Support />
                 </ul>
               </li>
               <li className="flex flex-col gap-5 mb-6 mt-auto ">
