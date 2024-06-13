@@ -27,7 +27,7 @@ export function useSubscription(props: Props) {
     subscription: data?.data?.subscription as StripeSubscription,
     customer: data?.data?.customer,
     product: data?.data?.product,
-    active: data?.data?.subscription?.active,
+    active: data?.data?.subscription?.status === 'active',
     basic: plans?.[data?.data?.product?.name]?.basic,
     advanced: plans?.[data?.data?.product?.name]?.advanced,
     pro: plans?.[data?.data?.product?.name]?.pro,

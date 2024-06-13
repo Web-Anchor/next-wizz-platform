@@ -41,6 +41,7 @@ export default function Navigation({
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
   const { active } = useSubscription({});
+  console.log('🚧 active ', active);
 
   const navigation = [
     {

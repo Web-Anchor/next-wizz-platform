@@ -35,13 +35,12 @@ export default function Page() {
 
   return (
     <Wrapper>
+      {isLoading && <Spinner />}
       <PageHeadings
         title="Dashboard. Your Central Hub for Insights and Control."
         description="Access real-time data, analytics, and key metrics on our Dashboard, empowering you with valuable insights to make informed decisions. Monitor performance, track trends, and stay in control of your operations from a centralized platform designed to streamline your workflow."
         slogan="Invoice Smarter, Grow Stronger - Empowering Your Business!"
       />
-
-      <Spinner />
 
       <section>
         <SectionWrapper class="lg:flex-row flex-wrap gap-5">
