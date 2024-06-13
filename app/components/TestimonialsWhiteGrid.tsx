@@ -51,7 +51,7 @@ export default function TestimonialsWhiteGrid() {
                       />
                       <div>
                         <div className="font-semibold">
-                          {`${testimonial?.firstName} ${testimonial?.lastName} ${rating}`}
+                          {`${testimonial?.firstName} ${testimonial?.lastName}`}
                         </div>
                         <div className="text-gray-500 text-xs">
                           <div className="rating">
