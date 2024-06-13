@@ -6,6 +6,8 @@ import { Spinner } from './Skeleton';
 export default function TestimonialsWhiteGrid() {
   const { testimonials, isLoading } = useTestimonials({});
 
+  console.log(testimonials);
+
   if (!testimonials?.length && !isLoading) {
     return null;
   }
@@ -25,6 +27,10 @@ export default function TestimonialsWhiteGrid() {
           {isLoading && <Spinner wrapper />}
           <div className="-mt-8 sm:-mx-4 sm:columns-2 sm:text-[0] lg:columns-3">
             {testimonials?.map((testimonial, key) => {
+              const rating = Number(testimonial.rating);
+              const checked = 'mask mask-star-2 bg-orange-400';
+              const unchecked = 'mask mask-star-2 bg-gray-400';
+
               return (
                 <div
                   key={key}
@@ -45,10 +51,36 @@ export default function TestimonialsWhiteGrid() {
                       />
                       <div>
                         <div className="font-semibold">
-                          {`${testimonial?.firstName} ${testimonial?.lastName}`}
+                          {`${testimonial?.firstName} ${testimonial?.lastName} ${rating}`}
                         </div>
                         <div className="text-gray-500 text-xs">
-                          @{testimonial?.platform}
+                          <div className="rating">
+                            <input
+                              type="radio"
+                              className={rating >= 1 ? checked : unchecked}
+                              disabled
+                            />
+                            <input
+                              type="radio"
+                              className={rating >= 2 ? checked : unchecked}
+                              disabled
+                            />
+                            <input
+                              type="radio"
+                              className={rating >= 3 ? checked : unchecked}
+                              disabled
+                            />
+                            <input
+                              type="radio"
+                              className={rating >= 4 ? checked : unchecked}
+                              disabled
+                            />
+                            <input
+                              type="radio"
+                              className={rating >= 5 ? checked : unchecked}
+                              disabled
+                            />
+                          </div>
                         </div>
                       </div>
                     </figcaption>
