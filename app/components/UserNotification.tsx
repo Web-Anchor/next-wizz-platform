@@ -61,12 +61,12 @@ export default function UserNotification(props: Props) {
               </h2>
             </section>
             <section className={classNames('border-t pt-2 mt-2')}>
-              <button
+              <div
                 onClick={signOutUser}
                 className="px-3 py-1 btn-ghost flex flex-row justify-center gap-2 hover:bg-transparent hover:opacity-80"
               >
                 <p>Sign out</p>
-              </button>
+              </div>
             </section>
           </div>
         </div>
