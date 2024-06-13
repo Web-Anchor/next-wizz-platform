@@ -58,7 +58,7 @@ export default function FrequentlyAskedQuestions() {
   const path = usePathname();
 
   return (
-    <div id="facts" className="bg-white">
+    <div id="facts">
       <div className="mx-auto max-w-7xl px-6 py-6 sm:py-10">
         <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
           <div className="mx-auto max-w-4xl text-center">

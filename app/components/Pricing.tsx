@@ -104,7 +104,7 @@ export default function Pricing() {
   }
 
   return (
-    <div id="pricing" className="bg-white py-6 sm:py-10">
+    <div id="pricing" className="py-6 sm:py-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
