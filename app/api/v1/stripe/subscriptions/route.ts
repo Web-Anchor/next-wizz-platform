@@ -1,8 +1,5 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@db/index';
-import { eq } from 'drizzle-orm';
-import { users } from '@db/schema';
 import { subscription } from '@lib/subscription';
 
 export async function POST(request: NextRequest) {
@@ -13,11 +10,7 @@ export async function POST(request: NextRequest) {
     // 📌  dn user
     // --------------------------------------------------------------------------------
     const { userId } = auth();
-    const dbUser = await db
-      .select()
-      .from(users)
-      .where(eq(users.clerkId, userId!));
-    console.log('👤 User ', userId, dbUser);
+    console.log('👤 Clerk User Id ', userId);
 
     // --------------------------------------------------------------------------------
     // 📌  Get stripe subscriptions for user

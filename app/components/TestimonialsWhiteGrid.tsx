@@ -6,8 +6,6 @@ import { Spinner } from './Skeleton';
 export default function TestimonialsWhiteGrid() {
   const { testimonials, isLoading } = useTestimonials({});
 
-  console.log(testimonials);
-
   if (!testimonials?.length && !isLoading) {
     return null;
   }
@@ -28,8 +26,8 @@ export default function TestimonialsWhiteGrid() {
           <div className="-mt-8 sm:-mx-4 sm:columns-2 sm:text-[0] lg:columns-3">
             {testimonials?.map((testimonial, key) => {
               const rating = Number(testimonial.rating);
-              const checked = 'mask mask-star-2 bg-orange-400';
-              const unchecked = 'mask mask-star-2 bg-gray-400';
+              const ckdClass = 'mask mask-star-2 bg-orange-400';
+              const unCkdClass = 'mask mask-star-2 bg-gray-400';
 
               return (
                 <div
@@ -56,27 +54,27 @@ export default function TestimonialsWhiteGrid() {
                         <div className="rating">
                           <input
                             type="radio"
-                            className={rating >= 1 ? checked : unchecked}
+                            className={rating >= 1 ? ckdClass : unCkdClass}
                             disabled
                           />
                           <input
                             type="radio"
-                            className={rating >= 2 ? checked : unchecked}
+                            className={rating >= 2 ? ckdClass : unCkdClass}
                             disabled
                           />
                           <input
                             type="radio"
-                            className={rating >= 3 ? checked : unchecked}
+                            className={rating >= 3 ? ckdClass : unCkdClass}
                             disabled
                           />
                           <input
                             type="radio"
-                            className={rating >= 4 ? checked : unchecked}
+                            className={rating >= 4 ? ckdClass : unCkdClass}
                             disabled
                           />
                           <input
                             type="radio"
-                            className={rating >= 5 ? checked : unchecked}
+                            className={rating >= 5 ? ckdClass : unCkdClass}
                             disabled
                           />
                         </div>

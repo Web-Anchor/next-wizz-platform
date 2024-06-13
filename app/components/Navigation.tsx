@@ -18,11 +18,11 @@ import UserProfileCard from './UserProfileCard';
 import Logo from '@components/Logo';
 import {
   useStripeKeys,
+  useSubscription,
   useTotalCharges,
   useTotalCustomers,
 } from '@hooks/index';
-import { useEffect, useRef, useState, Fragment } from 'react';
-import { toast } from 'sonner';
+import { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import ProfileButton from './ProfileButton';
 import Link from 'next/link';
@@ -34,14 +34,14 @@ export default function Navigation({
   children: React.ReactNode;
 }) {
   const [state, setState] = useState<{ open: boolean }>({ open: false });
-  const { isSignedIn, user, isLoaded } = useUser();
-  const { data, isLoading: keyFetching } = useStripeKeys({});
   const path = usePathname();
-  const loadRef = useRef(true);
 
-  const { count, isLoading: stLoading } = useStripeKeys({});
+  const { isSignedIn, user, isLoaded } = useUser();
+  const { data, count, isLoading: stLoading } = useStripeKeys({});
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
+  const { subscription } = useSubscription({});
+  console.log('🔑 subscription', subscription);
 
   const navigation = [
     {
@@ -149,18 +149,6 @@ export default function Navigation({
       );
     });
   };
-
-  useEffect(() => {
-    // --------------------------------------------------------------------------------
-    // 📌  Notification hook
-    // --------------------------------------------------------------------------------
-    if (data && !data?.length && loadRef.current) {
-      toast.error('Please add Stripe API keys to use a platform.');
-      loadRef.current = false;
-    }
-
-    console.log('StripeKeys', data);
-  }, [data]);
 
   return (
     <section className="z-10 w-full">
