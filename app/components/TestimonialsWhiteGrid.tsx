@@ -2,6 +2,8 @@
 
 import { useTestimonials } from '@hooks/useTestimonials';
 import { Spinner } from './Skeleton';
+import { StarIcon } from '@heroicons/react/24/solid';
+import { classNames } from '@helpers/index';
 
 export default function TestimonialsWhiteGrid() {
   const { testimonials, isLoading } = useTestimonials({});
@@ -26,8 +28,9 @@ export default function TestimonialsWhiteGrid() {
           <div className="-mt-8 sm:-mx-4 sm:columns-2 sm:text-[0] lg:columns-3">
             {testimonials?.map((testimonial, key) => {
               const rating = Number(testimonial.rating);
-              const ckdClass = 'mask mask-star-2 bg-orange-400';
-              const unCkdClass = 'mask mask-star-2 bg-gray-400';
+
+              console.log(testimonial);
+              console.log(rating);
 
               return (
                 <div
@@ -51,32 +54,18 @@ export default function TestimonialsWhiteGrid() {
                         <div className="font-semibold">
                           {`${testimonial?.firstName} ${testimonial?.lastName}`}
                         </div>
-                        <div className="rating">
-                          <input
-                            type="radio"
-                            className={rating >= 1 ? ckdClass : unCkdClass}
-                            disabled
-                          />
-                          <input
-                            type="radio"
-                            className={rating >= 2 ? ckdClass : unCkdClass}
-                            disabled
-                          />
-                          <input
-                            type="radio"
-                            className={rating >= 3 ? ckdClass : unCkdClass}
-                            disabled
-                          />
-                          <input
-                            type="radio"
-                            className={rating >= 4 ? ckdClass : unCkdClass}
-                            disabled
-                          />
-                          <input
-                            type="radio"
-                            className={rating >= 5 ? ckdClass : unCkdClass}
-                            disabled
-                          />
+                        <div className="flex items-center gap-x-1">
+                          {Array.from({ length: 5 }, (_, i) => (
+                            <StarIcon
+                              key={i}
+                              className={classNames(
+                                rating >= i + 1
+                                  ? 'text-orange-400'
+                                  : 'text-gray-300',
+                                'h-6 w-6'
+                              )}
+                            />
+                          ))}
                         </div>
                       </div>
                     </figcaption>
