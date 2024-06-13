@@ -40,8 +40,7 @@ export default function Navigation({
   const { data, count, isLoading: stLoading } = useStripeKeys({});
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
-  const { subscription } = useSubscription({});
-  console.log('🔑 subscription', subscription);
+  const { active } = useSubscription({});
 
   const navigation = [
     {
@@ -49,6 +48,7 @@ export default function Navigation({
       href: '/dashboard',
       icon: HomeIcon,
       current: path === '/dashboard',
+      isHidden: false,
     },
     {
       name: 'Charges',
@@ -56,6 +56,7 @@ export default function Navigation({
       icon: CurrencyDollarIcon,
       count: charges,
       current: path === '/dashboard/charges',
+      isHidden: !active,
     },
     {
       name: 'Customers',
@@ -63,6 +64,7 @@ export default function Navigation({
       icon: UsersIcon,
       count: customers,
       current: path === '/dashboard/customers',
+      isHidden: !active,
     },
     {
       name: 'Templates',
@@ -70,6 +72,7 @@ export default function Navigation({
       icon: DocumentDuplicateIcon,
       count: '1',
       current: path === '/dashboard/invoices',
+      isHidden: !active,
     },
     {
       name: 'Stripe API keys',
@@ -77,18 +80,21 @@ export default function Navigation({
       icon: LinkIcon,
       count: count,
       current: path === '/dashboard/stripe',
+      isHidden: !active,
     },
     {
       name: 'Reports',
       href: '/dashboard/reports',
       icon: ChartPieIcon,
       current: path === '/dashboard/reports',
+      isHidden: !active,
     },
     {
       name: 'Profile',
       href: '/dashboard/profile',
       icon: UserIcon,
       current: path === '/dashboard/profile',
+      isHidden: !active,
     },
   ];
 
@@ -98,23 +104,27 @@ export default function Navigation({
       href: '/dashboard/new-features',
       initial: 'F',
       current: path === '/dashboard/new-features',
+      isHidden: !active,
     },
     {
       name: 'Help & Support',
       href: '/dashboard/support',
       initial: 'H',
       current: path === '/dashboard/support',
+      isHidden: false,
     },
     {
       name: 'Subscriptions',
       href: '/dashboard/subscriptions',
       initial: 'S',
       current: path === '/dashboard/subscriptions',
+      isHidden: false,
     },
   ];
 
   const Support = () => {
     return dashboard.map((team) => {
+      if (team.isHidden) return null;
       const isSupport = team.name === 'Help & Support';
 
       return (
@@ -214,30 +224,34 @@ export default function Navigation({
                     <ul role="list" className="flex flex-1 flex-col gap-y-7">
                       <li>
                         <ul role="list" className="-mx-2 space-y-1">
-                          {navigation.map((item) => (
-                            <li key={item.name}>
-                              <Link
-                                href={item.href}
-                                className={classNames(
-                                  item.current
-                                    ? 'bg-gray-50 text-indigo-600'
-                                    : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                )}
-                              >
-                                <item.icon
+                          {navigation.map((item) => {
+                            if (item.isHidden) return null;
+
+                            return (
+                              <li key={item.name}>
+                                <Link
+                                  href={item.href}
                                   className={classNames(
                                     item.current
-                                      ? 'text-indigo-600'
-                                      : 'text-gray-400 group-hover:text-indigo-600',
-                                    'h-6 w-6 shrink-0'
+                                      ? 'bg-gray-50 text-indigo-600'
+                                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                   )}
-                                  aria-hidden="true"
-                                />
-                                {item.name}
-                              </Link>
-                            </li>
-                          ))}
+                                >
+                                  <item.icon
+                                    className={classNames(
+                                      item.current
+                                        ? 'text-indigo-600'
+                                        : 'text-gray-400 group-hover:text-indigo-600',
+                                      'h-6 w-6 shrink-0'
+                                    )}
+                                    aria-hidden="true"
+                                  />
+                                  {item.name}
+                                </Link>
+                              </li>
+                            );
+                          })}
                         </ul>
                       </li>
                       <li>
@@ -268,30 +282,34 @@ export default function Navigation({
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
-                  {navigation.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-50 text-indigo-600'
-                            : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                        )}
-                      >
-                        <item.icon
+                  {navigation.map((item) => {
+                    if (item.isHidden) return null;
+
+                    return (
+                      <li key={item.name}>
+                        <Link
+                          href={item.href}
                           className={classNames(
                             item.current
-                              ? 'text-indigo-600'
-                              : 'text-gray-400 group-hover:text-indigo-600',
-                            'h-6 w-6 shrink-0'
+                              ? 'bg-gray-50 text-indigo-600'
+                              : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                           )}
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
+                        >
+                          <item.icon
+                            className={classNames(
+                              item.current
+                                ? 'text-indigo-600'
+                                : 'text-gray-400 group-hover:text-indigo-600',
+                              'h-6 w-6 shrink-0'
+                            )}
+                            aria-hidden="true"
+                          />
+                          {item.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </li>
               <li>
