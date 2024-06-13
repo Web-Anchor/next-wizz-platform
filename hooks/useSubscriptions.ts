@@ -17,7 +17,6 @@ export function useSubscription(props: Props) {
       fallbackData: props?.subscriptions as any,
     }
   );
-  console.log('Subs ', data?.data);
 
   return {
     data: data?.data,

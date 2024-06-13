@@ -100,7 +100,7 @@ export default function Page() {
         </SectionWrapper>
 
         <Button
-          title="View All Reports"
+          title="View All Statistics & Reports"
           style="link"
           onClick={() => router.push('/dashboard/reports')}
           class="mt-10"

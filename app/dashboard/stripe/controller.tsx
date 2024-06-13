@@ -145,7 +145,8 @@ export default function Page() {
         </div>
         <section>
           <Button
-            title="Add a new key"
+            title="Add key"
+            class="text-nowrap"
             onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
           />
         </section>
