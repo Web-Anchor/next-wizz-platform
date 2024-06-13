@@ -2,11 +2,17 @@
 
 import { Fragment } from 'react';
 import { classNames } from '@helpers/index';
-import { Menu, Transition } from '@headlessui/react';
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from '@headlessui/react';
 import UserProfileCard from './UserProfileCard';
 import { useClerk, useUser } from '@clerk/nextjs';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 type Props = {
   hide?: boolean;
@@ -16,19 +22,21 @@ export default function ProfileButton(props: Props): React.ReactElement {
   const { isSignedIn, user, isLoaded } = useUser();
   const { signOut } = useClerk();
   const router = useRouter();
+  const searchParams = useSearchParams()!;
+  const id = searchParams.get('id');
 
   function signOutUser(e: { preventDefault: () => void }) {
     e.preventDefault();
     // --------------------------------------------------------------------------------
     // 📌 Sign Out User from current session
     // --------------------------------------------------------------------------------
-    signOut(() => router.push('/'));
+    signOut(() => router.push(`/sign-in?id=${id}`));
   }
 
   return (
     <Menu as="div" className="relative ml-3">
       <div>
-        <Menu.Button className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        <MenuButton className="relative flex rounded-full bg-white text-sm">
           {isSignedIn && (
             <UserProfileCard
               imgSrc={user?.imageUrl}
@@ -47,7 +55,7 @@ export default function ProfileButton(props: Props): React.ReactElement {
               </div>
             </div>
           )}
-        </Menu.Button>
+        </MenuButton>
       </div>
       <Transition
         as={Fragment}
@@ -58,8 +66,8 @@ export default function ProfileButton(props: Props): React.ReactElement {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white p-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <Menu.Item>
+        <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white p-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <MenuItem>
             {({ active }) => (
               <Link
                 href="/dashboard"
@@ -71,8 +79,8 @@ export default function ProfileButton(props: Props): React.ReactElement {
                 Dashboard
               </Link>
             )}
-          </Menu.Item>
-          <Menu.Item>
+          </MenuItem>
+          <MenuItem>
             {({ active }) => (
               <button
                 onClick={signOutUser}
@@ -84,8 +92,8 @@ export default function ProfileButton(props: Props): React.ReactElement {
                 <p>Sign out</p>
               </button>
             )}
-          </Menu.Item>
-        </Menu.Items>
+          </MenuItem>
+        </MenuItems>
       </Transition>
     </Menu>
   );
