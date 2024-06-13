@@ -204,7 +204,7 @@ export default function Pricing() {
                   class={classNames(
                     'mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
                     tier.featured
-                      ? 'bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white'
+                      ? 'bg-white text-gray-600 hover:bg-indigo-600 hover:text-white focus-visible:outline-white'
                       : 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600',
                     isEnterprise && 'opacity-100 cursor-default'
                   )}
