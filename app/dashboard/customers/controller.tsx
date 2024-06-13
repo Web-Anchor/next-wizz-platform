@@ -3,7 +3,7 @@
 import Button from '@app/components/Button';
 import Table from '@app/components/Table';
 import Wrapper from '@app/components/Wrapper';
-import { useCustomers } from '@hooks/customers';
+import { useCustomers } from '@hooks/useCustomers';
 import { Customer } from '../../../types';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';

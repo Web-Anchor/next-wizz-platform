@@ -11,13 +11,14 @@ export function bodyFetcher(url: string, body?: any) {
   return axios.post(url, body);
 }
 
-export * from './charges';
-export * from './stripe-keys';
-export * from './validate-api-keys';
-export * from './customers';
-export * from './stats';
-export * from './users';
-export * from './subscriptions';
-export * from './support-tickets';
-export * from './features';
-export * from './templates';
+export * from './useCharges';
+export * from './useStripeKeys';
+export * from './useValidateApiKeys';
+export * from './useCustomers';
+export * from './useStats';
+export * from './useUsers';
+export * from './useSubscriptions';
+export * from './useSupportTickets';
+export * from './useFeatures';
+export * from './useTemplates';
+export * from './useStatistics';

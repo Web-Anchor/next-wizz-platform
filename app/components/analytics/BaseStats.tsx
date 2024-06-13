@@ -5,7 +5,7 @@ import StatsCard from '@app/components/StatsCard';
 import PieChart from '@app/components/analytics/PieChart';
 import NumbersCard from '@app/components/NumbersCard';
 import PageHeadings from '@components/PageHeadings';
-import { useStatistics } from '@hooks/statistics';
+import { useStatistics } from '@hooks/index';
 import {
   convertObjToArray,
   currentMonth,

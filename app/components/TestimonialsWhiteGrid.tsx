@@ -53,34 +53,32 @@ export default function TestimonialsWhiteGrid() {
                         <div className="font-semibold">
                           {`${testimonial?.firstName} ${testimonial?.lastName}`}
                         </div>
-                        <div className="text-gray-500 text-xs">
-                          <div className="rating">
-                            <input
-                              type="radio"
-                              className={rating >= 1 ? checked : unchecked}
-                              disabled
-                            />
-                            <input
-                              type="radio"
-                              className={rating >= 2 ? checked : unchecked}
-                              disabled
-                            />
-                            <input
-                              type="radio"
-                              className={rating >= 3 ? checked : unchecked}
-                              disabled
-                            />
-                            <input
-                              type="radio"
-                              className={rating >= 4 ? checked : unchecked}
-                              disabled
-                            />
-                            <input
-                              type="radio"
-                              className={rating >= 5 ? checked : unchecked}
-                              disabled
-                            />
-                          </div>
+                        <div className="rating">
+                          <input
+                            type="radio"
+                            className={rating >= 1 ? checked : unchecked}
+                            disabled
+                          />
+                          <input
+                            type="radio"
+                            className={rating >= 2 ? checked : unchecked}
+                            disabled
+                          />
+                          <input
+                            type="radio"
+                            className={rating >= 3 ? checked : unchecked}
+                            disabled
+                          />
+                          <input
+                            type="radio"
+                            className={rating >= 4 ? checked : unchecked}
+                            disabled
+                          />
+                          <input
+                            type="radio"
+                            className={rating >= 5 ? checked : unchecked}
+                            disabled
+                          />
                         </div>
                       </div>
                     </figcaption>

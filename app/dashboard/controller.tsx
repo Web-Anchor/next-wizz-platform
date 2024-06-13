@@ -4,7 +4,7 @@ import Wrapper, { SectionWrapper } from '@app/components/Wrapper';
 import { useSubscription, useUser } from '@hooks/index';
 import Pricing from '@components/Pricing';
 import PageHeadings from '@app/components/PageHeadings';
-import { useStatistics } from '@hooks/statistics';
+import { useStatistics } from '@hooks/index';
 import StatsCard from '@app/components/StatsCard';
 import { currentMonth, lastMonth } from '@helpers/index';
 import NumbersCard from '@app/components/NumbersCard';

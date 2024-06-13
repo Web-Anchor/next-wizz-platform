@@ -9,7 +9,7 @@ import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { toast } from 'sonner';
 import html2pdf from 'html2pdf.js';
-import { useSubscription } from '@hooks/subscriptions';
+import { useSubscription } from '@hooks/useSubscriptions';
 import Tiers from '@app/components/Tiers';
 
 export const dummyData = {

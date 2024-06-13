@@ -3,13 +3,13 @@
 import Button from '@app/components/Button';
 import Table from '@app/components/Table';
 import Wrapper from '@app/components/Wrapper';
-import { useStripeKeys } from '@hooks/stripe-keys';
+import { useStripeKeys } from '@hooks/useStripeKeys';
 import { StripeKey } from '../../../types';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { classNames, convertToAsterisks, getTimeAgo } from '@helpers/index';
 import AddStripeKeyDialog from '@app/components/AddStripeKeyDialog';
-import { useKeyValidate } from '@hooks/validate-api-keys';
+import { useKeyValidate } from '@hooks/useValidateApiKeys';
 import { RowSkeleton } from '@app/components/Skeleton';
 import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
