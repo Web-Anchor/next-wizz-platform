@@ -33,6 +33,7 @@ export default function Button(props: Props): React.ReactElement {
         props.style === 'link' &&
           'bg-transparent items-center px-0 text-sm font-semibold text-indigo-600 shadow-none hover:bg-transparent hover:text-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
         props?.disabled && 'opacity-50 cursor-not-allowed',
+        props?.fetching && 'bg-opacity-45 cursor-wait',
         props.class
       )}
       disabled={props.disabled || props.fetching}
@@ -41,12 +42,12 @@ export default function Button(props: Props): React.ReactElement {
       {props.fetching && (
         <span
           className={classNames(
-            'loading loading-spinner absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 text-white',
+            'loading loading-spinner bg-indigo-600 z-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 text-white',
             props.style === 'ghost' && 'text-gray-500'
           )}
         ></span>
       )}
-      <span className={classNames(props.fetching && 'opacity-0')}>
+      <span className={classNames(props.fetching && 'opacity-45')}>
         {content}
       </span>
     </button>
