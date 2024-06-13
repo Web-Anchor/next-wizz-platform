@@ -42,9 +42,10 @@ export default function Table(props: Props) {
           <tbody className="divide-y divide-gray-200">
             {!props?.data?.length && (
               <NoData
-                title={props.noDate?.title ?? "You don't have any templates."}
+                title={props.noDate?.title ?? 'No Data Available'}
                 description={
-                  props.noDate?.description ?? 'Create a new template.'
+                  props.noDate?.description ??
+                  'Data records will appear here when available.'
                 }
               />
             )}

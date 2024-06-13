@@ -1,7 +1,7 @@
 import { TableCellsIcon } from '@heroicons/react/24/outline';
 
 type Props = {
-  title: string;
+  title?: string;
   description?: string;
 };
 
