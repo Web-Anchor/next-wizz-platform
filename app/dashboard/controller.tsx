@@ -22,11 +22,7 @@ export default function Page() {
   console.log('🚧 Subs ', subscription);
   console.log(`🚧 User `, user);
 
-  if (isLoading && !subscription) {
-    return <Spinner wrapper />;
-  }
-
-  if (!subscription && !isLoading) {
+  if (!subscription) {
     // --------------------------------------------------------------------------------
     // 📌  Fallback Component if no subscription
     // --------------------------------------------------------------------------------
@@ -44,6 +40,8 @@ export default function Page() {
         description="Access real-time data, analytics, and key metrics on our Dashboard, empowering you with valuable insights to make informed decisions. Monitor performance, track trends, and stay in control of your operations from a centralized platform designed to streamline your workflow."
         slogan="Invoice Smarter, Grow Stronger - Empowering Your Business!"
       />
+
+      <Spinner />
 
       <section>
         <SectionWrapper class="lg:flex-row flex-wrap gap-5">

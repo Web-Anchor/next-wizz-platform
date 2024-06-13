@@ -79,6 +79,6 @@ export function Spinner(props: { wrapper?: boolean }): React.ReactElement {
   }
 
   return (
-    <span className="loading loading-ring loading-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+    <span className="loading z-10 loading-ring loading-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
   );
 }

@@ -38,9 +38,12 @@ export async function GET(request: NextRequest) {
     });
   } catch (error: any) {
     console.error(error);
-    return NextResponse.json(
-      { error: error?.message },
-      { status: error?.status || 500 }
-    );
+
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: APP_URL + '/sign-in',
+      },
+    });
   }
 }

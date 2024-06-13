@@ -41,7 +41,7 @@ export const TIER_PLANS = [
       'Advanced analytics',
       '24-hour support response time',
       'Send up to 500 invoices to customers',
-      'Marketing automations',
+      'Customer Portal branding & customization',
     ],
     featured: true,
     cta: 'Buy plan',
