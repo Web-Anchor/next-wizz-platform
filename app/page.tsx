@@ -5,6 +5,7 @@ import FrequentlyAskedQuestions from '@components/FrequentlyAskedQuestions';
 import Workflow from '@components/Workflow';
 import CustomerWorkflow from '@components/CustomerWorkflow';
 import { TopBackground, BottomBackground } from '@components/Background';
+import TestimonialsWhiteGrid from './components/TestimonialsWhiteGrid';
 
 export default function Page() {
   return (
@@ -17,6 +18,7 @@ export default function Page() {
       <Workflow />
       <CustomerWorkflow />
       <FrequentlyAskedQuestions />
+      <TestimonialsWhiteGrid />
     </Layout>
   );
 }

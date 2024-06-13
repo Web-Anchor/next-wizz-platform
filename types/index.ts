@@ -138,3 +138,14 @@ export type StripeProduct = {
   active?: boolean;
   created?: number;
 };
+
+export type Testimonials = {
+  id?: string;
+  rating?: string;
+  comments?: string;
+  firstName?: string;
+  lastName?: string;
+  imageUrl?: string;
+  platform?: string;
+  createdAt?: string;
+};

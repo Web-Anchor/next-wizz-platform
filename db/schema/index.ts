@@ -14,9 +14,7 @@ export const users = sqliteTable('users', {
 
 export const templates = sqliteTable('templates', {
   id: text('id').unique().notNull().primaryKey(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => users.id),
+  userId: text('user_id').references(() => users.id),
   template: text('template'),
   name: text('name'),
   description: text('description'),
@@ -38,9 +36,7 @@ export const templates = sqliteTable('templates', {
 
 export const keys = sqliteTable('keys', {
   id: text('id').unique().notNull().primaryKey(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => users.id),
+  userId: text('user_id').references(() => users.id),
   stripeSecretKey: text('stripe_secret_key'),
   stripePublishableKey: text('stripe_publishable_key'),
   restrictedAPIKey: text('restricted_api_key'),
@@ -50,9 +46,8 @@ export const keys = sqliteTable('keys', {
 
 export const tickets = sqliteTable('tickets', {
   id: text('id').unique().notNull().primaryKey(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => users.id),
+  userId: text('user_id').references(() => users.id),
+  clerkId: text('clerk_id'),
   subject: text('subject'),
   message: text('message'),
   comments: text('comments'),
@@ -64,9 +59,7 @@ export const tickets = sqliteTable('tickets', {
 
 export const features = sqliteTable('features', {
   id: text('id').unique().notNull().primaryKey(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => users.id),
+  userId: text('user_id').references(() => users.id),
   featureName: text('feature_name'),
   description: text('description'),
   comments: text('comments'),
@@ -74,4 +67,16 @@ export const features = sqliteTable('features', {
   status: text('status'),
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text('updated_at').default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const ratings = sqliteTable('ratings', {
+  id: text('id').unique().notNull().primaryKey(),
+  clerkId: text('clerk_id'),
+  rating: text('rating'),
+  comments: text('comments'),
+  firstName: text('first_name'),
+  lastName: text('last_name'),
+  imageUrl: text('image_url'),
+  platform: text('platform'), // Feedback origin: portal | platform
+  createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
 });
