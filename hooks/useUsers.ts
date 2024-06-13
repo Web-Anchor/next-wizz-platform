@@ -12,6 +12,7 @@ export function useUser(props: Props) {
     (url: string) => bodyFetcher(url),
     {
       revalidateOnFocus: true,
+      shouldRetryOnError: false,
       fallbackData: props?.user as any,
     }
   );

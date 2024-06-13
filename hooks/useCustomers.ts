@@ -13,6 +13,7 @@ export function useCustomers(props: Props) {
     (url: string) => bodyFetcher(url, { account: props.account }),
     {
       revalidateOnFocus: true,
+      shouldRetryOnError: false,
       fallbackData: props?.customers as any,
     }
   );

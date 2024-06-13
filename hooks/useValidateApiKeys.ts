@@ -11,6 +11,7 @@ export function useKeyValidate(props: Props) {
     (url: string) => bodyFetcher(url, { key: props.key }),
     {
       revalidateOnFocus: true,
+      shouldRetryOnError: false,
     }
   );
 

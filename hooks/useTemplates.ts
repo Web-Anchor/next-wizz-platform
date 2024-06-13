@@ -13,6 +13,7 @@ export function useTemplates(props: Props) {
     (url: string) => bodyFetcher(url, { account: props.account }),
     {
       revalidateOnFocus: true,
+      shouldRetryOnError: false,
       fallbackData: props?.templates as any,
     }
   );

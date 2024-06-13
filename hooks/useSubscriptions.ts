@@ -13,6 +13,7 @@ export function useSubscription(props: Props) {
     (url: string) => bodyFetcher(url),
     {
       revalidateOnFocus: true,
+      shouldRetryOnError: false,
       fallbackData: props?.subscriptions as any,
     }
   );

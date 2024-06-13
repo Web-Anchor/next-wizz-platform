@@ -12,6 +12,7 @@ export function useTestimonials(props: Props) {
     (url: string) => bodyFetcher(url, {}),
     {
       revalidateOnFocus: true,
+      shouldRetryOnError: false,
       fallbackData: props?.testimonials as any,
     }
   );

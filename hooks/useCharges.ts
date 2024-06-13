@@ -13,6 +13,7 @@ export function useCharges(props: Props) {
     (url: string) => bodyFetcher(url, { keyId: props.keyId }),
     {
       revalidateOnFocus: true,
+      shouldRetryOnError: false,
       fallbackData: props?.charges as any,
     }
   );
