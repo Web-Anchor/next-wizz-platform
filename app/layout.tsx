@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { ClerkProvider } from '@clerk/nextjs';
-import { Inter } from 'next/font/google';
+import { Nunito } from 'next/font/google';
 import './globals.css';
 import { classNames } from '@helpers/index';
 import { Toaster } from 'sonner';
 
-const inter = Inter({ subsets: ['latin'] });
+const fonts = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Invoice Visard',
@@ -24,7 +24,7 @@ export default function RootLayout({
         data-theme="bumblebee"
         lang="en"
       >
-        <body className={classNames(inter.className, 'h-full')}>
+        <body className={classNames(fonts.className, 'h-full')}>
           <Toaster
             // richColors // enable rich colors
             // closeButton // close button cta on toast
