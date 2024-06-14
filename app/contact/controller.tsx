@@ -8,17 +8,37 @@ import TestimonialsWhiteGrid from '@app/components/TestimonialsWhiteGrid';
 import Wrapper from '@app/components/Wrapper';
 import { maxLength } from '@config/index';
 import { cFetch } from '@lib/cFetcher';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
+import { useReCaptcha } from 'next-recaptcha-v3';
 
 export default function Page() {
   const [state, setState] = useState<{ fetching?: boolean }>({});
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
+  const { executeRecaptcha } = useReCaptcha();
 
   async function submit(form: any) {
     try {
+      // --------------------------------------------------------------------------------
+      // 📌  Validate google re-captcha
+      // --------------------------------------------------------------------------------
+      const token = await executeRecaptcha('form_submit');
+      if (!token) {
+        throw new Error('Google re-captcha validation failed');
+      }
+
+      const assessment = await cFetch({
+        url: '/api/v1/re-captcha-validate',
+        method: 'POST',
+        data: { token },
+      });
+
+      if (assessment?.data?.score < 0.5) {
+        throw new Error('Google re-captcha validation failed');
+      }
+
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------

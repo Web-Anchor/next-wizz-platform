@@ -9,6 +9,7 @@ export default authMiddleware({
     '/((?!api|trpc))(_next.*|.+.[w]+$)',
     '/api/v1/testimonials',
     '/api/v1/support/add-ticket-public',
+    '/api/v1/re-captcha-validate',
   ],
   signInUrl: '/sign-in',
   apiRoutes: ['/api/(.)', '/trpc/(.)'],
