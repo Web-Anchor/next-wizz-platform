@@ -8,11 +8,13 @@ import TestimonialsWhiteGrid from '@app/components/TestimonialsWhiteGrid';
 import Wrapper from '@app/components/Wrapper';
 import { maxLength } from '@config/index';
 import { cFetch } from '@lib/cFetcher';
+import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function Page() {
   const [state, setState] = useState<{ fetching?: boolean }>({});
+  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 
   async function submit(form: any) {
@@ -25,9 +27,8 @@ export default function Page() {
       const message = form.get('message');
       const email = form.get('email-address');
 
-      // if no subject return error
       if (!subject) {
-        throw new Error('Subject is required');
+        throw new Error('Subject is required'); // Validate subject
       }
 
       const { data, status } = await cFetch({
@@ -35,8 +36,6 @@ export default function Page() {
         method: 'POST',
         data: { subject, message, email },
       });
-
-      console.log('🔑 data', data, status);
 
       if (status !== 200 || data?.error) {
         throw new Error(data?.error);
@@ -46,6 +45,7 @@ export default function Page() {
         'Your message has been received. We will get back to you shortly.'
       );
       formRef.current?.reset(); // Reset form ref after successful submission
+      router.push('/');
     } catch (error: any) {
       const isValidMsg = !!error.message.length;
       console.error(error.message);
