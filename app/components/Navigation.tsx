@@ -360,7 +360,7 @@ export default function Navigation({
           <Link
             href="/dashboard"
             className={classNames(
-              'items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:border-gray-300 hover:text-gray-700',
+              'items-center px-1 pt-1 text-sm font-medium text-gray-800 hover:border-gray-300 hover:text-gray-700',
               path !== '/dashboard' && 'text-indigo-600'
             )}
           >

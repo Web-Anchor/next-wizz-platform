@@ -1,23 +1,19 @@
 'use client';
 
-import Badge from '@app/components/Badge';
 import Button from '@app/components/Button';
+import FrequentlyAskedQuestions from '@app/components/FrequentlyAskedQuestions';
 import PageHeadings from '@app/components/PageHeadings';
 import Select from '@app/components/Select';
+import TestimonialsWhiteGrid from '@app/components/TestimonialsWhiteGrid';
 import Wrapper from '@app/components/Wrapper';
 import { maxLength } from '@config/index';
-import { useSupportTickets } from '@hooks/index';
 import { cFetch } from '@lib/cFetcher';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
-import { mutate } from 'swr';
 
 export default function Page() {
   const [state, setState] = useState<{ fetching?: boolean }>({});
   const formRef = useRef<HTMLFormElement>(null);
-
-  const { count, isLoading } = useSupportTickets({});
-  console.log(count, isLoading);
 
   async function submit(form: any) {
     try {
@@ -27,25 +23,37 @@ export default function Page() {
       setState((prev) => ({ ...prev, fetching: true }));
       const subject = form.get('subject');
       const message = form.get('message');
+      const email = form.get('email-address');
+
+      // if no subject return error
+      if (!subject) {
+        throw new Error('Subject is required');
+      }
 
       const { data, status } = await cFetch({
-        url: '/api/v1/support/add-ticket',
+        url: '/api/v1/support/add-ticket-public',
         method: 'POST',
-        data: { subject, message },
+        data: { subject, message, email },
       });
+
+      console.log('🔑 data', data, status);
 
       if (status !== 200 || data?.error) {
         throw new Error(data?.error);
       }
 
       toast.success(
-        'Thanks for submitting a message! We will get back to you shortly.'
+        'Your message has been received. We will get back to you shortly.'
       );
-      mutate(`/api/v1/support/tickets`);
       formRef.current?.reset(); // Reset form ref after successful submission
-    } catch (err: any) {
-      console.error(err.message);
-      toast.error(err.message);
+    } catch (error: any) {
+      const isValidMsg = !!error.message.length;
+      console.error(error.message);
+      toast.error(
+        isValidMsg
+          ? error.message
+          : 'An error occurred. Please try again later.'
+      );
     } finally {
       setState((prev) => ({ ...prev, fetching: false }));
     }
@@ -60,16 +68,10 @@ export default function Page() {
   }
 
   return (
-    <Wrapper>
+    <Wrapper class="mx-auto max-w-3xl">
       <PageHeadings
-        title="Help & Support Form."
-        description=" Discover our Help & Support Center, where your queries are
-        prioritized, and our team is dedicated to providing prompt
-        responses to ensure your needs are addressed swiftly. Rest
-        assured that your tickets are handled with urgency, and we
-        strive to get back to you as soon as possible to offer the
-        assistance you deserve. Please fill out the form below with your inquiry, and our support team will get back to you as soon as possible. Your satisfaction is our priority, and we are committed to providing you with the help you need."
-        slogan="Your Guide to Seamless Assistance."
+        title="Contact Us."
+        description="Welcome to our contact page! We are here to assist you with any inquiries or support you may need regarding our platform for managing customer invoicing. Please feel free to reach out to us using the information provided below."
       />
 
       <form
@@ -79,32 +81,43 @@ export default function Page() {
       >
         <div className="space-y-12">
           <div className="flex flex-col gap-10 lg:flex-row">
-            <div className="flex flex-1 flex-col gap-2 max-w-full lg:max-w-xs">
-              <h2 className="text-base font-semibold leading-7 text-gray-800">
-                Support Ticket
-              </h2>
-              <Badge
-                title={count}
-                description={`Ticket${count > 1 ? 's' : ''} Submitted`}
-              />
-              <p className="mt-1 text-sm leading-6 text-gray-600 text-justify">
-                Feel free to reach out to us with any questions, concerns, or
-                feedback. We appreciate your communication and look forward to
-                resolving any issues promptly.
-              </p>
-            </div>
-
             <div className="flex flex-col gap-5 flex-1">
               <Select
                 label="Reason for contacting"
                 name="subject"
                 data={[
-                  { key: 1, value: 'Support' },
-                  { key: 2, value: 'Feedback' },
-                  { key: 3, value: 'Bug Report' },
+                  // 'General Inquiry',
+                  // 'Technical Support',
+                  // 'Billing Inquiry',
+                  // 'Feature Request',
+                  // 'Other',
+                  { key: 1, value: 'General Inquiry' },
+                  { key: 2, value: 'Technical Support' },
+                  { key: 3, value: 'Billing Inquiry' },
+                  { key: 4, value: 'Feature Request' },
+                  { key: 5, value: 'Other' },
                 ]}
                 required
               />
+
+              <div>
+                <label
+                  htmlFor="email-address"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Email address
+                </label>
+                <div className="mt-1">
+                  <input
+                    type="email"
+                    id="email-address"
+                    name="email-address"
+                    autoComplete="email"
+                    required
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+              </div>
 
               <div>
                 <label
@@ -114,7 +127,7 @@ export default function Page() {
                   Describe subject for contacting{' '}
                   <span className="text-xs text-red-500">*</span>
                 </label>
-                <div className="mt-2">
+                <div className="flex flex-col gap-5 mt-2">
                   <textarea
                     rows={5}
                     name="message"
@@ -136,10 +149,13 @@ export default function Page() {
 
         <div className="mt-6 flex items-center justify-end gap-x-6">
           <Button fetching={state?.fetching} type="submit">
-            Submit Ticket
+            Submit
           </Button>
         </div>
       </form>
+
+      <FrequentlyAskedQuestions />
+      <TestimonialsWhiteGrid />
     </Wrapper>
   );
 }

@@ -77,22 +77,22 @@ export default function CustomBlackWhite(props?: Props): React.ReactElement {
       <table className="min-w-full divide-y divide-gray-300">
         <thead>
           <tr>
-            <th className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 pl-0">
+            <th className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-800 pl-0">
               Item
             </th>
-            <th className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">
+            <th className="py-3.5 px-3 text-left text-sm font-semibold text-gray-800">
               Description
             </th>
-            <th className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">
+            <th className="py-3.5 px-3 text-left text-sm font-semibold text-gray-800">
               Quantity
             </th>
-            <th className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 text-right">
+            <th className="py-3.5 px-3 text-left text-sm font-semibold text-gray-800 text-right">
               Price
             </th>
-            <th className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 text-right">
+            <th className="py-3.5 px-3 text-left text-sm font-semibold text-gray-800 text-right">
               Tax
             </th>
-            <th className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 pr-0 text-right">
+            <th className="py-3.5 px-3 text-left text-sm font-semibold text-gray-800 pr-0 text-right">
               Amount
             </th>
           </tr>
@@ -100,7 +100,7 @@ export default function CustomBlackWhite(props?: Props): React.ReactElement {
         <tbody className="divide-y divide-gray-200">
           {props?.lineItems?.map((lineItem, key) => (
             <tr key={key}>
-              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 pl-0">
+              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-800 pl-0">
                 {lineItem.item}
               </td>
               <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">

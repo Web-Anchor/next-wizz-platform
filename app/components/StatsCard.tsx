@@ -42,7 +42,7 @@ export default function StatsCard(props: Props): React.ReactElement {
 
           <section className="flex items-baseline">
             {props?.currentTotal && (
-              <p className="text-2xl font-semibold text-gray-900">
+              <p className="text-2xl font-semibold text-gray-800">
                 {props?.currentTotal}
               </p>
             )}

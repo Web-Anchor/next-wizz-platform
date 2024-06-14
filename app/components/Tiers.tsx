@@ -22,7 +22,7 @@ export default function Tiers(props: Props): React.ReactElement {
         >
           <h2
             className={classNames(
-              'text-xl font-medium text-gray-900',
+              'text-xl font-medium text-gray-800',
               tier.featured ? 'text-white' : ''
             )}
           >

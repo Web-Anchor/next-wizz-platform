@@ -4,8 +4,12 @@ import { authMiddleware } from '@clerk/nextjs';
 // for more information about configuring your Middleware
 export default authMiddleware({
   // Allow signed out users to access the specified routes:
-  publicRoutes: ['/', '/sign-in'],
-  ignoredRoutes: ['/((?!api|trpc))(_next.*|.+.[w]+$)', '/api/v1/testimonials'],
+  publicRoutes: ['/', '/sign-up', '/sign-in', '/contact'],
+  ignoredRoutes: [
+    '/((?!api|trpc))(_next.*|.+.[w]+$)',
+    '/api/v1/testimonials',
+    '/api/v1/support/add-ticket-public',
+  ],
   signInUrl: '/sign-in',
   apiRoutes: ['/api/(.)', '/trpc/(.)'],
 });

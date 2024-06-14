@@ -16,7 +16,7 @@ export default function PageHeadings(props: Props): React.ReactElement {
       )}
     >
       {props?.title && (
-        <h2 className="font-bold text-xl leading-6 text-gray-600 lg:mx-0 ">
+        <h2 className="font-bold text-xl leading-6 text-gray-800 lg:mx-0 ">
           {props?.title}
         </h2>
       )}

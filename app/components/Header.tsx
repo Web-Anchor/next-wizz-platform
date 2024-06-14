@@ -51,6 +51,8 @@ export default function Header(props: Props) {
   const { signOut } = useClerk();
   const router = useRouter();
 
+  console.log('👤 User ', isSignedIn, user);
+
   function signOutUser(e: { preventDefault: () => void }) {
     e.preventDefault();
     // --------------------------------------------------------------------------------
@@ -59,7 +61,8 @@ export default function Header(props: Props) {
     signOut(() => router.push('/'));
   }
 
-  const landingPath = path === '/';
+  const isHomePath = path === '/';
+  const isDashboardPath = path.includes('/dashboard');
   const mobActive =
     'block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700';
   const mobInactive =
@@ -83,7 +86,7 @@ export default function Header(props: Props) {
                     <Logo />
                   </div>
                   <div className="hidden sm:flex sm:space-x-8">
-                    {landingPath && (
+                    {isHomePath && (
                       <div className="hidden sm:flex sm:space-x-8">
                         {isSignedIn && (
                           <Link
@@ -107,7 +110,7 @@ export default function Header(props: Props) {
                           Facts
                         </Link>
                         <Link
-                          href="#"
+                          href={isSignedIn ? '/dashboard/support' : '/contact'}
                           className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
                         >
                           Contact
@@ -115,7 +118,7 @@ export default function Header(props: Props) {
                       </div>
                     )}
                   </div>
-                  {!isSignedIn && landingPath && isLoaded && (
+                  {!isSignedIn && !isDashboardPath && isLoaded && (
                     <Link
                       href="/sign-in"
                       className="mr-5 sm:mr-0 rounded-md self-center ml-auto bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
@@ -174,7 +177,10 @@ export default function Header(props: Props) {
                     <Link href="#facts" className={classNames(mobInactive)}>
                       Facts
                     </Link>
-                    <Link href="#facts" className={classNames(mobInactive)}>
+                    <Link
+                      href={isSignedIn ? '/dashboard/support' : '/contact'}
+                      className={classNames(mobInactive)}
+                    >
                       Contact
                     </Link>
                   </>

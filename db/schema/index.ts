@@ -49,6 +49,8 @@ export const tickets = sqliteTable('tickets', {
   userId: text('user_id').references(() => users.id),
   clerkId: text('clerk_id'),
   subject: text('subject'),
+  type: text('type'),
+  email: text('email'),
   message: text('message'),
   comments: text('comments'),
   priority: text('priority'),

@@ -36,7 +36,7 @@ export default function Page() {
               {
                 item: (
                   <section className="flex flex-col max-w-20 lg:max-w-none">
-                    <p className="text-sm font-medium leading-6 text-gray-900 truncate text-ellipsis">
+                    <p className="text-sm font-medium leading-6 text-gray-800 truncate text-ellipsis">
                       {item?.billing_details?.name}
                     </p>
                     <p className="mt-1 text-xs leading-5 text-gray-500 truncate text-ellipsis">
@@ -92,7 +92,7 @@ export default function Page() {
                     </Link>
                     <div className="mt-1 text-xs leading-5 text-gray-500">
                       Invoice{' '}
-                      <span className="hidden lg:flex text-gray-900">
+                      <span className="hidden lg:flex text-gray-800">
                         {item.id}
                       </span>
                     </div>

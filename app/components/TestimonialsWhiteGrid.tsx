@@ -22,7 +22,7 @@ export default function TestimonialsWhiteGrid() {
           <h2 className="text-lg font-semibold leading-8 tracking-tight text-indigo-600">
             Testimonials
           </h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-800 sm:text-4xl">
             We have worked with thousands of amazing people
           </p>
         </div>
@@ -44,7 +44,7 @@ export default function TestimonialsWhiteGrid() {
                     key={key}
                     className="rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-900/5 text-sm leading-6"
                   >
-                    <blockquote className="text-gray-900">
+                    <blockquote className="text-gray-800">
                       <p>{`“${testimonial?.comments}”`}</p>
                     </blockquote>
                     <figcaption className="mt-6 flex items-center gap-x-4">

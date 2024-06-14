@@ -13,7 +13,7 @@ export default function NoData(props: Props): React.ReactElement {
           <div className="bg-indigo-500 text-white mx-auto flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg">
             <TableCellsIcon className="h-8 w-8" aria-hidden="true" />
           </div>
-          <h3 className="mt-2 text-sm font-semibold text-gray-900">
+          <h3 className="mt-2 text-sm font-semibold text-gray-800">
             {props.title}
           </h3>
           <p className="mt-1 text-sm text-gray-500">{props.description}</p>

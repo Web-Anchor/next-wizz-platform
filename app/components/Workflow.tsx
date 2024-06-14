@@ -53,7 +53,7 @@ export default function Workflow() {
                 <h2 className="text-base font-semibold leading-7 text-indigo-600">
                   Streamline Your Invoicing Process with Ease
                 </h2>
-                <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+                <p className="mt-2 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
                   A better workflow
                 </p>
                 <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -66,7 +66,7 @@ export default function Workflow() {
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
                 {features.map((feature) => (
                   <div key={feature.name} className="relative pl-9">
-                    <dt className="inline font-semibold text-gray-900">
+                    <dt className="inline font-semibold text-gray-800">
                       <feature.icon
                         className="absolute left-1 top-1 h-5 w-5 text-indigo-600"
                         aria-hidden="true"

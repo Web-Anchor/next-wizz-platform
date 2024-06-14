@@ -289,7 +289,7 @@ export default function InvoiceTable() {
               placeholder="Add Header Content"
               value={state.header}
               onChange={(e) => setState({ ...state, header: e.target.value })}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               maxLength={table?.header?.maxLength}
             />
           </Section>
@@ -323,7 +323,7 @@ export default function InvoiceTable() {
               placeholder="Add Footer Content"
               value={state.footer}
               onChange={(e) => setState({ ...state, footer: e.target.value })}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               maxLength={table?.footer?.maxLength}
             />
           </Section>
@@ -355,7 +355,7 @@ export default function InvoiceTable() {
               placeholder="Add a new Memo"
               value={state.memo}
               onChange={(e) => setState({ ...state, memo: e.target.value })}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               maxLength={table?.memo?.maxLength}
             />
           </Section>
@@ -394,7 +394,7 @@ export default function InvoiceTable() {
                   placeholder="Define a custom field value"
                   value={state.customFields?.[index]?.value}
                   onChange={(e) => handleChange(index, e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   maxLength={table?.customFields?.maxLength}
                 />
                 <Button

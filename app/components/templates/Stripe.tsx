@@ -12,7 +12,7 @@ export default function Stripe(props: Props): React.ReactElement {
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-lg p-8 m-2">
       <div className="px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-200">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">Invoice</h3>
+        <h3 className="text-lg leading-6 font-medium text-gray-800">Invoice</h3>
         <p className="mt-1 max-w-2xl text-sm text-gray-500">Loop Shop</p>
       </div>
       <div className="px-4 py-5 sm:p-6 grid grid-cols-2 gap-6">
@@ -40,7 +40,7 @@ export default function Stripe(props: Props): React.ReactElement {
         </div>
       </div>
       <div className="px-4 py-5 sm:p-6">
-        <h2 className="text-lg leading-6 font-medium text-gray-900">
+        <h2 className="text-lg leading-6 font-medium text-gray-800">
           £0.00 due April 28, 2024
         </h2>
         <p className="mt-1 max-w-2xl text-sm text-gray-500">memo</p>
@@ -66,16 +66,16 @@ export default function Stripe(props: Props): React.ReactElement {
           <tbody className="bg-white divide-y divide-gray-200">
             {/* Repeat for each item */}
             <tr>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-800">
                 Item description
               </td>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-800">
                 1
               </td>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-800">
                 £0.00
               </td>
-              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+              <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-800">
                 £0.00
               </td>
             </tr>

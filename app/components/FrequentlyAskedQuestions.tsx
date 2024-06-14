@@ -65,7 +65,7 @@ export default function FrequentlyAskedQuestions() {
             <h2 className="text-base font-semibold leading-7 text-indigo-600">
               FAQ
             </h2>
-            <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+            <p className="mt-2 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
               Frequently asked questions
             </p>
           </div>
@@ -76,7 +76,7 @@ export default function FrequentlyAskedQuestions() {
                 {({ open }) => (
                   <>
                     <dt>
-                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
+                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-800">
                         <span className="text-base font-semibold leading-7">
                           {faq.question}
                         </span>

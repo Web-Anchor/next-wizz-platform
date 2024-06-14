@@ -76,7 +76,7 @@ export default function Page() {
         <div className="space-y-12">
           <div className="flex flex-col gap-10 lg:flex-row">
             <div className="flex flex-1 flex-col gap-2 max-w-full lg:max-w-xs">
-              <h2 className="text-base font-semibold leading-7 text-gray-900">
+              <h2 className="text-base font-semibold leading-7 text-gray-800">
                 Request New Features
               </h2>
               <Badge
@@ -113,14 +113,14 @@ export default function Page() {
 
               <label
                 htmlFor="description"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium leading-6 text-gray-800"
               >
                 Description <span className="text-xs text-red-500">*</span>
               </label>
               <textarea
                 rows={5}
                 name="description"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 placeholder="Description of the feature you would like to see added to the platform."
                 defaultValue={''}
                 maxLength={maxLength?.description}
@@ -133,7 +133,7 @@ export default function Page() {
 
               <label
                 htmlFor="description"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium leading-6 text-gray-800"
               >
                 Expected Impact
               </label>
@@ -142,7 +142,7 @@ export default function Page() {
                 placeholder="Expected Impact"
                 name="comments"
                 maxLength={maxLength?.comment}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>

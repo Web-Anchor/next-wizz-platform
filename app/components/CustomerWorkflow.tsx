@@ -25,7 +25,7 @@ export default function CustomerWorkflow() {
             <p className="text-base font-semibold leading-7 text-indigo-600">
               Customer Workflow
             </p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-800 sm:text-4xl">
               Self-Service Invoicing Made Simple
             </h1>
             <p className="mt-6 text-xl leading-8 text-gray-700">
@@ -50,7 +50,7 @@ export default function CustomerWorkflow() {
                     aria-hidden="true"
                   />
                   <span>
-                    <strong className="font-semibold text-gray-900">
+                    <strong className="font-semibold text-gray-800">
                       Effortless Self-Printing.
                     </strong>{' '}
                     Empower customers to access and download their invoices
@@ -64,7 +64,7 @@ export default function CustomerWorkflow() {
                     aria-hidden="true"
                   />
                   <span>
-                    <strong className="font-semibold text-gray-900">
+                    <strong className="font-semibold text-gray-800">
                       Convenient Accessibility.
                     </strong>{' '}
                     Ensure customers can self-print invoices at their
@@ -79,7 +79,7 @@ export default function CustomerWorkflow() {
                     aria-hidden="true"
                   />
                   <span>
-                    <strong className="font-semibold text-gray-900">
+                    <strong className="font-semibold text-gray-800">
                       User-Friendly Interface.
                     </strong>{' '}
                     Offer a simple and intuitive platform that enables customers
@@ -93,7 +93,7 @@ export default function CustomerWorkflow() {
                     aria-hidden="true"
                   />
                   <span>
-                    <strong className="font-semibold text-gray-900">
+                    <strong className="font-semibold text-gray-800">
                       Control and Convenience.
                     </strong>{' '}
                     Provide customers with the autonomy to manage their
@@ -108,7 +108,7 @@ export default function CustomerWorkflow() {
                 and print invoices at your convenience, eliminating unnecessary
                 delays and enhancing your overall satisfaction.
               </p>
-              <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
+              <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-800">
                 Discover the Ease of Self-Service Invoicing
               </h2>
               <p className="mt-6">

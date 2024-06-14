@@ -110,7 +110,7 @@ export default function Pricing() {
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
             Pricing
           </h2>
-          <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+          <p className="mt-2 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
             Pricing plans for teams of all sizes
           </p>
         </div>
@@ -162,7 +162,7 @@ export default function Pricing() {
                 <h3
                   id={key.toString()}
                   className={classNames(
-                    tier.featured ? 'text-white' : 'text-gray-900',
+                    tier.featured ? 'text-white' : 'text-gray-800',
                     'text-lg font-semibold leading-8'
                   )}
                 >
@@ -179,7 +179,7 @@ export default function Pricing() {
                 <p className="mt-6 flex items-baseline gap-x-1">
                   <span
                     className={classNames(
-                      tier.featured ? 'text-white' : 'text-gray-900',
+                      tier.featured ? 'text-white' : 'text-gray-800',
                       'text-4xl font-bold tracking-tight'
                     )}
                   >

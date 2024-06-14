@@ -78,7 +78,7 @@ export default function AddStripeKeyDialog(props: Props) {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
                 <form action={submit}>
-                  <h2 className="text-base font-semibold leading-7 text-gray-900">
+                  <h2 className="text-base font-semibold leading-7 text-gray-800">
                     Connect your Stripe account API key
                   </h2>
                   <p className="mt-1 text-sm leading-6 text-gray-600">
@@ -98,7 +98,7 @@ export default function AddStripeKeyDialog(props: Props) {
                   <div className="my-5 sm:col-span-4">
                     <label
                       htmlFor="username"
-                      className="block text-sm font-medium leading-6 text-gray-900"
+                      className="block text-sm font-medium leading-6 text-gray-800"
                     >
                       Name
                     </label>
@@ -108,7 +108,7 @@ export default function AddStripeKeyDialog(props: Props) {
                           type="text"
                           name="name"
                           autoComplete="off"
-                          className="block flex-1 border-0 bg-transparent py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                          className="block flex-1 border-0 bg-transparent py-1.5 px-2 text-gray-800 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                           placeholder="Enter your API name"
                           required
                         />
@@ -118,7 +118,7 @@ export default function AddStripeKeyDialog(props: Props) {
                   <div className="my-5 sm:col-span-4">
                     <label
                       htmlFor="username"
-                      className="block text-sm font-medium leading-6 text-gray-900"
+                      className="block text-sm font-medium leading-6 text-gray-800"
                     >
                       API Key
                     </label>
@@ -128,7 +128,7 @@ export default function AddStripeKeyDialog(props: Props) {
                           type="text"
                           name="key"
                           autoComplete="off"
-                          className="block flex-1 border-0 bg-transparent py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                          className="block flex-1 border-0 bg-transparent py-1.5 px-2 text-gray-800 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                           placeholder="Enter your API key"
                           required
                         />
