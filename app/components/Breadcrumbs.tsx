@@ -16,10 +16,7 @@ export default function Breadcrumbs(props: Props) {
   const pages = crumbs?.map((part, index) => {
     return {
       name: part,
-      href: path
-        .split('/')
-        .slice(0, index + 1)
-        .join('/'),
+      href: `/${crumbs.slice(0, index + 1).join('/')}`,
       current: index === crumbs.length - 1,
     };
   });
