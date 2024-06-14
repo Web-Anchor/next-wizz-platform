@@ -57,15 +57,10 @@ export default function Page() {
   const router = useRouter();
   const nameRef = useRef<HTMLInputElement>(null);
   const keyRef = useRef<HTMLInputElement>(null);
-  console.log('StripeKeys', keys, state);
+  // console.log('StripeKeys', keys, state);
 
-  function redirectToStripe() {
-    // router.push('https://docs.stripe.com/keys#obtain-api-keys');
-    window.open('https://docs.stripe.com/keys#obtain-api-keys', '_blank');
-  }
-
-  function dialogClose() {
-    setState((prev) => ({ ...prev, open: false }));
+  function stateSetter(props: any) {
+    setState((prev) => ({ ...prev, ...(props ?? {}) }));
   }
 
   async function deleteKey(id: string) {
@@ -126,7 +121,7 @@ export default function Page() {
 
   return (
     <Wrapper>
-      <AddStripeKeyDialog open={state?.open} setter={dialogClose} />
+      <AddStripeKeyDialog {...state} setter={stateSetter} />
 
       <PageHeadings
         title="Stripe API Keys. Enhance Your Platform with Secure Payment Integration."

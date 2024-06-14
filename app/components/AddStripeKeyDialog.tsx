@@ -1,7 +1,12 @@
 'use client';
 
-import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { Fragment, useRef } from 'react';
+import {
+  Dialog,
+  Transition,
+  TransitionChild,
+  DialogPanel,
+} from '@headlessui/react';
 import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
 import Button from './Button';
@@ -9,18 +14,21 @@ import { toast } from 'sonner';
 
 type Props = {
   open?: boolean;
-  setter?: (value: boolean) => void;
+  fetching?: string;
+  setter?: (value: any) => void;
 };
 
 export default function AddStripeKeyDialog(props: Props) {
-  const [state, setState] = useState<{ fetching?: boolean }>({});
+  const formRef = useRef<HTMLFormElement>(null);
 
-  async function submit(form: any) {
+  async function submit() {
     try {
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: true }));
+      props?.setter?.({ fetching: 'add-key' });
+      // use ref to get value from form
+      const form = new FormData(formRef.current!);
       const key = form.get('key');
       const name = form.get('name');
 
@@ -34,15 +42,13 @@ export default function AddStripeKeyDialog(props: Props) {
         throw new Error(data?.error);
       }
 
-      console.log(data, status);
       mutate(`/api/v1/stripe/keys`);
       toast.success('API key added successfully');
     } catch (err: any) {
       console.error(err.message);
       toast.error(err.message);
     } finally {
-      props.setter?.(false);
-      setState((prev) => ({ ...prev, fetching: false }));
+      props.setter?.({ fetching: undefined, open: false });
     }
   }
 
@@ -53,7 +59,7 @@ export default function AddStripeKeyDialog(props: Props) {
         className="relative z-50"
         onClose={() => props.setter?.(false)}
       >
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
@@ -63,11 +69,11 @@ export default function AddStripeKeyDialog(props: Props) {
           leaveTo="opacity-0"
         >
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </Transition.Child>
+        </TransitionChild>
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
               enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -76,8 +82,8 @@ export default function AddStripeKeyDialog(props: Props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-                <form action={submit}>
+              <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+                <form action={submit} ref={formRef}>
                   <h2 className="text-base font-semibold leading-7 text-gray-800">
                     Connect your Stripe account API key
                   </h2>
@@ -138,18 +144,18 @@ export default function AddStripeKeyDialog(props: Props) {
                   <div className="py-3 gap-5 flex sm:flex-row-reverse">
                     <Button
                       title="Add New Key"
-                      type="submit"
-                      fetching={state?.fetching}
+                      onClick={submit}
+                      fetching={props?.fetching === 'add-key'}
                     />
                     <Button
                       title="Cancel"
                       style="secondary"
-                      onClick={() => props.setter?.(false)}
+                      onClick={() => props.setter?.({ open: false })}
                     />
                   </div>
                 </form>
-              </Dialog.Panel>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </div>
       </Dialog>
