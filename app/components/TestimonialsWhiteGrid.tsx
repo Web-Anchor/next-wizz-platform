@@ -3,6 +3,7 @@
 import { useTestimonials } from '@hooks/useTestimonials';
 import { Spinner } from './Skeleton';
 import { StarIcon } from '@heroicons/react/24/solid';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { classNames } from '@helpers/index';
 
 export default function TestimonialsWhiteGrid() {
@@ -45,14 +46,22 @@ export default function TestimonialsWhiteGrid() {
                       <p>{`“${testimonial?.comments}”`}</p>
                     </blockquote>
                     <figcaption className="mt-6 flex items-center gap-x-4">
-                      <img
-                        className="h-10 w-10 rounded-full bg-gray-50"
-                        src={testimonial?.imageUrl}
-                        alt="user-profile"
-                      />
+                      {testimonial?.imageUrl && (
+                        <img
+                          className="h-10 w-10 rounded-full bg-gray-50"
+                          src={testimonial?.imageUrl}
+                          alt="user-profile"
+                        />
+                      )}
+                      {!testimonial?.imageUrl && (
+                        <UserCircleIcon className="h-10 w-10 text-gray-300" />
+                      )}
                       <div>
                         <div className="font-semibold">
-                          {`${testimonial?.firstName} ${testimonial?.lastName}`}
+                          {nameValidator(
+                            testimonial?.firstName,
+                            testimonial?.lastName
+                          )}
                         </div>
                         <div className="flex items-center gap-x-1">
                           {Array.from({ length: 5 }, (_, i) => (
@@ -78,4 +87,12 @@ export default function TestimonialsWhiteGrid() {
       </div>
     </div>
   );
+}
+
+function nameValidator(firstName?: string, lastName?: string) {
+  if (!firstName && !lastName) {
+    return 'Customer';
+  }
+
+  return firstName ?? '' + ' ' + lastName ?? '';
 }
