@@ -18,7 +18,7 @@ export default function TestimonialsWhiteGrid() {
   return (
     <div className="relative py-12 sm:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-xl text-center">
+        <div className="mx-auto max-w-xl lg:text-center">
           <h2 className="text-lg font-semibold leading-8 tracking-tight text-indigo-600">
             Testimonials
           </h2>

@@ -61,7 +61,7 @@ export default function FrequentlyAskedQuestions() {
     <div id="facts">
       <div className="mx-auto max-w-7xl px-6 py-6 sm:py-10">
         <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
-          <div className="mx-auto max-w-4xl text-center">
+          <div className="mx-auto max-w-4xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-indigo-600">
               FAQ
             </h2>

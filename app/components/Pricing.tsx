@@ -106,7 +106,7 @@ export default function Pricing() {
   return (
     <div id="pricing" className="py-6 sm:py-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto max-w-4xl lg:text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
             Pricing
           </h2>
@@ -114,7 +114,7 @@ export default function Pricing() {
             Pricing plans for teams of all sizes
           </p>
         </div>
-        <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600">
           Choose the plan that best suits your needs and enjoy the increasing
           benefits as you scale up from Freelancer to Startup and Enterprise
           plans.
