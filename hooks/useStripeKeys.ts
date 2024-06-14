@@ -22,6 +22,7 @@ export function useStripeKeys(props: Props) {
     data: data?.data?.keys,
     keys: data?.data?.keys,
     count: data?.data?.keys?.length,
+    hasKeys: !!data?.data?.keys?.length,
     error,
     isLoading,
   };

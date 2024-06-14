@@ -37,11 +37,11 @@ export default function Navigation({
   const path = usePathname();
 
   const { isSignedIn, user, isLoaded } = useUser();
-  const { data, count, isLoading: stLoading } = useStripeKeys({});
+  const { data, count, hasKeys } = useStripeKeys({});
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
   const { active } = useSubscription({});
-  console.log('🚧 active ', active);
+  console.log('🚧 data ', data, count);
 
   const navigation = [
     {
@@ -373,6 +373,22 @@ export default function Navigation({
             title="No Subscription"
             type="warning"
             tooltip="Please subscribe to use the platform!"
+          />
+        )}
+        {!hasKeys && (
+          <Badge
+            title="No Stripe Keys"
+            type="error"
+            tooltip="Please add your Stripe keys to use the platform!"
+            tooltipPosition="tooltip-left"
+            description={
+              <Link
+                href="/dashboard/stripe"
+                className="text-xs font-semibold text-indigo-600"
+              >
+                Add keys
+              </Link>
+            }
           />
         )}
 

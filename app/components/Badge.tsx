@@ -2,8 +2,13 @@ import { classNames } from '@helpers/index';
 
 type Props = {
   title?: string | number;
-  description?: string;
+  description?: string | React.ReactElement;
   tooltip?: string;
+  tooltipPosition?:
+    | 'tooltip-right'
+    | 'tooltip-left'
+    | 'tooltip-top'
+    | 'tooltip-bottom';
   type?: 'default' | 'success' | 'warning' | 'error' | 'info';
   onClick?: (props?: any) => void;
   class?: string;
@@ -17,7 +22,10 @@ export default function Badge(props: Props): React.ReactElement | null {
 
   return (
     <section
-      className="flex flex-row gap-2 tooltip tooltip-bottom"
+      className={classNames(
+        'flex flex-row gap-2 tooltip tooltip-bottom',
+        props.tooltipPosition
+      )}
       data-tip={props.tooltip}
     >
       <span
