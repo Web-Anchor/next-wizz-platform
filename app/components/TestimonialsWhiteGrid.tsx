@@ -5,8 +5,10 @@ import { Spinner } from './Skeleton';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { classNames } from '@helpers/index';
+import { useState } from 'react';
 
 export default function TestimonialsWhiteGrid() {
+  const [state, setState] = useState<{ error?: boolean }>({});
   const { testimonials, isLoading } = useTestimonials({});
 
   if (!testimonials?.length && !isLoading) {
@@ -46,15 +48,19 @@ export default function TestimonialsWhiteGrid() {
                       <p>{`“${testimonial?.comments}”`}</p>
                     </blockquote>
                     <figcaption className="mt-6 flex items-center gap-x-4">
-                      {testimonial?.imageUrl && (
+                      {testimonial?.imageUrl && !state.error && (
                         <img
                           className="h-10 w-10 rounded-full bg-gray-50"
-                          src={testimonial?.imageUrl}
+                          src={testimonial.imageUrl}
                           alt="user-profile"
+                          onError={() => {
+                            setState((prev) => ({ ...prev, error: true }));
+                          }}
                         />
                       )}
-                      {!testimonial?.imageUrl && (
-                        <UserCircleIcon className="h-10 w-10 text-gray-300" />
+
+                      {(!testimonial?.imageUrl || state.error) && (
+                        <UserCircleIcon className="h-12 w-12 text-gray-300" />
                       )}
                       <div>
                         <div className="font-semibold">
