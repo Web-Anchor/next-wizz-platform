@@ -11,12 +11,12 @@ export async function GET(request: NextRequest) {
   try {
     auth().protect();
 
-    const redirect = handleIsRedirect(
-      request.nextUrl.searchParams.get('redirect')
-    );
+    const { searchParams } = new URL(request.url);
+    const redirect = searchParams.get('redirect');
+
     const { userId } = auth();
     const user = await currentUser();
-    console.log('👤 Creating User record. Clerk data: ', userId, user);
+    console.log('👤 Creating User record. Clerk data: ', user, redirect);
 
     await db
       .insert(users)
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     return new Response(null, {
       status: 302,
       headers: {
-        Location: APP_URL + (redirect ? redirect : '/dashboard'),
+        Location: APP_URL + decodeURIComponent(redirect ?? '') ?? '/dashboard',
       },
     });
   } catch (error: any) {

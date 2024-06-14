@@ -11,9 +11,9 @@ export async function GET(request: NextRequest) {
   try {
     auth().protect();
 
-    const redirect = handleIsRedirect(
-      request.nextUrl.searchParams.get('redirect')
-    );
+    const { searchParams } = new URL(request.url);
+    const redirect = searchParams.get('redirect');
+
     const { userId } = auth();
     const dbUser = await db
       .select()
@@ -22,15 +22,16 @@ export async function GET(request: NextRequest) {
     console.log('👤 User record: ', dbUser);
 
     if (!dbUser?.length) {
-      console.log('No user record found. Creating record in database');
+      console.log(
+        'No user record found. Creating record in database',
+        redirect
+      );
 
       return new Response(null, {
         status: 302,
+        // post data to create user
         headers: {
-          Location:
-            APP_URL +
-            `/api/v1/create-user` +
-            (redirect ? `?redirect=${redirect}` : ''),
+          Location: APP_URL + `/api/v1/create-user` + `?redirect=${redirect}`,
         },
       });
     }
@@ -39,14 +40,17 @@ export async function GET(request: NextRequest) {
     return new Response(null, {
       status: 302,
       headers: {
-        Location: APP_URL + (redirect ? redirect : '/dashboard'),
+        Location: APP_URL + decodeURIComponent(redirect ?? '') ?? '/dashboard',
       },
     });
   } catch (error: any) {
     console.error(error);
-    return NextResponse.json(
-      { error: error?.message },
-      { status: error?.status || 500 }
-    );
+
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: APP_URL + '/sign-in',
+      },
+    });
   }
 }

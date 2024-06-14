@@ -32,9 +32,6 @@ export default function TestimonialsWhiteGrid() {
             {testimonials?.map((testimonial, key) => {
               const rating = Number(testimonial.rating);
 
-              console.log(testimonial);
-              console.log(rating);
-
               return (
                 <div
                   key={key}
