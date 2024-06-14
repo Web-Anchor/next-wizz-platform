@@ -19,10 +19,10 @@ export function useStripeKeys(props: Props) {
   );
 
   return {
-    data: data?.data?.keys,
-    keys: data?.data?.keys,
-    count: data?.data?.keys?.length,
-    hasKeys: !!data?.data?.keys?.length,
+    data: data?.data?.keys as StripeKey[],
+    keys: data?.data?.keys as StripeKey[],
+    count: data?.data?.keys?.length as number,
+    hasKeys: !!data?.data?.keys?.length as boolean,
     error,
     isLoading,
   };

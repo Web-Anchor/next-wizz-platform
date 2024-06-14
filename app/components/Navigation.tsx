@@ -17,6 +17,7 @@ import { usePathname } from 'next/navigation';
 import UserProfileCard from './UserProfileCard';
 import Logo from '@components/Logo';
 import {
+  useKeyValidate,
   useStripeKeys,
   useSubscription,
   useTotalCharges,
@@ -41,7 +42,10 @@ export default function Navigation({
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
   const { active } = useSubscription({});
-  console.log('🚧 data ', data, count);
+  const { error } = useKeyValidate({
+    key: data?.[0]?.restrictedAPIKey,
+  });
+  console.log('🚧 data ', error);
 
   const navigation = [
     {
@@ -375,18 +379,22 @@ export default function Navigation({
             tooltip="Please subscribe to use the platform!"
           />
         )}
-        {!hasKeys && (
+        {(!hasKeys || error) && (
           <Badge
-            title="No Stripe Keys"
+            title={error ? 'Invalid Stripe API Key' : 'Add Stripe API Key'}
             type="error"
-            tooltip="Please add your Stripe keys to use the platform!"
+            tooltip={
+              error
+                ? 'Please update your keys'
+                : 'Please add your Stripe keys to use the platform!'
+            }
             tooltipPosition="tooltip-left"
             description={
               <Link
                 href="/dashboard/stripe"
                 className="text-xs font-semibold text-indigo-600"
               >
-                Add keys
+                {error ? 'Update keys' : 'Add keys'}
               </Link>
             }
           />
