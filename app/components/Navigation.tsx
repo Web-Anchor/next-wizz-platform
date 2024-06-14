@@ -367,6 +367,15 @@ export default function Navigation({
             Dashboard
           </Link>
         </section>
+
+        {!active && (
+          <Badge
+            title="No Subscription"
+            type="warning"
+            tooltip="Please subscribe to use the platform!"
+          />
+        )}
+
         <ProfileButton />
       </div>
 
