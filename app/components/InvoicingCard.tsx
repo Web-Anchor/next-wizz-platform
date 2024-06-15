@@ -10,11 +10,24 @@ import { maxLength } from '@config/index';
 import { dummyData, exportToPDF } from '@app/dashboard/invoices/controller';
 import { useTemplates } from '@hooks/index';
 import { CustomField } from '../../types';
-import { Spinner } from './Skeleton';
+import { Spinner, TableSkeleton } from './Skeleton';
 import { SectionWrapper } from './Wrapper';
 import PageHeadings from './PageHeadings';
 
 const table = {
+  companyName: {
+    title: 'Company Name',
+    description:
+      'Company name is the name of the company that appears on the invoice.',
+    stateKey: 'companyName',
+    maxLength: maxLength?.customField,
+  },
+  logoUrl: {
+    title: 'Company Image Link',
+    description: 'Company image link is that appears on the invoice.',
+    stateKey: 'logoUrl',
+    maxLength: maxLength?.comment,
+  },
   header: {
     title: 'Invoice Header',
     description:
@@ -45,19 +58,13 @@ const table = {
   },
 };
 
-const Section = ({
-  children,
-  hidden,
-}: {
-  children: React.ReactNode;
-  hidden?: boolean;
-}) => {
-  if (hidden) return null;
+const Section = (props: { children: React.ReactNode; hidden?: boolean }) => {
+  if (props?.hidden) return null;
 
-  return <section className="flex flex-col gap-5">{children}</section>;
+  return <section className="flex flex-col gap-5">{props?.children}</section>;
 };
 
-export default function InvoiceTable() {
+export default function InvoiceTable(props: { hidden?: boolean }) {
   const BASE_STATE = {
     header: '',
     memo: '',
@@ -69,8 +76,12 @@ export default function InvoiceTable() {
     isMemo?: boolean;
     isFooter?: boolean;
     isCustomFields?: boolean;
+    isCompanyName?: boolean;
+    isLogoUrl?: boolean;
     fetching?: boolean;
     customFields: { [key: string]: CustomField };
+    companyName?: string;
+    logoUrl?: string;
     header?: string;
     memo?: string;
     footer?: string;
@@ -78,6 +89,7 @@ export default function InvoiceTable() {
   }>(BASE_STATE);
   const { templates, count, isLoading } = useTemplates({});
   const TEMPLATE = templates?.[0];
+  console.log('TEMPLATE', TEMPLATE);
 
   useEffect(() => {
     // --------------------------------------------------------------------------------
@@ -92,8 +104,8 @@ export default function InvoiceTable() {
         isMemo: !!TEMPLATE?.memo,
         footer: TEMPLATE?.footer ?? '',
         isFooter: !!TEMPLATE?.footer,
-        customFields: TEMPLATE?.customFields ?? { 0: { value: '' } },
-        isCustomFields: !!TEMPLATE?.customFields,
+        customFields: TEMPLATE?.customFields || { 0: { value: '' } },
+        isCustomFields: !!Object.keys(TEMPLATE?.customFields || {}).length,
       }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -232,7 +244,15 @@ export default function InvoiceTable() {
   }
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <SectionWrapper>
+        <TableSkeleton />
+      </SectionWrapper>
+    );
+  }
+
+  if (props.hidden) {
+    return null;
   }
 
   return (
@@ -259,6 +279,77 @@ export default function InvoiceTable() {
             companyName={dummyData.companyName}
           />
         </Dialog>
+
+        <Section>
+          <div className="flex flex-row gap-5 justify-between">
+            <label>
+              {table?.companyName?.title}
+              <span className="text-xs ml-1 text-gray-400">
+                {table?.companyName?.maxLength} characters max
+              </span>
+            </label>
+
+            <Switch
+              enabled={state?.isCompanyName}
+              onChange={() =>
+                setState((prev) => ({
+                  ...prev,
+                  isCompanyName: !prev.isCompanyName,
+                }))
+              }
+            />
+          </div>
+          <Section>
+            <p className="text-xs text-gray-500">
+              {table?.companyName?.description}
+            </p>
+          </Section>
+          <Section hidden={!state?.isCompanyName}>
+            <input
+              placeholder="Add Company Name"
+              value={state.companyName}
+              onChange={(e) =>
+                setState({ ...state, companyName: e.target.value })
+              }
+              className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              maxLength={table?.companyName?.maxLength}
+            />
+          </Section>
+        </Section>
+        <Section>
+          <div className="flex flex-row gap-5 justify-between">
+            <label>
+              {table?.logoUrl?.title}
+              <span className="text-xs ml-1 text-gray-400">
+                {table?.logoUrl?.maxLength} characters max
+              </span>
+            </label>
+
+            <Switch
+              enabled={state?.isLogoUrl}
+              onChange={() =>
+                setState((prev) => ({
+                  ...prev,
+                  isLogoUrl: !prev.isLogoUrl,
+                }))
+              }
+            />
+          </div>
+          <Section>
+            <p className="text-xs text-gray-500">
+              {table?.logoUrl?.description}
+            </p>
+          </Section>
+          <Section hidden={!state?.isLogoUrl}>
+            <input
+              placeholder="Add Company Logo URL"
+              value={state.logoUrl}
+              onChange={(e) => setState({ ...state, logoUrl: e.target.value })}
+              className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              maxLength={table?.logoUrl?.maxLength}
+            />
+          </Section>
+        </Section>
 
         <Section>
           <div className="flex flex-row gap-5 justify-between">
@@ -434,7 +525,7 @@ export default function InvoiceTable() {
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" x2="12" y1="15" y2="3" />
               </svg>
-              <p>PDF</p>
+              <p>Sample PDF</p>
             </section>
           </Button>
           <Button
@@ -457,35 +548,6 @@ export default function InvoiceTable() {
           />
         </div>
       </form>
-
-      <PageHeadings
-        title="Customizable Invoice Template"
-        class="hidden lg:flex"
-      />
-      <TemplateOne
-        id="custom-template-one"
-        header={state?.header}
-        memo={state?.memo}
-        footer={state?.footer}
-        customFields={state?.customFields}
-        invoiceNumber={dummyData.invoiceNumber}
-        date={dummyData.date}
-        billToName={dummyData.billToName}
-        billToAddress={dummyData.billToAddress}
-        items={[
-          {
-            description: 'Product Name | Short Description',
-            quantity: 1,
-            amount: '$ 125',
-          },
-        ]} // Product items
-        subtotal={'$ 125'}
-        tax={'$ 25'}
-        total={'$ 150'}
-        dueDate={dummyData.dueDate}
-        companyName={dummyData.companyName}
-        class="hidden lg:flex"
-      />
     </SectionWrapper>
   );
 }

@@ -44,7 +44,7 @@ export const dummyData = {
 
 export default function Page() {
   const componentRef = useRef(null);
-  const { advanced, pro, subscription } = useSubscription({});
+  const { advanced, pro, subscription, isLoading } = useSubscription({});
   const isAdvancedPlus = advanced || pro;
   console.log('Subs ', subscription);
 
@@ -68,19 +68,6 @@ export default function Page() {
     handlePrint(null, () => componentRef.current);
   }
 
-  async function exportPDF() {
-    try {
-      await exportToPDF({
-        name: 'invoice-sample',
-        id: 'template-one',
-      });
-
-      toast?.success('Document downloaded successfully!');
-    } catch (error) {
-      toast?.error('An error occurred while downloading the document.');
-    }
-  }
-
   return (
     <Wrapper>
       <PageHeadings
@@ -88,91 +75,13 @@ export default function Page() {
         description="Discover a collection of customizable invoice templates on our platform to elevate your brand identity and create professional invoices effortlessly. Tailor your invoices to reflect your unique style, enhance client interactions, and make a lasting impression. Personalize your billing documents with ease and professionalism."
         slogan="Crafting Elegance, Sealing Deals - Your Invoices, Your Brand!"
       />
-      {isAdvancedPlus && <InvoicingCard />}
-      {!isAdvancedPlus && (
+      <InvoicingCard />
+      {!isAdvancedPlus && !isLoading && (
         <SectionWrapper>
           <PageHeadings title="Upgrade to access advanced features and unlock premium invoice templates." />
           <Tiers />
         </SectionWrapper>
       )}
-
-      <PageHeadings title="Invoice Templates Sample" class="hidden lg:flex" />
-      <TemplateOne
-        id="template-one"
-        printRef={componentRef}
-        invoiceNumber={dummyData.invoiceNumber}
-        date={dummyData.date}
-        billToName={dummyData.billToName}
-        billToAddress={dummyData.billToAddress}
-        items={dummyData.items}
-        subtotal={dummyData.subtotal}
-        tax={dummyData.tax}
-        total={dummyData.total}
-        dueDate={dummyData.dueDate}
-        companyName={dummyData.companyName}
-        memo="Thank you for your business! <br/> If you have any questions about this invoice, please contact us at: Your Company Name, 123 Main St., Your City, Your State, 12345, (123) 456-7890"
-        footer="<strong>Thank you for your business!</strong> <br/> If you have any questions about this invoice, please contact us at: <br/> <strong>Your Company Name</strong> <br/> 123 Main St. <br/> Your City, Your State, 12345 <br/> (123) 456-7890"
-        customFields={{
-          0: {
-            value: 'Net 30: Main Street',
-          },
-          1: {
-            value: 'Invoice #INV12345',
-          },
-        }}
-        header='
-            <img class="h-8 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Company Logo" />
-            <br/>
-            <p class="text-sm text-gray-600">Customize your invoice with your company logo and brand colors.</p>
-          '
-        class="hidden lg:flex"
-      />
-
-      <SectionWrapper class="flex-row gap-5 self-end">
-        <Button onClick={printPDF} class="hidden lg:flex">
-          <section className="flex flex-row gap-2">
-            <svg
-              className="flex-shrink-0 size-4 self-center"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="6 9 6 2 18 2 18 9" />
-              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-              <rect width="12" height="8" x="6" y="14" />
-            </svg>
-            <p>Print Sample PDF</p>
-          </section>
-        </Button>
-        <Button style="secondary" onClick={exportPDF}>
-          <section className="flex flex-row gap-2">
-            <svg
-              className="flex-shrink-0 size-4"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" x2="12" y1="15" y2="3" />
-            </svg>
-            <p>Sample PDF</p>
-          </section>
-        </Button>
-      </SectionWrapper>
     </Wrapper>
   );
 }
