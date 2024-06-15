@@ -1,7 +1,7 @@
 import { classNames } from '@helpers/index';
 
 type Props = {
-  title?: string | number;
+  title?: string | number | React.ReactNode;
   description?: string | React.ReactElement;
   tooltip?: string;
   tooltipPosition?:

@@ -19,6 +19,7 @@ import ProfileButton from './ProfileButton';
 import Link from 'next/link';
 import Badge from './Badge';
 import { mainNav, menuNav } from '@helpers/data';
+import Notifications from '@components/Notifications';
 
 export default function Navigation({
   children,
@@ -33,10 +34,6 @@ export default function Navigation({
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
   const { active } = useSubscription({});
-  const { error } = useKeyValidate({
-    key: data?.[0]?.restrictedAPIKey,
-  });
-  console.log('🚧 data ', error);
 
   const navigation = mainNav({
     path,
@@ -303,34 +300,7 @@ export default function Navigation({
           </Link>
         </section>
 
-        {!active && (
-          <Badge
-            title="No Subscription"
-            type="warning"
-            tooltip="Please subscribe to use the platform!"
-          />
-        )}
-        {(!hasKeys || error) && (
-          <Badge
-            title={error ? 'Invalid Stripe API Key' : 'Add Stripe API Key'}
-            type="error"
-            tooltip={
-              error
-                ? 'Please update your keys'
-                : 'Please add your Stripe keys to use the platform!'
-            }
-            tooltipPosition="tooltip-left"
-            description={
-              <Link
-                href="/dashboard/stripe"
-                className="text-xs font-semibold text-indigo-600"
-              >
-                {error ? 'Update keys' : 'Add keys'}
-              </Link>
-            }
-          />
-        )}
-
+        <Notifications />
         <ProfileButton />
       </div>
 
