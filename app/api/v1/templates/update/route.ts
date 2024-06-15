@@ -38,18 +38,16 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     const body = await request.json();
     const id = body.id;
-    const header = body.header;
-    const memo = body.memo;
-    const footer = body.footer;
-    const customFields = body.customFields;
 
     await db
       .update(templates)
       .set({
-        header,
-        memo,
-        footer,
-        customFields,
+        header: body.header,
+        memo: body.memo,
+        footer: body.footer,
+        customFields: body.customFields,
+        companyName: body.companyName,
+        imgUrl: body.imgUrl,
       })
       .where(and(eq(templates.id, id), eq(templates.userId, dbUser[0].id)));
 

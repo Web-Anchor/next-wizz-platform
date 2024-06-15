@@ -35,18 +35,16 @@ export async function POST(request: NextRequest) {
     // 📌  Add invoice template
     // --------------------------------------------------------------------------------
     const body = await request.json();
-    const header = body.header;
-    const memo = body.memo;
-    const footer = body.footer;
-    const customFields = body.customFields;
 
     await db.insert(templates).values({
       id: uuidv4(),
       userId: dbUser[0].id.toString(),
-      header,
-      memo,
-      footer,
-      customFields,
+      header: body.header,
+      memo: body.memo,
+      footer: body.footer,
+      customFields: body.customFields,
+      companyName: body.companyName,
+      imgUrl: body.imgUrl,
     });
 
     return NextResponse.json({

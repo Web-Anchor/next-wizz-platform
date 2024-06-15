@@ -29,7 +29,7 @@ type Props = {
   footer?: string;
   memo?: string;
   header?: string;
-  customFields?: { [key: string]: CustomField };
+  customFields?: { [key: number]: CustomField };
   class?: string;
 };
 

@@ -57,6 +57,13 @@
       "when": 1718362271919,
       "tag": "0007_spooky_tarantula",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1718464021205,
+      "tag": "0008_gray_cerise",
+      "breakpoints": true
     }
   ]
 }

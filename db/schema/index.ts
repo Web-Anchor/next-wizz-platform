@@ -18,7 +18,7 @@ export const templates = sqliteTable('templates', {
   template: text('template'),
   name: text('name'),
   description: text('description'),
-  logoUrl: text('logoUrl'),
+  imgUrl: text('imgUrl'),
   memo: text('memo'),
   footer: text('footer'),
   header: text('header'),

@@ -22,10 +22,10 @@ const table = {
     stateKey: 'companyName',
     maxLength: maxLength?.customField,
   },
-  logoUrl: {
+  imgUrl: {
     title: 'Company Image Link',
     description: 'Company image link is that appears on the invoice.',
-    stateKey: 'logoUrl',
+    stateKey: 'imgUrl',
     maxLength: maxLength?.comment,
   },
   header: {
@@ -81,7 +81,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     fetching?: boolean;
     customFields: { [key: string]: CustomField };
     companyName?: string;
-    logoUrl?: string;
+    imgUrl?: string;
     header?: string;
     memo?: string;
     footer?: string;
@@ -89,7 +89,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   }>(BASE_STATE);
   const { templates, count, isLoading } = useTemplates({});
   const TEMPLATE = templates?.[0];
-  console.log('TEMPLATE', TEMPLATE);
+  console.log('TEMPLATE', TEMPLATE, state);
 
   useEffect(() => {
     // --------------------------------------------------------------------------------
@@ -104,8 +104,12 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         isMemo: !!TEMPLATE?.memo,
         footer: TEMPLATE?.footer ?? '',
         isFooter: !!TEMPLATE?.footer,
-        customFields: TEMPLATE?.customFields || { 0: { value: '' } },
+        customFields: TEMPLATE?.customFields ?? { 0: { value: '' } },
         isCustomFields: !!Object.keys(TEMPLATE?.customFields || {}).length,
+        companyName: TEMPLATE?.companyName ?? '',
+        isCompanyName: !!TEMPLATE?.companyName,
+        imgUrl: TEMPLATE?.imgUrl ?? '',
+        isLogoUrl: !!TEMPLATE?.imgUrl,
       }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,31 +128,15 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   };
 
   const addCustomField = () => {
-    setState((prevState) => ({
-      ...prevState,
-      customFields: {
-        ...prevState.customFields,
-        [Object.keys(prevState.customFields).length]: { value: '' },
-      },
-    }));
+    const customFields = { ...state.customFields };
+    customFields[Object.keys(customFields).length] = { value: '' };
+    setState((prevState) => ({ ...prevState, customFields }));
   };
 
   function removeCustomField(key: number) {
-    const normalizeKeys = (obj: { [x: string]: CustomField }) => {
-      const normalizedObj: { [key: number]: CustomField } = {};
-      Object.keys(obj).forEach((key, index) => {
-        normalizedObj[index] = obj[key];
-      });
-      return normalizedObj;
-    };
-
-    setState((prevState) => {
-      const updatedCustomFields = { ...prevState.customFields };
-      delete updatedCustomFields[key];
-      const normalizedCustomFields = normalizeKeys(updatedCustomFields); // Normalize keys
-
-      return { ...prevState, customFields: normalizedCustomFields };
-    });
+    const customFields = { ...state.customFields };
+    delete customFields[key];
+    setState((prevState) => ({ ...prevState, customFields }));
   }
 
   async function createTemplate() {
@@ -161,6 +149,8 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
           memo: state?.memo,
           footer: state?.footer,
           customFields: state?.customFields,
+          companyName: state?.companyName,
+          imgUrl: state?.imgUrl,
         },
       });
 
@@ -177,10 +167,12 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         method: 'POST',
         data: {
           id,
-          header: state?.isHeader ? state?.header : null,
-          memo: state?.isMemo ? state?.memo : null,
-          footer: state?.isFooter ? state?.footer : null,
-          customFields: state?.isCustomFields ? state?.customFields : {},
+          header: state?.header ?? TEMPLATE?.header,
+          memo: state?.memo ?? TEMPLATE?.memo,
+          footer: state?.footer ?? TEMPLATE?.footer,
+          customFields: state?.customFields ?? TEMPLATE?.customFields,
+          companyName: state?.companyName ?? TEMPLATE?.companyName,
+          imgUrl: state?.imgUrl ?? TEMPLATE?.imgUrl,
         },
       });
 
@@ -240,6 +232,59 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       toast?.success('Document downloaded successfully!');
     } catch (error) {
       toast?.error('An error occurred while downloading the document.');
+    }
+  }
+
+  async function invoicePreview() {
+    try {
+      setState((prev) => ({ ...prev, fetching: true }));
+      const { data } = await cFetch({
+        url: '/api/v1/preview-standard-template',
+        method: 'POST',
+        data: {
+          header: state?.header ?? TEMPLATE?.header,
+          memo: state?.memo ?? TEMPLATE?.memo,
+          footer: state?.footer ?? TEMPLATE?.footer,
+          customFields: state?.customFields ?? TEMPLATE?.customFields,
+          companyName: state?.companyName ?? TEMPLATE?.companyName,
+          imgUrl: state?.imgUrl ?? TEMPLATE?.imgUrl,
+          // 🚧  Dummy data prefill
+          invoiceNumber: 'INV-001',
+          date: '2022-01-01',
+          billToName: 'John Doe',
+          billToAddress: '123 Main St, New York, NY 10001',
+          items: [
+            {
+              description: 'Product A',
+              amount: '100',
+              quantity: 2,
+              units: 50,
+            },
+            {
+              description: 'Product B',
+              amount: '50',
+              quantity: 1,
+              units: 50,
+            },
+          ],
+          dueDate: '2022-11-15',
+          subtotal: '150',
+          tax: '15',
+          total: '165',
+        },
+      });
+
+      console.log('🔥 data', data);
+      // data as <html> element
+      // open in new window with html content
+      const newWindow = window.open();
+      newWindow?.document.open();
+      newWindow?.document.write(data);
+      newWindow?.document.close();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setState((prev) => ({ ...prev, fetching: false }));
     }
   }
 
@@ -319,9 +364,9 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         <Section>
           <div className="flex flex-row gap-5 justify-between">
             <label>
-              {table?.logoUrl?.title}
+              {table?.imgUrl?.title}
               <span className="text-xs ml-1 text-gray-400">
-                {table?.logoUrl?.maxLength} characters max
+                {table?.imgUrl?.maxLength} characters max
               </span>
             </label>
 
@@ -337,16 +382,16 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
           </div>
           <Section>
             <p className="text-xs text-gray-500">
-              {table?.logoUrl?.description}
+              {table?.imgUrl?.description}
             </p>
           </Section>
           <Section hidden={!state?.isLogoUrl}>
             <input
               placeholder="Add Company Logo URL"
-              value={state.logoUrl}
-              onChange={(e) => setState({ ...state, logoUrl: e.target.value })}
+              value={state.imgUrl}
+              onChange={(e) => setState({ ...state, imgUrl: e.target.value })}
               className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              maxLength={table?.logoUrl?.maxLength}
+              maxLength={table?.imgUrl?.maxLength}
             />
           </Section>
         </Section>
@@ -539,6 +584,13 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
             style="ghost"
             onClick={() => setState({ ...state, preview: true })}
             disabled={state?.fetching || isLoading}
+          />
+          <Button
+            title="Link Preview"
+            style="ghost"
+            onClick={invoicePreview}
+            disabled={state?.fetching || isLoading}
+            fetching={state?.fetching}
           />
           <Button
             title="Reset"

@@ -22,7 +22,7 @@
       "@db/*": ["./db/*"],
       "@lib/*": ["./lib/*"],
       "@hooks/*": ["./hooks/*"],
-      "@types/*": ["./types/*"],
+      "@appTypes/*": ["./types/*"],
       "@config/*": ["./config/*"],
       "@templates/*": ["./app/components/templates/*"],
       "@helpers/*": ["./helpers/*"],

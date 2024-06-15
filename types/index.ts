@@ -57,15 +57,34 @@ export type User = {
 
 export type Template = {
   id?: string;
-  userId?: string;
-  name?: string;
-  description?: string;
-  logoUrl?: string;
-  memo?: string;
-  footer?: string;
   header?: string;
-  customFields?: { [key: string]: CustomField };
-  createdAt?: string;
+  invoiceNumber?: string;
+  date?: string;
+  companyName?: string;
+  imgUrl?: string;
+  billToName?: string;
+  billToEmail?: string;
+  billToPhone?: string;
+  billToAddress?: string;
+  billToAddressLine1?: string;
+  billToAddressLine2?: string;
+  billToCity?: string;
+  billToState?: string;
+  billToPostalCode?: string;
+  billToCountry?: string;
+  customFields?: { [key: number]: CustomField };
+  memo?: string;
+  items?: {
+    description?: string;
+    amount?: string | number;
+    quantity?: number;
+    units?: string | number;
+  }[];
+  dueDate?: string;
+  subtotal?: string;
+  tax?: string;
+  total?: string;
+  footer?: string;
 };
 
 export type CustomField = {

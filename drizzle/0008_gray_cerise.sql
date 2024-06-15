@@ -1,0 +1,1 @@
+ALTER TABLE `templates` RENAME COLUMN `logoUrl` TO `imgUrl`;
