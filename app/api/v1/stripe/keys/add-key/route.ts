@@ -4,7 +4,11 @@ import { db } from '@db/index';
 import { keys as strKeys, users } from '@db/schema';
 import { eq } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
-import { subscription, validateActiveSubMiddleware } from '@lib/subscription';
+import {
+  subscription,
+  validateActiveSubMiddleware,
+  validateProSubMiddleware,
+} from '@lib/subscription';
 import { plans } from '@config/index';
 import { Plan } from '../../../../../../types/index';
 

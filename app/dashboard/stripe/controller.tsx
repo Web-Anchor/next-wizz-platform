@@ -53,7 +53,7 @@ export default function Page() {
     open?: boolean;
     fetching?: string;
   }>({});
-  const { keys, isLoading } = useStripeKeys({});
+  const { keys, isLoading, hasKeys } = useStripeKeys({});
   const router = useRouter();
   const nameRef = useRef<HTMLInputElement>(null);
   const keyRef = useRef<HTMLInputElement>(null);
@@ -143,6 +143,7 @@ export default function Page() {
             title="Add key"
             class="text-nowrap"
             onClick={() => setState((prev) => ({ ...prev, open: !prev.open }))}
+            hide={isLoading || hasKeys}
           />
         </section>
       </div>
