@@ -13,6 +13,7 @@ import { CustomField } from '../../types';
 import { Spinner, TableSkeleton } from './Skeleton';
 import { SectionWrapper } from './Wrapper';
 import PageHeadings from './PageHeadings';
+import { promises } from 'dns';
 
 const table = {
   companyName: {
@@ -78,7 +79,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     isCustomFields?: boolean;
     isCompanyName?: boolean;
     isLogoUrl?: boolean;
-    fetching?: boolean;
+    fetching?: string;
     customFields: { [key: string]: CustomField };
     companyName?: string;
     imgUrl?: string;
@@ -89,7 +90,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   }>(BASE_STATE);
   const { templates, count, isLoading } = useTemplates({});
   const TEMPLATE = templates?.[0];
-  console.log('TEMPLATE', TEMPLATE, state);
 
   useEffect(() => {
     // --------------------------------------------------------------------------------
@@ -188,7 +188,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: true }));
+      setState((prev) => ({ ...prev, fetching: 'submit' }));
       let status;
       let error;
 
@@ -218,7 +218,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       console.error(err.message);
       toast.error(err.message);
     } finally {
-      setState((prev) => ({ ...prev, fetching: false }));
+      setState((prev) => ({ ...prev, fetching: undefined }));
     }
   }
 
@@ -237,7 +237,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
 
   async function invoicePreview() {
     try {
-      setState((prev) => ({ ...prev, fetching: true }));
+      setState((prev) => ({ ...prev, fetching: 'preview' }));
       const { data } = await cFetch({
         url: '/api/v1/preview-standard-template',
         method: 'POST',
@@ -275,16 +275,32 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       });
 
       console.log('🔥 data', data);
-      // data as <html> element
-      // open in new window with html content
-      const newWindow = window.open();
-      newWindow?.document.open();
-      newWindow?.document.write(data);
-      newWindow?.document.close();
+      const newWindow = window.open() as Window;
+      newWindow.document.write(data);
+
+      // Wait for all images to load
+      await Promise.all(
+        Array.from(newWindow.document.images).map(
+          (image) =>
+            new Promise<void>((resolve, _) => {
+              if (image.complete) {
+                resolve();
+              } else {
+                image.addEventListener('load', () => resolve());
+                image.addEventListener('error', () => resolve()); // Handle image load errors
+              }
+            })
+        )
+      );
+
+      // const newWindow = window.open();
+      // newWindow?.document.open();
+      // newWindow?.document.write(data);
+      // newWindow?.document.close();
     } catch (error) {
       console.error(error);
     } finally {
-      setState((prev) => ({ ...prev, fetching: false }));
+      setState((prev) => ({ ...prev, fetching: undefined }));
     }
   }
 
@@ -576,27 +592,27 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
           <Button
             title={!count ? 'Save' : 'Update'}
             type="submit"
-            fetching={state?.fetching}
+            fetching={state?.fetching === 'submit'}
             disabled={isLoading}
           />
           <Button
             title="Preview"
             style="ghost"
             onClick={() => setState({ ...state, preview: true })}
-            disabled={state?.fetching || isLoading}
+            disabled={!!state?.fetching || isLoading}
           />
           <Button
             title="Link Preview"
             style="ghost"
             onClick={invoicePreview}
-            disabled={state?.fetching || isLoading}
-            fetching={state?.fetching}
+            disabled={!!state?.fetching || isLoading}
+            fetching={state?.fetching === 'preview'}
           />
           <Button
             title="Reset"
             style="ghost"
             onClick={() => setState(BASE_STATE)}
-            disabled={state?.fetching || isLoading}
+            disabled={!!state?.fetching || isLoading}
           />
         </div>
       </form>
