@@ -1,5 +1,5 @@
 import { classNames } from '@helpers/index';
-import Badge from './Badge';
+import Badge, { Props as BadgeProps } from './Badge';
 import Link from 'next/link';
 import { useKeyValidate } from '@hooks/useValidateApiKeys';
 import { useStripeKeys } from '@hooks/useStripeKeys';
@@ -13,8 +13,8 @@ type Props = {
 
 export default function Notifications(props: Props): React.ReactElement | null {
   const { data, count, hasKeys } = useStripeKeys({});
-  const { active } = useSubscription({});
-  const { error } = useKeyValidate({
+  const { active, isLoading: isSubsLoad } = useSubscription({});
+  const { error, isLoading: isKeyValidationLoad } = useKeyValidate({
     key: data?.[0]?.restrictedAPIKey,
   });
 
@@ -23,34 +23,49 @@ export default function Notifications(props: Props): React.ReactElement | null {
   }
 
   return (
-    <section className={classNames(props.class)}>
-      {!active && (
+    <section className={classNames('flex flex-row gap-2', props.class)}>
+      {!active && !isSubsLoad && (
         <Badge
-          title="No Subscription"
+          title={title('No Subscription', 'Subscribe')}
           type="warning"
           tooltip="Please subscribe to use the platform!"
         />
       )}
-      {(!hasKeys || error) && (
+      {(!hasKeys || error) && !isKeyValidationLoad && (
         <Badge
-          title={error ? 'Invalid Stripe API Key' : 'Add Stripe API Key'}
+          title={
+            error
+              ? title('Invalid Stripe API Key', 'Invalid Key')
+              : title('No Stripe API Key', 'Add Key')
+          }
           type="error"
           tooltip={
             error
               ? 'Please update your keys'
               : 'Please add your Stripe keys to use the platform!'
           }
-          tooltipPosition="tooltip-left"
+          tooltipPosition="tooltip-bottom"
           description={
             <Link
               href="/dashboard/stripe"
               className="text-xs font-semibold text-indigo-600"
             >
-              {error ? 'Update keys' : 'Add keys'}
+              {error
+                ? title('Update keys', 'Update')
+                : title('Add keys', 'Add')}
             </Link>
           }
         />
       )}
+    </section>
+  );
+}
+
+function title(large: BadgeProps['title'], small?: BadgeProps['title']) {
+  return (
+    <section>
+      <p className="flex md:hidden ">{small ?? large}</p>
+      <p className="hidden md:flex">{large}</p>
     </section>
   );
 }
