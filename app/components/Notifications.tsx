@@ -1,5 +1,5 @@
 import { classNames } from '@helpers/index';
-import Badge, { Props as BadgeProps } from './Badge';
+import Badge, { Props as BadgeProps } from '@components/Badge';
 import Link from 'next/link';
 import { useKeyValidate } from '@hooks/useValidateApiKeys';
 import { useStripeKeys } from '@hooks/useStripeKeys';
@@ -26,7 +26,7 @@ export default function Notifications(props: Props): React.ReactElement | null {
     <section className={classNames('flex flex-row gap-2', props.class)}>
       {!active && !isSubsLoad && (
         <Badge
-          title={title('No Subscription', 'Subscribe')}
+          title={mediaScreenTitle('No Subscription', 'Subscribe')}
           type="warning"
           tooltip="Please subscribe to use the platform!"
         />
@@ -35,8 +35,8 @@ export default function Notifications(props: Props): React.ReactElement | null {
         <Badge
           title={
             error
-              ? title('Invalid Stripe API Key', 'Invalid Key')
-              : title('No Stripe API Key', 'Add Key')
+              ? mediaScreenTitle('Invalid Stripe API Key', 'Invalid Key')
+              : mediaScreenTitle('No Stripe API Key', 'Add Key')
           }
           type="error"
           tooltip={
@@ -51,8 +51,8 @@ export default function Notifications(props: Props): React.ReactElement | null {
               className="text-xs font-semibold text-indigo-600"
             >
               {error
-                ? title('Update keys', 'Update')
-                : title('Add keys', 'Add')}
+                ? mediaScreenTitle('Update keys', 'Update')
+                : mediaScreenTitle('Add keys', 'Add')}
             </Link>
           }
         />
@@ -61,7 +61,10 @@ export default function Notifications(props: Props): React.ReactElement | null {
   );
 }
 
-function title(large: BadgeProps['title'], small?: BadgeProps['title']) {
+export function mediaScreenTitle(
+  large: BadgeProps['title'],
+  small?: BadgeProps['title']
+) {
   return (
     <section>
       <p className="flex md:hidden ">{small ?? large}</p>

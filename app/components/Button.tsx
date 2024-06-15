@@ -1,7 +1,7 @@
 import { classNames } from '@helpers/index';
 
 type Props = {
-  title?: string;
+  title?: string | React.ReactNode;
   onClick?: (props?: any) => void;
   children?: React.ReactNode;
   fetching?: boolean;

@@ -18,7 +18,7 @@ export function useUser(props: Props) {
   );
 
   return {
-    user: data?.data?.user,
+    user: data?.data?.user as User,
     error,
     isLoading,
   };

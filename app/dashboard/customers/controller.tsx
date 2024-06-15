@@ -10,36 +10,63 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { getTimeAgo } from '@helpers/index';
 import PageHeadings from '@app/components/PageHeadings';
+import { mediaScreenTitle } from '@app/components/Notifications';
+import { cFetch } from '@lib/cFetcher';
+import { useUser } from '@hooks/useUsers';
 
 export default function Page() {
   const [state, setState] = useState<{
     fetching?: string;
   }>({});
   const params = useSearchParams();
+  const { user } = useUser({});
   const { customers, data, isLoading } = useCustomers({});
-  console.log('🧾 Customers', customers, data);
+  // console.log('🧾 Customers', customers, data);
 
-  async function emailInvoice(id: string) {
+  async function emailCustomer(email: string) {
     try {
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: id }));
-      const customer = customers.find((c: Customer) => c.id === id);
-      console.log('Email Invoice');
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setState((prev) => ({ ...prev, fetching: email }));
+      const customer = customers.find((c: Customer) => c.email === email);
 
-      // const { data, status } = await cFetch({
-      //   url: '/api/v1/stripe/keys/edit-key',
-      //   method: 'POST',
-      //   data: { key, name, id },
-      // });
+      const { data, status } = await cFetch({
+        url: '/api/v1/send-email',
+        method: 'POST',
+        data: {
+          email,
+          subject: 'Link to customer Portal 🚀',
+          html: `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Link to customer portal</title>
+                <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+            </head>
+            <body>
+                <div class="bg-gray-100 p-4 rounded-lg max-w-md mx-auto mt-8">
+                    <p class="text-lg">Dear Customer,</p>
+                    <p class="text-base mb-4">You can download your invoices from our customer portal. Please click the link below:</p>
+                    <a href="${process.env.NEXT_PUBLIC_PORTAL_URL}?id=${user?.id}" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download Invoices</a>
+                </div>
+            </body>
+            </html>
+            `,
+        },
+      });
+      console.log('📧 Email sent to:', email, data);
 
-      // if (status !== 200 || data?.error) {
-      //   throw new Error(data?.error);
-      // }
+      if (status !== 200 || data?.error) {
+        throw new Error(
+          data?.error || `Failed to send email to ${customer?.name}!`
+        );
+      }
 
-      toast.success(`Latest invoice sent to ${customer?.name}`);
+      toast.success(`Link to portal sent to ${customer?.name} ✨`);
     } catch (err: any) {
       console.error(err);
       toast.error(err.message);
@@ -69,14 +96,14 @@ export default function Page() {
             row: [
               {
                 item: (
-                  <p className="max-w-24 lg:max-w-none truncate text-ellipsis">
+                  <p className="max-w-32 lg:max-w-none truncate text-ellipsis">
                     {item?.name}
                   </p>
                 ),
               },
               {
                 item: (
-                  <p className="max-w-24 lg:max-w-none truncate text-ellipsis">
+                  <p className="max-w-32 lg:max-w-none truncate text-ellipsis">
                     {item?.email}
                   </p>
                 ),
@@ -95,9 +122,10 @@ export default function Page() {
               {
                 item: (
                   <Button
-                    title="Send Invoice"
-                    onClick={() => emailInvoice(item?.id!)}
+                    title={mediaScreenTitle('Email Portal Link', 'Email Link')}
+                    onClick={() => emailCustomer(item?.email!)}
                     fetching={state?.fetching === item?.id}
+                    style="link"
                   />
                 ),
               },
