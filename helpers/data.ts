@@ -6,6 +6,7 @@ import {
   UsersIcon,
   LinkIcon,
   CurrencyDollarIcon,
+  ArrowsPointingOutIcon,
 } from '@heroicons/react/24/outline';
 
 export function menuNav(props: { path?: string; hidden?: string[] }) {
@@ -74,6 +75,14 @@ export function mainNav(props: {
       icon: DocumentDuplicateIcon,
       count: '1',
       current: props.path === '/dashboard/invoices',
+      isHidden: false,
+    },
+    {
+      name: 'Portal Components',
+      href: '/dashboard/portal',
+      icon: ArrowsPointingOutIcon,
+      count: undefined,
+      current: props.path === '/dashboard/portal',
       isHidden: false,
     },
     {

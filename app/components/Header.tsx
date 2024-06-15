@@ -9,41 +9,13 @@ import UserProfileCard from './UserProfileCard';
 import Logo from '@components/Logo';
 import { Disclosure } from '@headlessui/react';
 import ProfileButton from './ProfileButton';
+import { mainNav } from '@helpers/data';
 
 type Props = {
   class?: string;
 };
 
-export const navigation = [
-  {
-    name: 'Dashboard',
-    href: '/dashboard',
-  },
-  {
-    name: 'Charges',
-    href: '/dashboard/charges',
-  },
-  {
-    name: 'Customers',
-    href: '/dashboard/customers',
-  },
-  {
-    name: 'Invoices',
-    href: '/dashboard/invoices',
-  },
-  {
-    name: 'Stripe API',
-    href: '/dashboard/stripe',
-  },
-  {
-    name: 'Reports',
-    href: '/dashboard/reports',
-  },
-  {
-    name: 'Profile',
-    href: '/dashboard/profile',
-  },
-];
+const navigation = mainNav({});
 
 export default function Header(props: Props) {
   const path = usePathname();
