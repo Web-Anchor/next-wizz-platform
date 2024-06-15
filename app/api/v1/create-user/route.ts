@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { users } from '@db/schema';
 import { v4 as uuidv4 } from 'uuid';
-import { handleIsRedirect } from '@helpers/index';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
 
@@ -33,7 +32,7 @@ export async function GET(request: NextRequest) {
     return new Response(null, {
       status: 302,
       headers: {
-        Location: APP_URL + decodeURIComponent(redirect ?? '') ?? '/dashboard',
+        Location: APP_URL + '/dashboard',
       },
     });
   } catch (error: any) {
