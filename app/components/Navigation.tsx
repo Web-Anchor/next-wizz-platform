@@ -1,17 +1,7 @@
 'use client';
 
 import { classNames } from '@helpers/index';
-import {
-  ChartPieIcon,
-  DocumentDuplicateIcon,
-  UserIcon,
-  HomeIcon,
-  UsersIcon,
-  LinkIcon,
-  CurrencyDollarIcon,
-  XMarkIcon,
-  Bars3Icon,
-} from '@heroicons/react/24/outline';
+import { XMarkIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import { useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
 import UserProfileCard from './UserProfileCard';
@@ -24,10 +14,11 @@ import {
   useTotalCustomers,
 } from '@hooks/index';
 import { useState, Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Transition, TransitionChild } from '@headlessui/react';
 import ProfileButton from './ProfileButton';
 import Link from 'next/link';
 import Badge from './Badge';
+import { mainNav, menuNav } from '@helpers/data';
 
 export default function Navigation({
   children,
@@ -47,85 +38,19 @@ export default function Navigation({
   });
   console.log('🚧 data ', error);
 
-  const navigation = [
-    {
-      name: 'Dashboard',
-      href: '/dashboard',
-      icon: HomeIcon,
-      current: path === '/dashboard',
-      isHidden: false,
-    },
-    {
-      name: 'Charges',
-      href: '/dashboard/charges',
-      icon: CurrencyDollarIcon,
-      count: charges,
-      current: path === '/dashboard/charges',
-      isHidden: !active,
-    },
-    {
-      name: 'Customers',
-      href: '/dashboard/customers',
-      icon: UsersIcon,
-      count: customers,
-      current: path === '/dashboard/customers',
-      isHidden: !active,
-    },
-    {
-      name: 'Templates',
-      href: '/dashboard/invoices',
-      icon: DocumentDuplicateIcon,
-      count: '1',
-      current: path === '/dashboard/invoices',
-      isHidden: !active,
-    },
-    {
-      name: 'Stripe API keys',
-      href: '/dashboard/stripe',
-      icon: LinkIcon,
-      count: count,
-      current: path === '/dashboard/stripe',
-      isHidden: !active,
-    },
-    {
-      name: 'Reports',
-      href: '/dashboard/reports',
-      icon: ChartPieIcon,
-      current: path === '/dashboard/reports',
-      isHidden: !active,
-    },
-    {
-      name: 'Profile',
-      href: '/dashboard/profile',
-      icon: UserIcon,
-      current: path === '/dashboard/profile',
-      isHidden: !active,
-    },
-  ];
-
-  const dashboard = [
-    {
-      name: 'Feature Request',
-      href: '/dashboard/new-features',
-      initial: 'F',
-      current: path === '/dashboard/new-features',
-      isHidden: !active,
-    },
-    {
-      name: 'Help & Support',
-      href: '/dashboard/support',
-      initial: 'H',
-      current: path === '/dashboard/support',
-      isHidden: false,
-    },
-    {
-      name: 'Subscriptions',
-      href: '/dashboard/subscriptions',
-      initial: 'S',
-      current: path === '/dashboard/subscriptions',
-      isHidden: false,
-    },
-  ];
+  const navigation = mainNav({
+    path,
+    hidden: !active ? ['/dashboard/reports', '/dashboard/profile'] : undefined,
+    count: [
+      { href: '/dashboard/charges', count: charges },
+      { href: '/dashboard/customers', count: customers },
+      { href: '/dashboard/stripe', count },
+    ],
+  });
+  const dashboard = menuNav({
+    path,
+    hidden: !active ? ['/dashboard/new-features'] : undefined,
+  });
 
   const Support = () => {
     return dashboard.map((team) => {
@@ -155,7 +80,7 @@ export default function Navigation({
             >
               {team.initial}
               {isSupport && (
-                <Badge class="absolute top-0 right-0 p-0 -m-[2px]" />
+                <Badge class="absolute -top-3 -right-2 p-0" type="success" />
               )}
             </span>
             <span className="truncate">{team.name}</span>
@@ -172,7 +97,7 @@ export default function Navigation({
           className="relative z-50 lg:hidden"
           onClose={() => setState((prev) => ({ ...prev, open: false }))}
         >
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
             enterFrom="opacity-0"
@@ -182,10 +107,10 @@ export default function Navigation({
             leaveTo="opacity-0"
           >
             <div className="fixed inset-0 bg-gray-900/80" />
-          </Transition.Child>
+          </TransitionChild>
 
           <div className="fixed inset-0 flex">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="transition ease-in-out duration-300 transform"
               enterFrom="-translate-x-full"
@@ -195,7 +120,7 @@ export default function Navigation({
               leaveTo="-translate-x-full"
             >
               <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
-                <Transition.Child
+                <TransitionChild
                   as={Fragment}
                   enter="ease-in-out duration-300"
                   enterFrom="opacity-0"
@@ -219,7 +144,7 @@ export default function Navigation({
                       />
                     </button>
                   </div>
-                </Transition.Child>
+                </TransitionChild>
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
                   <div className="flex h-16 shrink-0 items-center">
@@ -271,7 +196,7 @@ export default function Navigation({
                   </nav>
                 </div>
               </Dialog.Panel>
-            </Transition.Child>
+            </TransitionChild>
           </div>
         </Dialog>
       </Transition.Root>
@@ -311,6 +236,12 @@ export default function Navigation({
                             aria-hidden="true"
                           />
                           {item.name}
+
+                          {item.count && (
+                            <span className="flex items-center ml-auto px-2 py-0.5 text-xs font-semibold text-gray-800 bg-gray-100 rounded-md">
+                              {item.count}
+                            </span>
+                          )}
                         </Link>
                       </li>
                     );
