@@ -23,7 +23,7 @@ export default function Page() {
       <Table
         fetching={isLoading}
         header={[
-          { item: 'Customer', class: 'max-w-10 lg:max-w-none__' },
+          { item: 'Customer', class: 'max-w-10 lg:max-w-none' },
           { item: 'Amount' },
           { item: 'Phone', class: 'hidden lg:table-cell' },
           { item: 'Status', class: 'hidden lg:table-cell' },

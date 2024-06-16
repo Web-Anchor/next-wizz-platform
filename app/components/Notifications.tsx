@@ -1,9 +1,10 @@
 import { classNames } from '@helpers/index';
-import Badge, { Props as BadgeProps } from '@components/Badge';
+import Badge from '@components/Badge';
 import Link from 'next/link';
 import { useKeyValidate } from '@hooks/useValidateApiKeys';
 import { useStripeKeys } from '@hooks/useStripeKeys';
 import { useSubscription } from '@hooks/useSubscriptions';
+import { mediaScreenTitle } from '@helpers/components';
 
 type Props = {
   onClick?: (props?: any) => void;
@@ -57,18 +58,6 @@ export default function Notifications(props: Props): React.ReactElement | null {
           }
         />
       )}
-    </section>
-  );
-}
-
-export function mediaScreenTitle(
-  large: BadgeProps['title'],
-  small?: BadgeProps['title']
-) {
-  return (
-    <section>
-      <p className="flex md:hidden ">{small ?? large}</p>
-      <p className="hidden md:flex">{large}</p>
     </section>
   );
 }

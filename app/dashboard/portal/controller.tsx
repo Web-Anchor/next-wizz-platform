@@ -4,10 +4,16 @@ import Badge from '@app/components/Badge';
 import Button from '@app/components/Button';
 import PageHeadings from '@app/components/PageHeadings';
 import Select from '@app/components/Select';
+import Table from '@app/components/Table';
 import Wrapper, { SectionWrapper } from '@app/components/Wrapper';
+import { Component } from '@appTypes/index';
 import { maxLength } from '@config/index';
+import { mediaScreenTitle } from '@helpers/components';
+import { getTimeAgo } from '@helpers/index';
 import { useComponents } from '@hooks/useComponents';
+import { useUser } from '@hooks/useUsers';
 import { cFetch } from '@lib/cFetcher';
+import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
@@ -46,7 +52,8 @@ export default function Page() {
   const [state, setState] = useState<{ fetching?: boolean }>({});
   const formRef = useRef<HTMLFormElement>(null);
 
-  const { count, components } = useComponents({});
+  const { count, components, isLoading } = useComponents({});
+  const { user } = useUser({});
   console.log(count, components);
 
   async function submit(form: any) {
@@ -91,6 +98,33 @@ export default function Page() {
   }) {
     e.preventDefault();
     submit(new FormData(e.currentTarget));
+  }
+
+  async function deleteComponent(id: string) {
+    try {
+      // --------------------------------------------------------------------------------
+      // 📌  Delete Component
+      // --------------------------------------------------------------------------------
+      setState((prev) => ({ ...prev, fetching: true }));
+
+      const { data, status } = await cFetch({
+        url: `/api/v1/components/delete?id=${id}`,
+        method: 'DELETE',
+        data: { id },
+      });
+
+      if (status !== 200 || data?.error) {
+        throw new Error(data?.error);
+      }
+
+      toast.success(data?.message ?? 'Component deleted successfully! 🙌');
+      mutate(`/api/v1/components/components`);
+    } catch (err: any) {
+      console.error(err.message);
+      toast.error(err.message);
+    } finally {
+      setState((prev) => ({ ...prev, fetching: false }));
+    }
   }
 
   return (
@@ -218,6 +252,53 @@ export default function Page() {
         title="Your Component Library List"
         description="Explore and manage your custom components in one convenient place. Easily delete or live preview your components to optimize your platform's layout and functionality."
         slogan="Manage Your Components with Ease!"
+      />
+
+      <Table
+        fetching={isLoading}
+        header={[
+          { item: 'Type' },
+          { item: 'Created At', class: 'hidden lg:table-cell' },
+          { item: 'Delete' },
+          { item: 'Preview' },
+        ]}
+        data={components?.map((item: Component) => {
+          return {
+            row: [
+              {
+                item: mediaScreenTitle(item.type),
+                class: 'max-w-40',
+              },
+              {
+                item: getTimeAgo(item.createdAt!),
+                class: 'hidden lg:table-cell',
+              },
+              {
+                item: (
+                  <Button
+                    onClick={() => {
+                      deleteComponent(item.id!);
+                    }}
+                    fetching={state?.fetching}
+                  >
+                    Delete
+                  </Button>
+                ),
+              },
+              {
+                item: (
+                  <Link
+                    href={`${process.env.NEXT_PUBLIC_PORTAL_URL}?id=${user?.id}`}
+                    className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500"
+                    target="_blank"
+                  >
+                    Live Preview
+                  </Link>
+                ),
+              },
+            ],
+          };
+        })}
       />
     </Wrapper>
   );
