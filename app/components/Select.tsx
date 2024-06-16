@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import {
   Listbox,
   Transition,
@@ -17,11 +17,17 @@ type Props = {
   required?: boolean;
   name?: string;
   disabled?: boolean;
+  onChange?: (value?: string) => void;
 };
 
 export default function Select(props: Props) {
   const [selected, setSelected] = useState();
   const placeholder = props.placeholder || 'Select an option';
+
+  useEffect(() => {
+    props?.onChange?.(selected);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected]);
 
   return (
     <section>

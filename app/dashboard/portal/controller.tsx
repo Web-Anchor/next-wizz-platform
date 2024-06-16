@@ -49,12 +49,15 @@ export const dummyData = {
 };
 
 export default function Page() {
-  const [state, setState] = useState<{ fetching?: boolean }>({});
+  const [state, setState] = useState<{ fetching?: boolean; type?: string }>({});
   const formRef = useRef<HTMLFormElement>(null);
 
   const { count, components, isLoading } = useComponents({});
   const { user } = useUser({});
-  console.log(count, components);
+
+  const selected = components?.find(
+    (item: Component) => item.type === state?.type
+  );
 
   async function submit(form: any) {
     try {
@@ -192,6 +195,9 @@ export default function Page() {
                     value: 'Landing Page Footer Section',
                   },
                 ]}
+                onChange={(props) => {
+                  setState((prev) => ({ ...prev, type: props }));
+                }}
                 required
               />
 
@@ -206,6 +212,7 @@ export default function Page() {
                 placeholder="Title"
                 name="title"
                 maxLength={maxLength?.comment}
+                defaultValue={selected?.title ?? ''}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
 
@@ -220,7 +227,7 @@ export default function Page() {
                 name="description"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 placeholder="Description"
-                defaultValue={''}
+                defaultValue={selected?.description ?? ''}
                 maxLength={maxLength?.description}
               />
 
@@ -236,6 +243,7 @@ export default function Page() {
                 name="slogan"
                 maxLength={maxLength?.comment}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                defaultValue={selected?.slogan ?? ''}
               />
             </div>
           </div>
