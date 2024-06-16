@@ -82,3 +82,14 @@ export const ratings = sqliteTable('ratings', {
   platform: text('platform'), // Feedback origin: portal | platform
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
 });
+
+export const components = sqliteTable('components', {
+  id: text('id').unique().notNull().primaryKey(),
+  userId: text('user_id').references(() => users.id),
+  title: text('title'),
+  description: text('description'),
+  slogan: text('slogan'),
+  type: text('type'),
+  imgUrl: text('imgUrl'),
+  createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
+});
