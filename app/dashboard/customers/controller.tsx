@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { getTimeAgo } from '@helpers/index';
 import PageHeadings from '@app/components/PageHeadings';
-import { mediaScreenTitle } from '@app/components/Notifications';
+import { mediaScreenTitle } from '@helpers/components';
 import { cFetch } from '@lib/cFetcher';
 import { useUser } from '@hooks/useUsers';
 
