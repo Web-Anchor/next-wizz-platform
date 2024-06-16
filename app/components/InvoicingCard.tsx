@@ -7,13 +7,13 @@ import Button from './Button';
 import Dialog from './Dialog';
 import TemplateOne from '@components/templates/TemplateOne';
 import { maxLength } from '@config/index';
-import { dummyData, exportToPDF } from '@app/dashboard/invoices/controller';
-import { useTemplates } from '@hooks/index';
+import { dummyData } from '@app/dashboard/invoices/controller';
+import { useTemplates, useUser } from '@hooks/index';
 import { CustomField } from '../../types';
-import { Spinner, TableSkeleton } from './Skeleton';
+import { TableSkeleton } from './Skeleton';
 import { SectionWrapper } from './Wrapper';
-import PageHeadings from './PageHeadings';
-import { promises } from 'dns';
+import axios from 'axios';
+import { downloadFile } from '@helpers/index';
 
 const table = {
   companyName: {
@@ -89,6 +89,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     preview?: boolean;
   }>(BASE_STATE);
   const { templates, count, isLoading } = useTemplates({});
+  const { user } = useUser({});
   const TEMPLATE = templates?.[0];
 
   useEffect(() => {
@@ -222,16 +223,28 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     }
   }
 
-  async function exportPDF() {
+  async function downloadPDF() {
     try {
-      await exportToPDF({
-        name: 'invoice-sample',
-        id: 'custom-template-one',
+      setState((prev) => ({ ...prev, fetching: 'download' }));
+      const { data } = await axios.post('/api/v1/invoices/puppet-pdf-gen', {
+        id: user?.id,
+      });
+      console.log('🚧 PDF_DATA ', data);
+      const url = data?.url;
+
+      await downloadFile({
+        url,
+        name: user?.id,
+        classBack: (props) => {
+          console.log('🚀 Progress', props);
+        },
       });
 
       toast?.success('Document downloaded successfully!');
     } catch (error) {
       toast?.error('An error occurred while downloading the document.');
+    } finally {
+      setState((prev) => ({ ...prev, fetching: undefined }));
     }
   }
 
@@ -568,7 +581,18 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         </Section>
 
         <div className="card-actions justify-end">
-          <Button style="secondary" onClick={exportPDF}>
+          <Button
+            title={!count ? 'Save' : 'Update'}
+            type="submit"
+            fetching={state?.fetching === 'submit'}
+            disabled={isLoading}
+          />
+          <Button
+            style="secondary"
+            onClick={downloadPDF}
+            disabled={!!state?.fetching || isLoading}
+            fetching={state?.fetching === 'download'}
+          >
             <section className="flex flex-row gap-2">
               <svg
                 className="flex-shrink-0 size-4"
@@ -589,12 +613,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
               <p>Sample PDF</p>
             </section>
           </Button>
-          <Button
-            title={!count ? 'Save' : 'Update'}
-            type="submit"
-            fetching={state?.fetching === 'submit'}
-            disabled={isLoading}
-          />
           <Button
             title="Preview"
             style="ghost"

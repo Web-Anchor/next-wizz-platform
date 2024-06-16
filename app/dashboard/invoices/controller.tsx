@@ -1,10 +1,8 @@
 'use client';
 
-import Button from '@app/components/Button';
 import InvoicingCard from '@app/components/InvoicingCard';
 import PageHeadings from '@app/components/PageHeadings';
 import Wrapper, { SectionWrapper } from '@app/components/Wrapper';
-import TemplateOne from '@app/components/templates/TemplateOne';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { toast } from 'sonner';
