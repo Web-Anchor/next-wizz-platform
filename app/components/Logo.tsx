@@ -1,16 +1,21 @@
 import Link from 'next/link';
+import { Play } from 'next/font/google';
+import { classNames } from '@helpers/index';
 
-// https://github.com/gilbarbara/logos/tree/main/logos
-// https://svg.io/
+const font = Play({
+  subsets: ['latin'],
+  weight: '400',
+});
 
 export default function Logo() {
   return (
-    <Link href="/" className="inline-flex items-center">
-      <img
-        className="h-8 w-auto"
-        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-        alt="Your Company"
-      />
+    <Link
+      href="/"
+      className={(font.className, classNames('inline-flex items-center'))}
+    >
+      <h1 className="text-2xl font-bold text-gray-800">
+        invoic<span className="text-indigo-600">io</span>
+      </h1>
     </Link>
   );
 }

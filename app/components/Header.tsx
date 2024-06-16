@@ -5,7 +5,7 @@ import { classNames } from '@helpers/index';
 import Link from 'next/link';
 import { useClerk, useUser } from '@clerk/nextjs';
 import { usePathname, useRouter } from 'next/navigation';
-import UserProfileCard from './UserProfileCard';
+import UserProfileCard from '@components/UserProfileCard';
 import Logo from '@components/Logo';
 import { Disclosure } from '@headlessui/react';
 import ProfileButton from './ProfileButton';
