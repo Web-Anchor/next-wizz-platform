@@ -23,7 +23,7 @@ export default function TestimonialsWhiteGrid() {
             Testimonials
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-800 sm:text-4xl">
-            We have worked with thousands of amazing people
+            We have worked with bunch of amazing people
           </p>
         </div>
         <div className="mx-auto mt-16 flow-root max-w-2xl sm:mt-20 lg:mx-0 lg:max-w-none">
