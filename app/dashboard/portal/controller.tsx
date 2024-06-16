@@ -95,7 +95,11 @@ export default function Page() {
 
   return (
     <Wrapper>
-      <PageHeadings title="Coming soon... 🙌" />
+      <PageHeadings
+        title="Build Your Own Components"
+        description="Customize your platform by adding unique components tailored to your needs. Select the type of component you want to add and provide the necessary content."
+        slogan="Empower Your Platform, Your Way!"
+      />
 
       <form
         ref={formRef}
@@ -209,6 +213,12 @@ export default function Page() {
           </Button>
         </div>
       </form>
+
+      <PageHeadings
+        title="Your Component Library List"
+        description="Explore and manage your custom components in one convenient place. Easily delete or live preview your components to optimize your platform's layout and functionality."
+        slogan="Manage Your Components with Ease!"
+      />
     </Wrapper>
   );
 }
