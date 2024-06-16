@@ -168,3 +168,13 @@ export type Testimonials = {
   platform?: string;
   createdAt?: string;
 };
+
+export type Component = {
+  id?: string;
+  type?: string;
+  title?: string;
+  slogan?: string;
+  description?: string;
+  userId?: string;
+  createdAt?: string;
+};

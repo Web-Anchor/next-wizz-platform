@@ -1,10 +1,12 @@
 'use client';
 
+import Badge from '@app/components/Badge';
 import Button from '@app/components/Button';
 import PageHeadings from '@app/components/PageHeadings';
 import Select from '@app/components/Select';
 import Wrapper, { SectionWrapper } from '@app/components/Wrapper';
 import { maxLength } from '@config/index';
+import { useComponents } from '@hooks/useComponents';
 import { cFetch } from '@lib/cFetcher';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -43,6 +45,9 @@ export const dummyData = {
 export default function Page() {
   const [state, setState] = useState<{ fetching?: boolean }>({});
   const formRef = useRef<HTMLFormElement>(null);
+
+  const { count, components } = useComponents({});
+  console.log(count, components);
 
   async function submit(form: any) {
     try {
@@ -103,10 +108,10 @@ export default function Page() {
               <h2 className="text-base font-semibold leading-7 text-gray-800">
                 Customize your Customer Portal your way
               </h2>
-              {/* <Badge
-                title={count}
-                description={`Feature${count > 1 ? 's' : ''} Requested`}
-              /> */}
+              <Badge
+                title={count ?? 0}
+                description={`Total Custom Components`}
+              />
               <p className="text-sm leading-6 text-gray-600">
                 We are excited to announce that you can now customize your
                 Customer Portal by adding new components to your landing page &

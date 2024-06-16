@@ -22,3 +22,4 @@ export * from './useSupportTickets';
 export * from './useFeatures';
 export * from './useTemplates';
 export * from './useStatistics';
+export * from './useComponents';

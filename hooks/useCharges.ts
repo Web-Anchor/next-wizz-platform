@@ -21,7 +21,7 @@ export function useCharges(props: Props) {
 
   return {
     data: obj,
-    charges: obj?.data,
+    charges: obj?.data as Charge[],
     error,
     isLoading,
   };
