@@ -619,13 +619,13 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
             onClick={() => setState({ ...state, preview: true })}
             disabled={!!state?.fetching || isLoading}
           />
-          <Button
+          {/* <Button
             title="Link Preview"
             style="ghost"
             onClick={invoicePreview}
             disabled={!!state?.fetching || isLoading}
             fetching={state?.fetching === 'preview'}
-          />
+          /> */}
           <Button
             title="Reset"
             style="ghost"

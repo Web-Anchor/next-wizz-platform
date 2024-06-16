@@ -6,11 +6,14 @@ import Pricing from '@components/Pricing';
 import PageHeadings from '@app/components/PageHeadings';
 import { useStatistics } from '@hooks/index';
 import StatsCard from '@app/components/StatsCard';
-import { currentMonth, lastMonth } from '@helpers/index';
+import { copyToClipboard, currentMonth, lastMonth } from '@helpers/index';
 import NumbersCard from '@app/components/NumbersCard';
 import { Spinner } from '@app/components/Skeleton';
 import Button from '@app/components/Button';
 import { useRouter } from 'next/navigation';
+import Badge from '@app/components/Badge';
+import Link from 'next/link';
+import { toast } from 'sonner';
 
 export default function Page() {
   const router = useRouter();
@@ -41,6 +44,37 @@ export default function Page() {
         description="Access real-time data, analytics, and key metrics on our Dashboard, empowering you with valuable insights to make informed decisions. Monitor performance, track trends, and stay in control of your operations from a centralized platform designed to streamline your workflow."
         slogan="Invoice Smarter, Grow Stronger - Empowering Your Business!"
       />
+      <Badge
+        title={
+          <p>
+            <span className="text-indigo-600">invoicio.io</span> API key
+          </p>
+        }
+        type="info"
+        tooltip={`My invoicio.io API key is ${user?.id}`}
+        tooltipPosition="tooltip-bottom"
+        description={
+          <section className="flex flex-row gap-5 content-center justify-center">
+            <Link
+              href={`${process.env.NEXT_PUBLIC_PORTAL_URL}/?id=${user?.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-indigo-600 hover:text-indigo-500 self-center"
+            >
+              Go to Customer Portal
+            </Link>
+            <Button
+              title="Copy API Key"
+              style="ghost"
+              onClick={() => {
+                copyToClipboard(user?.id!);
+                toast.success('API key copied to clipboard');
+              }}
+            />
+          </section>
+        }
+      />
+      <PageHeadings description="Your API key to access invoicio.io customer portal. This API key will be automatically send to your customers and will be needed to access invoices on a customer portal." />
 
       <section>
         <SectionWrapper class="lg:flex-row flex-wrap gap-5">
