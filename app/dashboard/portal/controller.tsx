@@ -69,6 +69,7 @@ export default function Page() {
       const slogan = form.get('slogan');
       const description = form.get('description');
       const title = form.get('title');
+      const link = form.get('link');
 
       if (!type) {
         throw new Error('Please select a feature type!');
@@ -77,7 +78,7 @@ export default function Page() {
       const { data, status } = await cFetch({
         url: '/api/v1/components/add',
         method: 'POST',
-        data: { slogan, description, title, type },
+        data: { slogan, description, title, type, link },
       });
 
       if (status !== 200 || data?.error) {
@@ -194,6 +195,10 @@ export default function Page() {
                     key: 'landing-page-footer-section',
                     value: 'Landing Page Footer Section',
                   },
+                  {
+                    key: 'Company',
+                    value: 'Company',
+                  },
                 ]}
                 onChange={(props) => {
                   setState((prev) => ({ ...prev, type: props }));
@@ -241,10 +246,29 @@ export default function Page() {
                 type="text"
                 placeholder="Slogan"
                 name="slogan"
-                maxLength={maxLength?.comment}
+                maxLength={maxLength?.message}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 defaultValue={selected?.slogan ?? ''}
               />
+
+              {state?.type === 'Company' && (
+                <section className="flex flex-col gap-5 flex-1">
+                  <label
+                    htmlFor="link"
+                    className="block text-sm font-medium leading-6 text-gray-800"
+                  >
+                    Link
+                  </label>
+                  <input
+                    type="url"
+                    placeholder="Company Link"
+                    name="link"
+                    maxLength={maxLength?.message}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    defaultValue={selected?.slogan ?? ''}
+                  />
+                </section>
+              )}
             </div>
           </div>
         </div>

@@ -91,5 +91,6 @@ export const components = sqliteTable('components', {
   slogan: text('slogan'),
   type: text('type'),
   imgUrl: text('imgUrl'),
+  link: text('link'),
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
 });
