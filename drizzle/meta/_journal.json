@@ -71,6 +71,13 @@
       "when": 1718468431564,
       "tag": "0009_groovy_ogun",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1718614038582,
+      "tag": "0010_petite_expediter",
+      "breakpoints": true
     }
   ]
 }

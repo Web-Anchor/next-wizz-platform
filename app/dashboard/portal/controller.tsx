@@ -138,6 +138,9 @@ export default function Page() {
         description="Customize your platform by adding unique components tailored to your needs. Select the type of component you want to add and provide the necessary content."
         slogan="Empower Your Platform, Your Way!"
       />
+      {/* "Promote Your Brand Message! Showcase your company's logo, tagline, or special offers in the header section of our customer portal. Reach your audience as soon as they log in to enhance brand visibility and engagement." */}
+      {/* "Capture Customer Attention! Utilize the footer section of our customer portal to display contact information, social media links, or personalized messages to connect with your audience effortlessly. Make a lasting impression and foster customer relationships with every interaction." */}
+      {/* "Header Section Advertisement!" */}
 
       <form
         ref={formRef}

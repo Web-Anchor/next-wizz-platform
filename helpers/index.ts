@@ -19,8 +19,13 @@ export function classNames(...classes: any[]) {
 }
 
 export function getTimeAgo(dateString: string | number): string {
-  const inputDate = new Date(dateString);
-  return formatDistanceToNow(inputDate, { addSuffix: true });
+  try {
+    const inputDate = new Date(dateString);
+    return formatDistanceToNow(inputDate, { addSuffix: true });
+  } catch (error) {
+    console.error('Error getting time ago:', error);
+    return '';
+  }
 }
 
 export function convertToAsterisks(inputString: string): string {
