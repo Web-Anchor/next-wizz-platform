@@ -8,6 +8,8 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import Button from '@components/Button';
+import Link from 'next/link';
+import Logo from './Logo';
 
 type Props = {
   open?: boolean;
@@ -31,43 +33,31 @@ export default function UserNotification(props: Props) {
     <>
       <div
         className={classNames(
-          'absolute shadow-md top-5 left-[100vw] w-[380px] left-popup-container rounded-md bg-white bg-opacity-95 p-4',
+          'absolute shadow-md top-5 left-[100vw] min-w-[300px] left-popup-container rounded-xl bg-white bg-opacity-95 p-4',
           !props?.open && 'hidden'
         )}
       >
-        <div className="flex">
-          <div className="flex-shrink-0" onClick={() => props?.setter?.(false)}>
+        <div className="relative flex flex-col gap-3">
+          <Logo />
+          <Link
+            href="/"
+            className="bg-transparent inline-flex items-center border-b-2 border-transparent px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-transparent shadow-none"
+          >
+            Dashboard
+          </Link>
+          <section className={classNames('border-t pt-2')}>
+            <Button style="ghost" onClick={signOutUser}>
+              Sign out
+            </Button>
+          </section>
+          <div
+            className="absolute top-0 right-0 flex-shrink-0"
+            onClick={() => props?.setter?.(false)}
+          >
             <XCircleIcon
-              className="cursor-pointer h-5 w-5 text-gray-800"
+              className="cursor-pointer h-5 w-5 text-gray-600"
               aria-hidden="true"
             />
-          </div>
-          <div className="ml-3">
-            <h3 className="text-base font-semibold leading-6 text-gray-800">
-              There were 2 errors with your submission
-            </h3>
-            <div className="text-sm text-gray-500">
-              <ul role="list" className="list-disc space-y-1 pl-5">
-                <li>Your password must be at least 8 characters</li>
-                <li>
-                  Your password must include at least one pro wrestling
-                  finishing move
-                </li>
-              </ul>
-            </div>
-            <section className="pt-2 mt-2">
-              <h2 className="text-base font-semibold leading-6 text-gray-800">
-                User Notification
-              </h2>
-            </section>
-            <section className={classNames('border-t pt-2 mt-2')}>
-              <div
-                onClick={signOutUser}
-                className="px-3 py-1 btn-ghost flex flex-row justify-center gap-2 hover:bg-transparent hover:opacity-80"
-              >
-                <p>Sign out</p>
-              </div>
-            </section>
           </div>
         </div>
       </div>
