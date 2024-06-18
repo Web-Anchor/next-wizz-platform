@@ -64,7 +64,11 @@ export const TIER_PLANS = [
   },
 ];
 
-export default function Pricing() {
+type Props = {
+  hideTiers?: string[];
+};
+
+export default function Pricing(props: Props) {
   const [state, setState] = useState<{ fetching?: string }>({});
   const [frequency, setFrequency] = useState(frequencies[0]);
   const router = useRouter();
@@ -146,17 +150,19 @@ export default function Pricing() {
           </RadioGroup>
         </div> */}
 
-        <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+        <div className="mt-10 flex flex-row flex-wrap lg:flex-nowrap gap-10">
           {TIER_PLANS.map((tier, key) => {
             const fetching = state?.fetching === tier.id;
             const isEnterprise = tier.name === 'Enterprise';
+
+            if (props.hideTiers?.includes(tier.name)) return null; // Hide desired tiers
 
             return (
               <div
                 key={key}
                 className={classNames(
-                  tier.featured ? 'bg-gray-900 ring-gray-900' : 'ring-gray-200',
-                  'rounded-3xl p-8 ring-1 xl:p-10'
+                  'rounded-3xl p-8 ring-1 xl:p-10 w-full lg:w-auto',
+                  tier.featured ? 'bg-gray-900 ring-gray-900' : 'ring-gray-200'
                 )}
               >
                 <h3

@@ -8,7 +8,8 @@ import { useReactToPrint } from 'react-to-print';
 import { toast } from 'sonner';
 import html2pdf from 'html2pdf.js';
 import { useSubscription } from '@hooks/useSubscriptions';
-import Tiers from '@app/components/Tiers';
+import Pricing from '@app/components/Pricing';
+import { TableSkeleton } from '@app/components/Skeleton';
 
 export const dummyData = {
   invoiceNumber: 'INV12345',
@@ -68,18 +69,27 @@ export default function Page() {
 
   return (
     <Wrapper>
+      {!isAdvancedPlus && !isLoading && (
+        <>
+          <PageHeadings
+            title={
+              <p className="text-center mt-2 text-4xl font-bold tracking-tight text-indigo-600 sm:text-5xl">
+                Upgrade to access advanced features and unlock premium invoice
+                templates.
+              </p>
+            }
+          />
+          <Pricing hideTiers={['Freelancer']} />
+        </>
+      )}
       <PageHeadings
         title="Invoice Templates. Personalize Your Brand, Impress Your Clients."
         description="Discover a collection of customizable invoice templates on our platform to elevate your brand identity and create professional invoices effortlessly. Tailor your invoices to reflect your unique style, enhance client interactions, and make a lasting impression. Personalize your billing documents with ease and professionalism."
         slogan="Crafting Elegance, Sealing Deals - Your Invoices, Your Brand!"
       />
-      <InvoicingCard />
-      {!isAdvancedPlus && !isLoading && (
-        <SectionWrapper>
-          <PageHeadings title="Upgrade to access advanced features and unlock premium invoice templates." />
-          <Tiers />
-        </SectionWrapper>
-      )}
+
+      {isLoading && <TableSkeleton cardClass="h-[148px]" />}
+      {isAdvancedPlus && !isLoading && <InvoicingCard />}
     </Wrapper>
   );
 }

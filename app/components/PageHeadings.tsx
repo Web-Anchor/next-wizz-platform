@@ -1,9 +1,9 @@
 import { classNames } from '@helpers/index';
 
 type Props = {
-  title?: string;
-  description?: string;
-  slogan?: string;
+  title?: string | React.ReactElement;
+  description?: string | React.ReactElement;
+  slogan?: string | React.ReactElement;
   class?: string;
 };
 

@@ -27,14 +27,14 @@ export function UserCardSkeleton() {
   );
 }
 
-export function TableSkeleton(props: { heightClass?: string }) {
+export function TableSkeleton(props: { cardClass?: string }) {
   return (
     <section className="flex flex-1 justify-center">
       <div className="flex flex-col gap-4 w-full max-w-6xl">
         <div className="skeleton h-4 w-48"></div>
         <div className="skeleton h-4 w-full"></div>
         <div
-          className={classNames('skeleton h-[80px] w-full', props.heightClass)}
+          className={classNames('skeleton h-[80px] w-full', props.cardClass)}
         ></div>
         <div className="skeleton h-4 w-28"></div>
         <div className="skeleton h-4 w-full"></div>
