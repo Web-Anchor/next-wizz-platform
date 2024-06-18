@@ -66,7 +66,6 @@ export async function POST(request: NextRequest) {
 
     charges.has_previous = has_previous; // add pagination flag
     charges.has_more = has_more; // add pagination flag
-    console.log('🧾 _Charges', charges);
 
     return NextResponse.json({ charges });
   } catch (error: any) {

@@ -39,4 +39,4 @@ export const maxLength = {
   customField: 50,
 };
 
-export const FETCH_LIMIT = 20;
+export const FETCH_LIMIT = 2;

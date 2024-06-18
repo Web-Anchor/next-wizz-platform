@@ -40,9 +40,7 @@ export default function Page() {
       const { data } = await axios.post('/api/v1/stripe/charges', {
         starting_after,
       });
-      router.push(
-        `/dashboard/charges?starting_after=${charges?.[charges.length - 1]?.id}`
-      );
+      router.push(`/dashboard/charges?starting_after=${starting_after}`);
 
       setState((prev) => ({
         ...prev,
@@ -65,7 +63,7 @@ export default function Page() {
       const { data } = await axios.post('/api/v1/stripe/charges', {
         ending_before,
       });
-      router.push(`/dashboard/charges?ending_before=${charges?.[0]?.id}`);
+      router.push(`/dashboard/charges?ending_before=${ending_before}`);
 
       setState((prev) => ({
         ...prev,

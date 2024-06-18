@@ -8,8 +8,23 @@ import { Toaster } from 'sonner';
 const fonts = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Invoice Visard',
-  description: 'Invoice Visard is a simple invoicing app for freelancers.',
+  title: 'invoicio.io',
+  description: 'Invoicing platform for freelancers and small businesses.',
+  openGraph: {
+    title: 'invoicio.io',
+    description: 'Invoicing platform for freelancers and small businesses.',
+    type: 'website',
+    locale: 'en_US',
+    url: 'invoicio.io',
+    images: [
+      {
+        url: './public/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'invoicio.io',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
