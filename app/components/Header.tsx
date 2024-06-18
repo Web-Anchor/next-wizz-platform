@@ -10,19 +10,32 @@ import Logo from '@components/Logo';
 import { Disclosure } from '@headlessui/react';
 import ProfileButton from './ProfileButton';
 import { mainNav } from '@helpers/data';
+import { useSubscription } from '@hooks/useSubscriptions';
 
 type Props = {
   class?: string;
 };
 
-const navigation = mainNav({});
-
 export default function Header(props: Props) {
   const path = usePathname();
-  const { isSignedIn, user, isLoaded } = useUser();
-  const { signOut } = useClerk();
   const router = useRouter();
 
+  const { signOut } = useClerk();
+  const { isSignedIn, user, isLoaded } = useUser();
+  const { active } = useSubscription({});
+
+  const navigation = mainNav({
+    hidden: !active
+      ? [
+          '/dashboard/charges',
+          '/dashboard/customers',
+          '/dashboard/invoices',
+          '/dashboard/portal',
+          '/dashboard/stripe',
+          '/dashboard/reports',
+        ]
+      : undefined,
+  });
   console.log('👤 User ', isSignedIn, user);
 
   function signOutUser(e: { preventDefault: () => void }) {

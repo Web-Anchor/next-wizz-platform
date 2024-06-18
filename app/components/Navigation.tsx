@@ -37,7 +37,16 @@ export default function Navigation({
 
   const navigation = mainNav({
     path,
-    hidden: !active ? ['/dashboard/reports', '/dashboard/profile'] : undefined,
+    hidden: !active
+      ? [
+          '/dashboard/charges',
+          '/dashboard/customers',
+          '/dashboard/invoices',
+          '/dashboard/portal',
+          '/dashboard/stripe',
+          '/dashboard/reports',
+        ]
+      : undefined,
     count: [
       { href: '/dashboard/charges', count: charges },
       { href: '/dashboard/customers', count: customers },
