@@ -13,7 +13,7 @@ export const plans: { [key: string]: Plan } = {
     pro: false,
   },
   Startup: {
-    keyLimit: 5,
+    keyLimit: 1,
     emailLimit: 500,
     name: 'Startup',
     basic: true,

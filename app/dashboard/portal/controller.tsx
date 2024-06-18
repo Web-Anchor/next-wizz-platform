@@ -3,6 +3,7 @@
 import Badge from '@app/components/Badge';
 import Button from '@app/components/Button';
 import PageHeadings from '@app/components/PageHeadings';
+import Pricing from '@app/components/Pricing';
 import Select from '@app/components/Select';
 import Table from '@app/components/Table';
 import Wrapper, { SectionWrapper } from '@app/components/Wrapper';
@@ -11,6 +12,7 @@ import { maxLength } from '@config/index';
 import { mediaScreenTitle } from '@helpers/components';
 import { getTimeAgo } from '@helpers/index';
 import { useComponents } from '@hooks/useComponents';
+import { useSubscription } from '@hooks/useSubscriptions';
 import { useUser } from '@hooks/useUsers';
 import { cFetch } from '@lib/cFetcher';
 import Link from 'next/link';
@@ -53,7 +55,10 @@ export default function Page() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const { count, components, isLoading } = useComponents({});
+  const { advanced, pro, subscription } = useSubscription({});
   const { user } = useUser({});
+
+  const isCompanyComponent = state?.type === 'Company';
 
   const selected = components?.find(
     (item: Component) => item.type === state?.type
@@ -72,7 +77,7 @@ export default function Page() {
       const link = form.get('link');
 
       if (!type) {
-        throw new Error('Please select a feature type!');
+        throw new Error('Please select a component type!');
       }
 
       const { data, status } = await cFetch({
@@ -133,208 +138,228 @@ export default function Page() {
 
   return (
     <Wrapper>
+      {!(advanced || pro) && !isLoading && (
+        <>
+          <PageHeadings
+            title={
+              <p className="text-center mt-2 text-4xl font-bold tracking-tight text-indigo-600 sm:text-5xl">
+                Upgrade to access advanced features and unlock premium invoice
+                templates.
+              </p>
+            }
+          />
+          <Pricing hideTiers={['Freelancer']} />
+        </>
+      )}
+
       <PageHeadings
-        title="Build Your Own Components"
-        description="Customize your platform by adding unique components tailored to your needs. Select the type of component you want to add and provide the necessary content."
+        title="Promote Your Brand Message! Build Your Own Components."
+        description="Customize your platform by adding unique components tailored to your needs. Select the type of component you want to add and provide the necessary content. Showcase your company's logo, tagline, or special offers in the header section of our customer portal. Reach your audience as soon as they log in to enhance brand visibility and engagement."
         slogan="Empower Your Platform, Your Way!"
       />
       {/* "Promote Your Brand Message! Showcase your company's logo, tagline, or special offers in the header section of our customer portal. Reach your audience as soon as they log in to enhance brand visibility and engagement." */}
       {/* "Capture Customer Attention! Utilize the footer section of our customer portal to display contact information, social media links, or personalized messages to connect with your audience effortlessly. Make a lasting impression and foster customer relationships with every interaction." */}
       {/* "Header Section Advertisement!" */}
 
-      <form
-        ref={formRef}
-        className="card max-w-4xl lg:px-10 lg:py-8 bg-base-100 lg:shadow-xl"
-        onSubmit={formHandler}
-      >
-        <div className="space-y-12">
-          <div className="flex flex-col gap-10 lg:flex-row">
-            <div className="flex flex-1 flex-col gap-2 max-w-full lg:max-w-xs">
-              <h2 className="text-base font-semibold leading-7 text-gray-800">
-                Customize your Customer Portal your way
-              </h2>
-              <Badge
-                title={count ?? 0}
-                description={`Total Custom Components`}
-              />
-              <p className="text-sm leading-6 text-gray-600">
-                We are excited to announce that you can now customize your
-                Customer Portal by adding new components to your landing page &
-                dashboard. Please fill out the form below with your section
-                component content, and live preview it!.
-              </p>
-            </div>
+      <SectionWrapper>
+        <form
+          ref={formRef}
+          className="card max-w-4xl lg:px-10 lg:py-8 bg-base-100 lg:shadow-xl"
+          onSubmit={formHandler}
+        >
+          <div className="space-y-12">
+            <div className="flex flex-col gap-10 lg:flex-row">
+              <div className="flex flex-1 flex-col gap-2 max-w-full lg:max-w-xs">
+                <h2 className="text-base font-semibold leading-7 text-gray-800">
+                  Customize your Customer Portal your way
+                </h2>
+                <Badge
+                  title={count ?? 0}
+                  description={`Total Custom Components`}
+                />
+                <p className="text-sm leading-6 text-gray-600">
+                  We are excited to announce that you can now customize your
+                  Customer Portal by adding new components to your landing page
+                  & dashboard. Please fill out the form below with your section
+                  component content, and live preview it!.
+                </p>
+              </div>
 
-            <div className="flex flex-col gap-5 flex-1">
-              <Select
-                label="Component Type"
-                name="type"
-                data={[
-                  {
-                    key: 'landing-page-header-section',
-                    value: 'Landing Page Header Section',
-                  },
-                  // {
-                  //   key: 'landing-page-features-section',
-                  //   value: 'Landing Page Features Section',
-                  // },
-                  // {
-                  //   key: 'landing-page-testimonials-section',
-                  //   value: 'Landing Page Testimonials Section',
-                  // },
-                  // {
-                  //   key: 'landing-page-pricing-section',
-                  //   value: 'Landing Page Pricing Section',
-                  // },
-                  // {
-                  //   key: 'landing-page-faq-section',
-                  //   value: 'Landing Page FAQ Section',
-                  // },
-                  // {
-                  //   key: 'landing-page-contact-section',
-                  //   value: 'Landing Page Contact Section',
-                  // },
-                  {
-                    key: 'landing-page-footer-section',
-                    value: 'Landing Page Footer Section',
-                  },
-                  {
-                    key: 'Company',
-                    value: 'Company',
-                  },
-                ]}
-                onChange={(props) => {
-                  setState((prev) => ({ ...prev, type: props }));
-                }}
-                required
-              />
+              <div className="flex flex-col gap-5 flex-1">
+                <Select
+                  label="Component Type"
+                  name="type"
+                  data={[
+                    {
+                      key: 'landing-page-header-section',
+                      value: 'Landing Page Header Section',
+                    },
+                    // {
+                    //   key: 'landing-page-features-section',
+                    //   value: 'Landing Page Features Section',
+                    // },
+                    // {
+                    //   key: 'landing-page-testimonials-section',
+                    //   value: 'Landing Page Testimonials Section',
+                    // },
+                    // {
+                    //   key: 'landing-page-pricing-section',
+                    //   value: 'Landing Page Pricing Section',
+                    // },
+                    // {
+                    //   key: 'landing-page-faq-section',
+                    //   value: 'Landing Page FAQ Section',
+                    // },
+                    // {
+                    //   key: 'landing-page-contact-section',
+                    //   value: 'Landing Page Contact Section',
+                    // },
+                    {
+                      key: 'landing-page-footer-section',
+                      value: 'Landing Page Footer Section',
+                    },
+                    {
+                      key: 'Company',
+                      value: 'Company',
+                    },
+                  ]}
+                  onChange={(props) => {
+                    setState((prev) => ({ ...prev, type: props }));
+                  }}
+                  required
+                />
 
-              <label
-                htmlFor="description"
-                className="block text-sm font-medium leading-6 text-gray-800"
-              >
-                Title
-              </label>
-              <input
-                type="text"
-                placeholder="Title"
-                name="title"
-                maxLength={maxLength?.comment}
-                defaultValue={selected?.title ?? ''}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium leading-6 text-gray-800"
+                >
+                  Title
+                </label>
+                <input
+                  type="text"
+                  placeholder="Title"
+                  name="title"
+                  maxLength={maxLength?.comment}
+                  defaultValue={selected?.title ?? ''}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
 
-              <label
-                htmlFor="description"
-                className="block text-sm font-medium leading-6 text-gray-800"
-              >
-                Description
-              </label>
-              <textarea
-                rows={5}
-                name="description"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                placeholder="Description"
-                defaultValue={selected?.description ?? ''}
-                maxLength={maxLength?.description}
-              />
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium leading-6 text-gray-800"
+                >
+                  Description
+                </label>
+                <textarea
+                  rows={5}
+                  name="description"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Description"
+                  defaultValue={selected?.description ?? ''}
+                  maxLength={maxLength?.description}
+                />
 
-              <label
-                htmlFor="slogan"
-                className="block text-sm font-medium leading-6 text-gray-800"
-              >
-                Slogan
-              </label>
-              <input
-                type="text"
-                placeholder="Slogan"
-                name="slogan"
-                maxLength={maxLength?.message}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                defaultValue={selected?.slogan ?? ''}
-              />
+                {!isCompanyComponent && (
+                  <section className="flex flex-col gap-5 flex-1">
+                    <label
+                      htmlFor="slogan"
+                      className="block text-sm font-medium leading-6 text-gray-800"
+                    >
+                      Slogan
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Slogan"
+                      name="slogan"
+                      maxLength={maxLength?.message}
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      defaultValue={selected?.slogan ?? ''}
+                    />
+                  </section>
+                )}
 
-              {state?.type === 'Company' && (
-                <section className="flex flex-col gap-5 flex-1">
-                  <label
-                    htmlFor="link"
-                    className="block text-sm font-medium leading-6 text-gray-800"
-                  >
-                    Link
-                  </label>
-                  <input
-                    type="url"
-                    placeholder="Company Link"
-                    name="link"
-                    maxLength={maxLength?.message}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    defaultValue={selected?.slogan ?? ''}
-                  />
-                </section>
-              )}
+                {isCompanyComponent && (
+                  <section className="flex flex-col gap-5 flex-1">
+                    <label
+                      htmlFor="link"
+                      className="block text-sm font-medium leading-6 text-gray-800"
+                    >
+                      Link
+                    </label>
+                    <input
+                      type="url"
+                      placeholder="Company Link"
+                      name="link"
+                      maxLength={maxLength?.message}
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      defaultValue={selected?.slogan ?? ''}
+                    />
+                  </section>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <Button fetching={state?.fetching} type="submit">
-            Add Component
-          </Button>
-        </div>
-      </form>
+          <div className="mt-6 flex items-center justify-end gap-x-6">
+            <Button fetching={state?.fetching} type="submit">
+              Add Component
+            </Button>
+          </div>
+        </form>
 
-      <PageHeadings
-        title="Your Component Library List"
-        description="Explore and manage your custom components in one convenient place. Easily delete or live preview your components to optimize your platform's layout and functionality."
-        slogan="Manage Your Components with Ease!"
-      />
+        <PageHeadings
+          title="Your Component Library List"
+          description="Explore and manage your custom components in one convenient place. Easily delete or live preview your components to optimize your platform's layout and functionality."
+          slogan="Manage Your Components with Ease!"
+        />
 
-      <Table
-        fetching={isLoading}
-        header={[
-          { item: 'Type' },
-          { item: 'Created At', class: 'hidden lg:table-cell' },
-          { item: 'Delete' },
-          { item: 'Preview' },
-        ]}
-        data={components?.map((item: Component) => {
-          return {
-            row: [
-              {
-                item: mediaScreenTitle(item.type),
-                class: 'max-w-40',
-              },
-              {
-                item: getTimeAgo(item.createdAt!),
-                class: 'hidden lg:table-cell',
-              },
-              {
-                item: (
-                  <Button
-                    onClick={() => {
-                      deleteComponent(item.id!);
-                    }}
-                    fetching={state?.fetching}
-                  >
-                    Delete
-                  </Button>
-                ),
-              },
-              {
-                item: (
-                  <Link
-                    href={`${process.env.NEXT_PUBLIC_PORTAL_URL}?id=${user?.id}`}
-                    className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500"
-                    target="_blank"
-                  >
-                    Live Preview
-                  </Link>
-                ),
-              },
-            ],
-          };
-        })}
-      />
+        <Table
+          fetching={isLoading}
+          header={[
+            { item: 'Type' },
+            { item: 'Created At', class: 'hidden lg:table-cell' },
+            { item: 'Delete' },
+            { item: 'Preview' },
+          ]}
+          data={components?.map((item: Component) => {
+            return {
+              row: [
+                {
+                  item: mediaScreenTitle(item.type),
+                  class: 'max-w-40',
+                },
+                {
+                  item: getTimeAgo(item.createdAt!),
+                  class: 'hidden lg:table-cell',
+                },
+                {
+                  item: (
+                    <Button
+                      onClick={() => {
+                        deleteComponent(item.id!);
+                      }}
+                      fetching={state?.fetching}
+                    >
+                      Delete
+                    </Button>
+                  ),
+                },
+                {
+                  item: (
+                    <Link
+                      href={`${process.env.NEXT_PUBLIC_PORTAL_URL}?id=${user?.id}`}
+                      className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500"
+                      target="_blank"
+                    >
+                      Live Preview
+                    </Link>
+                  ),
+                },
+              ],
+            };
+          })}
+        />
+      </SectionWrapper>
     </Wrapper>
   );
 }

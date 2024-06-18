@@ -3,6 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { eq, and } from 'drizzle-orm';
 import { users, components } from '@db/schema';
+import {
+  subscription,
+  validateActiveSubMiddleware,
+  validateAdvancedSubMiddleware,
+} from '@lib/subscription';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,6 +17,13 @@ export async function POST(request: NextRequest) {
     // 📌  Custom components
     // --------------------------------------------------------------------------------
     const { userId } = auth();
+
+    // --------------------------------------------------------------------------------
+    // 📌  Validate & validate sub type
+    // --------------------------------------------------------------------------------
+    const subRes = await subscription({ userId });
+    validateActiveSubMiddleware({ status: subRes?.subscription?.status });
+    validateAdvancedSubMiddleware({ name: subRes?.product?.name });
 
     const dbUser = await db
       .select()
