@@ -22,12 +22,8 @@ const ICON = {
 export default function NumbersCard(props: Props): React.ReactElement {
   const Icon = ICON[props?.icon ?? 'customers'];
 
-  if (props.loading) {
-    return (
-      <section className="relative min-w-full lg:max-w-xs sm:min-w-64 overflow-hidden rounded-lg bg-white shadow p-3">
-        <StatsCardSkeleton />
-      </section>
-    );
+  if (props.isLoading) {
+    return <StatsCardSkeleton />;
   }
 
   return (

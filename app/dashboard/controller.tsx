@@ -8,7 +8,6 @@ import { useStatistics } from '@hooks/index';
 import StatsCard from '@app/components/StatsCard';
 import { copyToClipboard, currentMonth, lastMonth } from '@helpers/index';
 import NumbersCard from '@app/components/NumbersCard';
-import { Spinner } from '@app/components/Skeleton';
 import Button from '@app/components/Button';
 import { useRouter } from 'next/navigation';
 import Badge from '@app/components/Badge';
@@ -25,7 +24,7 @@ export default function Page() {
   console.log('🚧 Subs ', subscription);
   console.log(`🚧 User `, user);
 
-  if (!subscription) {
+  if (!subscription && !isLoading) {
     // --------------------------------------------------------------------------------
     // 📌  Fallback Component if no subscription
     // --------------------------------------------------------------------------------
@@ -38,7 +37,6 @@ export default function Page() {
 
   return (
     <Wrapper>
-      {isLoading && <Spinner />}
       <PageHeadings
         title="Dashboard. Your Central Hub for Insights and Control."
         description="Access real-time data, analytics, and key metrics on our Dashboard, empowering you with valuable insights to make informed decisions. Monitor performance, track trends, and stay in control of your operations from a centralized platform designed to streamline your workflow."
@@ -51,18 +49,10 @@ export default function Page() {
           </p>
         }
         type="info"
-        tooltip={`My invoicio.io API key is ${user?.id}`}
+        tooltip={`My invoicio.io API key: ${user?.id}. API key is used to access invoicio.io customer portal charges & invoices.`}
         tooltipPosition="tooltip-bottom"
         description={
           <section className="flex flex-row gap-5 content-center justify-center">
-            <Link
-              href={`${process.env.NEXT_PUBLIC_PORTAL_URL}/?id=${user?.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-indigo-600 hover:text-indigo-500 self-center"
-            >
-              Go to Customer Portal
-            </Link>
             <Button
               title="Copy API Key"
               style="ghost"
@@ -71,6 +61,14 @@ export default function Page() {
                 toast.success('API key copied to clipboard');
               }}
             />
+            <Link
+              href={`${process.env.NEXT_PUBLIC_PORTAL_URL}/?id=${user?.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-indigo-600 hover:text-indigo-500 self-center"
+            >
+              Go to Customer Portal
+            </Link>
           </section>
         }
       />

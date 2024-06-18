@@ -46,9 +46,9 @@ export function TableSkeleton(props: { heightClass?: string }) {
 
 export function StatsCardSkeleton() {
   return (
-    <section className="flex flex-1 justify-center">
+    <section className="flex flex-1 justify-center min-w-[240px]">
       <div className="flex flex-col gap-3 w-full max-w-6xl">
-        <div className="skeleton h-[70px] w-full"></div>
+        <div className="skeleton h-[95px] w-full"></div>
         <div className="skeleton h-3 w-28"></div>
         <div className="skeleton h-3 w-full"></div>
       </div>

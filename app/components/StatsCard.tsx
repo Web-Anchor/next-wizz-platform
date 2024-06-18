@@ -6,6 +6,7 @@ import {
   UserGroupIcon,
 } from '@heroicons/react/20/solid';
 import Link from 'next/link';
+import { StatsCardSkeleton } from './Skeleton';
 
 type Props = {
   currentTotal?: number;
@@ -26,6 +27,10 @@ const ICON = {
 export default function StatsCard(props: Props): React.ReactElement {
   const percentage = props?.percentage ?? 0;
   const Icon = ICON[props?.type ?? 'customers'];
+
+  if (props.isLoading) {
+    return <StatsCardSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-2 relative min-w-full sm:min-w-64 overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:px-6">
