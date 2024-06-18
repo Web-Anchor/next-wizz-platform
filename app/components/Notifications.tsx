@@ -32,7 +32,7 @@ export default function Notifications(props: Props): React.ReactElement | null {
           tooltip="Please subscribe to use the platform!"
         />
       )}
-      {(!hasKeys || error) && !isKeyValidationLoad && (
+      {(!hasKeys || error) && !isKeyValidationLoad && active && (
         <Badge
           title={
             error
