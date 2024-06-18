@@ -3,11 +3,7 @@
 import { classNames } from '@helpers/index';
 import { useClerk } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
-import {
-  ArrowRightStartOnRectangleIcon,
-  XCircleIcon,
-} from '@heroicons/react/24/outline';
-import Button from '@components/Button';
+import { XCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Logo from './Logo';
 
@@ -46,9 +42,12 @@ export default function UserNotification(props: Props) {
             Dashboard
           </Link>
           <section className={classNames('border-t pt-2')}>
-            <Button style="ghost" onClick={signOutUser}>
+            <div
+              className="cursor-pointer bg-transparent inline-flex items-center border-b-2 border-transparent px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-transparent shadow-none"
+              onClick={signOutUser}
+            >
               Sign out
-            </Button>
+            </div>
           </section>
           <div
             className="absolute top-0 right-0 flex-shrink-0"

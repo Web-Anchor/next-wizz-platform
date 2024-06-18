@@ -7,9 +7,79 @@ import { Charge } from '../../../types';
 import { classNames, getTimeAgo } from '@helpers/index';
 import Link from 'next/link';
 import PageHeadings from '@app/components/PageHeadings';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'sonner';
 
 export default function Page() {
-  const { has_more, charges, isLoading } = useCharges({});
+  const [state, setState] = useState<{
+    fetching?: boolean;
+    charges?: Charge[];
+    has_more?: boolean;
+    has_previous?: boolean;
+  }>({});
+  const router = useRouter();
+  const searchParams = useSearchParams()!;
+  const starting_after = searchParams.get('starting_after')!;
+  const ending_before = searchParams.get('ending_before')!;
+
+  const { has_more, has_previous, charges, isLoading } = useCharges({
+    starting_after,
+    ending_before,
+  });
+
+  const response = state?.charges || charges;
+  const hasMoreRes = state?.has_more ?? has_more;
+  const hasPreviousRes = state?.has_previous ?? has_previous;
+
+  async function nexPage() {
+    try {
+      setState((prev) => ({ ...prev, fetching: true }));
+      const starting_after = response?.[charges?.length - 1]?.id;
+      const { data } = await axios.post('/api/v1/stripe/charges', {
+        starting_after,
+      });
+      router.push(
+        `/dashboard/charges?starting_after=${charges?.[charges.length - 1]?.id}`
+      );
+
+      setState((prev) => ({
+        ...prev,
+        charges: data?.charges?.data,
+        has_more: data?.charges?.has_more,
+        has_previous: data?.charges?.has_previous,
+      }));
+    } catch (error: any) {
+      console.error('🔑 error', error);
+      toast.error(error.message);
+    } finally {
+      setState((prev) => ({ ...prev, fetching: undefined }));
+    }
+  }
+
+  async function prevPage() {
+    try {
+      setState((prev) => ({ ...prev, fetching: true }));
+      const ending_before = response?.[0]?.id;
+      const { data } = await axios.post('/api/v1/stripe/charges', {
+        ending_before,
+      });
+      router.push(`/dashboard/charges?ending_before=${charges?.[0]?.id}`);
+
+      setState((prev) => ({
+        ...prev,
+        charges: data?.charges?.data,
+        has_more: data?.charges?.has_more,
+        has_previous: data?.charges?.has_previous,
+      }));
+    } catch (error: any) {
+      console.error('🔑 error', error);
+      toast.error(error.message);
+    } finally {
+      setState((prev) => ({ ...prev, fetching: undefined }));
+    }
+  }
 
   return (
     <Wrapper>
@@ -20,7 +90,7 @@ export default function Page() {
       />
 
       <Table
-        fetching={isLoading}
+        fetching={isLoading || state.fetching}
         header={[
           { item: 'Customer', class: 'max-w-10 lg:max-w-none' },
           { item: 'Amount' },
@@ -29,7 +99,7 @@ export default function Page() {
           { item: 'Created At', class: 'text-nowrap' },
           { item: 'Address', class: 'hidden lg:table-cell' },
         ]}
-        data={charges?.map((item: Charge) => {
+        data={response?.map((item: Charge) => {
           return {
             row: [
               {
@@ -101,6 +171,10 @@ export default function Page() {
             ],
           };
         })}
+        hasMore={hasMoreRes}
+        hasPrevious={hasPreviousRes}
+        nextCallback={nexPage}
+        prevCallback={prevPage}
       />
     </Wrapper>
   );

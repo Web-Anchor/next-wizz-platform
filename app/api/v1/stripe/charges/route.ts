@@ -50,9 +50,23 @@ export async function POST(request: NextRequest) {
 
     const charges = await stripe.charges.list({
       limit: FETCH_LIMIT,
-      starting_after: body?.starting_after,
+      starting_after: body?.starting_after ?? undefined,
+      ending_before: body?.ending_before ?? undefined,
     });
-    console.log('🧾 Charges', charges);
+
+    let has_previous = false;
+    let has_more = charges?.has_more;
+    if (!!body.ending_before) {
+      has_previous = charges?.has_more;
+      has_more = charges?.data?.length === FETCH_LIMIT;
+    }
+    if (body.starting_after) {
+      has_previous = true;
+    }
+
+    charges.has_previous = has_previous; // add pagination flag
+    charges.has_more = has_more; // add pagination flag
+    console.log('🧾 _Charges', charges);
 
     return NextResponse.json({ charges });
   } catch (error: any) {
