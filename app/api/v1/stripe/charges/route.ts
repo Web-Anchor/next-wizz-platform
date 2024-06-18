@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@db/index';
 import { keys as strKeys, users } from '@db/schema';
 import { eq } from 'drizzle-orm';
+import { FETCH_LIMIT } from '@config/index';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
@@ -48,8 +49,8 @@ export async function POST(request: NextRequest) {
     const stripe = require('stripe')(apiKey);
 
     const charges = await stripe.charges.list({
-      limit: 2,
-      // starting_after: 'ch_1JZ9Zv2eZvKYlo2C5Z2ZQ2ZQ',
+      limit: FETCH_LIMIT,
+      starting_after: body?.starting_after,
     });
     console.log('🧾 Charges', charges);
 

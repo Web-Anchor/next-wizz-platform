@@ -18,10 +18,12 @@ export function useCharges(props: Props) {
     }
   );
   const obj = data?.data?.charges;
+  console.log('🧾 Charges', data?.data);
 
   return {
     data: obj,
     charges: obj?.data as Charge[],
+    has_more: data?.data?.has_more,
     error,
     isLoading,
   };

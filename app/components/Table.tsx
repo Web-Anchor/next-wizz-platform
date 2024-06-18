@@ -1,6 +1,7 @@
 import { classNames } from '@helpers/index';
 import { TableSkeleton } from '@components/Skeleton';
-import NoData from './NoData';
+import NoData from '@components/NoData';
+import Button from './Button';
 
 type Row = { item?: string | React.ReactElement; class?: string };
 
@@ -10,11 +11,20 @@ type Props = {
   data?: { row: Row[]; class?: string }[];
   fetching?: boolean;
   noDate?: { title?: string; description?: string };
+  hasMore?: boolean;
+  hasPrevious?: boolean;
+  nextCallback?: () => void;
+  prevCallback?: () => void;
+  hidden?: boolean;
 };
 
-export default function Table(props: Props) {
+export default function Table(props: Props): React.ReactElement | null {
   if (props.fetching) {
     return <TableSkeleton />;
+  }
+
+  if (props.hidden) {
+    return null;
   }
 
   return (
@@ -42,10 +52,9 @@ export default function Table(props: Props) {
           <tbody className="divide-y divide-gray-200">
             {!props?.data?.length && (
               <NoData
-                title={props.noDate?.title ?? 'No Data'}
+                title={props.noDate?.title ?? "You don't have any templates."}
                 description={
-                  props.noDate?.description ??
-                  'Data records will appear here when available.'
+                  props.noDate?.description ?? 'Create a new template.'
                 }
               />
             )}
@@ -71,7 +80,31 @@ export default function Table(props: Props) {
             })}
           </tbody>
         </table>
+
+        {(props.hasMore || props.hasPrevious) && (
+          <div className="flex flex-1 justify-end my-5">
+            {props.hasPrevious && (
+              <Button
+                onClick={props.prevCallback}
+                fetching={props.fetching}
+                class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+              >
+                Previous
+              </Button>
+            )}
+            {props.hasMore && (
+              <Button
+                onClick={props.nextCallback}
+                fetching={props.fetching}
+                class="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+              >
+                Next
+              </Button>
+            )}
+          </div>
+        )}
       </div>
+
       {props.footer && (
         <div className="sm:flex sm:items-center">{props.footer}</div>
       )}

@@ -38,3 +38,5 @@ export const maxLength = {
   phoneNumber: 20,
   customField: 50,
 };
+
+export const FETCH_LIMIT = 20;

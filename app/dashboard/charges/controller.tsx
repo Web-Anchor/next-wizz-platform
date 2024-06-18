@@ -9,8 +9,7 @@ import Link from 'next/link';
 import PageHeadings from '@app/components/PageHeadings';
 
 export default function Page() {
-  const { data, charges, isLoading } = useCharges({});
-  console.log('🧾 Charges', data, charges);
+  const { has_more, charges, isLoading } = useCharges({});
 
   return (
     <Wrapper>
