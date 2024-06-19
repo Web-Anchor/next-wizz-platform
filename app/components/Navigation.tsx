@@ -150,9 +150,9 @@ export default function Navigation({
                     <ul role="list" className="flex flex-1 flex-col gap-y-7">
                       <li>
                         <ul role="list" className="-mx-2 space-y-1">
-                          {navigation.map((item) => {
+                          {navigation.map((item, key) => {
                             return (
-                              <li key={item.name}>
+                              <li key={key}>
                                 <Link
                                   href={item.href}
                                   className={classNames(
@@ -206,9 +206,9 @@ export default function Navigation({
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
-                  {navigation.map((item) => {
+                  {navigation.map((item, key) => {
                     return (
-                      <li key={item.name}>
+                      <li key={key}>
                         <Link
                           href={item.href}
                           className={classNames(

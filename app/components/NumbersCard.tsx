@@ -33,7 +33,7 @@ export default function NumbersCard(props: Props): React.ReactElement {
           <Icon className="inline-block w-8 h-8 stroke-current" />
         </div>
         {props?.title && (
-          <div className="stat-title text-wrap font-semibold mr-6">
+          <div className="max-w-xs truncate text-sm font-semibold text-gray-600 mr-6">
             {props?.title}
           </div>
         )}

@@ -15,6 +15,7 @@ type Props = {
   isLoading?: boolean;
   type?: 'customers' | 'payments';
   link?: string;
+  linkTitle?: string;
   title?: string;
   description?: string;
 };
@@ -33,14 +34,14 @@ export default function StatsCard(props: Props): React.ReactElement {
   }
 
   return (
-    <div className="flex flex-col gap-2 relative min-w-full sm:min-w-64 overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:px-6">
+    <div className="flex flex-col gap-2 relative min-w-full sm:min-w-64 overflow-hidden rounded-lg px-4 py-5 shadow sm:px-6">
       <section className="flex flex-row gap-5">
         <div className="rounded-md w-fit h-fit bg-indigo-500 p-3">
           <Icon className="h-6 w-6 text-white" aria-hidden="true" />
         </div>
         <section className="flex flex-col">
           {props.title && (
-            <p className="truncate text-sm font-medium text-gray-500">
+            <p className="max-w-xs truncate text-sm font-semibold text-gray-600">
               {props.title}
             </p>
           )}
@@ -91,7 +92,8 @@ export default function StatsCard(props: Props): React.ReactElement {
             href={props?.link}
             className="font-medium text-indigo-600 hover:text-indigo-500"
           >
-            View all<span className="sr-only"> stats</span>
+            {props?.linkTitle ?? 'View all'}
+            <span className="sr-only"> stats</span>
           </Link>
         </div>
       )}

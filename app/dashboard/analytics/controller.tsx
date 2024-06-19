@@ -28,57 +28,59 @@ export default function Page() {
       />
 
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
-        <StatsCard
-          currentTotal={customers?.customersTotalCurrentMonth}
-          previousTotal={`${customers?.customersTotalLastMonth} prev`}
-          percentage={customers?.customersPercentageGrowth}
-          type="customers"
-          title="Customer Growth Rate"
-          link="/dashboard/customers"
-          description={currentMonth()}
-        />
-        <NumbersCard
-          number={customers?.customersTotal}
-          icon="customers"
-          title="Total Customers"
-          subDescription="Total Number of Customers"
-        />
-        <NumbersCard
-          number={customers?.useCustomersCurrentMonthGrowth}
-          icon="customers"
-          title="Customer Growth Rate"
-          description={lastMonth()}
-          subDescription="Customer Growth Rate"
-        />
-
         <PageHeadings
-          title="Customer Pulse."
-          description="Visualize key metrics from Stripe charges and customers API data in an easy-to-understand format with our Basic Charts Component. Gain insights into revenue trends, customer behavior, and payment performance at a glance."
-          slogan="Simplify Insights, Drive Growth - Charting Your Success!"
+          title="Advanced Revenue Analytics Suite"
+          description=" Dive into detailed revenue analytics, transaction trends, and payment performance metrics with our Charges Insights Module. Unlock valuable insights into your financial data to optimize revenue streams and drive business growth."
+          slogan="Navigate Revenue Waters, Chart Your Success!"
         />
 
         <NumbersCard
-          number={customers?.customersLast7Days}
+          number={charges?.avgRevenuePerUserCurrentMonth}
           icon="customers"
-          title="Customers Last 7 Days"
-          description={last7Days()}
-          subDescription="Total Number of Customers"
-        />
-        <NumbersCard
-          number={customers?.customersTotalCurrentMonth}
-          icon="customers"
-          title="Current Month Customers Growth"
+          title="Current Month (RPC)"
           description={currentMonth()}
-          subDescription="Total Number of Customers"
+          subDescription="Revenue per Customer (RPC)"
+          about="Revenue per Customer (RPC) is the average amount of money a customer spends on your products or services in a given period. It is calculated by dividing the total revenue generated in a month by the total number of customers in that month."
         />
         <NumbersCard
-          number={customers?.customersTotalLastMonth}
+          number={charges?.avgRevenuePerUserLastMonth}
           icon="customers"
-          title="Last Month Customers Growth"
+          title="Previous Month (RPC)"
           description={lastMonth()}
-          subDescription="Total Number of Customers"
+          subDescription="Revenue per Customer (RPC)"
+          about="Revenue per Customer (RPC) is the average amount of money a customer spends on your products or services in a given period. It is calculated by dividing the total revenue generated in a month by the total number of customers in that month."
+        />
+        <NumbersCard
+          number={charges?.totalCurrentSuccessfulCharges}
+          icon="payments"
+          title="Current Transactions"
+          description={currentMonth()}
+          subDescription="Total Successful Transactions"
+        />
+
+        <NumbersCard
+          number={charges?.totalLastMonthSuccessfulCharges}
+          icon="payments"
+          title="Previous Month Transactions"
+          description={lastMonth()}
+          subDescription="Total Successful Transactions"
+        />
+        <NumbersCard
+          number={charges?.totalCurrentFailedCharges}
+          icon="payments"
+          title="Current Failed Transactions"
+          description={currentMonth()}
+          subDescription="Total Failed Transactions"
+        />
+        <NumbersCard
+          number={charges?.totalLastMonthFailedCharges}
+          icon="payments"
+          title="Previous Month Failed Transactions"
+          description={lastMonth()}
+          subDescription="Total Failed Transactions"
         />
       </SectionWrapper>
+
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
         <PageHeadings
           title="Advanced Customer Analytics."
@@ -125,87 +127,7 @@ export default function Page() {
 
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
         <PageHeadings
-          title="Revenue Explorer"
-          description=" Dive into detailed revenue analytics, transaction trends, and payment performance metrics with our Charges Insights Module. Unlock valuable insights into your financial data to optimize revenue streams and drive business growth."
-          slogan="Navigate Revenue Waters, Chart Your Success!"
-        />
-        <StatsCard
-          currentTotal={charges?.totalCurrentCharges}
-          previousTotal={`${charges?.totalLastMonthCharges} prev`}
-          percentage={charges?.chargesPercentageGrowth}
-          type="payments"
-          title="Payments"
-          link="/dashboard/charges"
-          description={currentMonth()}
-        />
-        <StatsCard
-          currentTotal={charges?.revenueCurrentMonth}
-          previousTotal={`${charges?.revenueLastMonth} prev`}
-          percentage={charges?.revenueGrowthRate}
-          type="payments"
-          title="Revenue"
-          link="/dashboard/charges"
-          description={currentMonth()}
-        />
-        <StatsCard
-          currentTotal={charges?.totalCurrentCharges}
-          previousTotal={`${charges?.totalLastMonthCharges} prev`}
-          percentage={charges?.chargesPercentageGrowth}
-          type="payments"
-          title="Transactions"
-          link="/dashboard/charges"
-          description={currentMonth()}
-        />
-
-        <PageHeadings title="Advanced Revenue Analytics Suite" />
-        <NumbersCard
-          number={charges?.avgRevenuePerUserCurrentMonth}
-          icon="customers"
-          title="Current Month (RPC)"
-          description={currentMonth()}
-          subDescription="Revenue per Customer (RPC)"
-          about="Revenue per Customer (RPC) is the average amount of money a customer spends on your products or services in a given period. It is calculated by dividing the total revenue generated in a month by the total number of customers in that month."
-        />
-        <NumbersCard
-          number={charges?.avgRevenuePerUserLastMonth}
-          icon="customers"
-          title="Previous Month (RPC)"
-          description={lastMonth()}
-          subDescription="Revenue per Customer (RPC)"
-          about="Revenue per Customer (RPC) is the average amount of money a customer spends on your products or services in a given period. It is calculated by dividing the total revenue generated in a month by the total number of customers in that month."
-        />
-        <NumbersCard
-          number={charges?.totalCurrentSuccessfulCharges}
-          icon="payments"
-          title="Current Transactions"
-          description={currentMonth()}
-          subDescription="Total Successful Transactions"
-        />
-
-        <NumbersCard
-          number={charges?.totalLastMonthSuccessfulCharges}
-          icon="payments"
-          title="Previous Month Transactions"
-          description={lastMonth()}
-          subDescription="Total Successful Transactions"
-        />
-        <NumbersCard
-          number={charges?.totalCurrentFailedCharges}
-          icon="payments"
-          title="Current Failed Transactions"
-          description={currentMonth()}
-          subDescription="Total Failed Transactions"
-        />
-        <NumbersCard
-          number={charges?.totalLastMonthFailedCharges}
-          icon="payments"
-          title="Previous Month Failed Transactions"
-          description={lastMonth()}
-          subDescription="Total Failed Transactions"
-        />
-
-        <PageHeadings
-          title="Revenue Insights Pro"
+          title="Revenue Insights & Trends."
           description="Elevate your revenue analysis with our Advanced Revenue Analytics Suite, offering sophisticated chart components for in-depth financial metrics exploration. Uncover revenue trends, customer spending patterns, and subscription performance to drive strategic decision-making."
           slogan="Charting Success, Unveiling Opportunities!"
         />

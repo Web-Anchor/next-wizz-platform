@@ -96,7 +96,12 @@ export default function PieChart(props: Props): React.ReactElement | null {
   };
 
   return (
-    <section className={classNames('relative', props.class)}>
+    <section
+      className={classNames(
+        'relative max-w-md rounded-lg shadow-md p-4 bg-slate-100 bg-opacity-25',
+        props.class
+      )}
+    >
       <div
         className={classNames(
           'flex lg:hidden absolute left-0 top-0 z-10 items-center justify-center w-full h-[340px]'
@@ -118,7 +123,7 @@ export default function PieChart(props: Props): React.ReactElement | null {
       </section>
 
       {props?.description && (
-        <p className="text-center text-gray-500 text-sm mt-2">
+        <p className="text-center text-gray-600 font-semibold text-sm mt-2">
           {props.description}
         </p>
       )}
