@@ -177,7 +177,7 @@ export function showMainNavRoutes(props: {
     ];
   }
 
-  if (props.advanced && props.basic) {
+  if (props.active && props.basic) {
     return [...ACTIVE_BASE];
   }
 
