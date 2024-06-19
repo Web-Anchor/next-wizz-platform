@@ -51,7 +51,6 @@ export default function Navigation({
 
   const Support = () => {
     return dashboard.map((team) => {
-      if (team.isHidden) return null;
       const isSupport = team.name === 'Help & Support';
 
       return (
@@ -152,8 +151,6 @@ export default function Navigation({
                       <li>
                         <ul role="list" className="-mx-2 space-y-1">
                           {navigation.map((item) => {
-                            if (item.isHidden) return null;
-
                             return (
                               <li key={item.name}>
                                 <Link
@@ -210,8 +207,6 @@ export default function Navigation({
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
                   {navigation.map((item) => {
-                    if (item.isHidden) return null;
-
                     return (
                       <li key={item.name}>
                         <Link

@@ -14,7 +14,9 @@ export function limitedTime(props: { title: string; message?: string }) {
   return (
     <section className="flex flex-row gap-2">
       <p className="truncate">{props.title}</p>
-      <p className="text-md truncate text-indigo-600">{props.message}</p>
+      <p className="text-md truncate bg-gradient-to-r from-primary to-danger bg-clip-text text-transparent">
+        {props.message}
+      </p>
     </section>
   );
 }
