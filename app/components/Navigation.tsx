@@ -18,7 +18,12 @@ import { Dialog, Transition, TransitionChild } from '@headlessui/react';
 import ProfileButton from './ProfileButton';
 import Link from 'next/link';
 import Badge from './Badge';
-import { mainNav, menuNav, showMainNavRoutes } from '@helpers/data';
+import {
+  mainNav,
+  menuNav,
+  showMainNavRoutes,
+  showMenuNavRoutes,
+} from '@helpers/data';
 import Notifications from '@components/Notifications';
 
 export default function Navigation({
@@ -46,7 +51,7 @@ export default function Navigation({
   });
   const dashboard = menuNav({
     path,
-    hidden: !active ? ['/dashboard/new-features'] : undefined,
+    show: showMenuNavRoutes({ active, basic, advanced, pro }),
   });
 
   const Support = () => {
@@ -180,7 +185,7 @@ export default function Navigation({
                       </li>
                       <li>
                         <div className="text-xs font-semibold leading-6 text-gray-400">
-                          Manage & Support
+                          My Menu
                         </div>
                         <ul role="list" className="-mx-2 mt-2 space-y-1">
                           <Support />

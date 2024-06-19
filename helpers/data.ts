@@ -191,6 +191,7 @@ export function showMenuNavRoutes(props: {
   pro?: boolean;
 }) {
   const BASE = ['/dashboard/support', '/dashboard/subscriptions'];
+  console.log('🚧  props ', props);
 
   if ((props.pro && props.active) || (props.advanced && props.active)) {
     return [...BASE, '/dashboard/new-features'];
