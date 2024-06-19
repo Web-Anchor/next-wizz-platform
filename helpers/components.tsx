@@ -9,3 +9,12 @@ export function mediaScreenTitle(
     </section>
   );
 }
+
+export function limitedTime(props: { title: string; message?: string }) {
+  return (
+    <section className="flex flex-row gap-2">
+      <p className="truncate">{props.title}</p>
+      <p className="text-md truncate text-indigo-600">{props.message}</p>
+    </section>
+  );
+}

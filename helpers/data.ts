@@ -9,6 +9,7 @@ import {
   ChartBarIcon,
   ArrowsPointingOutIcon,
 } from '@heroicons/react/24/outline';
+import { limitedTime } from './components';
 
 export function menuNav(props: {
   path?: string;
@@ -50,7 +51,7 @@ export function menuNav(props: {
 }
 
 type Menu = {
-  name: string;
+  name: string | React.ReactNode;
   href: string;
   icon: any;
   count?: string | undefined;
@@ -115,7 +116,7 @@ export function mainNav(props: {
       current: props.path === '/dashboard/reports',
     },
     {
-      name: 'Analytics',
+      name: limitedTime({ title: 'Analytics', message: 'Limited Time Only!' }), //'Analytics',
       href: '/dashboard/analytics',
       icon: ChartBarIcon,
       count: undefined,
