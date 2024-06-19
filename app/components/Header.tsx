@@ -9,7 +9,7 @@ import UserProfileCard from '@components/UserProfileCard';
 import Logo from '@components/Logo';
 import { Disclosure } from '@headlessui/react';
 import ProfileButton from './ProfileButton';
-import { mainNav } from '@helpers/data';
+import { mainNav, showMainNavRoutes } from '@helpers/data';
 import { useSubscription } from '@hooks/useSubscriptions';
 
 type Props = {
@@ -22,19 +22,10 @@ export default function Header(props: Props) {
 
   const { signOut } = useClerk();
   const { isSignedIn, user, isLoaded } = useUser();
-  const { active } = useSubscription({});
+  const { active, basic, advanced, pro } = useSubscription({});
 
   const navigation = mainNav({
-    hidden: !active
-      ? [
-          '/dashboard/charges',
-          '/dashboard/customers',
-          '/dashboard/invoices',
-          '/dashboard/portal',
-          '/dashboard/stripe',
-          '/dashboard/reports',
-        ]
-      : undefined,
+    show: showMainNavRoutes({ active, basic, advanced, pro }),
   });
   console.log('👤 User ', isSignedIn, user);
 
@@ -195,7 +186,7 @@ export default function Header(props: Props) {
                     )}
                   </section>
                   <div className="mt-3 space-y-1">
-                    {navigation.map((item, key) => (
+                    {navigation.map((item, key: number) => (
                       <Link
                         key={key}
                         href={item.href}

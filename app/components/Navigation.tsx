@@ -18,7 +18,7 @@ import { Dialog, Transition, TransitionChild } from '@headlessui/react';
 import ProfileButton from './ProfileButton';
 import Link from 'next/link';
 import Badge from './Badge';
-import { mainNav, menuNav } from '@helpers/data';
+import { mainNav, menuNav, showMainNavRoutes } from '@helpers/data';
 import Notifications from '@components/Notifications';
 
 export default function Navigation({
@@ -33,20 +33,11 @@ export default function Navigation({
   const { data, count, hasKeys } = useStripeKeys({});
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
-  const { active } = useSubscription({});
+  const { active, basic, advanced, pro } = useSubscription({});
 
   const navigation = mainNav({
+    show: showMainNavRoutes({ active, basic, advanced, pro }),
     path,
-    hidden: !active
-      ? [
-          '/dashboard/charges',
-          '/dashboard/customers',
-          '/dashboard/invoices',
-          '/dashboard/portal',
-          '/dashboard/stripe',
-          '/dashboard/reports',
-        ]
-      : undefined,
     count: [
       { href: '/dashboard/charges', count: charges },
       { href: '/dashboard/customers', count: customers },

@@ -6,52 +6,71 @@ import {
   UsersIcon,
   LinkIcon,
   CurrencyDollarIcon,
+  ChartBarIcon,
   ArrowsPointingOutIcon,
 } from '@heroicons/react/24/outline';
 
-export function menuNav(props: { path?: string; hidden?: string[] }) {
+export function menuNav(props: {
+  path?: string;
+  hidden?: string[];
+  show?: string[];
+}) {
   let menu = [
     {
       name: 'Feature Request',
       href: '/dashboard/new-features',
       initial: 'F',
       current: props.path === '/dashboard/new-features',
-      isHidden: false,
     },
     {
       name: 'Help & Support',
       href: '/dashboard/support',
       initial: 'H',
       current: props.path === '/dashboard/support',
-      isHidden: false,
     },
     {
       name: 'Subscriptions',
       href: '/dashboard/subscriptions',
       initial: 'S',
       current: props.path === '/dashboard/subscriptions',
-      isHidden: false,
     },
   ];
+
+  // --------------------------------------------------------------------------------
+  // 📌  Navigation accessibility
+  // --------------------------------------------------------------------------------
   if (props.hidden) {
     menu = menu.filter((item) => !props?.hidden?.includes(item.href));
+  }
+  if (props.show) {
+    menu = menu.filter((item) => props?.show?.includes(item.href));
   }
 
   return menu;
 }
 
+type Menu = {
+  name: string;
+  href: string;
+  icon: any;
+  count?: string | undefined;
+  current: boolean;
+};
+
 export function mainNav(props: {
   path?: string;
   hidden?: string[];
+  show?: string[];
   count?: { href: string; count: string }[]; // Update the type of 'count' property to 'string | undefined'
+  basic?: boolean;
+  advanced?: boolean;
 }) {
-  let menu = [
+  let menu: Menu[] = [
     {
       name: 'Dashboard',
       href: '/dashboard',
       icon: HomeIcon,
       current: props.path === '/dashboard',
-      isHidden: false,
     },
     {
       name: 'Charges',
@@ -59,7 +78,6 @@ export function mainNav(props: {
       icon: CurrencyDollarIcon,
       count: undefined,
       current: props.path === '/dashboard/charges',
-      isHidden: false,
     },
     {
       name: 'Customers',
@@ -67,7 +85,6 @@ export function mainNav(props: {
       icon: UsersIcon,
       count: undefined,
       current: props.path === '/dashboard/customers',
-      isHidden: false,
     },
     {
       name: 'Templates',
@@ -75,7 +92,6 @@ export function mainNav(props: {
       icon: DocumentDuplicateIcon,
       count: '1',
       current: props.path === '/dashboard/invoices',
-      isHidden: false,
     },
     {
       name: 'Portal Components',
@@ -83,7 +99,6 @@ export function mainNav(props: {
       icon: ArrowsPointingOutIcon,
       count: undefined,
       current: props.path === '/dashboard/portal',
-      isHidden: false,
     },
     {
       name: 'Stripe API keys',
@@ -91,7 +106,6 @@ export function mainNav(props: {
       icon: LinkIcon,
       count: undefined,
       current: props.path === '/dashboard/stripe',
-      isHidden: false,
     },
     {
       name: 'Reports',
@@ -99,7 +113,13 @@ export function mainNav(props: {
       icon: ChartPieIcon,
       count: undefined,
       current: props.path === '/dashboard/reports',
-      isHidden: false,
+    },
+    {
+      name: 'Analytics',
+      href: '/dashboard/analytics',
+      icon: ChartBarIcon,
+      count: undefined,
+      current: props.path === '/dashboard/analytics',
     },
     {
       name: 'Profile',
@@ -107,12 +127,19 @@ export function mainNav(props: {
       icon: UserIcon,
       count: undefined,
       current: props.path === '/dashboard/profile',
-      isHidden: false,
     },
   ];
+
+  // --------------------------------------------------------------------------------
+  // 📌  Navigation accessibility
+  // --------------------------------------------------------------------------------
   if (props.hidden) {
     menu = menu.filter((item) => !props?.hidden?.includes(item.href));
   }
+  if (props.show) {
+    menu = menu.filter((item) => props?.show?.includes(item.href));
+  }
+
   if (props.count) {
     menu = menu.map((item) => {
       const count = props?.count?.find((c) => c.href === item.href);
@@ -124,4 +151,49 @@ export function mainNav(props: {
   }
 
   return menu;
+}
+
+export function showMainNavRoutes(props: {
+  active?: boolean;
+  basic?: boolean;
+  advanced?: boolean;
+  pro?: boolean;
+}) {
+  const BASE = ['/dashboard', '/dashboard/stripe', '/dashboard/profile'];
+  const ACTIVE_BASE = [
+    ...BASE,
+    '/dashboard/charges',
+    '/dashboard/customers',
+    '/dashboard/reports',
+  ];
+
+  if ((props.pro && props.active) || (props.advanced && props.active)) {
+    return [
+      ...ACTIVE_BASE,
+      '/dashboard/invoices',
+      '/dashboard/portal',
+      '/dashboard/analytics',
+    ];
+  }
+
+  if (props.advanced && props.basic) {
+    return [...ACTIVE_BASE];
+  }
+
+  return BASE;
+}
+
+export function showMenuNavRoutes(props: {
+  active?: boolean;
+  basic?: boolean;
+  advanced?: boolean;
+  pro?: boolean;
+}) {
+  const BASE = ['/dashboard/support', '/dashboard/subscriptions'];
+
+  if ((props.pro && props.active) || (props.advanced && props.active)) {
+    return [...BASE, '/dashboard/new-features'];
+  }
+
+  return BASE;
 }
