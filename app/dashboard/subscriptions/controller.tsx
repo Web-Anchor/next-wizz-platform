@@ -3,7 +3,7 @@
 import Button from '@app/components/Button';
 import Table from '@app/components/Table';
 import Wrapper from '@app/components/Wrapper';
-import { classNames, convertToYearMonthDay, isSubActive } from '@helpers/index';
+import { convertToYearMonthDay, isSubActive } from '@helpers/index';
 import { useSubscription } from '@hooks/index';
 import { CheckCircleIcon, NoSymbolIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
@@ -11,13 +11,12 @@ import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
 import { toast } from 'sonner';
 import PageHeadings from '@app/components/PageHeadings';
-import { TIER_PLANS } from '@app/components/Pricing';
-import { CheckIcon } from '@heroicons/react/20/solid';
 import Tiers from '@app/components/Tiers';
 
 export default function Page() {
   const [state, setState] = useState<{ fetching?: number | string }>({});
-  const { activeSubscriptions } = useSubscription({});
+  const { subscriptions, isLoading } = useSubscription({});
+  console.log('🔑 Subscriptions', subscriptions);
 
   async function cancelSubscription(id: string) {
     try {
@@ -53,6 +52,7 @@ export default function Page() {
       />
 
       <Table
+        fetching={isLoading}
         header={[
           { item: 'Plan' },
           { item: 'Amount' },
@@ -63,7 +63,7 @@ export default function Page() {
           { item: 'Ending', class: 'hidden lg:table-cell' },
           { item: '' },
         ]}
-        data={activeSubscriptions?.map((subscription) => {
+        data={subscriptions?.map((subscription) => {
           return {
             row: [
               { item: planName(subscription?.plan?.amount!) },
@@ -103,6 +103,7 @@ export default function Page() {
                     style="ghost"
                     onClick={() => cancelSubscription(subscription.id!)}
                     fetching={state.fetching === subscription.id}
+                    hide={subscription.status === 'canceled'}
                   />
                 ),
               },

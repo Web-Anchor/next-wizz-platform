@@ -23,6 +23,10 @@ export function useSubscription(props: Props) {
     activeSubscriptions: data?.data?.activeSubs?.data as StripeSubscription[],
     canceledSubscriptions: data?.data?.canceledSubs
       ?.data as StripeSubscription[],
+    subscriptions: [
+      ...(data?.data?.activeSubs?.data ?? []),
+      ...(data?.data?.canceledSubs?.data ?? []),
+    ] as StripeSubscription[],
     subscription: data?.data?.subscription as StripeSubscription,
     customer: data?.data?.customer,
     product: data?.data?.product,
