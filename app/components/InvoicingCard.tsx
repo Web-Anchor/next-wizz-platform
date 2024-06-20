@@ -13,6 +13,7 @@ import { Spinner, TableSkeleton } from './Skeleton';
 import { SectionWrapper } from './Wrapper';
 import axios from 'axios';
 import { classNames, downloadFile } from '@helpers/index';
+import FileUpload from './FileUpload';
 
 type Table = {
   title: string;
@@ -36,12 +37,12 @@ const table: Table[] = [
     isSetKey: 'isCompanyName',
   },
   {
-    title: 'Company Image Link',
-    description: 'Company image link is that appears on the invoice.',
+    title: 'Company Logo',
+    description: 'Company logo is that appears on the invoice.',
     stateKey: 'imgUrl',
     maxLength: maxLength?.comment,
     key: 'imgUrl',
-    type: 'text',
+    type: 'file',
     isSetKey: 'isLogoUrl',
   },
   {
@@ -295,14 +296,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     }
   }
 
-  if (isLoading) {
-    return (
-      <SectionWrapper>
-        <TableSkeleton />
-      </SectionWrapper>
-    );
-  }
-
   if (props.hidden) {
     return null;
   }
@@ -334,7 +327,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       <form
         onSubmit={submit}
         className={classNames(
-          'relative flex flex-col gap-5 bg-green-100',
+          'relative flex flex-col gap-5',
           !!state?.fetching && 'opacity-50'
         )}
       >
@@ -342,7 +335,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
 
         {table?.map((item: Table, key: number) => {
           return (
-            <SectionWrapper key={key}>
+            <SectionWrapper key={key} class="gap-2">
               <div className="flex flex-row gap-5 justify-between">
                 <label>
                   {item?.title}
@@ -379,6 +372,22 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                     defaultValue={state?.[item?.stateKey] as string}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     maxLength={item?.maxLength}
+                  />
+                )}
+
+                {item?.type === 'file' && (
+                  <FileUpload
+                    name={item?.stateKey}
+                    ctaLabel="Add Logo"
+                    class="mt-5"
+                    callBack={({ data }) => {
+                      console.log('🚀 FileUpload', data);
+
+                      // setState((prev) => ({
+                      //   ...prev,
+                      //   [item?.stateKey]: data?.url,
+                      // }));
+                    }}
                   />
                 )}
 
