@@ -112,7 +112,7 @@ export function last7Days() {
   return `${format(last7Days, 'MMM do')} - ${format(currentDate, 'MMM do')}`;
 }
 
-export function convertObjToArray(input?: {
+export function convertKeyValueObjToArray(input?: {
   [key: string]: number;
 }): { name?: string; value?: number }[] {
   if (!input) {
@@ -120,6 +120,20 @@ export function convertObjToArray(input?: {
   }
 
   return Object.entries(input)?.map(([name, value]) => ({ name, value }));
+}
+
+export function convertObjectToArray(input: {
+  [key: string]: Object;
+}): Object[] {
+  const valuesArray: Object[] = [];
+
+  for (const key in input) {
+    if (input.hasOwnProperty(key)) {
+      valuesArray.push(input[key]);
+    }
+  }
+
+  return valuesArray;
 }
 
 export async function downloadFile(props: {

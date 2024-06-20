@@ -1,6 +1,6 @@
 import { classNames } from '@helpers/index';
 
-type Wrapper = { children?: React.ReactNode; class?: string };
+type Wrapper = { children?: React.ReactNode; class?: string; hidden?: boolean };
 
 export default function Wrapper(props: Wrapper) {
   return (
@@ -18,7 +18,11 @@ export default function Wrapper(props: Wrapper) {
 export function SectionWrapper(props: Wrapper) {
   return (
     <section
-      className={classNames('flex flex-1 flex-col gap-10', props?.class)}
+      className={classNames(
+        'flex flex-1 flex-col gap-10',
+        props.hidden && 'hidden',
+        props?.class
+      )}
     >
       {props.children}
     </section>

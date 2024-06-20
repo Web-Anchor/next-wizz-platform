@@ -6,7 +6,11 @@ import { SectionWrapper } from '@app/components/Wrapper';
 import PieChart from '@app/components/analytics/PieChart';
 import NumbersCard from '@app/components/NumbersCard';
 import { useStatistics } from '@hooks/index';
-import { convertObjToArray, currentMonth, lastMonth } from '@helpers/index';
+import {
+  convertKeyValueObjToArray,
+  currentMonth,
+  lastMonth,
+} from '@helpers/index';
 
 export default function Page() {
   const { charges, customers, isLoading } = useStatistics({
@@ -85,35 +89,35 @@ export default function Page() {
         />
         <PieChart
           title={`Geographical Customer\nDistribution`}
-          data={convertObjToArray(customers?.customerDemographics)}
+          data={convertKeyValueObjToArray(customers?.customerDemographics)}
           loading={isLoading}
           type="pie"
           description="Visualize the distribution of your customers across different regions on a map to gain insights into where your customer base is located."
         />
         <PieChart
           title={`Preferred Customer\nLocales`}
-          data={convertObjToArray(customers?.customerPreferredLocales)}
+          data={convertKeyValueObjToArray(customers?.customerPreferredLocales)}
           loading={isLoading}
           type="pie"
           description="Identify the top locations where your customers are concentrated, helping you target specific regions for marketing and growth strategies."
         />
         <PieChart
           title={`Customer Currency\nDistribution`}
-          data={convertObjToArray(customers?.customerCurrencies)}
+          data={convertKeyValueObjToArray(customers?.customerCurrencies)}
           loading={isLoading}
           type="pie"
           description="Analyze the currencies used by your customers for transactions to optimize pricing strategies and tailor payment options based on popular currencies."
         />
         <PieChart
           title={`Customer Creation\nDay of Week`}
-          data={convertObjToArray(customers?.customerCreationDayOfWeek)}
+          data={convertKeyValueObjToArray(customers?.customerCreationDayOfWeek)}
           loading={isLoading}
           type="radial"
           description="Chart the distribution of payment methods preferred by customers to understand their payment preferences and optimize payment processing options for a seamless customer experience."
         />
         <PieChart
           title={`Customer Payment\nMethod Distribution`}
-          data={convertObjToArray(customers?.customerPaymentMethod)}
+          data={convertKeyValueObjToArray(customers?.customerPaymentMethod)}
           loading={isLoading}
           type="radial"
           description="Visualize the distribution of payment methods used by customers to understand preferred payment options and tailor your payment processing strategies accordingly."
@@ -167,7 +171,7 @@ export default function Page() {
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
         <PieChart
           title={`Charges Source\nFunding Distribution`}
-          data={convertObjToArray(
+          data={convertKeyValueObjToArray(
             charges?.chargesSourceFundingDistributionCurrentMonth
           )}
           loading={isLoading}
@@ -176,7 +180,7 @@ export default function Page() {
         />
         <PieChart
           title={`Charges Source\n By Brand Distribution`}
-          data={convertObjToArray(
+          data={convertKeyValueObjToArray(
             charges?.chargesSourceBrandDistributionCurrentMonth
           )}
           loading={isLoading}
@@ -185,14 +189,18 @@ export default function Page() {
         />
         <PieChart
           title={`Risk Score\nDistribution`}
-          data={convertObjToArray(charges?.riskScoreDistributionCurrentMonth)}
+          data={convertKeyValueObjToArray(
+            charges?.riskScoreDistributionCurrentMonth
+          )}
           loading={isLoading}
           type="pie"
           description="Evaluate the distribution of risk scores assigned to transactions to assess potential fraud risks and implement targeted risk management measures for fraud prevention."
         />
         <PieChart
           title={`Risk Level\nDistribution`}
-          data={convertObjToArray(charges?.riskLevelDistributionCurrentMonth)}
+          data={convertKeyValueObjToArray(
+            charges?.riskLevelDistributionCurrentMonth
+          )}
           loading={isLoading}
           type="pie"
           description="Categorize risk levels associated with transactions to identify high-risk activities and implement appropriate security measures to mitigate risks effectively."

@@ -8,7 +8,7 @@ import PieChart from '@app/components/analytics/PieChart';
 import NumbersCard from '@app/components/NumbersCard';
 import { useStatistics } from '@hooks/index';
 import {
-  convertObjToArray,
+  convertKeyValueObjToArray,
   currentMonth,
   last7Days,
   lastMonth,

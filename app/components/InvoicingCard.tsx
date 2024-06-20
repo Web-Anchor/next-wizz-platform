@@ -7,7 +7,6 @@ import Button from './Button';
 import Dialog from './Dialog';
 import TemplateOne from '@components/templates/TemplateOne';
 import { maxLength } from '@config/index';
-import { dummyData } from '@app/dashboard/invoices/controller';
 import { useTemplates, useUser } from '@hooks/index';
 import { CustomField } from '../../types';
 import { Spinner, TableSkeleton } from './Skeleton';
@@ -15,55 +14,77 @@ import { SectionWrapper } from './Wrapper';
 import axios from 'axios';
 import { classNames, downloadFile } from '@helpers/index';
 
-const table = {
-  companyName: {
+type Table = {
+  title: string;
+  description: string;
+  stateKey: string;
+  maxLength: number;
+  key: string;
+  type: string;
+  isSetKey: string;
+};
+
+const table: Table[] = [
+  {
     title: 'Company Name',
     description:
       'Company name is the name of the company that appears on the invoice.',
     stateKey: 'companyName',
     maxLength: maxLength?.customField,
+    key: 'companyName',
+    type: 'text',
+    isSetKey: 'isCompanyName',
   },
-  imgUrl: {
+  {
     title: 'Company Image Link',
     description: 'Company image link is that appears on the invoice.',
     stateKey: 'imgUrl',
     maxLength: maxLength?.comment,
+    key: 'imgUrl',
+    type: 'text',
+    isSetKey: 'isLogoUrl',
   },
-  header: {
+  {
     title: 'Invoice Header',
     description:
       'Invoice header text is the text that appears at the top of the page.',
     stateKey: 'header',
     maxLength: maxLength?.message,
+    key: 'header',
+    type: 'text',
+    isSetKey: 'isHeader',
   },
-  memo: {
+  {
     title: 'Memo',
     description:
       'Memo text is the text that appears above the invoice pricing section.',
     stateKey: 'memo',
     maxLength: maxLength?.message,
+    key: 'memo',
+    type: 'textarea',
+    isSetKey: 'isMemo',
   },
-  footer: {
+  {
     title: 'Footer',
     description:
       'Footer text is the text that appears at the bottom of the invoice.',
     stateKey: 'footer',
     maxLength: maxLength?.message,
+    key: 'footer',
+    type: 'textarea',
+    isSetKey: 'isFooter',
   },
-  customFields: {
+  {
     title: 'Custom Fields',
     description:
       'Custom fields are additional fields you can add to your invoice.',
     stateKey: 'customFields',
     maxLength: maxLength?.customField,
+    key: 'customFields',
+    type: 'object',
+    isSetKey: 'isCustomFields',
   },
-};
-
-const Section = (props: { children: React.ReactNode; hidden?: boolean }) => {
-  if (props?.hidden) return null;
-
-  return <section className="flex flex-col gap-5">{props?.children}</section>;
-};
+];
 
 export default function InvoiceTable(props: { hidden?: boolean }) {
   const BASE_STATE = {
@@ -87,11 +108,15 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     memo?: string;
     footer?: string;
     preview?: boolean;
+    [key: string]:
+      | string
+      | boolean
+      | undefined
+      | { [key: string]: CustomField }; // state types
   }>(BASE_STATE);
   const { templates, count, isLoading } = useTemplates({});
   const { user } = useUser({});
   const TEMPLATE = templates?.[0];
-  console.log(state);
 
   useEffect(() => {
     // --------------------------------------------------------------------------------
@@ -100,17 +125,17 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     if (templates) {
       setState((prev) => ({
         ...prev,
-        header: TEMPLATE?.header ?? '',
+        header: TEMPLATE?.header,
         isHeader: !!TEMPLATE?.header,
-        memo: TEMPLATE?.memo ?? '',
+        memo: TEMPLATE?.memo,
         isMemo: !!TEMPLATE?.memo,
-        footer: TEMPLATE?.footer ?? '',
+        footer: TEMPLATE?.footer,
         isFooter: !!TEMPLATE?.footer,
         customFields: TEMPLATE?.customFields ?? { 0: { value: '' } },
         isCustomFields: !!Object.keys(TEMPLATE?.customFields || {}).length,
-        companyName: TEMPLATE?.companyName ?? '',
+        companyName: TEMPLATE?.companyName,
         isCompanyName: !!TEMPLATE?.companyName,
-        imgUrl: TEMPLATE?.imgUrl ?? '',
+        imgUrl: TEMPLATE?.imgUrl,
         isLogoUrl: !!TEMPLATE?.imgUrl,
       }));
     }
@@ -131,14 +156,31 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
 
   const addCustomField = () => {
     const customFields = { ...state.customFields };
+    console.log(
+      '🚀 customFields',
+      customFields,
+      Object.keys(customFields).length
+    );
+
     customFields[Object.keys(customFields).length] = { value: '' };
     setState((prevState) => ({ ...prevState, customFields }));
   };
 
   function removeCustomField(key: number) {
-    const customFields = { ...state.customFields };
-    delete customFields[key];
-    setState((prevState) => ({ ...prevState, customFields }));
+    setState((prev) => {
+      let shallowFields = { ...prev.customFields }; // Create a shallow copy of customFields
+      delete shallowFields[key]; // Convert key to string before deletion
+
+      shallowFields = Object.keys(shallowFields).reduce((acc, curr, index) => {
+        acc[index] = shallowFields[curr];
+        return acc;
+      }, {} as { [key: string]: CustomField });
+
+      return {
+        ...prev,
+        customFields: shallowFields, // Update customFields with the modified copy
+      };
+    });
   }
 
   async function createTemplate() {
@@ -267,7 +309,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
 
   return (
     <SectionWrapper>
-      <Dialog
+      {/* <Dialog
         open={state?.preview}
         callBack={() => setState({ ...state, preview: false })}
       >
@@ -287,7 +329,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
           dueDate={dummyData.dueDate}
           companyName={dummyData.companyName}
         />
-      </Dialog>
+      </Dialog> */}
 
       <form
         onSubmit={submit}
@@ -297,231 +339,85 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         )}
       >
         <Spinner hidden={!state?.fetching} />
-        <Section>
-          <div className="flex flex-row gap-5 justify-between">
-            <label>
-              {table?.companyName?.title}
-              <span className="text-xs ml-1 text-gray-400">
-                {table?.companyName?.maxLength} characters max
-              </span>
-            </label>
 
-            <Switch
-              enabled={state?.isCompanyName}
-              onChange={() =>
-                setState((prev) => ({
-                  ...prev,
-                  isCompanyName: !prev.isCompanyName,
-                }))
-              }
-            />
-          </div>
-          <Section>
-            <p className="text-xs text-gray-500">
-              {table?.companyName?.description}
-            </p>
-          </Section>
-          <Section hidden={!state?.isCompanyName}>
-            <input
-              placeholder="Add Company Name"
-              value={state.companyName}
-              onChange={(e) =>
-                setState({ ...state, companyName: e.target.value })
-              }
-              className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              maxLength={table?.companyName?.maxLength}
-            />
-          </Section>
-        </Section>
-        <Section>
-          <div className="flex flex-row gap-5 justify-between">
-            <label>
-              {table?.imgUrl?.title}
-              <span className="text-xs ml-1 text-gray-400">
-                {table?.imgUrl?.maxLength} characters max
-              </span>
-            </label>
+        {table?.map((item: Table, key: number) => {
+          return (
+            <SectionWrapper key={key}>
+              <div className="flex flex-row gap-5 justify-between">
+                <label>
+                  {item?.title}
+                  <span className="text-xs ml-1 text-gray-400">
+                    {item?.maxLength} characters max
+                  </span>
+                </label>
 
-            <Switch
-              enabled={state?.isLogoUrl}
-              onChange={() =>
-                setState((prev) => ({
-                  ...prev,
-                  isLogoUrl: !prev.isLogoUrl,
-                }))
-              }
-            />
-          </div>
-          <Section>
-            <p className="text-xs text-gray-500">
-              {table?.imgUrl?.description}
-            </p>
-          </Section>
-          <Section hidden={!state?.isLogoUrl}>
-            <input
-              placeholder="Add Company Logo URL"
-              value={state.imgUrl}
-              onChange={(e) => setState({ ...state, imgUrl: e.target.value })}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              maxLength={table?.imgUrl?.maxLength}
-            />
-          </Section>
-        </Section>
-
-        <Section>
-          <div className="flex flex-row gap-5 justify-between">
-            <label>
-              {table?.header?.title}
-              <span className="text-xs ml-1 text-gray-400">
-                {table?.header?.maxLength} characters max
-              </span>
-            </label>
-
-            <Switch
-              enabled={state?.isHeader}
-              onChange={() =>
-                setState((prev) => ({
-                  ...prev,
-                  isHeader: !prev.isHeader,
-                }))
-              }
-            />
-          </div>
-          <Section>
-            <p className="text-xs text-gray-500">
-              {table?.header?.description}
-            </p>
-          </Section>
-          <Section hidden={!state?.isHeader}>
-            <textarea
-              placeholder="Add Header Content"
-              value={state.header}
-              onChange={(e) => setState({ ...state, header: e.target.value })}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              maxLength={table?.header?.maxLength}
-            />
-          </Section>
-        </Section>
-        <Section>
-          <div className="flex flex-row gap-5 justify-between">
-            <label>
-              {table?.footer?.title}
-              <span className="text-xs ml-1 text-gray-400">
-                {table?.footer?.maxLength} characters max
-              </span>
-            </label>
-
-            <Switch
-              enabled={state?.isFooter}
-              onChange={() =>
-                setState((prev) => ({
-                  ...prev,
-                  isFooter: !prev.isFooter,
-                }))
-              }
-            />
-          </div>
-          <Section>
-            <p className="text-xs text-gray-500">
-              {table?.footer?.description}
-            </p>
-          </Section>
-          <Section hidden={!state?.isFooter}>
-            <textarea
-              placeholder="Add Footer Content"
-              value={state.footer}
-              onChange={(e) => setState({ ...state, footer: e.target.value })}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              maxLength={table?.footer?.maxLength}
-            />
-          </Section>
-        </Section>
-        <Section>
-          <div className="flex flex-row gap-5 justify-between">
-            <label>
-              {table?.memo?.title}
-              <span className="text-xs ml-1 text-gray-400">
-                {table?.memo?.maxLength} characters max
-              </span>
-            </label>
-
-            <Switch
-              enabled={state?.isMemo}
-              onChange={() =>
-                setState((prev) => ({
-                  ...prev,
-                  isMemo: !prev.isMemo,
-                }))
-              }
-            />
-          </div>
-          <Section>
-            <p className="text-xs text-gray-500">{table?.memo?.description}</p>
-          </Section>
-          <Section hidden={!state?.isMemo}>
-            <textarea
-              placeholder="Add a new Memo"
-              value={state.memo}
-              onChange={(e) => setState({ ...state, memo: e.target.value })}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              maxLength={table?.memo?.maxLength}
-            />
-          </Section>
-        </Section>
-
-        <Section>
-          <div className="flex flex-row gap-5 justify-between">
-            <label>
-              {table?.customFields?.title}
-              <span className="text-xs ml-1 text-gray-400">
-                {table?.customFields?.maxLength} characters max
-              </span>
-            </label>
-
-            <Switch
-              enabled={state?.isCustomFields}
-              onChange={() =>
-                setState((prev) => ({
-                  ...prev,
-                  isCustomFields: !prev.isCustomFields,
-                  customFields: { 0: { value: '' } },
-                }))
-              }
-            />
-          </div>
-          <Section>
-            <p className="text-xs text-gray-500">
-              {table?.customFields?.description}
-            </p>
-          </Section>
-          <Section hidden={!state?.isCustomFields}>
-            {Object.keys(state.customFields)?.map((_, index) => (
-              <div key={index} className="flex flex-row gap-5 items-center">
-                <input
-                  type="text"
-                  placeholder="Define a custom field value"
-                  value={state.customFields?.[index]?.value}
-                  onChange={(e) => handleChange(index, e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  maxLength={table?.customFields?.maxLength}
-                />
-                <Button
-                  title="Remove"
-                  style="ghost"
-                  hide={Object.keys(state.customFields)?.length === 1}
-                  onClick={() => removeCustomField(index)}
+                <Switch
+                  enabled={state?.[item?.isSetKey] as boolean}
+                  onChange={() =>
+                    setState((prev) => ({
+                      ...prev,
+                      [item?.isSetKey]: !prev[item?.isSetKey],
+                    }))
+                  }
                 />
               </div>
-            ))}
-            <div className="card-actions justify-start">
-              <Button
-                title="Add custom field"
-                style="ghost"
-                onClick={addCustomField}
-              />
-            </div>
-          </Section>
-        </Section>
+              <p className="text-xs text-gray-500">{item?.description}</p>
+              <SectionWrapper hidden={!state?.[item?.isSetKey]}>
+                {item?.type === 'textarea' && (
+                  <textarea
+                    placeholder={`Add ${item?.title}`}
+                    defaultValue={state?.[item?.stateKey] as string}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    maxLength={item?.maxLength}
+                  />
+                )}
+
+                {item?.type === 'text' && (
+                  <input
+                    type="text"
+                    placeholder={`Add ${item?.title}`}
+                    defaultValue={state?.[item?.stateKey] as string}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    maxLength={item?.maxLength}
+                  />
+                )}
+
+                {item?.type === 'object' && (
+                  <>
+                    {Object.keys(state.customFields)?.map((_, index) => (
+                      <div
+                        key={index}
+                        className="flex flex-row gap-5 items-center"
+                      >
+                        <input
+                          type="text"
+                          placeholder="Define a custom field value"
+                          value={state.customFields?.[index]?.value}
+                          onChange={(e) => handleChange(index, e.target.value)}
+                          className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          maxLength={item?.maxLength}
+                        />
+                        <Button
+                          title="Remove"
+                          style="ghost"
+                          hide={Object.keys(state.customFields)?.length === 1}
+                          onClick={() => removeCustomField(index)}
+                        />
+                      </div>
+                    ))}
+                    <div className="card-actions justify-start">
+                      <Button
+                        title="Add custom field"
+                        style="ghost"
+                        onClick={addCustomField}
+                      />
+                    </div>
+                  </>
+                )}
+              </SectionWrapper>
+            </SectionWrapper>
+          );
+        })}
 
         <div className="card-actions justify-end">
           <Button
@@ -562,13 +458,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
             onClick={() => setState({ ...state, preview: true })}
             disabled={!!state?.fetching || isLoading}
           />
-          {/* <Button
-            title="Link Preview"
-            style="ghost"
-            onClick={invoicePreview}
-            disabled={!!state?.fetching || isLoading}
-            fetching={state?.fetching === 'preview'}
-          /> */}
           <Button
             title="Reset"
             style="ghost"
