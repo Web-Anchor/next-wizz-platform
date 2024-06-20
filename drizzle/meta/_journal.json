@@ -78,6 +78,13 @@
       "when": 1718614038582,
       "tag": "0010_petite_expediter",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1718866258115,
+      "tag": "0011_fresh_celestials",
+      "breakpoints": true
     }
   ]
 }
