@@ -3,7 +3,7 @@
 import Button from '@components/Button';
 import { classNames } from '@helpers/index';
 import { useRef, useState } from 'react';
-import { XCircleIcon } from '@heroicons/react/24/solid';
+import { XCircleIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 
 type SelectTypes = {
@@ -72,17 +72,19 @@ export default function FileUpload(props: SelectTypes) {
         )}
         {file.name && (
           <div className="flex flex-1 flex-row items-center gap-10">
-            <section className="relative w-20 h-20">
-              <Image src={file.url} alt={file.name} layout="fill" />
+            <section className="relative w-20 h-20 rounded-sm">
+              <Image src={file.url} alt={file.name} fill />
               <Button
                 style="ghost"
-                class="absolute -top-6 -right-6 w-fit"
+                class="absolute -top-5 -right-5 w-fit"
                 onClick={() => {
                   setFile('');
                   props.callBack?.({ data: undefined, file: undefined });
                 }}
               >
-                <XCircleIcon className="h-8 w-8" />
+                <section className="bg-slate-400 rounded-full p-1 bg-opacity-50">
+                  <XCircleIcon className="h-5 w-5" />
+                </section>
               </Button>
             </section>
             <section className="flex flex-col gap-1">
