@@ -109,15 +109,14 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     memo?: string;
     footer?: string;
     preview?: boolean;
-    [key: string]:
-      | string
-      | boolean
-      | undefined
-      | { [key: string]: CustomField }; // state types
+    url?: string;
+    type?: string; // image/jpeg | image/png etc
+    [key: string]: any; // state types
   }>(BASE_STATE);
   const { templates, count, isLoading } = useTemplates({});
   const { user } = useUser({});
   const TEMPLATE = templates?.[0];
+  console.log('state', state);
 
   useEffect(() => {
     // --------------------------------------------------------------------------------
@@ -241,6 +240,9 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       let status;
       let error;
 
+      // await fileUpload({ file: state.file, type: state.type?.split('/')[1]! });
+      // return;
+
       if (!count) {
         const res = await createTemplate();
         status = res?.status;
@@ -268,6 +270,24 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       toast.error(err.message);
     } finally {
       setState((prev) => ({ ...prev, fetching: undefined }));
+    }
+  }
+
+  async function fileUpload(props: { file: Blob; type: string }) {
+    try {
+      const formData = new FormData();
+      formData.append('file', props.file);
+
+      const { data } = await axios.put('/api/v1/file-upload', {
+        fileType: props.type,
+        id: Date.now() + Math.random(),
+        formData,
+      });
+
+      console.log('🚀 FileUpload', data);
+      return data;
+    } catch (error) {
+      console.log('🚧 Error', error);
     }
   }
 
@@ -355,7 +375,8 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                 />
               </div>
               <p className="text-xs text-gray-500">{item?.description}</p>
-              <SectionWrapper hidden={!state?.[item?.isSetKey]}>
+
+              <SectionWrapper class="gap-2" hidden={!state?.[item?.isSetKey]}>
                 {item?.type === 'textarea' && (
                   <textarea
                     placeholder={`Add ${item?.title}`}
@@ -380,13 +401,14 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                     name={item?.stateKey}
                     ctaLabel="Add Logo"
                     class="mt-5"
-                    callBack={({ data }) => {
+                    callBack={({ data, file }) => {
                       console.log('🚀 FileUpload', data);
 
-                      // setState((prev) => ({
-                      //   ...prev,
-                      //   [item?.stateKey]: data?.url,
-                      // }));
+                      setState((prev) => ({
+                        ...prev,
+                        file,
+                        ...data,
+                      }));
                     }}
                   />
                 )}
@@ -396,7 +418,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                     {Object.keys(state.customFields)?.map((_, index) => (
                       <div
                         key={index}
-                        className="flex flex-row gap-5 items-center"
+                        className="flex flex-row gap-2 items-center"
                       >
                         <input
                           type="text"

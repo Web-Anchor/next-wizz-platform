@@ -25,7 +25,9 @@ export default function FileUpload(props: SelectTypes) {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event?.target?.files?.[0];
-    if (!file) return;
+    if (!file) {
+      return props.callBack?.();
+    }
 
     const fileData = {
       name: file.name,
@@ -72,8 +74,10 @@ export default function FileUpload(props: SelectTypes) {
         )}
         {file.name && (
           <div className="flex flex-1 flex-row items-center gap-10">
-            <section className="relative w-20 h-20 rounded-sm">
-              <Image src={file.url} alt={file.name} fill />
+            <section className="relative">
+              <section className="w-20 h-20 overflow-hidden">
+                <Image src={file.url} alt={file.name} fill />
+              </section>
               <Button
                 style="ghost"
                 class="absolute -top-5 -right-5 w-fit"
