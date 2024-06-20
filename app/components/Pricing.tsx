@@ -49,7 +49,7 @@ export const TIER_PLANS = [
   {
     name: 'Enterprise',
     id: 'prod_PxZxKuN5s5xJyi',
-    price: '$249',
+    price: '$349',
     description: 'Dedicated support and infrastructure for your company.',
     features: [
       'All features in Startup plan',

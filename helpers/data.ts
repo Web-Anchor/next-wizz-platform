@@ -178,7 +178,7 @@ export function showMainNavRoutes(props: {
   }
 
   if (props.active && props.basic) {
-    return [...ACTIVE_BASE];
+    return [...ACTIVE_BASE, '/dashboard/analytics'];
   }
 
   return BASE;

@@ -72,16 +72,22 @@ export function PieSkeleton() {
   );
 }
 
-export function Spinner(props: { wrapper?: boolean }): React.ReactElement {
+export function Spinner(props: {
+  wrapper?: boolean;
+  hidden?: boolean;
+}): React.ReactElement {
+  const spinnerClass =
+    'loading loading-ring loading-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2';
+
   if (props.wrapper) {
     return (
-      <Wrapper>
-        <span className="loading loading-ring loading-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+      <Wrapper class={props?.hidden ? 'hidden' : undefined}>
+        <span className={classNames(spinnerClass, props?.hidden && 'hidden')} />
       </Wrapper>
     );
   }
 
   return (
-    <span className="loading z-10 loading-ring loading-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+    <span className={classNames(spinnerClass, props?.hidden && 'hidden')} />
   );
 }

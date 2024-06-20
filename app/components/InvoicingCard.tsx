@@ -10,10 +10,10 @@ import { maxLength } from '@config/index';
 import { dummyData } from '@app/dashboard/invoices/controller';
 import { useTemplates, useUser } from '@hooks/index';
 import { CustomField } from '../../types';
-import { TableSkeleton } from './Skeleton';
+import { Spinner, TableSkeleton } from './Skeleton';
 import { SectionWrapper } from './Wrapper';
 import axios from 'axios';
-import { downloadFile } from '@helpers/index';
+import { classNames, downloadFile } from '@helpers/index';
 
 const table = {
   companyName: {
@@ -91,6 +91,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   const { templates, count, isLoading } = useTemplates({});
   const { user } = useUser({});
   const TEMPLATE = templates?.[0];
+  console.log(state);
 
   useEffect(() => {
     // --------------------------------------------------------------------------------
@@ -168,12 +169,16 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         method: 'POST',
         data: {
           id,
-          header: state?.header ?? TEMPLATE?.header,
-          memo: state?.memo ?? TEMPLATE?.memo,
-          footer: state?.footer ?? TEMPLATE?.footer,
-          customFields: state?.customFields ?? TEMPLATE?.customFields,
-          companyName: state?.companyName ?? TEMPLATE?.companyName,
-          imgUrl: state?.imgUrl ?? TEMPLATE?.imgUrl,
+          header: state?.isHeader ? state?.header ?? TEMPLATE?.header : null,
+          memo: state?.isMemo ? state?.memo ?? TEMPLATE?.memo : null,
+          footer: state?.isFooter ? state?.footer ?? TEMPLATE?.footer : null,
+          customFields: state?.isCustomFields
+            ? state?.customFields ?? TEMPLATE?.customFields
+            : null,
+          companyName: state?.isCompanyName
+            ? state?.companyName ?? TEMPLATE?.companyName
+            : null,
+          imgUrl: state?.isLogoUrl ? state?.imgUrl ?? TEMPLATE?.imgUrl : null,
         },
       });
 
@@ -248,75 +253,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     }
   }
 
-  async function invoicePreview() {
-    try {
-      setState((prev) => ({ ...prev, fetching: 'preview' }));
-      const { data } = await cFetch({
-        url: '/api/v1/preview-standard-template',
-        method: 'POST',
-        data: {
-          header: state?.header ?? TEMPLATE?.header,
-          memo: state?.memo ?? TEMPLATE?.memo,
-          footer: state?.footer ?? TEMPLATE?.footer,
-          customFields: state?.customFields ?? TEMPLATE?.customFields,
-          companyName: state?.companyName ?? TEMPLATE?.companyName,
-          imgUrl: state?.imgUrl ?? TEMPLATE?.imgUrl,
-          // 🚧  Dummy data prefill
-          invoiceNumber: 'INV-001',
-          date: '2022-01-01',
-          billToName: 'John Doe',
-          billToAddress: '123 Main St, New York, NY 10001',
-          items: [
-            {
-              description: 'Product A',
-              amount: '100',
-              quantity: 2,
-              units: 50,
-            },
-            {
-              description: 'Product B',
-              amount: '50',
-              quantity: 1,
-              units: 50,
-            },
-          ],
-          dueDate: '2022-11-15',
-          subtotal: '150',
-          tax: '15',
-          total: '165',
-        },
-      });
-
-      console.log('🔥 data', data);
-      const newWindow = window.open() as Window;
-      newWindow.document.write(data);
-
-      // Wait for all images to load
-      await Promise.all(
-        Array.from(newWindow.document.images).map(
-          (image) =>
-            new Promise<void>((resolve, _) => {
-              if (image.complete) {
-                resolve();
-              } else {
-                image.addEventListener('load', () => resolve());
-                image.addEventListener('error', () => resolve()); // Handle image load errors
-              }
-            })
-        )
-      );
-
-      // const newWindow = window.open();
-      // newWindow?.document.open();
-      // newWindow?.document.write(data);
-      // newWindow?.document.close();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setState((prev) => ({ ...prev, fetching: undefined }));
-    }
-  }
-
   if (isLoading) {
     return (
       <SectionWrapper>
@@ -331,29 +267,36 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
 
   return (
     <SectionWrapper>
-      <form onSubmit={submit} className="flex flex-col gap-5">
-        <Dialog
-          open={state?.preview}
-          callBack={() => setState({ ...state, preview: false })}
-        >
-          <TemplateOne
-            header={state?.header}
-            memo={state?.memo}
-            footer={state?.footer}
-            customFields={state?.customFields}
-            invoiceNumber={dummyData.invoiceNumber}
-            date={dummyData.date}
-            billToName={dummyData.billToName}
-            billToAddress={dummyData.billToAddress}
-            items={dummyData.items}
-            subtotal={dummyData.subtotal}
-            tax={dummyData.tax}
-            total={dummyData.total}
-            dueDate={dummyData.dueDate}
-            companyName={dummyData.companyName}
-          />
-        </Dialog>
+      <Dialog
+        open={state?.preview}
+        callBack={() => setState({ ...state, preview: false })}
+      >
+        <TemplateOne
+          header={state?.header}
+          memo={state?.memo}
+          footer={state?.footer}
+          customFields={state?.customFields}
+          invoiceNumber={dummyData.invoiceNumber}
+          date={dummyData.date}
+          billToName={dummyData.billToName}
+          billToAddress={dummyData.billToAddress}
+          items={dummyData.items}
+          subtotal={dummyData.subtotal}
+          tax={dummyData.tax}
+          total={dummyData.total}
+          dueDate={dummyData.dueDate}
+          companyName={dummyData.companyName}
+        />
+      </Dialog>
 
+      <form
+        onSubmit={submit}
+        className={classNames(
+          'relative flex flex-col gap-5 bg-green-100',
+          !!state?.fetching && 'opacity-50'
+        )}
+      >
+        <Spinner hidden={!state?.fetching} />
         <Section>
           <div className="flex flex-row gap-5 justify-between">
             <label>
@@ -582,7 +525,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
 
         <div className="card-actions justify-end">
           <Button
-            title={!count ? 'Save' : 'Update'}
+            title="Save"
             type="submit"
             fetching={state?.fetching === 'submit'}
             disabled={isLoading}
