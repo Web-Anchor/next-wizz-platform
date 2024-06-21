@@ -1,3 +1,5 @@
+'use client';
+
 import Switch from './Switch';
 import { useEffect, useState } from 'react';
 import { cFetch } from '@lib/cFetcher';
@@ -14,13 +16,13 @@ import { SectionWrapper } from './Wrapper';
 import axios from 'axios';
 import { classNames, downloadFile } from '@helpers/index';
 import FileUpload from './FileUpload';
+import { invoiceTemplate } from '@server/invoice-db-template';
 
 type Table = {
   title: string;
   description: string;
-  stateKey: string;
+  typeKey: string;
   maxLength: number;
-  key: string;
   type: string;
   isSetKey: string;
 };
@@ -30,18 +32,16 @@ const table: Table[] = [
     title: 'Company Name',
     description:
       'Company name is the name of the company that appears on the invoice.',
-    stateKey: 'companyName',
+    typeKey: 'companyName',
     maxLength: maxLength?.customField,
-    key: 'companyName',
     type: 'text',
     isSetKey: 'isCompanyName',
   },
   {
     title: 'Company Logo',
     description: 'Company logo is that appears on the invoice.',
-    stateKey: 'imgUrl',
+    typeKey: 'file',
     maxLength: maxLength?.comment,
-    key: 'imgUrl',
     type: 'file',
     isSetKey: 'isLogoUrl',
   },
@@ -49,9 +49,8 @@ const table: Table[] = [
     title: 'Invoice Header',
     description:
       'Invoice header text is the text that appears at the top of the page.',
-    stateKey: 'header',
+    typeKey: 'header',
     maxLength: maxLength?.message,
-    key: 'header',
     type: 'text',
     isSetKey: 'isHeader',
   },
@@ -59,9 +58,8 @@ const table: Table[] = [
     title: 'Memo',
     description:
       'Memo text is the text that appears above the invoice pricing section.',
-    stateKey: 'memo',
+    typeKey: 'memo',
     maxLength: maxLength?.message,
-    key: 'memo',
     type: 'textarea',
     isSetKey: 'isMemo',
   },
@@ -69,9 +67,8 @@ const table: Table[] = [
     title: 'Footer',
     description:
       'Footer text is the text that appears at the bottom of the invoice.',
-    stateKey: 'footer',
+    typeKey: 'footer',
     maxLength: maxLength?.message,
-    key: 'footer',
     type: 'textarea',
     isSetKey: 'isFooter',
   },
@@ -79,9 +76,8 @@ const table: Table[] = [
     title: 'Custom Fields',
     description:
       'Custom fields are additional fields you can add to your invoice.',
-    stateKey: 'customFields',
+    typeKey: 'customFields',
     maxLength: maxLength?.customField,
-    key: 'customFields',
     type: 'object',
     isSetKey: 'isCustomFields',
   },
@@ -116,7 +112,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   const { templates, count, isLoading } = useTemplates({});
   const { user } = useUser({});
   const TEMPLATE = templates?.[0];
-  console.log('state', state);
+  // console.log('state', state);
 
   useEffect(() => {
     // --------------------------------------------------------------------------------
@@ -240,9 +236,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       let status;
       let error;
 
-      // await fileUpload({ file: state.file, type: state.type?.split('/')[1]! });
-      // return;
-
       if (!count) {
         const res = await createTemplate();
         status = res?.status;
@@ -270,24 +263,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       toast.error(err.message);
     } finally {
       setState((prev) => ({ ...prev, fetching: undefined }));
-    }
-  }
-
-  async function fileUpload(props: { file: Blob; type: string }) {
-    try {
-      const formData = new FormData();
-      formData.append('file', props.file);
-
-      const { data } = await axios.put('/api/v1/file-upload', {
-        fileType: props.type,
-        id: Date.now() + Math.random(),
-        formData,
-      });
-
-      console.log('🚀 FileUpload', data);
-      return data;
-    } catch (error) {
-      console.log('🚧 Error', error);
     }
   }
 
@@ -345,7 +320,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       </Dialog> */}
 
       <form
-        onSubmit={submit}
+        action={invoiceTemplate}
         className={classNames(
           'relative flex flex-col gap-5',
           !!state?.fetching && 'opacity-50'
@@ -379,8 +354,9 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
               <SectionWrapper class="gap-2" hidden={!state?.[item?.isSetKey]}>
                 {item?.type === 'textarea' && (
                   <textarea
+                    name={item?.typeKey}
                     placeholder={`Add ${item?.title}`}
-                    defaultValue={state?.[item?.stateKey] as string}
+                    defaultValue={state?.[item?.typeKey] as string}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     maxLength={item?.maxLength}
                   />
@@ -389,8 +365,9 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                 {item?.type === 'text' && (
                   <input
                     type="text"
+                    name={item?.typeKey}
                     placeholder={`Add ${item?.title}`}
-                    defaultValue={state?.[item?.stateKey] as string}
+                    defaultValue={state?.[item?.typeKey] as string}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     maxLength={item?.maxLength}
                   />
@@ -398,19 +375,17 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
 
                 {item?.type === 'file' && (
                   <FileUpload
-                    name={item?.stateKey}
+                    name={item?.typeKey}
                     ctaLabel="Add Logo"
                     class="mt-5"
-                    callBack={({ data, file }) => {
-                      console.log('🚀 FileUpload', data);
-
-                      setState((prev) => ({
-                        ...prev,
-                        file,
-                        ...data,
-                      }));
-                    }}
                   />
+                  // <input
+                  //   type="file"
+                  //   name={item?.typeKey}
+                  //   placeholder={`Add ${item?.title}`}
+                  //   defaultValue={state?.[item?.typeKey] as string}
+                  //   className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  // />
                 )}
 
                 {item?.type === 'object' && (
@@ -421,6 +396,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                         className="flex flex-row gap-2 items-center"
                       >
                         <input
+                          name={item?.typeKey + '-' + index}
                           type="text"
                           placeholder="Define a custom field value"
                           value={state.customFields?.[index]?.value}

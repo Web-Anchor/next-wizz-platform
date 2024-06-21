@@ -22,6 +22,7 @@
       "@db/*": ["./db/*"],
       "@lib/*": ["./lib/*"],
       "@hooks/*": ["./hooks/*"],
+      "@server/*": ["./server/*"],
       "@appTypes/*": ["./types/*"],
       "@config/*": ["./config/*"],
       "@templates/*": ["./templates/*"],
@@ -29,6 +30,12 @@
       "@components/*": ["./app/components/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "helpers/data.tx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "helpers/data.tx"
+  ],
   "exclude": ["node_modules"]
 }

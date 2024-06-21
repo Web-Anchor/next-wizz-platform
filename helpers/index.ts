@@ -174,3 +174,11 @@ export function copyToClipboard(str: string) {
   document.execCommand('copy');
   document.body.removeChild(el);
 }
+
+export function generateId(): string {
+  const timestamp = Date.now().toString();
+  const randomNumber = Math.floor(Math.random() * 1000000)
+    .toString()
+    .padStart(6, '0');
+  return timestamp + randomNumber;
+}

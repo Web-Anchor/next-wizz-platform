@@ -43,8 +43,7 @@ export const dummyData = {
 
 export default function Page() {
   const componentRef = useRef(null);
-  const { advanced, pro, subscription, isLoading } = useSubscription({});
-  console.log('Subs ', subscription);
+  const { advanced, isLoading } = useSubscription({});
 
   const handlePrint = useReactToPrint({
     documentTitle: 'Invoice Sample',
@@ -68,7 +67,7 @@ export default function Page() {
 
   return (
     <Wrapper>
-      {!(advanced || pro) && !isLoading && (
+      {!advanced && !isLoading && (
         <>
           <PageHeadings
             title={
@@ -88,7 +87,8 @@ export default function Page() {
       />
 
       {isLoading && <TableSkeleton cardClass="h-[148px]" />}
-      {(advanced || pro) && !isLoading && <InvoicingCard />}
+      {advanced && !isLoading && <InvoicingCard />}
+      {!advanced && !isLoading && <Pricing />}
     </Wrapper>
   );
 }
