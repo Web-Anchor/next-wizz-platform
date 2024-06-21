@@ -20,6 +20,7 @@ import Image from 'next/image';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import { useFormStatus } from 'react-dom';
 import { buildTemplate, getTemplate } from '@server/templates';
+import { useRouter } from 'next/navigation';
 
 type Table = {
   title: string;
@@ -99,12 +100,14 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     isCompanyName: false,
     isLogoUrl: false,
   };
+
   const [state, setState] = useState<{
     customFields: { [key: string]: CustomField };
     [key: string]: any; // state types
   }>(BASE_STATE);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const router = useRouter();
   const { templates, count, isLoading } = useTemplates({});
   const { user } = useUser({});
   const TEMPLATE = templates?.[0];
@@ -193,6 +196,8 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     const template = await getTemplate({ templateName: 'template-one.hbs' });
     const html = await buildTemplate({ data: state, template });
     console.log('📝 TEMPLATE', html);
+
+    router.push('/dashboard/invoices/preview');
   }
 
   function SubmitActions() {
