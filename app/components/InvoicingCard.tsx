@@ -104,7 +104,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   }>(BASE_STATE);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { pending } = useFormStatus();
   const { templates, count, isLoading } = useTemplates({});
   const { user } = useUser({});
   const TEMPLATE = templates?.[0];
@@ -196,6 +195,59 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
 
   if (props.hidden) {
     return null;
+  }
+
+  function SubmitActions() {
+    const { pending } = useFormStatus();
+
+    return (
+      <div className="card-actions justify-end">
+        <Button
+          title="Save"
+          type="submit"
+          fetching={pending}
+          disabled={isLoading}
+        />
+        <Button
+          style="secondary"
+          onClick={downloadPDF}
+          disabled={pending || isLoading}
+          fetching={state?.fetching === 'download'}
+        >
+          <section className="flex flex-row gap-2">
+            <svg
+              className="flex-shrink-0 size-4"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" x2="12" y1="15" y2="3" />
+            </svg>
+            <p>Sample PDF</p>
+          </section>
+        </Button>
+        <Button
+          title="Preview"
+          style="ghost"
+          onClick={() => setState({ ...state, preview: true })}
+          disabled={!!state?.fetching || isLoading}
+        />
+        <Button
+          title="Reset"
+          style="ghost"
+          onClick={() => setState(BASE_STATE)}
+          disabled={pending || isLoading}
+        />
+      </div>
+    );
   }
 
   return (
@@ -412,52 +464,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
           );
         })}
 
-        <div className="card-actions justify-end">
-          <Button
-            title="Save"
-            type="submit"
-            fetching={pending}
-            disabled={isLoading}
-          />
-          <Button
-            style="secondary"
-            onClick={downloadPDF}
-            disabled={pending || isLoading}
-            fetching={state?.fetching === 'download'}
-          >
-            <section className="flex flex-row gap-2">
-              <svg
-                className="flex-shrink-0 size-4"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" x2="12" y1="15" y2="3" />
-              </svg>
-              <p>Sample PDF</p>
-            </section>
-          </Button>
-          <Button
-            title="Preview"
-            style="ghost"
-            onClick={() => setState({ ...state, preview: true })}
-            disabled={!!state?.fetching || isLoading}
-          />
-          <Button
-            title="Reset"
-            style="ghost"
-            onClick={() => setState(BASE_STATE)}
-            disabled={pending || isLoading}
-          />
-        </div>
+        <SubmitActions />
       </form>
     </SectionWrapper>
   );

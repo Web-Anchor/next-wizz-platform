@@ -12,7 +12,7 @@ import {
   validateAdvancedSubMiddleware,
 } from '@lib/subscription';
 
-export async function invoiceTemplate(formData: FormData) {
+export async function invoiceTemplate(formData: FormData): Promise<void> {
   try {
     const companyName = formData.get('companyName') as string;
     const imgUrl = formData.get('imgUrl') as File;
