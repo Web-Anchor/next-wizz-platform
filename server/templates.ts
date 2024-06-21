@@ -11,7 +11,6 @@ export async function buildTemplate(props: {
 }): Promise<string> {
   try {
     const template = Handlebars.compile(props.template);
-    console.log('🚧 _body', props.data);
 
     return template(props.data);
   } catch (error: any) {
