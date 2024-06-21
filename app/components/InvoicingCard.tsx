@@ -1,7 +1,7 @@
 'use client';
 
 import Switch from './Switch';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
 import { toast } from 'sonner';
@@ -10,13 +10,15 @@ import Dialog from './Dialog';
 import TemplateOne from '@components/templates/TemplateOne';
 import { maxLength } from '@config/index';
 import { useTemplates, useUser } from '@hooks/index';
-import { CustomField } from '../../types';
+import { CustomField, Template } from '@appTypes/index';
 import { Spinner, TableSkeleton } from './Skeleton';
 import { SectionWrapper } from './Wrapper';
 import axios from 'axios';
 import { classNames, downloadFile } from '@helpers/index';
-import FileUpload from './FileUpload';
 import { invoiceTemplate } from '@server/invoice-db-template';
+import Image from 'next/image';
+import { XCircleIcon } from '@heroicons/react/24/outline';
+import { useFormStatus } from 'react-dom';
 
 type Table = {
   title: string;
@@ -40,10 +42,10 @@ const table: Table[] = [
   {
     title: 'Company Logo',
     description: 'Company logo is that appears on the invoice.',
-    typeKey: 'file',
+    typeKey: 'imgUrl',
     maxLength: maxLength?.comment,
     type: 'file',
-    isSetKey: 'isLogoUrl',
+    isSetKey: 'isImgUrl',
   },
   {
     title: 'Invoice Header',
@@ -89,30 +91,24 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     memo: '',
     footer: '',
     customFields: { 0: { value: '' } },
+    isHeader: false,
+    isMemo: false,
+    isFooter: false,
+    isCustomFields: false,
+    isCompanyName: false,
+    isLogoUrl: false,
   };
   const [state, setState] = useState<{
-    isHeader?: boolean;
-    isMemo?: boolean;
-    isFooter?: boolean;
-    isCustomFields?: boolean;
-    isCompanyName?: boolean;
-    isLogoUrl?: boolean;
-    fetching?: string;
     customFields: { [key: string]: CustomField };
-    companyName?: string;
-    imgUrl?: string;
-    header?: string;
-    memo?: string;
-    footer?: string;
-    preview?: boolean;
-    url?: string;
-    type?: string; // image/jpeg | image/png etc
     [key: string]: any; // state types
   }>(BASE_STATE);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const { pending } = useFormStatus();
   const { templates, count, isLoading } = useTemplates({});
   const { user } = useUser({});
   const TEMPLATE = templates?.[0];
-  // console.log('state', state);
+  // console.log('pending', TEMPLATE);
 
   useEffect(() => {
     // --------------------------------------------------------------------------------
@@ -121,18 +117,12 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     if (templates) {
       setState((prev) => ({
         ...prev,
-        header: TEMPLATE?.header,
         isHeader: !!TEMPLATE?.header,
-        memo: TEMPLATE?.memo,
         isMemo: !!TEMPLATE?.memo,
-        footer: TEMPLATE?.footer,
         isFooter: !!TEMPLATE?.footer,
-        customFields: TEMPLATE?.customFields ?? { 0: { value: '' } },
         isCustomFields: !!Object.keys(TEMPLATE?.customFields || {}).length,
-        companyName: TEMPLATE?.companyName,
         isCompanyName: !!TEMPLATE?.companyName,
-        imgUrl: TEMPLATE?.imgUrl,
-        isLogoUrl: !!TEMPLATE?.imgUrl,
+        isImgUrl: !!TEMPLATE?.imgUrl,
       }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -177,93 +167,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         customFields: shallowFields, // Update customFields with the modified copy
       };
     });
-  }
-
-  async function createTemplate() {
-    try {
-      const res = await cFetch({
-        url: '/api/v1/templates/add',
-        method: 'POST',
-        data: {
-          header: state?.header,
-          memo: state?.memo,
-          footer: state?.footer,
-          customFields: state?.customFields,
-          companyName: state?.companyName,
-          imgUrl: state?.imgUrl,
-        },
-      });
-
-      return res;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function updateTemplate(id: string) {
-    try {
-      const res = await cFetch({
-        url: '/api/v1/templates/update',
-        method: 'POST',
-        data: {
-          id,
-          header: state?.isHeader ? state?.header ?? TEMPLATE?.header : null,
-          memo: state?.isMemo ? state?.memo ?? TEMPLATE?.memo : null,
-          footer: state?.isFooter ? state?.footer ?? TEMPLATE?.footer : null,
-          customFields: state?.isCustomFields
-            ? state?.customFields ?? TEMPLATE?.customFields
-            : null,
-          companyName: state?.isCompanyName
-            ? state?.companyName ?? TEMPLATE?.companyName
-            : null,
-          imgUrl: state?.isLogoUrl ? state?.imgUrl ?? TEMPLATE?.imgUrl : null,
-        },
-      });
-
-      return res;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function submit(e: React.FormEvent) {
-    try {
-      e.preventDefault();
-      // --------------------------------------------------------------------------------
-      // 📌  Add Stripe API key to db
-      // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: 'submit' }));
-      let status;
-      let error;
-
-      if (!count) {
-        const res = await createTemplate();
-        status = res?.status;
-        error = res?.error?.response?.data?.error;
-      }
-
-      if (!!count) {
-        const res = await updateTemplate(templates?.[0]?.id!);
-        status = res?.status;
-        error = res?.error?.response?.data?.error;
-      }
-
-      if (status !== 200 || error) {
-        throw new Error(error);
-      }
-
-      mutate(`/api/v1/templates`);
-      toast.success(
-        !!count
-          ? 'Template updated successfully!'
-          : 'Template created successfully!'
-      );
-    } catch (err: any) {
-      console.error(err.message);
-      toast.error(err.message);
-    } finally {
-      setState((prev) => ({ ...prev, fetching: undefined }));
-    }
   }
 
   async function downloadPDF() {
@@ -329,6 +232,12 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         <Spinner hidden={!state?.fetching} />
 
         {table?.map((item: Table, key: number) => {
+          const hasValue = state?.[item?.isSetKey] as boolean;
+          const value =
+            (state?.[item?.typeKey] ||
+              (TEMPLATE?.[item?.typeKey as keyof Template] as string)) ??
+            '';
+
           return (
             <SectionWrapper key={key} class="gap-2">
               <div className="flex flex-row gap-5 justify-between">
@@ -340,7 +249,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                 </label>
 
                 <Switch
-                  enabled={state?.[item?.isSetKey] as boolean}
+                  enabled={hasValue}
                   onChange={() =>
                     setState((prev) => ({
                       ...prev,
@@ -348,15 +257,21 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                     }))
                   }
                 />
+                <input
+                  type="checkbox"
+                  name={item?.isSetKey}
+                  checked={hasValue}
+                  className="hidden"
+                />
               </div>
               <p className="text-xs text-gray-500">{item?.description}</p>
 
-              <SectionWrapper class="gap-2" hidden={!state?.[item?.isSetKey]}>
+              <SectionWrapper class="gap-2" hidden={!hasValue}>
                 {item?.type === 'textarea' && (
                   <textarea
                     name={item?.typeKey}
                     placeholder={`Add ${item?.title}`}
-                    defaultValue={state?.[item?.typeKey] as string}
+                    defaultValue={value}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     maxLength={item?.maxLength}
                   />
@@ -367,29 +282,100 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                     type="text"
                     name={item?.typeKey}
                     placeholder={`Add ${item?.title}`}
-                    defaultValue={state?.[item?.typeKey] as string}
+                    defaultValue={value}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     maxLength={item?.maxLength}
                   />
                 )}
 
                 {item?.type === 'file' && (
-                  <FileUpload
-                    name={item?.typeKey}
-                    ctaLabel="Add Logo"
-                    class="mt-5"
-                  />
-                  // <input
-                  //   type="file"
-                  //   name={item?.typeKey}
-                  //   placeholder={`Add ${item?.title}`}
-                  //   defaultValue={state?.[item?.typeKey] as string}
-                  //   className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  // />
+                  <section className="flex flex-row gap-10 mt-5">
+                    <input
+                      type="file"
+                      ref={inputRef}
+                      name={item?.typeKey}
+                      placeholder={`Add ${item?.title}`}
+                      defaultValue={state?.[item?.typeKey] as string}
+                      className="hidden w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        console.log('📂 File To Upload' + file);
+
+                        if (file) {
+                          setState((prev) => ({
+                            ...prev,
+                            imgUrl: URL.createObjectURL(file),
+                            name: file.name,
+                            size: file.size,
+                            type: file.type,
+                            lastModified: file.lastModified,
+                          }));
+                        }
+
+                        if (!file) {
+                          setState((prev) => ({ ...prev, imgUrl: undefined }));
+                        }
+                      }}
+                    />
+                    <div
+                      className={classNames(
+                        'flex flex-row items-center gap-10',
+                        !value && 'hidden'
+                      )}
+                    >
+                      <section className="relative">
+                        {value && (
+                          <section className="relative w-20 h-20 overflow-hidden rounded-md">
+                            <Image src={value} alt="Company Logo" fill />
+                          </section>
+                        )}
+                        <Button
+                          style="ghost"
+                          class="absolute -top-5 -right-5 w-fit"
+                          onClick={() => {
+                            setState((prev) => ({
+                              ...prev,
+                              imgUrl: undefined,
+                            }));
+                          }}
+                        >
+                          <section className="bg-slate-400 rounded-full p-1 bg-opacity-50">
+                            <XCircleIcon className="h-5 w-5" />
+                          </section>
+                        </Button>
+                      </section>
+
+                      <section
+                        className={classNames(
+                          'flex flex-col gap-1',
+                          !state.imgUrl && 'hidden'
+                        )}
+                      >
+                        <span className="truncate text-xs text-gray-800">
+                          {state.name}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {fileSize(state.size)} MB
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {fileType(state.type)}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {new Date(state.lastModified).toDateString()}
+                        </span>
+                      </section>
+                    </div>
+
+                    <Button
+                      title={value ? 'Change Logo' : 'Add Logo'}
+                      style="primary"
+                      onClick={() => inputRef.current?.click()}
+                    />
+                  </section>
                 )}
 
                 {item?.type === 'object' && (
-                  <>
+                  <section className="flex flex-col gap-5">
                     {Object.keys(state.customFields)?.map((_, index) => (
                       <div
                         key={index}
@@ -419,7 +405,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                         onClick={addCustomField}
                       />
                     </div>
-                  </>
+                  </section>
                 )}
               </SectionWrapper>
             </SectionWrapper>
@@ -430,13 +416,13 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
           <Button
             title="Save"
             type="submit"
-            fetching={state?.fetching === 'submit'}
+            fetching={pending}
             disabled={isLoading}
           />
           <Button
             style="secondary"
             onClick={downloadPDF}
-            disabled={!!state?.fetching || isLoading}
+            disabled={pending || isLoading}
             fetching={state?.fetching === 'download'}
           >
             <section className="flex flex-row gap-2">
@@ -469,10 +455,18 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
             title="Reset"
             style="ghost"
             onClick={() => setState(BASE_STATE)}
-            disabled={!!state?.fetching || isLoading}
+            disabled={pending || isLoading}
           />
         </div>
       </form>
     </SectionWrapper>
   );
+}
+
+function fileType(type?: string) {
+  return `Type: ${type?.split('/')?.[1] ?? ''}`;
+}
+
+function fileSize(size: number) {
+  return (size / (1024 * 1024)).toFixed(2);
 }

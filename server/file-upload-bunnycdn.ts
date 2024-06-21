@@ -9,10 +9,10 @@ type FileType = {
   type?: string;
 } & File;
 
-export async function upload(file?: FileType): Promise<any> {
+export async function upload(file: FileType): Promise<any> {
   try {
-    if (!file) {
-      throw new Error('File is required');
+    if (!validateFile(file)) {
+      throw new Error('Invalid file type or size');
     }
 
     const { type } = file;
@@ -41,4 +41,23 @@ export async function upload(file?: FileType): Promise<any> {
       error: error?.message,
     };
   }
+}
+
+function validateFile(file: File): boolean {
+  const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+  const validSize = 10 * 1024 * 1024; // 10MB
+
+  if (!validTypes.includes(file.type)) {
+    return false;
+  }
+
+  if (file.size > validSize) {
+    return false;
+  }
+
+  if (file.size === 0) {
+    return false;
+  }
+
+  return true;
 }
