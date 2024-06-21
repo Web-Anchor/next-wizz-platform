@@ -122,6 +122,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         isCustomFields: !!Object.keys(TEMPLATE?.customFields || {}).length,
         isCompanyName: !!TEMPLATE?.companyName,
         isImgUrl: !!TEMPLATE?.imgUrl,
+        imgUrl: TEMPLATE?.imgUrl,
       }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -198,6 +199,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   }
 
   function SubmitActions() {
+    // https://github.com/vercel/next.js/discussions/51371#discussioncomment-6772060
     const { pending } = useFormStatus();
 
     return (
@@ -372,13 +374,18 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                     <div
                       className={classNames(
                         'flex flex-row items-center gap-10',
-                        !value && 'hidden'
+                        !state?.imgUrl && 'hidden'
                       )}
                     >
                       <section className="relative">
-                        {value && (
+                        {state?.imgUrl && (
                           <section className="relative w-20 h-20 overflow-hidden rounded-md">
-                            <Image src={value} alt="Company Logo" fill />
+                            <Image
+                              src={state?.imgUrl}
+                              alt={TEMPLATE?.companyName ?? 'Company Logo'}
+                              className="object-cover w-full h-full"
+                              fill
+                            />
                           </section>
                         )}
                         <Button
@@ -400,7 +407,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                       <section
                         className={classNames(
                           'flex flex-col gap-1',
-                          !state.imgUrl && 'hidden'
+                          !state.type && 'hidden'
                         )}
                       >
                         <span className="truncate text-xs text-gray-800">
@@ -419,7 +426,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                     </div>
 
                     <Button
-                      title={value ? 'Change Logo' : 'Add Logo'}
+                      title={state?.imgUrl ? 'Change Logo' : 'Add Logo'}
                       style="primary"
                       onClick={() => inputRef.current?.click()}
                     />
