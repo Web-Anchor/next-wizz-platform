@@ -62,7 +62,7 @@ export async function invoiceTemplate(formData: FormData): Promise<void> {
       .where(eq(templates.userId, dbUser[0].id.toString()));
 
     console.log('📂 file:', imgUrl);
-    console.log('isFooter:', isFooter);
+    console.log('isImgUrl:', isImgUrl);
 
     if (!!dbTemplates.length) {
       // --------------------------------------------------------------------------------

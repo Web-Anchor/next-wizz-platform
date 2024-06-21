@@ -19,6 +19,7 @@ import { invoiceTemplate } from '@server/invoice-db-template';
 import Image from 'next/image';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import { useFormStatus } from 'react-dom';
+import { buildTemplate, getTemplate } from '@server/templates';
 
 type Table = {
   title: string;
@@ -142,11 +143,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
 
   const addCustomField = () => {
     const customFields = { ...state.customFields };
-    console.log(
-      '🚀 customFields',
-      customFields,
-      Object.keys(customFields).length
-    );
 
     customFields[Object.keys(customFields).length] = { value: '' };
     setState((prevState) => ({ ...prevState, customFields }));
@@ -175,7 +171,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       const { data } = await axios.post('/api/v1/invoices/puppet-pdf-gen', {
         id: user?.id,
       });
-      console.log('🚧 PDF_DATA ', data);
       const url = data?.url;
 
       await downloadFile({
@@ -194,8 +189,10 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     }
   }
 
-  if (props.hidden) {
-    return null;
+  async function preview() {
+    const template = await getTemplate({ templateName: 'template-one.hbs' });
+    const html = await buildTemplate({ data: state, template });
+    console.log('📝 TEMPLATE', html);
   }
 
   function SubmitActions() {
@@ -239,7 +236,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         <Button
           title="Preview"
           style="ghost"
-          onClick={() => setState({ ...state, preview: true })}
+          onClick={preview}
           disabled={!!state?.fetching || isLoading}
         />
         <Button
@@ -250,6 +247,10 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         />
       </div>
     );
+  }
+
+  if (props.hidden) {
+    return null;
   }
 
   return (
@@ -286,7 +287,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         <Spinner hidden={!state?.fetching} />
 
         {table?.map((item: Table, key: number) => {
-          const hasValue = state?.[item?.isSetKey] as boolean;
+          const hasValue = (state?.[item?.isSetKey] as boolean) ?? false;
           const value =
             (state?.[item?.typeKey] ||
               (TEMPLATE?.[item?.typeKey as keyof Template] as string)) ??
@@ -316,6 +317,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                   name={item?.isSetKey}
                   checked={hasValue}
                   className="hidden"
+                  onChange={() => {}}
                 />
               </div>
               <p className="text-xs text-gray-500">{item?.description}</p>
@@ -385,6 +387,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                               alt={TEMPLATE?.companyName ?? 'Company Logo'}
                               className="object-cover w-full h-full"
                               fill
+                              sizes="(min-width: 640px) 640px, 100vw"
                             />
                           </section>
                         )}

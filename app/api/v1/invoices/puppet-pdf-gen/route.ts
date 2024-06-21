@@ -1,7 +1,7 @@
 import { auth } from '@clerk/nextjs/server';
 import { db } from '@db/index';
 import { templates } from '@db/schema';
-import { generateTemplate } from '@lib/templates';
+import { buildTemplate } from '@server/templates';
 import { TEMPLATE_ONE } from '@templates/index';
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     const template = dbTemplates?.[0];
     console.log('📄 Templates: ', dbTemplates);
 
-    const html = generateTemplate({
+    const html = await buildTemplate({
       data: {
         ...({
           invoiceNumber: 'INV-001',
