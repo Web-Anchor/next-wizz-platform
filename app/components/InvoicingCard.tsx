@@ -6,12 +6,10 @@ import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
 import { toast } from 'sonner';
 import Button from './Button';
-import Dialog from './Dialog';
-import TemplateOne from '@components/templates/TemplateOne';
 import { maxLength } from '@config/index';
 import { useTemplates, useUser } from '@hooks/index';
 import { CustomField, Template } from '@appTypes/index';
-import { Spinner, TableSkeleton } from './Skeleton';
+import { Spinner } from './Skeleton';
 import { SectionWrapper } from './Wrapper';
 import axios from 'axios';
 import { classNames, downloadFile } from '@helpers/index';
@@ -19,7 +17,6 @@ import { invoiceTemplate } from '@server/invoice-db-template';
 import Image from 'next/image';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import { useFormStatus } from 'react-dom';
-import { buildTemplate, getTemplate } from '@server/templates';
 import { useRouter } from 'next/navigation';
 
 type Table = {
@@ -193,11 +190,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   }
 
   async function preview() {
-    const template = await getTemplate({ templateName: 'template-one.hbs' });
-    const html = await buildTemplate({ data: state, template });
-    console.log('📝 TEMPLATE', html);
-
-    router.push('/dashboard/invoices/preview');
+    router.push(`/dashboard/invoices/preview?id=${TEMPLATE.id}`);
   }
 
   function SubmitActions() {
