@@ -10,9 +10,6 @@ export default function Page() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id')!;
   const { html, isLoading } = useBuildTemplate({ id });
-  const noTemplateFound = `<div class="text-center text-gray-500">No template found</div>`;
-
-  console.log('TEMPLATES ', id);
 
   return (
     <Wrapper>

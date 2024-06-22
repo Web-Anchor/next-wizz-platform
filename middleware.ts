@@ -8,6 +8,7 @@ export default authMiddleware({
   ignoredRoutes: [
     '/((?!api|trpc))(_next.*|.+.[w]+$)',
     '/api/v1/testimonials',
+    '/api/v1/templates/template',
     '/api/v1/support/add-ticket-public',
     '/api/v1/re-captcha-validate',
   ],
