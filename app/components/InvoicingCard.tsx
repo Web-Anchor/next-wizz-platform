@@ -167,14 +167,15 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   async function downloadPDF() {
     try {
       setState((prev) => ({ ...prev, fetching: 'download' }));
-      const { data } = await axios.post('/api/v1/invoices/puppet-pdf-gen', {
-        id: user?.id,
+      const { data } = await axios.post('/api/v1/templates/puppet-pdf-gen', {
+        id: TEMPLATE?.id,
       });
+      console.log('🚧 PDF_DATA ', data);
       const url = data?.url;
 
       await downloadFile({
         url,
-        name: user?.id,
+        name: TEMPLATE?.id,
         classBack: (props) => {
           console.log('🚀 Progress', props);
         },
