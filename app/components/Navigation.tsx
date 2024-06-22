@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation';
 import UserProfileCard from './UserProfileCard';
 import Logo from '@components/Logo';
 import {
-  useKeyValidate,
   useStripeKeys,
   useSubscription,
   useTotalCharges,
@@ -288,17 +287,32 @@ export default function Navigation({
           <span className="sr-only">Open sidebar</span>
           <Bars3Icon className="h-6 w-6" aria-hidden="true" />
         </button>
-        <section className="flex-1">
-          <Link
-            href="/dashboard"
-            className={classNames(
-              'items-center px-1 pt-1 text-sm font-medium text-gray-800 hover:border-gray-300 hover:text-gray-700',
-              path !== '/dashboard' && 'text-indigo-600'
-            )}
-          >
-            Dashboard
-          </Link>
-        </section>
+        {!path?.includes('template-preview') && (
+          <section className="flex-1">
+            <Link
+              href="/dashboard"
+              className={classNames(
+                'items-center px-1 pt-1 text-sm font-medium text-gray-800 hover:border-gray-300 hover:text-gray-700',
+                path !== '/dashboard' && 'text-indigo-600'
+              )}
+            >
+              Dashboard
+            </Link>
+          </section>
+        )}
+        {path?.includes('template-preview') && (
+          <section className="flex-1">
+            <Link
+              href="/dashboard/invoices"
+              className={classNames(
+                'items-center px-1 pt-1 text-sm font-medium text-gray-800 hover:border-gray-300 hover:text-gray-700',
+                path !== '/dashboard' && 'text-indigo-600'
+              )}
+            >
+              Invoice Templates
+            </Link>
+          </section>
+        )}
 
         <Notifications />
         <ProfileButton />

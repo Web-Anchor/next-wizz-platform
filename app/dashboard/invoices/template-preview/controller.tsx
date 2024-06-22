@@ -11,17 +11,21 @@ export default function Page() {
   const id = searchParams.get('id')!;
   const { html, isLoading } = useBuildTemplate({ id });
 
+  //  Minimum width = 1200 pixels * 0.707 ≈ 848 pixels
+  const aimHeight = 1200;
+  const aimWidth = Math.floor(aimHeight * 0.707);
+
   return (
     <Wrapper>
       <Spinner hidden={!isLoading} />
       {!isLoading && html && (
         <div
-          className="w-full h-full overflow-auto max-w-4xl mx-auto p-4"
+          className={`w-full h-full max-w-4xl mx-auto p-4 min-h-[${aimHeight}px] min-w-[${aimWidth}px]`}
           dangerouslySetInnerHTML={{ __html: html }}
         />
       )}
 
-      {!html && (
+      {!html && !isLoading && (
         <PageHeadings
           title="Invoice Template Not Found"
           description="No template found for the selected invoice. Please save the template to view it here."

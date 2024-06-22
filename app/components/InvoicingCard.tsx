@@ -3,7 +3,6 @@
 import Switch from './Switch';
 import { useEffect, useRef, useState } from 'react';
 import { cFetch } from '@lib/cFetcher';
-import { mutate } from 'swr';
 import { toast } from 'sonner';
 import Button from './Button';
 import { maxLength } from '@config/index';
@@ -253,28 +252,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
 
   return (
     <SectionWrapper>
-      {/* <Dialog
-        open={state?.preview}
-        callBack={() => setState({ ...state, preview: false })}
-      >
-        <TemplateOne
-          header={state?.header}
-          memo={state?.memo}
-          footer={state?.footer}
-          customFields={state?.customFields}
-          invoiceNumber={dummyData.invoiceNumber}
-          date={dummyData.date}
-          billToName={dummyData.billToName}
-          billToAddress={dummyData.billToAddress}
-          items={dummyData.items}
-          subtotal={dummyData.subtotal}
-          tax={dummyData.tax}
-          total={dummyData.total}
-          dueDate={dummyData.dueDate}
-          companyName={dummyData.companyName}
-        />
-      </Dialog> */}
-
       <form
         action={invoiceTemplate}
         className={classNames(
