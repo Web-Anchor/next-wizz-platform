@@ -20,7 +20,7 @@ export default function Page() {
       <Spinner hidden={!isLoading} />
       {!isLoading && html && (
         <div
-          className={`w-full h-full max-w-4xl mx-auto p-4 min-h-[${aimHeight}px] min-w-[${aimWidth}px]`}
+          className={`w-full h-full max-w-4xl mx-auto p-4 min-h-[2400px] min-w-[1664px] lg:min-h-[${aimHeight}px] lg:min-w-[${aimWidth}px]`}
           dangerouslySetInnerHTML={{ __html: html }}
         />
       )}
