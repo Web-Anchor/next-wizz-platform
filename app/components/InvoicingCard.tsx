@@ -190,7 +190,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   }
 
   async function preview() {
-    router.push(`/dashboard/invoices/preview?id=${TEMPLATE.id}`);
+    router.push(`/dashboard/invoices/template-preview?id=${TEMPLATE.id}`);
   }
 
   function SubmitActions() {
