@@ -263,7 +263,16 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   return (
     <SectionWrapper>
       <form
-        action={invoiceTemplate}
+        action={async (formData) => {
+          const { status } = await invoiceTemplate(formData);
+          if (status === 200) {
+            toast?.success('Invoice template saved successfully!');
+          } else {
+            toast?.error(
+              'An error occurred while saving the invoice template.'
+            );
+          }
+        }}
         className={classNames(
           'relative flex flex-col gap-5',
           !!state?.fetching && 'opacity-50'

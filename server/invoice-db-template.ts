@@ -12,7 +12,7 @@ import {
   validateAdvancedSubMiddleware,
 } from '@lib/subscription';
 
-export async function invoiceTemplate(formData: FormData): Promise<void> {
+export async function invoiceTemplate(formData: FormData): Promise<any> {
   try {
     const companyName = formData.get('companyName') as string;
     const imgUrl = formData.get('imgUrl') as File;
@@ -95,7 +95,11 @@ export async function invoiceTemplate(formData: FormData): Promise<void> {
         customFields,
       });
     }
+
+    console.log('📄 Template updated');
+    return { status: 200, message: 'Template updated' };
   } catch (error) {
     console.log('Error uploading file:', error);
+    return { status: 500, message: 'Error uploading file' };
   }
 }
