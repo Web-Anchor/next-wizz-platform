@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import Button from './Button';
 import { maxLength } from '@config/index';
-import { useTemplates, useUser } from '@hooks/index';
+import { useTemplates } from '@hooks/index';
 import { CustomField, Template } from '@appTypes/index';
 import { Spinner } from './Skeleton';
 import { SectionWrapper } from './Wrapper';
@@ -16,6 +16,8 @@ import Image from 'next/image';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import { useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
+import { v4 as uuidv4 } from 'uuid';
+import { debounce } from 'lodash';
 
 type Table = {
   title: string;
@@ -101,12 +103,12 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
     [key: string]: any; // state types
   }>(BASE_STATE);
   const inputRef = useRef<HTMLInputElement>(null);
+  // TODO: implement multi ref for mapped input objects
 
   const router = useRouter();
   const { templates, count, isLoading } = useTemplates({});
-  const { user } = useUser({});
   const TEMPLATE = templates?.[0];
-  // console.log('pending', TEMPLATE);
+  // console.log('inputRefs', inputRefs);
 
   useEffect(() => {
     // --------------------------------------------------------------------------------
@@ -122,6 +124,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         isCompanyName: !!TEMPLATE?.companyName,
         isImgUrl: !!TEMPLATE?.imgUrl,
         imgUrl: TEMPLATE?.imgUrl,
+        customFields: TEMPLATE?.customFields || { 0: { value: '' } },
       }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -149,16 +152,19 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   function removeCustomField(key: number) {
     setState((prev) => {
       let shallowFields = { ...prev.customFields }; // Create a shallow copy of customFields
-      delete shallowFields[key]; // Convert key to string before deletion
+      delete shallowFields[key];
 
-      shallowFields = Object.keys(shallowFields).reduce((acc, curr, index) => {
-        acc[index] = shallowFields[curr];
-        return acc;
-      }, {} as { [key: string]: CustomField });
+      const reindexedCustomFields = Object.keys(shallowFields).reduce(
+        (acc, curr, index) => {
+          acc[index] = shallowFields[curr];
+          return acc;
+        },
+        {} as { [key: number]: CustomField }
+      );
 
       return {
         ...prev,
-        customFields: shallowFields, // Update customFields with the modified copy
+        customFields: reindexedCustomFields, // Update customFields with the modified copy
       };
     });
   }
@@ -169,7 +175,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       const { data } = await axios.post('/api/v1/templates/puppet-pdf-gen', {
         id: TEMPLATE?.id,
       });
-      console.log('🚧 PDF_DATA ', data);
       const url = data?.url;
 
       await downloadFile({
@@ -245,6 +250,11 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
       </div>
     );
   }
+
+  const debouncedHandleChange = debounce((cKey: number, value: string) => {
+    handleChange(cKey, value);
+    inputRef?.current?.focus();
+  }, 300);
 
   if (props.hidden) {
     return null;
@@ -330,7 +340,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                       className="hidden w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       onChange={(e) => {
                         const file = e.target.files?.[0];
-                        console.log('📂 File To Upload' + file);
 
                         if (file) {
                           setState((prev) => ({
@@ -420,28 +429,37 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
 
                 {item?.type === 'object' && (
                   <section className="flex flex-col gap-5">
-                    {Object.keys(state.customFields)?.map((_, index) => (
-                      <div
-                        key={index}
-                        className="flex flex-row gap-2 items-center"
-                      >
-                        <input
-                          name={item?.typeKey + '-' + index}
-                          type="text"
-                          placeholder="Define a custom field value"
-                          value={state.customFields?.[index]?.value}
-                          onChange={(e) => handleChange(index, e.target.value)}
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          maxLength={item?.maxLength}
-                        />
-                        <Button
-                          title="Remove"
-                          style="ghost"
-                          hide={Object.keys(state.customFields)?.length === 1}
-                          onClick={() => removeCustomField(index)}
-                        />
-                      </div>
-                    ))}
+                    {Object.values(state?.customFields)?.map((value, cKey) => {
+                      const uniqueKey = uuidv4();
+
+                      return (
+                        <div
+                          key={uniqueKey}
+                          className="flex flex-row gap-2 items-center"
+                        >
+                          <input
+                            name={item?.typeKey + '-' + cKey}
+                            type="text"
+                            placeholder="Define a custom field value"
+                            defaultValue={value?.value}
+                            onChange={(e) => {
+                              debouncedHandleChange(cKey, e.target.value);
+                            }}
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            maxLength={item?.maxLength}
+                          />
+                          <Button
+                            title="Remove"
+                            style="ghost"
+                            hide={
+                              Object.keys?.(state?.customFields)?.length === 1
+                            }
+                            onClick={() => removeCustomField(cKey)}
+                          />
+                        </div>
+                      );
+                    })}
+
                     <div className="card-actions justify-start">
                       <Button
                         title="Add custom field"
