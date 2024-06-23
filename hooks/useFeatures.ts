@@ -12,7 +12,7 @@ export function useFeatures(props: Props) {
     (url: string) => bodyFetcher(url),
     {
       revalidateOnFocus: true,
-      shouldRetryOnError: false,
+
       fallbackData: props?.tickets as any,
     }
   );

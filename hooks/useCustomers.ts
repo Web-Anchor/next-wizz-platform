@@ -20,7 +20,7 @@ export function useCustomers(props: Props) {
       }),
     {
       revalidateOnFocus: true,
-      shouldRetryOnError: false,
+
       fallbackData: props?.customers as any,
     }
   );

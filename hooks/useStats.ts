@@ -13,7 +13,6 @@ export function useTotalCharges(props: Props) {
     (url: string) => bodyFetcher(url, { keyId: props.keyId }),
     {
       revalidateOnFocus: true,
-      shouldRetryOnError: false,
     }
   );
   const obj = data?.data;
@@ -34,7 +33,6 @@ export function useTotalCustomers(props: Props) {
     (url: string) => bodyFetcher(url, { keyId: props.keyId }),
     {
       revalidateOnFocus: true,
-      shouldRetryOnError: false,
     }
   );
   const obj = data?.data;
@@ -55,7 +53,6 @@ export function useCustomersMonthGrowth(props: Props) {
     (url: string) => bodyFetcher(url, { keyId: props.keyId }),
     {
       revalidateOnFocus: true,
-      shouldRetryOnError: false,
     }
   );
   const obj = data?.data as {
@@ -79,7 +76,6 @@ export function useChargesMonthGrowth(props: Props) {
     (url: string) => bodyFetcher(url, { keyId: props.keyId }),
     {
       revalidateOnFocus: true,
-      shouldRetryOnError: false,
     }
   );
   const obj = data?.data as {

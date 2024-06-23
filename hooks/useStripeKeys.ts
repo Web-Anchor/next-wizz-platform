@@ -13,7 +13,7 @@ export function useStripeKeys(props: Props) {
     (url: string) => bodyFetcher(url),
     {
       revalidateOnFocus: true,
-      shouldRetryOnError: false,
+
       fallbackData: props?.keys as any,
     }
   );

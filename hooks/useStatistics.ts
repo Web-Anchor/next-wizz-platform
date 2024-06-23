@@ -11,7 +11,6 @@ export function useStatistics(props: Props) {
     (url: string) => bodyFetcher(url, {}),
     {
       revalidateOnFocus: true,
-      shouldRetryOnError: false,
     }
   );
 

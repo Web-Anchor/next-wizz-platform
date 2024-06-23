@@ -12,7 +12,6 @@ export function useComponents(props: Props) {
     (url: string) => bodyFetcher(url, {}),
     {
       revalidateOnFocus: true,
-      shouldRetryOnError: false,
     }
   );
   const obj = data?.data;

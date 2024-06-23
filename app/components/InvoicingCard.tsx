@@ -2,7 +2,6 @@
 
 import Switch from './Switch';
 import { useEffect, useRef, useState } from 'react';
-import { cFetch } from '@lib/cFetcher';
 import { toast } from 'sonner';
 import Button from './Button';
 import { maxLength } from '@config/index';
@@ -235,7 +234,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
           title="Preview"
           style="ghost"
           onClick={preview}
-          disabled={!!state?.fetching || isLoading}
+          disabled={pending || isLoading}
         />
         <Button
           title="Reset"
@@ -260,7 +259,7 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
           !!state?.fetching && 'opacity-50'
         )}
       >
-        <Spinner hidden={!state?.fetching} />
+        <Spinner hidden={!isLoading} />
 
         {table?.map((item: Table, key: number) => {
           const hasValue = (state?.[item?.isSetKey] as boolean) ?? false;
@@ -345,7 +344,14 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
                         }
 
                         if (!file) {
-                          setState((prev) => ({ ...prev, imgUrl: undefined }));
+                          setState((prev) => ({
+                            ...prev,
+                            imgUrl: undefined,
+                            name: undefined,
+                            size: undefined,
+                            type: undefined,
+                            lastModified: undefined,
+                          }));
                         }
                       }}
                     />

@@ -14,7 +14,7 @@ export function useTemplates(props: Props) {
     (url: string) => bodyFetcher(url, { account: props.account }),
     {
       revalidateOnFocus: true,
-      shouldRetryOnError: false,
+
       fallbackData: props?.templates as any,
     }
   );
@@ -34,7 +34,7 @@ export function useBuildTemplate(props: Props) {
     (url: string) => bodyFetcher(url, { id: props.id }),
     {
       revalidateOnFocus: true,
-      shouldRetryOnError: false,
+
       fallbackData: props?.templates as any,
     }
   );
