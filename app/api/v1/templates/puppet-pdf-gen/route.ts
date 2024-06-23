@@ -6,6 +6,7 @@ import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 import { eq, and } from 'drizzle-orm';
 import { buildTemplate, getTemplate } from '@server/templates';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(request: NextRequest) {
   auth().protect();
@@ -75,7 +76,13 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    return NextResponse.json(data, { status: 200 });
+    return NextResponse.json(
+      {
+        ...data,
+        url: data?.url + `?version=${uuidv4()}`, // Browser caching bypass
+      },
+      { status: 200 }
+    );
   } catch (error: any) {
     console.error('🚨 error', error);
     return NextResponse.json(

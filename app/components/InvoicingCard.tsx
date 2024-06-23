@@ -176,7 +176,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         id: TEMPLATE?.id,
       });
       const url = data?.url;
-
       await downloadFile({
         url,
         name: TEMPLATE?.id,
@@ -198,7 +197,6 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   }
 
   function SubmitActions() {
-    // https://github.com/vercel/next.js/discussions/51371#discussioncomment-6772060
     const { pending } = useFormStatus();
 
     return (
