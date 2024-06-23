@@ -176,6 +176,8 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
         id: TEMPLATE?.id,
       });
       const url = data?.url;
+      console.log('🔗 URL', url);
+
       await downloadFile({
         url,
         name: TEMPLATE?.id,
@@ -193,7 +195,11 @@ export default function InvoiceTable(props: { hidden?: boolean }) {
   }
 
   async function preview() {
-    router.push(`/dashboard/invoices/template-preview?id=${TEMPLATE.id}`);
+    try {
+      router.push(`/dashboard/invoices/template-preview?id=${TEMPLATE.id}`);
+    } catch (error: any) {
+      toast?.error(`Please add a template first to preview!`);
+    }
   }
 
   function SubmitActions() {
