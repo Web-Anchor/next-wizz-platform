@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { fakerCharges } from '@lib/faker';
 
 export default function Page() {
   const [state, setState] = useState<{
@@ -24,10 +25,11 @@ export default function Page() {
   const starting_after = searchParams.get('starting_after')!;
   const ending_before = searchParams.get('ending_before')!;
 
-  const { has_more, has_previous, charges, isLoading } = useCharges({
+  let { has_more, has_previous, charges, isLoading } = useCharges({
     starting_after,
     ending_before,
   });
+  // charges = fakerCharges();
 
   const response = state?.charges || charges;
   const hasMoreRes = state?.has_more ?? has_more;
@@ -159,7 +161,7 @@ export default function Page() {
                     </Link>
                     <div className="mt-1 text-xs leading-5 text-gray-500">
                       Invoice{' '}
-                      <span className="hidden lg:flex text-gray-800">
+                      <span className="truncate hidden lg:flex text-gray-800">
                         {item.id}
                       </span>
                     </div>
