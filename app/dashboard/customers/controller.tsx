@@ -14,6 +14,7 @@ import { mediaScreenTitle } from '@helpers/components';
 import { cFetch } from '@lib/cFetcher';
 import { useUser } from '@hooks/useUsers';
 import axios from 'axios';
+import { mutate } from 'swr';
 
 export default function Page() {
   const [state, setState] = useState<{
@@ -32,7 +33,7 @@ export default function Page() {
     starting_after,
     ending_before,
   });
-  console.log('🧾 Customers', customers);
+  console.log('🧾 user', user);
 
   const response = state?.customers || customers;
   const hasMoreRes = state?.has_more ?? has_more;
@@ -146,6 +147,7 @@ export default function Page() {
       }
 
       toast.success(`Link to portal sent to ${customer?.name} ✨`);
+      mutate(`/api/v1/user`);
     } catch (err: any) {
       console.error(err);
       toast.error(err.message);
