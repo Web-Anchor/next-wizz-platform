@@ -24,6 +24,9 @@ export default function Actions(props: {
       const url = data?.url;
       console.log('🔗 URL', url);
 
+      // --------------------------------------------------------------------------------
+      // 📌  Download PDF
+      // --------------------------------------------------------------------------------
       await downloadFile({
         url,
         name: props?.id,
@@ -31,6 +34,14 @@ export default function Actions(props: {
           console.log('🚀 Progress', props);
         },
       });
+
+      // --------------------------------------------------------------------------------
+      // 📌  Delete PDF on the server
+      // --------------------------------------------------------------------------------
+      const del = await axios.post('/api/v1/delete-file', {
+        url,
+      });
+      console.log('🚮 Delete', del);
 
       toast?.success('Document downloaded successfully!');
     } catch (error) {
