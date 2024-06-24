@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { classNames } from '@helpers/index';
 import UserNotifications from './UserNotification';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
 type Props = {
   href?: string;
@@ -17,7 +17,7 @@ type Props = {
   disabled?: boolean;
 };
 
-export default function UserProfileCard(props: Readonly<Props>) {
+function UserProfileCard(props: Readonly<Props>) {
   const [state, setState] = useState<{ open?: boolean }>({});
 
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
@@ -91,3 +91,5 @@ export default function UserProfileCard(props: Readonly<Props>) {
     </Wrapper>
   );
 }
+
+export default memo(UserProfileCard);
