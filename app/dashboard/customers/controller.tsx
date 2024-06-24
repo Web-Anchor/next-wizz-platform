@@ -39,7 +39,6 @@ export default function Page() {
     ending_before,
   });
   const plan = plans?.[product?.name];
-  console.log('🧾 user', plan);
 
   const response = state?.customers || customers;
   const hasMoreRes = state?.has_more ?? has_more;
