@@ -37,7 +37,7 @@ export const TIER_PLANS = [
     description: 'A plan that scales with your rapidly growing business.',
     features: [
       'All features in Freelancer plan',
-      'Customizable templates',
+      'Customizable invoice templates',
       'Advanced analytics',
       '24-hour support response time',
       'Send up to 500 invoices to customers',
