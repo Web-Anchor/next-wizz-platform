@@ -10,6 +10,8 @@ export const users = sqliteTable('users', {
   lastName: text('last_name'),
   emailAddress: text('email_addresses').unique().notNull(),
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
+  emailsSendCount: text('emails_send_count'),
+  lastEmailSendDate: text('last_email_send_date'),
 });
 
 export const templates = sqliteTable('templates', {

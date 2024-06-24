@@ -85,6 +85,13 @@
       "when": 1718866258115,
       "tag": "0011_fresh_celestials",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1719225931812,
+      "tag": "0012_little_excalibur",
+      "breakpoints": true
     }
   ]
 }
