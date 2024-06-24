@@ -4,8 +4,8 @@ export function mediaScreenTitle(
 ) {
   return (
     <section>
-      <p className="truncate flex md:hidden ">{small ?? large}</p>
-      <p className="truncate hidden md:flex">{large}</p>
+      <p className="truncate flex sm:hidden">{small ?? large}</p>
+      <p className="truncate hidden sm:flex">{large}</p>
     </section>
   );
 }
