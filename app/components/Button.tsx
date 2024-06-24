@@ -43,7 +43,8 @@ export default function Button(props: Props): React.ReactElement {
         <span
           className={classNames(
             'loading loading-spinner bg-white z-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 text-white',
-            props.style === 'ghost' && 'bg-indigo-600'
+            props.style === 'ghost' && 'bg-indigo-600',
+            props.style === 'link' && 'bg-indigo-600'
           )}
         ></span>
       )}

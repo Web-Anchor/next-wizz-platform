@@ -86,20 +86,25 @@ export default function Page() {
     }
   }
 
-  async function emailCustomer(email: string, name: string) {
+  async function emailCustomer(props: {
+    email: string;
+    name: string;
+    id: string;
+  }) {
     try {
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: email }));
-      const customer = customers.find((c: Customer) => c.email === email);
+      setState((prev) => ({ ...prev, fetching: props.id }));
+      // const customer = customers.find((c: Customer) => c.id === props.id);
+
       const template = await getTemplate({
         templateName: 'email-template-one.hbs',
       });
       const html = await buildTemplate({
         template,
         data: {
-          name: name ?? 'Customer',
+          name: props.name ?? 'Customer',
           portalUrl: `${process.env.NEXT_PUBLIC_PORTAL_URL}?id=${user?.id}`,
           platformUrl: process.env.NEXT_PUBLIC_APP_URL,
         },
@@ -109,20 +114,22 @@ export default function Page() {
         url: '/api/v1/send-email',
         method: 'POST',
         data: {
-          email,
+          email: props.email,
           subject: 'invoicio Customer Portal ✨',
           html,
+          name: props.name,
+          invoiceNumber: props.id,
         },
       });
-      console.log('📧 Email sent to:', email, data);
+      console.log('📧 Email sent to:', data);
 
       if (status !== 200 || data?.error) {
         throw new Error(
-          data?.error || `Failed to send email to ${customer?.name}!`
+          data?.error || `Failed to send email to ${props?.name}!`
         );
       }
 
-      toast.success(`Link to portal sent to ${customer?.name} ✨`);
+      toast.success(`Link to portal sent to ${props?.name ?? props.email} ✨`);
       mutate(`/api/v1/user`);
     } catch (err: any) {
       console.error(err);
@@ -180,8 +187,15 @@ export default function Page() {
                 item: (
                   <Button
                     title={mediaScreenTitle('Email Portal Link', 'Email Link')}
-                    onClick={() => emailCustomer(item?.email!, item?.name!)}
+                    onClick={() =>
+                      emailCustomer({
+                        email: item?.email!,
+                        name: item?.name!,
+                        id: item?.id!,
+                      })
+                    }
                     fetching={state?.fetching === item?.id}
+                    disabled={!!state?.fetching}
                     style="link"
                   />
                 ),
