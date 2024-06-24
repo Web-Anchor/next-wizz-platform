@@ -1,6 +1,6 @@
 import Breadcrumbs from '@components/Breadcrumbs';
 import Footer from '@components/Footer';
-import Navigation from '@components/Navigation';
+import Navigation from '@app/components/Navigation';
 
 export default function AuthLayout({
   children,

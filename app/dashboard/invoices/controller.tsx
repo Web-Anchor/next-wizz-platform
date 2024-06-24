@@ -8,9 +8,7 @@ import Pricing from '@app/components/Pricing';
 import { TableSkeleton } from '@app/components/Skeleton';
 import { CustomField, Template } from '@appTypes/index';
 import { useTemplates, useSubscription } from '@hooks/index';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import { classNames, downloadFile } from '@helpers/index';
+import { classNames } from '@helpers/index';
 import Button from '@app/components/Button';
 import { debounce } from 'lodash';
 import Image from 'next/image';
@@ -108,7 +106,6 @@ export default function Page() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { advanced, isLoading } = useSubscription({});
-  const router = useRouter();
   const { templates } = useTemplates({});
   const TEMPLATE = templates?.[0];
   // console.log('inputRefs', inputRefs);
