@@ -106,7 +106,7 @@ export default function Simple(props: Props): React.ReactElement {
               <dt className="min-w-36 max-w-[200px] text-gray-500">
                 Billing method:
               </dt>
-              <dd className="font-medium text-gray-800">Send invoice</dd>
+              <dd className="font-medium text-gray-800">Sent invoice</dd>
             </dl>
           </div>
         </div>

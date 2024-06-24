@@ -153,10 +153,15 @@ export default function Page() {
       />
 
       <Badge
-        title={`Email Send Total: ${user?.emailsSendCount ?? 0} ${
+        title={`Email Sent Total: ${user?.emailsSendCount ?? 0} ${
           plan?.emailCap ? `of ${plan?.emailCap} 📧` : ``
         }`}
         type="info"
+        description={
+          user?.lastEmailSendDate
+            ? `Last Email Sent: ${getTimeAgo(user?.lastEmailSendDate!)}`
+            : undefined
+        }
       />
 
       <Table
