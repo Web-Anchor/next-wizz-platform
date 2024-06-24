@@ -19,15 +19,17 @@ import {
   showMainNavRoutes,
   showMenuNavRoutes,
 } from '@helpers/data';
+import { fakerUser } from '@lib/faker';
 
 export default function DesktopNav() {
   const path = usePathname();
 
-  const { user, isLoaded } = useUser();
+  let { user, isLoaded } = useUser();
   const { data, count, hasKeys } = useStripeKeys({});
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
   const { active, basic, advanced, pro } = useSubscription({});
+  // user = fakerUser();
 
   const navigation = mainNav({
     show: showMainNavRoutes({ active, basic, advanced, pro }),

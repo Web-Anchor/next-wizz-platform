@@ -106,7 +106,8 @@ export default function Page() {
   const mounted = useRef<boolean>(false);
 
   const { advanced, isLoading } = useSubscription({});
-  const { templates } = useTemplates({});
+  const { templates, isLoading: isTemplateLoading } = useTemplates({});
+  const loading = isLoading || isTemplateLoading;
   const TEMPLATE = templates?.[0];
 
   useEffect(() => {
@@ -196,8 +197,8 @@ export default function Page() {
         slogan="Crafting Elegance, Sealing Deals - Your Invoices, Your Brand!"
       />
 
-      {isLoading && <TableSkeleton cardClass="h-[148px]" />}
-      {advanced && !isLoading && (
+      {loading && <TableSkeleton cardClass="h-[148px]" />}
+      {advanced && !loading && (
         <form
           action={async (formData) => {
             const { status } = await invoiceTemplate(formData);

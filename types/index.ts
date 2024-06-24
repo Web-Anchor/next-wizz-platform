@@ -56,6 +56,7 @@ export type User = {
   stripeSubId?: string;
   emailsSendCount?: string;
   lastEmailSendDate?: string;
+  imageUrl?: string;
 };
 
 export type Template = {
