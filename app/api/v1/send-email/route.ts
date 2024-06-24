@@ -5,6 +5,7 @@ import { db } from '@db/index';
 import { eq } from 'drizzle-orm';
 import { users } from '@db/schema';
 import { isToday, getDate } from 'date-fns';
+import { subscription, validateActiveSubMiddleware } from '@lib/subscription';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -17,9 +18,15 @@ export async function POST(request: NextRequest) {
     }
 
     // --------------------------------------------------------------------------------
-    // 📌  Update user email sent count & date sent
+    // 📌  Validate & validate sub type
     // --------------------------------------------------------------------------------
     const { userId } = auth();
+    const subRes = await subscription({ userId });
+    validateActiveSubMiddleware({ status: subRes?.subscription?.status });
+
+    // --------------------------------------------------------------------------------
+    // 📌  Update user email sent count & date sent
+    // --------------------------------------------------------------------------------
     const dbUser = await db
       .select()
       .from(users)
