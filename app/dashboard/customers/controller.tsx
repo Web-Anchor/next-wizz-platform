@@ -16,6 +16,9 @@ import { useUser } from '@hooks/useUsers';
 import axios from 'axios';
 import { mutate } from 'swr';
 import { buildTemplate, getTemplate } from '@server/templates';
+import Badge from '@app/components/Badge';
+import { useSubscription } from '@hooks/useSubscriptions';
+import { plans } from '@config/index';
 
 export default function Page() {
   const [state, setState] = useState<{
@@ -30,11 +33,13 @@ export default function Page() {
   const ending_before = searchParams.get('ending_before')!;
 
   const { user } = useUser({});
+  const { product } = useSubscription({});
   const { customers, has_previous, has_more, isLoading } = useCustomers({
     starting_after,
     ending_before,
   });
-  console.log('🧾 user', user);
+  const plan = plans?.[product?.name];
+  console.log('🧾 user', plan);
 
   const response = state?.customers || customers;
   const hasMoreRes = state?.has_more ?? has_more;
@@ -145,6 +150,13 @@ export default function Page() {
         title="Stripe Customers. Manage Your Transactions with Ease."
         description="Navigate your Stripe transactions effortlessly with our Stripe Customers page. Access detailed information, track payments, and manage customer interactions seamlessly to stay on top of your financial transactions. Simplify your payment management process and gain insights into your customer activity with ease."
         slogan="Empowering Seamless Transactions, One Click at a Time!"
+      />
+
+      <Badge
+        title={`Email Send Total: ${user?.emailsSendCount ?? 0} ${
+          plan?.emailCap ? `of ${plan?.emailCap} 📧` : ``
+        }`}
+        type="info"
       />
 
       <Table

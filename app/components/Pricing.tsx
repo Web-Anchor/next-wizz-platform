@@ -8,6 +8,7 @@ import { cFetch } from '@lib/cFetcher';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/clerk-react';
 import { toast } from 'sonner';
+import { plans } from '@config/index';
 
 const frequencies = [
   { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
@@ -25,7 +26,8 @@ export const TIER_PLANS = [
       'Basic analytics',
       '48-hour support response time',
       'Connect your Stripe account with your API key',
-      'Send up to 250 invoices to customers',
+      `Send up to ${plans['Freelancer']?.invoiceEmailCap} invoices to customers`,
+      `Send up to ${plans['Freelancer']?.emailCap} email invites to customers`,
     ],
     featured: false,
     cta: 'Buy plan',
@@ -40,7 +42,8 @@ export const TIER_PLANS = [
       'Customizable invoice templates',
       'Advanced analytics',
       '24-hour support response time',
-      'Send up to 500 invoices to customers',
+      `Email up to ${plans['Startup']?.invoiceEmailCap} invoices to customers`,
+      `Send up to ${plans['Startup']?.emailCap} email invites to customers`,
       'Customer Portal branding & customization',
     ],
     featured: true,
@@ -57,6 +60,7 @@ export const TIER_PLANS = [
       'Custom domain',
       'Priority support',
       'Send up to 5000 invoices to customers',
+      'Send up to 5000 email invites to customers',
       'Custom integrations & features',
     ],
     featured: false,

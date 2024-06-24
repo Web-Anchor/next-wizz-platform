@@ -48,11 +48,14 @@ export type StripeKey = {
 
 export type User = {
   id?: string;
-  email?: string;
-  name?: string;
+  clerkId?: string;
+  firstName?: string;
+  lastName?: string;
+  emailAddress?: string;
   createdAt?: string;
-  updatedAt?: string;
-  stripeKeys?: StripeKey[];
+  stripeSubId?: string;
+  emailsSendCount?: string;
+  lastEmailSendDate?: string;
 };
 
 export type Template = {
@@ -123,11 +126,12 @@ export type StripeSubscription = {
 
 export type Plan = {
   keyLimit: number;
-  emailLimit: number;
   name: string;
   basic: boolean;
   advanced: boolean;
   pro: boolean;
+  emailCap?: number;
+  invoiceEmailCap?: number;
 };
 
 export type Ticket = {
