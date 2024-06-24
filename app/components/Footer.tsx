@@ -69,7 +69,7 @@ const navigation = {
   ],
 };
 
-export default function Footer() {
+export default function Example() {
   return (
     <footer aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
@@ -90,7 +90,8 @@ export default function Footer() {
             ))}
           </div>
           <p className="mt-8 text-xs leading-5 text-gray-500 md:order-1 md:mt-0">
-            &copy; {new Date()?.getFullYear()} Your Company, Inc. All rights
+            &copy; {new Date()?.getFullYear()}{' '}
+            <span className="text-indigo-600">invoicio</span>. All rights
             reserved.
           </p>
         </div>
