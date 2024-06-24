@@ -31,6 +31,7 @@ export async function invoiceTemplate(formData: FormData): Promise<any> {
     // 📌  Validate & validate sub type
     // --------------------------------------------------------------------------------
     const { userId } = auth();
+    console.log('👤 User: ', userId);
     const subRes = await subscription({ userId });
     validateActiveSubMiddleware({ status: subRes?.subscription?.status });
     validateAdvancedSubMiddleware({ name: subRes?.product?.name });
@@ -62,7 +63,7 @@ export async function invoiceTemplate(formData: FormData): Promise<any> {
       .where(eq(templates.userId, dbUser[0].id.toString()));
 
     console.log('📂 file:', imgUrl);
-    console.log('isImgUrl:', isImgUrl);
+    console.log('📝 Form Data:', data);
 
     if (!!dbTemplates.length) {
       // --------------------------------------------------------------------------------

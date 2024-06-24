@@ -24,7 +24,7 @@ type Table = {
   title: string;
   description: string;
   typeKey: string;
-  maxLength: number;
+  maxLength?: number;
   type: string;
   isSetKey: string;
 };
@@ -43,7 +43,6 @@ const table: Table[] = [
     title: 'Company Logo',
     description: 'Company logo is that appears on the invoice.',
     typeKey: 'imgUrl',
-    maxLength: maxLength?.comment,
     type: 'file',
     isSetKey: 'isImgUrl',
   },
@@ -104,6 +103,7 @@ export default function Page() {
     [key: string]: any; // state types
   }>(BASE_STATE);
   const inputRef = useRef<HTMLInputElement>(null);
+  const mounted = useRef<boolean>(false);
 
   const { advanced, isLoading } = useSubscription({});
   const { templates } = useTemplates({});
@@ -114,7 +114,8 @@ export default function Page() {
     // --------------------------------------------------------------------------------
     // 📌  Update state with templates data
     // --------------------------------------------------------------------------------
-    if (templates) {
+
+    if (TEMPLATE && !mounted.current) {
       setState((prev) => ({
         ...prev,
         isHeader: !!TEMPLATE?.header,
@@ -126,9 +127,10 @@ export default function Page() {
         imgUrl: TEMPLATE?.imgUrl,
         customFields: TEMPLATE?.customFields || { 0: { value: '' } },
       }));
+      mounted.current = true;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [templates]);
+  }, [TEMPLATE]);
 
   const handleChange = (key: number, value: string) => {
     setState((prevState) => ({
@@ -226,8 +228,10 @@ export default function Page() {
                 <div className="flex flex-row gap-5 justify-between">
                   <label>
                     {item?.title}
-                    <span className="text-xs ml-1 text-gray-400">
-                      {item?.maxLength} characters max
+                    <span className={classNames('text-xs ml-1 text-gray-400')}>
+                      {item?.type === 'file'
+                        ? 'Upto 10MB'
+                        : `${item?.maxLength} characters max`}
                     </span>
                   </label>
 
@@ -279,12 +283,12 @@ export default function Page() {
                         ref={inputRef}
                         name={item?.typeKey}
                         placeholder={`Add ${item?.title}`}
-                        defaultValue={state?.[item?.typeKey] as string}
                         className="hidden w-full rounded-md border-0 py-1.5 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         onChange={(e) => {
                           const file = e.target.files?.[0];
 
                           if (file) {
+                            console.log('📂 File found. State update', file);
                             setState((prev) => ({
                               ...prev,
                               imgUrl: URL.createObjectURL(file),
@@ -296,6 +300,7 @@ export default function Page() {
                           }
 
                           if (!file) {
+                            console.log('🚫 File not found. Clearing state.');
                             setState((prev) => ({
                               ...prev,
                               imgUrl: undefined,
@@ -314,10 +319,10 @@ export default function Page() {
                         )}
                       >
                         <section className="relative">
-                          {state?.imgUrl && (
+                          {value && (
                             <section className="relative w-20 h-20 overflow-hidden rounded-md">
                               <Image
-                                src={state?.imgUrl}
+                                src={value}
                                 alt={TEMPLATE?.companyName ?? 'Company Logo'}
                                 className="object-cover w-full h-full"
                                 fill
@@ -363,10 +368,21 @@ export default function Page() {
                       </div>
 
                       <Button
-                        title={state?.imgUrl ? 'Change Logo' : 'Add Logo'}
+                        title={
+                          <p className="text-nowrap">
+                            {state?.imgUrl ? 'Change Logo' : 'Add Logo'}
+                          </p>
+                        }
                         style="primary"
                         onClick={() => inputRef.current?.click()}
                       />
+
+                      {!state?.imgUrl && TEMPLATE?.imgUrl && (
+                        <p className="text-xs text-gray-400 self-end mr-10">
+                          To remove previous logo, please update template with
+                          new one or switch off the this feature!
+                        </p>
+                      )}
                     </section>
                   )}
 
