@@ -10,6 +10,7 @@ import Button from '@app/components/Button';
 
 export default function Actions(props: {
   id?: string;
+  hasUpdates?: boolean;
   resetCallBack?: () => void;
 }) {
   const [state, setState] = useState<{ fetching?: string }>({});
@@ -71,7 +72,7 @@ export default function Actions(props: {
       <Button
         style="secondary"
         onClick={downloadPDF}
-        disabled={pending}
+        disabled={pending || props.hasUpdates}
         fetching={state?.fetching === 'download'}
       >
         <section className="flex flex-row gap-2">
@@ -98,13 +99,13 @@ export default function Actions(props: {
         title="Preview"
         style="ghost"
         onClick={preview}
-        disabled={pending}
+        disabled={pending || props.hasUpdates}
       />
       <Button
         title="Reset"
         style="ghost"
         onClick={() => props?.resetCallBack?.()}
-        disabled={pending}
+        disabled={pending || props.hasUpdates}
       />
     </div>
   );
