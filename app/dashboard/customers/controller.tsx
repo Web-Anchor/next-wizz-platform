@@ -84,7 +84,7 @@ export default function Page() {
     }
   }
 
-  async function emailCustomer(email: string) {
+  async function emailCustomer(email: string, name: string) {
     try {
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
@@ -97,7 +97,7 @@ export default function Page() {
         method: 'POST',
         data: {
           email,
-          subject: 'Link to customer Portal 🚀',
+          subject: 'invoicio Customer Portal ✨',
           html: `
             <!DOCTYPE html>
             <html lang="en">
@@ -109,11 +109,29 @@ export default function Page() {
                 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
             </head>
             <body>
-                <div class="bg-gray-100 p-4 rounded-lg max-w-md mx-auto mt-8">
-                    <p class="text-lg">Dear Customer,</p>
-                    <p class="text-base mb-4">You can download your invoices from our customer portal. Please click the link below:</p>
-                    <a href="${process.env.NEXT_PUBLIC_PORTAL_URL}?id=${user?.id}" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download Invoices</a>
+              <section class="flex flex-col gap-5 mx-auto">
+                <div class="flex flex-col gap-5 bg-gray-100 px-6 py-8 rounded-lg max-w-md mx-auto mt-10">
+                  <p class="text-lg">Dear ${name ?? 'Customer'},</p>
+                  <p class="text-base">
+                    You can download your invoices from our customer portal. Please
+                    follow the link below:
+                  </p>
+                  <a
+                    href="${process.env.NEXT_PUBLIC_PORTAL_URL}?id=${user?.id}"
+                    target="_blank"
+                    class="block text-center relative rounded-md h-fit bg-indigo-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
+                  >
+                    Go to Customer Portal 🚀
+                  </a>
                 </div>
+                <a class="mx-auto mt-10" href="${
+                  process.env.NEXT_PUBLIC_APP_URL
+                }">
+                  <h1 class="text-2xl font-bold text-gray-800">
+                    invoic<span class="text-indigo-600">io</span>
+                  </h1>
+                </a>
+              </section>
             </body>
             </html>
             `,
@@ -184,7 +202,7 @@ export default function Page() {
                 item: (
                   <Button
                     title={mediaScreenTitle('Email Portal Link', 'Email Link')}
-                    onClick={() => emailCustomer(item?.email!)}
+                    onClick={() => emailCustomer(item?.email!, item?.name!)}
                     fetching={state?.fetching === item?.id}
                     style="link"
                   />
