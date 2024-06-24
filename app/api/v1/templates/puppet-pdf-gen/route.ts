@@ -34,6 +34,7 @@ export async function POST(request: NextRequest) {
         and(eq(templates.userId, dbUser[0].id), eq(templates.id, body.id))
       );
 
+    const uniqueId = uuidv4();
     const template = await getTemplate({ templateName: 'template-one.hbs' });
     const html = await buildTemplate({
       template,
@@ -67,7 +68,7 @@ export async function POST(request: NextRequest) {
       process.env.NETLIFY_FUNCTIONS + '/puppet-pdf-gen',
       {
         html,
-        id: dbTemplate?.[0].id,
+        id: uniqueId, // dbTemplate?.[0].id,
       },
       {
         headers: {
