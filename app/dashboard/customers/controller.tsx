@@ -15,6 +15,7 @@ import { cFetch } from '@lib/cFetcher';
 import { useUser } from '@hooks/useUsers';
 import axios from 'axios';
 import { mutate } from 'swr';
+import { buildTemplate, getTemplate } from '@server/templates';
 
 export default function Page() {
   const [state, setState] = useState<{
@@ -92,6 +93,17 @@ export default function Page() {
       // --------------------------------------------------------------------------------
       setState((prev) => ({ ...prev, fetching: email }));
       const customer = customers.find((c: Customer) => c.email === email);
+      const template = await getTemplate({
+        templateName: 'email-template-one.hbs',
+      });
+      const html = await buildTemplate({
+        template,
+        data: {
+          name: name ?? 'Customer',
+          portalUrl: `${process.env.NEXT_PUBLIC_PORTAL_URL}?id=${user?.id}`,
+          platformUrl: process.env.NEXT_PUBLIC_APP_URL,
+        },
+      });
 
       const { data, status } = await cFetch({
         url: '/api/v1/send-email',
@@ -99,43 +111,7 @@ export default function Page() {
         data: {
           email,
           subject: 'invoicio Customer Portal ✨',
-          html: `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Link to customer portal</title>
-                <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-            </head>
-            <body>
-              <section class="flex flex-col gap-5 mx-auto">
-                <div class="flex flex-col gap-5 bg-gray-100 px-6 py-8 rounded-lg max-w-md mx-auto mt-10">
-                  <p class="text-lg">Dear ${name ?? 'Customer'},</p>
-                  <p class="text-base">
-                    You can download your invoices from our customer portal. Please
-                    follow the link below:
-                  </p>
-                  <a
-                    href="${process.env.NEXT_PUBLIC_PORTAL_URL}?id=${user?.id}"
-                    target="_blank"
-                    class="block text-center relative rounded-md h-fit bg-indigo-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
-                  >
-                    Go to Customer Portal 🚀
-                  </a>
-                </div>
-                <a class="mx-auto mt-10" href="${
-                  process.env.NEXT_PUBLIC_APP_URL
-                }">
-                  <h1 class="text-2xl font-bold text-gray-800">
-                    invoic<span class="text-indigo-600">io</span>
-                  </h1>
-                </a>
-              </section>
-            </body>
-            </html>
-            `,
+          html,
         },
       });
       console.log('📧 Email sent to:', email, data);

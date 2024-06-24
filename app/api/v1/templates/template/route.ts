@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const template = await getTemplate({
-      templateName: body?.template ?? 'template-one.hbs',
+      templateName: body?.template ?? 'template-not-found.hbs',
     });
 
     return NextResponse.json({

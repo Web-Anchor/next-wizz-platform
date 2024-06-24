@@ -1,12 +1,11 @@
 'use server';
 
-import { Template } from '@appTypes/index';
 import Handlebars from 'handlebars';
 import fs from 'fs';
 import path from 'path';
 
 export async function buildTemplate(props: {
-  data: Template;
+  data: object;
   template: string;
 }): Promise<string> {
   try {
@@ -20,7 +19,10 @@ export async function buildTemplate(props: {
 }
 
 type GetTemplate = {
-  templateName: 'template-one.hbs' | 'template-two.hbs';
+  templateName:
+    | 'template-one.hbs'
+    | 'template-two.hbs'
+    | 'email-template-one.hbs';
 };
 
 export async function getTemplate(props: GetTemplate): Promise<string> {
