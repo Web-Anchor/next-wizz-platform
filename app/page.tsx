@@ -7,6 +7,7 @@ import CustomerWorkflow from '@components/CustomerWorkflow';
 import { TopBackground, BottomBackground } from '@components/Background';
 import TestimonialsWhiteGrid from './components/TestimonialsWhiteGrid';
 import { SectionWrapper } from '@components/Wrapper';
+import Analytics from './components/Analytics';
 
 export default function Page() {
   return (
@@ -19,6 +20,7 @@ export default function Page() {
         <Pricing />
         <Workflow />
         <CustomerWorkflow />
+        <Analytics />
         <FrequentlyAskedQuestions />
         <TestimonialsWhiteGrid />
       </SectionWrapper>

@@ -15,9 +15,9 @@ export default function TestimonialsWhiteGrid() {
   }
 
   return (
-    <div className="relative py-12 sm:py-24">
+    <div className="relative py-12">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-xl lg:text-center">
+        <div className="lg:mx-auto max-w-xl lg:text-center">
           <h2 className="text-xl font-semibold leading-8 tracking-tight text-indigo-600">
             Testimonials
           </h2>
@@ -25,7 +25,7 @@ export default function TestimonialsWhiteGrid() {
             We have worked with bunch of amazing people
           </p>
         </div>
-        <div className="mx-auto mt-16 flow-root max-w-2xl sm:mt-20 lg:mx-0 lg:max-w-none">
+        <div className="mt-16 flow-root max-w-2xl sm:mt-20 lg:max-w-none">
           {isLoading && <Spinner wrapper />}
           <div className="-mt-8 sm:-mx-4 sm:columns-2 sm:text-[0] lg:columns-3">
             {testimonials?.map((testimonial, key) => {
