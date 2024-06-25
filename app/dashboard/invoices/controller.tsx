@@ -104,6 +104,7 @@ export default function Page() {
   }>(BASE_STATE);
   const inputRef = useRef<HTMLInputElement>(null);
   const mounted = useRef<boolean>(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const { advanced, isLoading } = useSubscription({});
   const { templates, isLoading: isTemplateLoading } = useTemplates({});
@@ -172,6 +173,20 @@ export default function Page() {
     });
   }
 
+  async function resetTemplate() {
+    try {
+      setState(BASE_STATE);
+      formRef.current?.reset(); // Reset form
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      formRef.current?.dispatchEvent(
+        new Event('submit', { bubbles: true, cancelable: true }) // Trigger form submit
+      );
+    } catch (error) {
+      toast?.error('An error occurred while resetting the form.');
+    }
+  }
+
   const debouncedHandleChange = debounce((cKey: number, value: string) => {
     handleChange(cKey, value);
   }, 300);
@@ -200,6 +215,7 @@ export default function Page() {
       {loading && <TableSkeleton cardClass="h-[148px]" />}
       {advanced && !loading && (
         <form
+          ref={formRef}
           action={async (formData) => {
             const { status } = await invoiceTemplate(formData);
             if (status === 200) {
@@ -449,7 +465,7 @@ export default function Page() {
 
           <Actions
             id={TEMPLATE?.id}
-            resetCallBack={() => setState(BASE_STATE)}
+            resetCallBack={resetTemplate}
             hasUpdates={state?.hasUpdates}
           />
         </form>
