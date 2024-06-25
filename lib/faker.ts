@@ -5,8 +5,11 @@ export function fakerUser() {
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
     email: faker.internet.email(),
-    imageUrl:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    imageUrl: faker.image.urlLoremFlickr({
+      category: 'person',
+      width: 40,
+      height: 40,
+    }),
   };
 
   return blob as any;
@@ -35,9 +38,29 @@ export function fakerCharges() {
     description: faker.finance.transactionDescription(),
     receipt_url: faker.internet.url(),
     status: faker.finance.transactionType(),
-    paid: faker.datatype.boolean(),
+    paid: faker.datatype.boolean({ probability: 90 }),
   }));
   console.log(blob);
+
+  return blob as any;
+}
+
+export function fakerCustomers() {
+  const blob = Array.from({ length: 10 }, () => ({
+    id: faker.datatype.uuid(),
+    address: {
+      line1: faker.location.streetAddress(),
+      city: faker.location.city(),
+      state: faker.location.state(),
+      postal_code: faker.location.zipCode(),
+      country: faker.location.country(),
+    },
+    balance: faker.finance.amount(),
+    created: faker.date.between('2024-06-01', '2024-06-24').getTime() / 1000,
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    currency: faker.finance.currencyCode(),
+  }));
 
   return blob as any;
 }

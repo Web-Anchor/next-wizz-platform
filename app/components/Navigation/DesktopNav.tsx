@@ -25,11 +25,11 @@ export default function DesktopNav() {
   const path = usePathname();
 
   let { user, isLoaded } = useUser();
+  user = fakerUser(); // faker data
   const { data, count, hasKeys } = useStripeKeys({});
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
   const { active, basic, advanced, pro } = useSubscription({});
-  // user = fakerUser();
 
   const navigation = mainNav({
     show: showMainNavRoutes({ active, basic, advanced, pro }),

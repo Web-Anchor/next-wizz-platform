@@ -19,6 +19,7 @@ import { buildTemplate, getTemplate } from '@server/templates';
 import Badge from '@app/components/Badge';
 import { useSubscription } from '@hooks/useSubscriptions';
 import { plans } from '@config/index';
+import { fakerCustomers } from '@lib/faker';
 
 export default function Page() {
   const [state, setState] = useState<{
@@ -34,10 +35,11 @@ export default function Page() {
 
   const { user } = useUser({});
   const { product } = useSubscription({});
-  const { customers, has_previous, has_more, isLoading } = useCustomers({
+  let { customers, has_previous, has_more, isLoading } = useCustomers({
     starting_after,
     ending_before,
   });
+  customers = fakerCustomers(); // faker data
   const plan = plans?.[product?.name];
 
   const response = state?.customers || customers;

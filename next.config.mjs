@@ -6,6 +6,8 @@ const nextConfig = {
       'images.unsplash.com',
       'img.clerk.com',
       'invoice-storage.b-cdn.net',
+      'avatars.githubusercontent.com',
+      'loremflickr.com',
     ],
   },
 };
