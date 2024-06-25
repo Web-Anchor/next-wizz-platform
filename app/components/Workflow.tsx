@@ -1,9 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import {
   CloudArrowUpIcon,
   ServerIcon,
-  ArrowPathIcon,
   SwatchIcon,
   PlusCircleIcon,
   BoltIcon,
@@ -86,11 +86,10 @@ export default function Workflow() {
                 aria-hidden="true"
               />
               <div className="mx-auto max-w-2xl sm:mx-0 sm:max-w-none">
-                <img
-                  src="https://tailwindui.com/img/component-images/project-app-screenshot.png"
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_STORAGE_CDN}/dashboard.png`}
                   alt="Product screenshot"
                   width={2432}
-                  // height={1442}
                   height={1842}
                   className="-mb-12 w-[57rem] max-w-none rounded-tl-xl bg-gray-800 ring-1 ring-white/10"
                 />

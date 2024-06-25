@@ -8,6 +8,7 @@ const nextConfig = {
       'invoice-storage.b-cdn.net',
       'avatars.githubusercontent.com',
       'loremflickr.com',
+      'invoicio-cdn.b-cdn.net',
     ],
   },
 };
