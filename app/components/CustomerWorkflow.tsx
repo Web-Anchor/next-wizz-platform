@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import {
   PrinterIcon,
   CursorArrowRaysIcon,
@@ -12,11 +13,20 @@ export default function CustomerWorkflow() {
     <div className="relative">
       <div className="mx-auto max-w-7xl lg:flex lg:justify-between lg:px-8 xl:justify-end">
         <div className="lg:flex lg:w-1/2 lg:shrink lg:grow-0 xl:absolute xl:inset-y-0 xl:right-1/2 xl:w-1/2">
-          <div className="relative h-80 lg:-ml-8 lg:h-auto lg:w-full lg:grow xl:ml-0">
-            <img
+          <div className="flex lg:hidden relative h-80 lg:-ml-8 lg:h-auto lg:w-full lg:grow xl:ml-0">
+            <Image
               className="absolute inset-0 h-full w-full bg-gray-50 object-cover"
-              src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=focalpoint&fp-x=.4&w=2560&h=3413&&q=80"
-              alt=""
+              src={`${process.env.NEXT_PUBLIC_STORAGE_CDN}/entrepreneur.jpg`}
+              alt="Entrepreneur working"
+              fill
+            />
+          </div>
+          <div className="hidden lg:flex relative h-80 lg:-ml-8 lg:h-auto lg:w-full lg:grow xl:ml-0">
+            <Image
+              className="absolute inset-0 h-full w-full bg-gray-50 object-cover"
+              src={`${process.env.NEXT_PUBLIC_STORAGE_CDN}/office.jpg`}
+              alt="Entrepreneur working"
+              fill
             />
           </div>
         </div>
