@@ -4,21 +4,17 @@ import PageHeadings from '@app/components/PageHeadings';
 import Wrapper from '@app/components/Wrapper';
 import { SectionWrapper } from '@app/components/Wrapper';
 import StatsCard from '@app/components/StatsCard';
-import PieChart from '@app/components/analytics/PieChart';
 import NumbersCard from '@app/components/NumbersCard';
 import { useStatistics } from '@hooks/index';
-import {
-  convertKeyValueObjToArray,
-  currentMonth,
-  last7Days,
-  lastMonth,
-} from '@helpers/index';
+import { currentMonth, last7Days, lastMonth } from '@helpers/index';
+import { fakerStatsCharges, fakerStatsCustomers } from '@lib/faker';
 
 export default function Page() {
-  const { charges, customers, isLoading } = useStatistics({
+  let { charges, customers, isLoading } = useStatistics({
     type: 'advanced',
   });
-  console.log('charges', charges);
+  customers = fakerStatsCustomers(); // faker data
+  charges = fakerStatsCharges(); // faker data
 
   return (
     <Wrapper>

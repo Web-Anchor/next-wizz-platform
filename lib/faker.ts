@@ -194,8 +194,6 @@ export function fakerStatsCharges() {
     totalLastMonthSuccessfulCharges: faker.number.int({ max: 100 }),
   };
 
-  console.log(blob);
-
   return blob as any;
 }
 
@@ -239,12 +237,10 @@ export function fakerStatsCustomers() {
     customersLastMonth: fakerCustomers(),
     customersPercentageGrowth: faker.number.int({ max: 100 }),
     customersTotal: faker.number.int({ max: 100 }),
-    customersTotalCurrentMonth: faker.number.int({ max: 100 }),
+    customersTotalCurrentMonth: faker.number.int({ max: 100, min: 50 }),
     customersTotalLastMonth: faker.number.int({ max: 100 }),
-    useCustomersCurrentMonthGrowth: faker.number.int({ max: 100 }),
+    useCustomersCurrentMonthGrowth: faker.number.int({ max: 100, min: 35 }),
   };
-
-  console.log(blob);
 
   return blob as any;
 }

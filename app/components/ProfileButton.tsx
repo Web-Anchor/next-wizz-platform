@@ -13,13 +13,15 @@ import UserProfileCard from './UserProfileCard';
 import { useClerk, useUser } from '@clerk/nextjs';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { fakerUser } from '@lib/faker';
 
 type Props = {
   hide?: boolean;
 };
 
 export default function ProfileButton(props: Props): React.ReactElement {
-  const { isSignedIn, user, isLoaded } = useUser();
+  let { isSignedIn, user, isLoaded } = useUser();
+  // user = fakerUser(); // faker data
   const { signOut } = useClerk();
   const router = useRouter();
   const searchParams = useSearchParams()!;
