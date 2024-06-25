@@ -29,13 +29,13 @@ export default function Page() {
         slogan="Informed Decisions, Thriving Business - Your Data, Your Power!"
       />
 
-      <SectionWrapper class="lg:flex-row flex-wrap gap-5">
-        <PageHeadings
-          title="Advanced Revenue Analytics Suite"
-          description=" Dive into detailed revenue analytics, transaction trends, and payment performance metrics with our Charges Insights Module. Unlock valuable insights into your financial data to optimize revenue streams and drive business growth."
-          slogan="Navigate Revenue Waters, Chart Your Success!"
-        />
+      <PageHeadings
+        title="Advanced Revenue Analytics Suite"
+        description=" Dive into detailed revenue analytics, transaction trends, and payment performance metrics with our Charges Insights Module. Unlock valuable insights into your financial data to optimize revenue streams and drive business growth."
+        slogan="Navigate Revenue Waters, Chart Your Success!"
+      />
 
+      <SectionWrapper class="lg:flex-row flex-wrap gap-5">
         <NumbersCard
           number={charges?.avgRevenuePerUserCurrentMonth}
           icon="customers"
@@ -83,13 +83,13 @@ export default function Page() {
         />
       </SectionWrapper>
 
+      <PageHeadings
+        title="Advanced Customer Analytics."
+        description="Get a pulse on customer behavior, lifetime value trends, and acquisition insights with our Customers Insights Module. Understand your customer base better, segment effectively, and enhance retention strategies for sustainable growth."
+        slogan="Connecting with Customers, Growing Together!"
+        class="order-1 lg:-order-none"
+      />
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
-        <PageHeadings
-          title="Advanced Customer Analytics."
-          description="Get a pulse on customer behavior, lifetime value trends, and acquisition insights with our Customers Insights Module. Understand your customer base better, segment effectively, and enhance retention strategies for sustainable growth."
-          slogan="Connecting with Customers, Growing Together!"
-          class="order-1 lg:-order-none"
-        />
         <PieChart
           title={`Geographical Customer\nDistribution`}
           data={convertKeyValueObjToArray(customers?.customerDemographics)}
@@ -112,14 +112,14 @@ export default function Page() {
           description="Analyze the currencies used by your customers for transactions to optimize pricing strategies and tailor payment options based on popular currencies."
         />
         <PieChart
-          title={`Customer Creation\nDay of Week`}
+          header={`Customer Creation\nDay of Week`}
           data={convertKeyValueObjToArray(customers?.customerCreationDayOfWeek)}
           loading={isLoading}
           type="radial"
           description="Chart the distribution of payment methods preferred by customers to understand their payment preferences and optimize payment processing options for a seamless customer experience."
         />
         <PieChart
-          title={`Customer Payment\nMethod Distribution`}
+          header={`Customer Payment\nMethod Distribution`}
           data={convertKeyValueObjToArray(customers?.customerPaymentMethod)}
           loading={isLoading}
           type="radial"
@@ -127,13 +127,12 @@ export default function Page() {
         />
       </SectionWrapper>
 
+      <PageHeadings
+        title="Revenue Insights & Trends."
+        description="Elevate your revenue analysis with our Advanced Revenue Analytics Suite, offering sophisticated chart components for in-depth financial metrics exploration. Uncover revenue trends, customer spending patterns, and subscription performance to drive strategic decision-making."
+        slogan="Charting Success, Unveiling Opportunities!"
+      />
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
-        <PageHeadings
-          title="Revenue Insights & Trends."
-          description="Elevate your revenue analysis with our Advanced Revenue Analytics Suite, offering sophisticated chart components for in-depth financial metrics exploration. Uncover revenue trends, customer spending patterns, and subscription performance to drive strategic decision-making."
-          slogan="Charting Success, Unveiling Opportunities!"
-        />
-
         <NumbersCard
           number={charges?.totalCurrentRefunds}
           icon="payments"
@@ -182,7 +181,7 @@ export default function Page() {
           description="Chart the distribution of charge funding sources (e.g., credit cards, bank accounts) to track payment trends and optimize payment processing methods based on customer preferences."
         />
         <PieChart
-          title={`Charges Source\n By Brand Distribution`}
+          header={`Charges Source\n By Brand Distribution`}
           data={convertKeyValueObjToArray(
             charges?.chargesSourceBrandDistributionCurrentMonth
           )}

@@ -49,7 +49,7 @@ export function fakerUser() {
 }
 
 export function fakerCharges() {
-  const blob = Array.from({ length: 10 }, () => ({
+  const blob = Array.from({ length: 5 }, () => ({
     id: faker.string.uuid(),
     amount: faker.finance.amount(),
     billing_details: {
@@ -80,7 +80,7 @@ export function fakerCharges() {
 }
 
 export function fakerCustomers() {
-  const blob = Array.from({ length: 10 }, () => ({
+  const blob = Array.from({ length: 8 }, () => ({
     id: faker.string.uuid(),
     address: {
       line1: faker.location.streetAddress(),

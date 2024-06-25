@@ -108,7 +108,7 @@ export default function PieChart(props: Props): React.ReactElement | null {
         )}
       />
       {props?.header && (
-        <header className="flex items-center justify-between">
+        <header className="flex items-center justify-center">
           <h2 className="text-lg font-semibold text-gray-800">
             {props.header}
           </h2>

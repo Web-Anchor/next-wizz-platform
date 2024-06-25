@@ -24,12 +24,12 @@ export default function Page() {
         slogan="Informed Decisions, Thriving Business - Your Data, Your Power!"
       />
 
+      <PageHeadings
+        title="Revenue Explorer"
+        description=" Dive into detailed revenue analytics, transaction trends, and payment performance metrics with our Charges Insights Module. Unlock valuable insights into your financial data to optimize revenue streams and drive business growth."
+        slogan="Navigate Revenue Waters, Chart Your Success!"
+      />
       <SectionWrapper class="lg:flex-row flex-wrap gap-5">
-        <PageHeadings
-          title="Revenue Explorer"
-          description=" Dive into detailed revenue analytics, transaction trends, and payment performance metrics with our Charges Insights Module. Unlock valuable insights into your financial data to optimize revenue streams and drive business growth."
-          slogan="Navigate Revenue Waters, Chart Your Success!"
-        />
         <StatsCard
           currentTotal={charges?.totalCurrentCharges}
           previousTotal={`${charges?.totalLastMonthCharges} prev`}
@@ -86,13 +86,15 @@ export default function Page() {
           description={lastMonth()}
           subDescription="Customer Growth Rate"
         />
+      </SectionWrapper>
 
-        <PageHeadings
-          title="Customer Pulse."
-          description="Visualize key metrics from Stripe charges and customers API data in an easy-to-understand format with our Basic Charts Component. Gain insights into revenue trends, customer behavior, and payment performance at a glance."
-          slogan="Simplify Insights, Drive Growth - Charting Your Success!"
-        />
+      <PageHeadings
+        title="Customer Pulse."
+        description="Visualize key metrics from Stripe charges and customers API data in an easy-to-understand format with our Basic Charts Component. Gain insights into revenue trends, customer behavior, and payment performance at a glance."
+        slogan="Simplify Insights, Drive Growth - Charting Your Success!"
+      />
 
+      <SectionWrapper class="lg:flex-row flex-wrap gap-5">
         <NumbersCard
           number={customers?.customersLast7Days}
           icon="customers"
