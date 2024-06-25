@@ -67,7 +67,7 @@ export default function PieChart(props: Props): React.ReactElement | null {
     scale: props?.style === 'spectral' ? spectral : undefined,
   };
   const radialConfig = {
-    data: convertObjUnknownValue(props.data!),
+    data: convertObjUnknownValue(props.data),
     xField: 'name',
     yField: 'value',
     startAngle: Math.PI * 0.5,
@@ -149,14 +149,11 @@ function capitalize(value: string) {
     .join(' ');
 }
 
-function convertObjUnknownValue(
-  obj: {
-    type?: string | undefined;
-    value?: number | undefined;
-  }[]
-) {
-  return obj.map((item) => ({
-    name: notDefined(item?.type),
-    value: item?.value ?? 0,
-  }));
+function convertObjUnknownValue(input?: { name?: string; value?: number }[]) {
+  return input?.map((item) => {
+    return {
+      name: notDefined(item?.name),
+      value: item?.value || 0,
+    };
+  });
 }

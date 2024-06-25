@@ -11,12 +11,15 @@ import {
   currentMonth,
   lastMonth,
 } from '@helpers/index';
+import { fakerStatsCharges, fakerStatsCustomers } from '@lib/faker';
 
 export default function Page() {
-  const { charges, customers, isLoading } = useStatistics({
+  let { charges, customers, isLoading } = useStatistics({
     type: 'advanced',
   });
-  console.log('🚧 STATS ', customers);
+  customers = fakerStatsCustomers(); // faker data
+  charges = fakerStatsCharges(); // faker data
+  console.log('🚧 STATS ', charges);
 
   return (
     <Wrapper>
