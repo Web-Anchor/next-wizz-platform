@@ -217,17 +217,29 @@ export default function Page() {
         <form
           ref={formRef}
           action={async (formData) => {
-            const { status } = await invoiceTemplate(formData);
-            if (status === 200) {
-              toast?.success('Invoice template saved successfully!');
-              mutate(`/api/v1/templates`);
-            }
-            if (status !== 200) {
+            try {
+              setState((prev) => ({ ...prev, fetching: 'submit' }));
+              const { status } = await invoiceTemplate(formData);
+              if (status === 200) {
+                toast?.success('Invoice template saved successfully!');
+                mutate(`/api/v1/templates`);
+              }
+              if (status !== 200) {
+                toast?.error(
+                  'An error occurred while saving the invoice template.'
+                );
+              }
+            } catch (error) {
               toast?.error(
                 'An error occurred while saving the invoice template.'
               );
+            } finally {
+              setState((prev) => ({
+                ...prev,
+                hasUpdates: false,
+                fetching: undefined,
+              }));
             }
-            setState((prev) => ({ ...prev, hasUpdates: false }));
           }}
           className={classNames(
             'relative flex flex-col gap-5',
@@ -262,6 +274,7 @@ export default function Page() {
                         hasUpdates: true,
                       }))
                     }
+                    disabled={!!state?.fetching}
                   />
                   <input
                     type="checkbox"
