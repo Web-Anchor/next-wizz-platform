@@ -243,6 +243,7 @@ export default function Page() {
                       setState((prev) => ({
                         ...prev,
                         [item?.isSetKey]: !prev[item?.isSetKey],
+                        hasUpdates: true,
                       }))
                     }
                   />

@@ -3,6 +3,7 @@ import { classNames } from '@helpers/index';
 
 type Props = {
   enabled?: boolean;
+  disabled?: boolean;
   class?: string;
   onChange?: (enabled?: boolean) => void;
 };
@@ -17,6 +18,7 @@ export default function Switch(props: Props) {
         props?.enabled ? 'bg-indigo-600' : 'bg-gray-200',
         props?.class
       )}
+      disabled={props?.disabled}
     >
       <span
         aria-hidden="true"
