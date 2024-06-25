@@ -25,7 +25,7 @@ export default function DesktopNav() {
   const path = usePathname();
 
   let { user, isLoaded } = useUser();
-  user = fakerUser(); // faker data
+  // user = fakerUser(); // faker data
   const { data, count, hasKeys } = useStripeKeys({});
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
