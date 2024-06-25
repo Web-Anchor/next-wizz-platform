@@ -50,7 +50,7 @@ export default function Workflow() {
           <div className="px-6 lg:px-0 lg:pr-4 lg:pt-4">
             <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
               <section className="lg:text-center">
-                <h2 className="text-base font-semibold leading-7 text-indigo-600">
+                <h2 className="text-xl font-semibold leading-7 text-indigo-600">
                   Streamline Your Invoicing Process with Ease
                 </h2>
                 <p className="mt-2 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">

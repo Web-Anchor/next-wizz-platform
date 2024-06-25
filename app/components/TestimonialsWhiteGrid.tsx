@@ -1,14 +1,13 @@
 'use client';
 
+import Image from 'next/image';
 import { useTestimonials } from '@hooks/useTestimonials';
 import { Spinner } from './Skeleton';
 import { StarIcon } from '@heroicons/react/24/solid';
-import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { classNames } from '@helpers/index';
-import { useState } from 'react';
+import placeholder from '../../public/images/avatar.png';
 
 export default function TestimonialsWhiteGrid() {
-  const [state, setState] = useState<{ error?: boolean }>({});
   const { testimonials, isLoading } = useTestimonials({});
 
   if (!testimonials?.length && !isLoading) {
@@ -19,7 +18,7 @@ export default function TestimonialsWhiteGrid() {
     <div className="relative py-12 sm:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-xl lg:text-center">
-          <h2 className="text-lg font-semibold leading-8 tracking-tight text-indigo-600">
+          <h2 className="text-xl font-semibold leading-8 tracking-tight text-indigo-600">
             Testimonials
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-800 sm:text-4xl">
@@ -45,20 +44,14 @@ export default function TestimonialsWhiteGrid() {
                       <p>{`“${testimonial?.comments}”`}</p>
                     </blockquote>
                     <figcaption className="mt-6 flex items-center gap-x-4">
-                      {testimonial?.imageUrl && !state.error && (
-                        <img
-                          className="h-10 w-10 rounded-full bg-gray-50"
-                          src={testimonial.imageUrl}
-                          alt="user-profile"
-                          onError={() => {
-                            setState((prev) => ({ ...prev, error: true }));
-                          }}
-                        />
-                      )}
+                      <Image
+                        className="rounded-full bg-gray-50"
+                        alt="user-profile"
+                        src={urlValidator(testimonial.imageUrl!)}
+                        width={40}
+                        height={40}
+                      />
 
-                      {(!testimonial?.imageUrl || state.error) && (
-                        <UserCircleIcon className="h-12 w-12 text-gray-300" />
-                      )}
                       <div>
                         <div className="font-semibold">
                           {nameValidator(
@@ -98,4 +91,14 @@ function nameValidator(firstName?: string, lastName?: string) {
   }
 
   return firstName ?? '' + ' ' + lastName ?? '';
+}
+
+function urlValidator(url: string): string {
+  try {
+    new URL(url);
+
+    return url;
+  } catch (error) {
+    return placeholder as unknown as string;
+  }
 }
