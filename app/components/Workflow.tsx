@@ -45,10 +45,10 @@ const features = [
 export default function Workflow() {
   return (
     <div className="overflow-hidden py-6 sm:py-10">
-      <div className="mx-auto max-w-7xl md:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-start">
           <div className="px-6 lg:px-0 lg:pr-4 lg:pt-4">
-            <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
+            <div className="max-w-2xl lg:max-w-lg">
               <section className="lg:text-center">
                 <h2 className="text-xl font-semibold leading-7 text-indigo-600">
                   Streamline Your Invoicing Process with Ease
@@ -80,12 +80,12 @@ export default function Workflow() {
             </div>
           </div>
           <div className="sm:px-6 lg:px-0 my-auto">
-            <div className="relative isolate overflow-hidden bg-indigo-500 px-6 pt-8 sm:mx-auto sm:max-w-2xl sm:rounded-3xl sm:pl-16 sm:pr-0 sm:pt-16 lg:mx-0 lg:max-w-none">
+            <div className="relative isolate overflow-hidden bg-indigo-500 px-6 pt-8 lg:max-w-2xl sm:rounded-3xl sm:pl-16 sm:pr-0 sm:pt-16 lg:mx-0 max-w-none">
               <div
                 className="absolute -inset-y-px -left-3 -z-10 w-full origin-bottom-left skew-x-[-30deg] bg-indigo-100 opacity-20 ring-1 ring-inset ring-white"
                 aria-hidden="true"
               />
-              <div className="mx-auto max-w-2xl sm:mx-0 sm:max-w-none">
+              <div className="mx-auto lg:max-w-2xl sm:mx-0 sm:max-w-none">
                 <Image
                   src={`${process.env.NEXT_PUBLIC_STORAGE_CDN}/dashboard.png`}
                   alt="Product screenshot"
