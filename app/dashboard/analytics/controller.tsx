@@ -22,7 +22,7 @@ export default function Page() {
   console.log('🚧 STATS ', charges);
 
   return (
-    <Wrapper>
+    <Wrapper class="max-w-5xl">
       <PageHeadings
         title="Reports Hub. Gain Insights, Drive Decisions."
         description="Explore comprehensive reports and analytics on our Reports page to gain valuable insights into your financial data. Track performance metrics, monitor trends, and make informed decisions to drive your business forward. Leverage data-driven insights to optimize your strategies and achieve success."
