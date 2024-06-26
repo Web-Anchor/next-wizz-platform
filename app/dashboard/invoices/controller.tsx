@@ -187,6 +187,23 @@ export default function Page() {
     }
   }
 
+  async function removeImgAction() {
+    try {
+      setState((prev) => ({ ...prev, imgUrl: undefined }));
+
+      const formData = await new FormData(formRef.current!);
+      formData.set('isImgUrl', 'off');
+
+      const { status } = await invoiceTemplate(formData);
+      console.log('🚫 Remove image status:', status);
+      if (status === 200) {
+        toast?.success('Image removed successfully!');
+      }
+    } catch (error) {
+      toast?.error('An error occurred while resetting the form.');
+    }
+  }
+
   const debouncedHandleChange = debounce((cKey: number, value: string) => {
     handleChange(cKey, value);
   }, 300);
@@ -377,12 +394,7 @@ export default function Page() {
                           <Button
                             style="ghost"
                             class="absolute -top-5 -right-5 w-fit"
-                            onClick={() => {
-                              setState((prev) => ({
-                                ...prev,
-                                imgUrl: undefined,
-                              }));
-                            }}
+                            onClick={removeImgAction}
                           >
                             <section className="bg-slate-400 rounded-full p-1 bg-opacity-50">
                               <XCircleIcon className="h-5 w-5" />
@@ -420,13 +432,6 @@ export default function Page() {
                         style="primary"
                         onClick={() => inputRef.current?.click()}
                       />
-
-                      {!state?.imgUrl && TEMPLATE?.imgUrl && (
-                        <p className="text-xs text-gray-400 self-end mr-10">
-                          To remove previous logo, please update template with
-                          new one or switch off the this feature!
-                        </p>
-                      )}
                     </section>
                   )}
 
