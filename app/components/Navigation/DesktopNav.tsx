@@ -122,7 +122,7 @@ export default function DesktopNav() {
                           )}
                           aria-hidden="true"
                         />
-                        <p>{item.name}</p>
+                        <section>{item.name}</section>
 
                         {item.count && (
                           <span className="flex items-center ml-auto px-2 py-0.5 text-xs font-semibold text-gray-800 bg-gray-100 rounded-md">

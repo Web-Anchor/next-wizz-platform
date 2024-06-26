@@ -24,8 +24,10 @@ export function getTimeAgo(dateString?: string | number): string {
       throw new Error('Date string is required');
     }
 
-    const inputDate = new Date(dateString);
-    return formatDistanceToNow(inputDate, { addSuffix: true });
+    return formatDistanceToNow(dateString, {
+      addSuffix: true,
+      includeSeconds: true,
+    });
   } catch (error) {
     console.error('Error getting time ago:', error);
     return '';

@@ -51,7 +51,7 @@ export const dummyData = {
 };
 
 export default function Page() {
-  const [state, setState] = useState<{ fetching?: boolean; type?: string }>({});
+  const [state, setState] = useState<{ fetching?: string; type?: string }>({});
   const formRef = useRef<HTMLFormElement>(null);
 
   const { count, components, isLoading } = useComponents({});
@@ -63,13 +63,14 @@ export default function Page() {
   const selected = components?.find(
     (item: Component) => item.type === state?.type
   );
+  console.log(components);
 
   async function submit(form: any) {
     try {
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: true }));
+      setState((prev) => ({ ...prev, fetching: 'submit' }));
       const type = form.get('type');
       const slogan = form.get('slogan');
       const description = form.get('description');
@@ -97,7 +98,7 @@ export default function Page() {
       console.error(err.message);
       toast.error(err.message);
     } finally {
-      setState((prev) => ({ ...prev, fetching: false }));
+      setState((prev) => ({ ...prev, fetching: undefined }));
     }
   }
 
@@ -114,7 +115,7 @@ export default function Page() {
       // --------------------------------------------------------------------------------
       // 📌  Delete Component
       // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: true }));
+      setState((prev) => ({ ...prev, fetching: id }));
 
       const { data, status } = await cFetch({
         url: `/api/v1/components/delete?id=${id}`,
@@ -132,7 +133,7 @@ export default function Page() {
       console.error(err.message);
       toast.error(err.message);
     } finally {
-      setState((prev) => ({ ...prev, fetching: false }));
+      setState((prev) => ({ ...prev, fetching: undefined }));
     }
   }
 
@@ -301,7 +302,11 @@ export default function Page() {
           </div>
 
           <div className="mt-6 flex items-center justify-end gap-x-6">
-            <Button fetching={state?.fetching} type="submit">
+            <Button
+              fetching={state?.fetching === 'submit'}
+              type="submit"
+              disabled={!!state.fetching}
+            >
               Add Component
             </Button>
           </div>
@@ -338,7 +343,8 @@ export default function Page() {
                       onClick={() => {
                         deleteComponent(item.id!);
                       }}
-                      fetching={state?.fetching}
+                      fetching={state?.fetching === item.id}
+                      disabled={!!state?.fetching}
                     >
                       Delete
                     </Button>
