@@ -209,7 +209,7 @@ export default function Page() {
   }, 300);
 
   return (
-    <Wrapper>
+    <Wrapper class="max-w-4xl">
       {!advanced && !isLoading && (
         <>
           <PageHeadings

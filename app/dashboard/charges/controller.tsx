@@ -29,7 +29,7 @@ export default function Page() {
     starting_after,
     ending_before,
   });
-  charges = fakerCharges(); // faker data
+  // charges = fakerCharges(); // faker data
 
   const response = state?.charges || charges;
   const hasMoreRes = state?.has_more ?? has_more;

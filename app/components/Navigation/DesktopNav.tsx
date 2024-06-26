@@ -24,7 +24,7 @@ export default function DesktopNav() {
   const path = usePathname();
 
   let { user, isLoaded } = useUser();
-  user = fakerUser(true); // faker data
+  // user = fakerUser(true); // faker data
   const { data, count, hasKeys } = useStripeKeys({});
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
@@ -143,7 +143,7 @@ export default function DesktopNav() {
                 <Support />
               </ul>
             </li>
-            <li className="flex flex-col gap-5 mb-6 mt-auto ">
+            <li className="flex flex-col gap-5 mb-6 mt-auto">
               {!isLoaded && (
                 <div className="flex flex-col gap-4 w-fit">
                   <div className="flex gap-4 items-center">

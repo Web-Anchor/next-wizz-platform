@@ -13,8 +13,8 @@ export default function Page() {
   let { charges, customers, isLoading } = useStatistics({
     type: 'advanced',
   });
-  customers = fakerStatsCustomers(); // faker data
-  charges = fakerStatsCharges(); // faker data
+  // customers = fakerStatsCustomers(); // faker data
+  // charges = fakerStatsCharges(); // faker data
 
   return (
     <Wrapper>
@@ -94,7 +94,7 @@ export default function Page() {
         slogan="Simplify Insights, Drive Growth - Charting Your Success!"
       />
 
-      <SectionWrapper class="lg:flex-row flex-wrap gap-5">
+      <SectionWrapper class="lg:flex-row flex-wrap gap-5 lg:mb-10">
         <NumbersCard
           number={customers?.customersLast7Days}
           icon="customers"

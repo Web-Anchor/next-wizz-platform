@@ -39,7 +39,7 @@ export default function Page() {
     starting_after,
     ending_before,
   });
-  customers = fakerCustomers(); // faker data
+  // customers = fakerCustomers(); // faker data
   const plan = plans?.[product?.name];
 
   const response = state?.customers || customers;
