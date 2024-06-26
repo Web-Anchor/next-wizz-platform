@@ -11,6 +11,7 @@ import {
   validateActiveSubMiddleware,
   validateAdvancedSubMiddleware,
 } from '@lib/subscription';
+import { removeObj } from '@server/file-delete-bunnycdn';
 
 export async function invoiceTemplate(formData: FormData): Promise<any> {
   try {
@@ -35,8 +36,6 @@ export async function invoiceTemplate(formData: FormData): Promise<any> {
     const subRes = await subscription({ userId });
     validateActiveSubMiddleware({ status: subRes?.subscription?.status });
     validateAdvancedSubMiddleware({ name: subRes?.product?.name });
-
-    const { url } = await upload(imgUrl);
 
     const data = Array.from(formData.entries()).map((entry) => {
       const [key, value] = entry;
@@ -64,6 +63,24 @@ export async function invoiceTemplate(formData: FormData): Promise<any> {
 
     console.log('📂 file:', imgUrl);
     console.log('📝 Form Data:', data);
+
+    // --------------------------------------------------------------------------------
+    // 📌  remove img from storage
+    // --------------------------------------------------------------------------------
+    if (!isImgUrl) {
+      console.log('📂 Attempting Remove img from storage');
+      await removeObj(dbTemplates?.[0]?.imgUrl!);
+    }
+
+    // --------------------------------------------------------------------------------
+    // 📌  Add image to the storage
+    // --------------------------------------------------------------------------------
+    let url: string | undefined;
+    if (isImgUrl) {
+      console.log('📂 Attempting Upload img to storage');
+      const { url: resUrl } = await upload(imgUrl);
+      url = resUrl;
+    }
 
     if (!!dbTemplates.length) {
       // --------------------------------------------------------------------------------
