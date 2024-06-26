@@ -7,10 +7,15 @@ import { useClerk, useUser } from '@clerk/nextjs';
 import { usePathname, useRouter } from 'next/navigation';
 import UserProfileCard from '@components/UserProfileCard';
 import Logo from '@components/Logo';
-import { Disclosure } from '@headlessui/react';
+import {
+  Disclosure,
+  DisclosurePanel,
+  DisclosureButton,
+} from '@headlessui/react';
 import ProfileButton from './ProfileButton';
 import { mainNav, showMainNavRoutes } from '@helpers/data';
 import { useSubscription } from '@hooks/useSubscriptions';
+import { useRef } from 'react';
 
 type Props = {
   class?: string;
@@ -23,11 +28,11 @@ export default function Header(props: Props) {
   const { signOut } = useClerk();
   const { isSignedIn, user, isLoaded } = useUser();
   const { active, basic, advanced, pro } = useSubscription({});
+  const ctaRef = useRef<HTMLButtonElement>(null);
 
   const navigation = mainNav({
     show: showMainNavRoutes({ active, basic, advanced, pro }),
   });
-  console.log('👤 User ', isSignedIn, user);
 
   function signOutUser(e: { preventDefault: () => void }) {
     e.preventDefault();
@@ -72,22 +77,26 @@ export default function Header(props: Props) {
                             Dashboard
                           </Link>
                         )}
+
                         <Link
                           href="#pricing"
                           scroll
                           className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                          onClick={() => ctaRef.current?.click()}
                         >
                           Pricing
                         </Link>
                         <Link
                           href="#facts"
                           className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                          onClick={() => ctaRef.current?.click()}
                         >
                           Facts
                         </Link>
                         <Link
                           href={isSignedIn ? '/dashboard/support' : '/contact'}
                           className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                          onClick={() => ctaRef.current?.click()}
                         >
                           Contact
                         </Link>
@@ -119,7 +128,10 @@ export default function Header(props: Props) {
                 )}
                 <div className="-mr-2 flex flex-row gap-2 items-center sm:hidden">
                   {/* Mobile menu button */}
-                  <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                  <DisclosureButton
+                    className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                    ref={ctaRef}
+                  >
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Open main menu</span>
                     {open ? (
@@ -127,12 +139,12 @@ export default function Header(props: Props) {
                     ) : (
                       <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                     )}
-                  </Disclosure.Button>
+                  </DisclosureButton>
                 </div>
               </div>
             </div>
 
-            <Disclosure.Panel className="sm:hidden">
+            <DisclosurePanel className="sm:hidden">
               <div className="space-y-1 pb-3 pt-2">
                 {path !== '/' && (
                   <>
@@ -147,15 +159,21 @@ export default function Header(props: Props) {
                       href="#pricing"
                       scroll
                       className={classNames(mobInactive)}
+                      onClick={() => ctaRef.current?.click()}
                     >
                       Pricing
                     </Link>
-                    <Link href="#facts" className={classNames(mobInactive)}>
+                    <Link
+                      href="#facts"
+                      className={classNames(mobInactive)}
+                      onClick={() => ctaRef.current?.click()}
+                    >
                       Facts
                     </Link>
                     <Link
                       href={isSignedIn ? '/dashboard/support' : '/contact'}
                       className={classNames(mobInactive)}
+                      onClick={() => ctaRef.current?.click()}
                     >
                       Contact
                     </Link>
@@ -208,7 +226,7 @@ export default function Header(props: Props) {
                   </div>
                 </div>
               )}
-            </Disclosure.Panel>
+            </DisclosurePanel>
           </>
         )}
       </Disclosure>

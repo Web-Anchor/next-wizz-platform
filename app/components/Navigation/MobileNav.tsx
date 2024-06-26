@@ -2,7 +2,6 @@
 
 import { classNames } from '@helpers/index';
 import { XMarkIcon, Bars3Icon } from '@heroicons/react/24/outline';
-import { useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
 import {
   useStripeKeys,
