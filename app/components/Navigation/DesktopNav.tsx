@@ -12,7 +12,6 @@ import {
   useTotalCustomers,
 } from '@hooks/index';
 import Link from 'next/link';
-import Badge from '@components/Badge';
 import {
   mainNav,
   menuNav,
@@ -54,10 +53,10 @@ export default function DesktopNav() {
           <Link
             href={team.href}
             className={classNames(
+              'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
               team.current
                 ? 'bg-gray-50 text-indigo-600'
-                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-              'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
             )}
           >
             <span
@@ -67,12 +66,21 @@ export default function DesktopNav() {
                   ? 'text-indigo-600 border-indigo-600'
                   : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600',
                 team.name === 'Help & Support' &&
-                  'border-green-500 text-green-500 bg-green-50'
+                  'border-green-500 text-green-500 bg-green-50',
+                isSupport && 'rounded-tr-[3px]'
               )}
             >
               {team.initial}
               {isSupport && (
-                <Badge class="absolute -top-3 -right-2 p-0" type="success" />
+                <svg
+                  className={classNames(
+                    'absolute top-0 -right-0 h-1.5 w-1.5 fill-green-500'
+                  )}
+                  viewBox="0 0 6 6"
+                  aria-hidden="true"
+                >
+                  <circle cx={3} cy={3} r={3} />
+                </svg>
               )}
             </span>
             <span className="truncate">{team.name}</span>
@@ -99,10 +107,10 @@ export default function DesktopNav() {
                       <Link
                         href={item.href}
                         className={classNames(
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                           item.current
                             ? 'bg-gray-50 text-indigo-600'
-                            : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                            : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
                         )}
                       >
                         <item.icon
@@ -114,7 +122,7 @@ export default function DesktopNav() {
                           )}
                           aria-hidden="true"
                         />
-                        {item.name}
+                        <p>{item.name}</p>
 
                         {item.count && (
                           <span className="flex items-center ml-auto px-2 py-0.5 text-xs font-semibold text-gray-800 bg-gray-100 rounded-md">

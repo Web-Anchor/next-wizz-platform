@@ -18,8 +18,12 @@ export function classNames(...classes: any[]) {
   return twMerge(merged);
 }
 
-export function getTimeAgo(dateString: string | number): string {
+export function getTimeAgo(dateString?: string | number): string {
   try {
+    if (!dateString) {
+      throw new Error('Date string is required');
+    }
+
     const inputDate = new Date(dateString);
     return formatDistanceToNow(inputDate, { addSuffix: true });
   } catch (error) {
