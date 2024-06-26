@@ -65,13 +65,14 @@ function UserProfileCard(props: Readonly<Props>) {
             </span>
           )}
           {props?.imgSrc && (
-            <Image
-              className="inline-block rounded-full"
-              src={props?.imgSrc}
-              alt={props?.imgAlt ?? 'user-profile'}
-              width={36}
-              height={36}
-            />
+            <section className="relative h-9 w-9 rounded-full overflow-hidden">
+              <Image
+                className="object-cover w-full h-full"
+                src={props?.imgSrc}
+                alt={props?.imgAlt ?? 'user-profile'}
+                fill
+              />
+            </section>
           )}
         </div>
         <div

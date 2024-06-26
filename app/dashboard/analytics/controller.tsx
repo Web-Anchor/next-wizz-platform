@@ -17,8 +17,8 @@ export default function Page() {
   let { charges, customers, isLoading } = useStatistics({
     type: 'advanced',
   });
-  // customers = fakerStatsCustomers(); // faker data
-  // charges = fakerStatsCharges(); // faker data
+  customers = fakerStatsCustomers(); // faker data
+  charges = fakerStatsCharges(); // faker data
   console.log('🚧 STATS ', charges);
 
   return (

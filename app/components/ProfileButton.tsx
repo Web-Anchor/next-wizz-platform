@@ -21,7 +21,7 @@ type Props = {
 
 export default function ProfileButton(props: Props): React.ReactElement {
   let { isSignedIn, user, isLoaded } = useUser();
-  // user = fakerUser(); // faker data
+  // user = fakerUser(true); // faker data
   const { signOut } = useClerk();
   const router = useRouter();
   const searchParams = useSearchParams()!;

@@ -33,8 +33,10 @@ const daysOfWeekList = [
 ];
 const paymentList = ['card', 'paypal', 'debit', 'eft', 'lk', 'mpesa'];
 
-export function fakerUser() {
-  const blob = {
+export function fakerUser(stable?: boolean) {
+  console.log('📂 fakerUser', stable);
+
+  let blob = {
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
     email: faker.internet.email(),
@@ -44,6 +46,16 @@ export function fakerUser() {
       height: 40,
     }),
   };
+
+  if (stable) {
+    blob = {
+      firstName: 'John',
+      lastName: 'Doe',
+      email: ' john@doe.com',
+      imageUrl:
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    } as any;
+  }
 
   return blob as any;
 }
