@@ -4,8 +4,8 @@ export function mediaScreenTitle(
 ) {
   return (
     <section>
-      <p className="truncate flex sm:hidden">{small ?? large}</p>
-      <p className="truncate hidden sm:flex">{large}</p>
+      <section className="truncate flex sm:hidden">{small ?? large}</section>
+      <section className="truncate hidden sm:flex">{large}</section>
     </section>
   );
 }
@@ -13,10 +13,10 @@ export function mediaScreenTitle(
 export function limitedTime(props: { title: string; message?: string }) {
   return (
     <section className="flex flex-row gap-2">
-      <span className="truncate">{props.title}</span>
-      <span className="text-md truncate bg-gradient-to-r from-primary to-danger bg-clip-text text-transparent">
+      <section className="truncate">{props.title}</section>
+      <section className="text-md truncate bg-gradient-to-r from-primary to-danger bg-clip-text text-transparent">
         {props.message}
-      </span>
+      </section>
     </section>
   );
 }

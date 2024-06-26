@@ -165,9 +165,9 @@ export default function Page() {
                 item: (
                   <section>
                     {!edit && (
-                      <p className="max-w-24 lg:max-w-none truncate text-ellipsis">
+                      <section className="max-w-24 lg:max-w-none truncate text-ellipsis">
                         {key.name}
-                      </p>
+                      </section>
                     )}
                     {edit && (
                       <input
@@ -186,9 +186,9 @@ export default function Page() {
                 item: (
                   <section>
                     {!edit && (
-                      <p className="blur">
+                      <section className="blur">
                         {convertToAsterisks(key.restrictedAPIKey!)}
-                      </p>
+                      </section>
                     )}
                     {edit && (
                       <input
@@ -205,7 +205,7 @@ export default function Page() {
               },
               { item: <KeyStatus stripeKey={key} /> },
               {
-                item: <p>{getTimeAgo(key.createdAt!)}</p>,
+                item: <section>{getTimeAgo(key.createdAt!)}</section>,
               },
               {
                 item: (

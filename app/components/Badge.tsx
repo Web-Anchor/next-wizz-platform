@@ -52,7 +52,7 @@ export default function Badge(props: Props): React.ReactElement | null {
         >
           <circle cx={3} cy={3} r={3} />
         </svg>
-        <p>{props.title}</p>
+        <section>{props.title}</section>
       </span>
       {props.description && (
         <span className="text-xs text-gray-500 self-center">

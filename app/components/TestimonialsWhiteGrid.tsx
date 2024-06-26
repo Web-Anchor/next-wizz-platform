@@ -41,7 +41,7 @@ export default function TestimonialsWhiteGrid() {
                     className="rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-900/5 text-sm leading-6"
                   >
                     <blockquote className="text-gray-800">
-                      <p>{`“${testimonial?.comments}”`}</p>
+                      <section>{`“${testimonial?.comments}”`}</section>
                     </blockquote>
                     <figcaption className="mt-6 flex items-center gap-x-4">
                       <Image

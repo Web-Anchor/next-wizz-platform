@@ -178,28 +178,28 @@ export default function Page() {
             row: [
               {
                 item: (
-                  <p className="max-w-32 lg:max-w-none truncate text-ellipsis">
+                  <section className="max-w-32 lg:max-w-none truncate text-ellipsis">
                     {item?.name}
-                  </p>
+                  </section>
                 ),
               },
               {
                 item: (
-                  <p className="max-w-32 lg:max-w-none truncate text-ellipsis">
+                  <section className="max-w-32 lg:max-w-none truncate text-ellipsis">
                     {item?.email}
-                  </p>
+                  </section>
                 ),
               },
               {
-                item: <p>{item?.currency}</p>,
+                item: <section>{item?.currency}</section>,
                 class: 'hidden lg:table-cell',
               },
               {
-                item: <p>{getTimeAgo(item?.created! * 1000)}</p>,
+                item: <section>{getTimeAgo(item?.created! * 1000)}</section>,
                 class: 'hidden lg:table-cell',
               },
               {
-                item: <p>{item?.address?.line1}</p>,
+                item: <section>{item?.address?.line1}</section>,
               },
               {
                 item: (

@@ -105,20 +105,20 @@ export default function Page() {
               {
                 item: (
                   <section className="flex flex-col max-w-20 lg:max-w-none">
-                    <p className="text-sm font-medium leading-6 text-gray-800 truncate text-ellipsis">
+                    <section className="text-sm font-medium leading-6 text-gray-800 truncate text-ellipsis">
                       {item?.billing_details?.name}
-                    </p>
-                    <p className="mt-1 text-xs leading-5 text-gray-500 truncate text-ellipsis">
+                    </section>
+                    <section className="mt-1 text-xs leading-5 text-gray-500 truncate text-ellipsis">
                       {item?.billing_details?.email}
-                    </p>
+                    </section>
                   </section>
                 ),
               },
               {
-                item: <p>{priceToDisplay(item?.amount)}</p>,
+                item: <section>{priceToDisplay(item?.amount)}</section>,
               },
               {
-                item: <p>{item?.billing_details?.phone}</p>,
+                item: <section>{item?.billing_details?.phone}</section>,
                 class: 'hidden lg:table-cell',
               },
               {
@@ -137,10 +137,12 @@ export default function Page() {
                 class: 'hidden lg:table-cell',
               },
               {
-                item: <p>{getTimeAgo(item?.created! * 1000)}</p>,
+                item: <section>{getTimeAgo(item?.created! * 1000)}</section>,
               },
               {
-                item: <p>{item?.billing_details?.address?.line1}</p>,
+                item: (
+                  <section>{item?.billing_details?.address?.line1}</section>
+                ),
               },
               {
                 item: (
@@ -151,19 +153,19 @@ export default function Page() {
                       target="_blank"
                     >
                       View
-                      <span className="hidden sm:inline">
+                      <section className="hidden sm:inline">
                         {' '}
                         transaction receipt
-                      </span>
-                      <span className="sr-only">
+                      </section>
+                      <section className="sr-only">
                         , invoice #{item?.id}, {item?.billing_details?.name}
-                      </span>
+                      </section>
                     </Link>
                     <div className="mt-1 text-xs leading-5 text-gray-500">
                       Invoice{' '}
-                      <span className="truncate hidden lg:flex text-gray-800">
+                      <section className="truncate hidden lg:flex text-gray-800">
                         {item.id}
-                      </span>
+                      </section>
                     </div>
                   </section>
                 ),

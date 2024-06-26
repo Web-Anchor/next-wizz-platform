@@ -41,18 +41,18 @@ export default function StatsCard(props: Props): React.ReactElement {
         </div>
         <section className="flex flex-col">
           {props.title && (
-            <p className="max-w-xs truncate text-sm font-semibold text-gray-600">
+            <section className="max-w-xs truncate text-sm font-semibold text-gray-600">
               {props.title}
-            </p>
+            </section>
           )}
 
           <section className="flex items-baseline">
             {props?.currentTotal && (
-              <p className="text-2xl font-semibold text-gray-800">
+              <section className="text-2xl font-semibold text-gray-800">
                 {props?.currentTotal}
-              </p>
+              </section>
             )}
-            <p
+            <section
               className={classNames(
                 percentage >= 0 ? 'text-green-600' : 'text-red-600',
                 'ml-2 flex items-baseline text-sm font-semibold'
@@ -70,22 +70,24 @@ export default function StatsCard(props: Props): React.ReactElement {
                 />
               )}
 
-              <span className="flex gap-2">
-                <span className="sr-only">
+              <section className="flex gap-2">
+                <section className="sr-only">
                   {percentage >= 0 ? 'Increased' : 'Decreased'} by{' '}
-                </span>
+                </section>
                 {percentage}
                 {props?.previousTotal && (
-                  <span className="stat-desc text-indigo-600 self-end">
+                  <section className="stat-desc text-indigo-600 self-end">
                     {props?.previousTotal}
-                  </span>
+                  </section>
                 )}
-              </span>
-            </p>
+              </section>
+            </section>
           </section>
         </section>
       </section>
-      {props.description && <p className="stat-desc">{props.description}</p>}
+      {props.description && (
+        <section className="stat-desc">{props.description}</section>
+      )}
       {props.link && (
         <div className="text-sm">
           <Link
@@ -93,7 +95,7 @@ export default function StatsCard(props: Props): React.ReactElement {
             className="font-medium text-indigo-600 hover:text-indigo-500"
           >
             {props?.linkTitle ?? 'View all'}
-            <span className="sr-only"> stats</span>
+            <section className="sr-only"> stats</section>
           </Link>
         </div>
       )}

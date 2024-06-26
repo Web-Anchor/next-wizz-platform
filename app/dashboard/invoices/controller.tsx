@@ -258,11 +258,13 @@ export default function Page() {
                 <div className="flex flex-row gap-5 justify-between">
                   <label>
                     {item?.title}
-                    <span className={classNames('text-xs ml-1 text-gray-400')}>
+                    <section
+                      className={classNames('text-xs ml-1 text-gray-400')}
+                    >
                       {item?.type === 'file'
                         ? 'Upto 10MB'
                         : `${item?.maxLength} characters max`}
-                    </span>
+                    </section>
                   </label>
 
                   <Switch
@@ -286,7 +288,9 @@ export default function Page() {
                     }
                   />
                 </div>
-                <p className="text-xs text-gray-500">{item?.description}</p>
+                <section className="text-xs text-gray-500">
+                  {item?.description}
+                </section>
 
                 <SectionWrapper class="gap-2" hidden={!hasValue}>
                   {item?.type === 'textarea' && (
@@ -392,18 +396,18 @@ export default function Page() {
                             !state.type && 'hidden'
                           )}
                         >
-                          <span className="truncate text-xs text-gray-800">
+                          <section className="truncate text-xs text-gray-800">
                             {state.name}
-                          </span>
-                          <span className="text-xs text-gray-500">
+                          </section>
+                          <section className="text-xs text-gray-500">
                             {fileSize(state.size)} MB
-                          </span>
-                          <span className="text-xs text-gray-500">
+                          </section>
+                          <section className="text-xs text-gray-500">
                             {fileType(state.type)}
-                          </span>
-                          <span className="text-xs text-gray-500">
+                          </section>
+                          <section className="text-xs text-gray-500">
                             {new Date(state.lastModified).toDateString()}
-                          </span>
+                          </section>
                         </section>
                       </div>
 
