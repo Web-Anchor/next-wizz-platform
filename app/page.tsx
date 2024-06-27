@@ -8,6 +8,7 @@ import { TopBackground, BottomBackground } from '@components/Background';
 import TestimonialsWhiteGrid from './components/TestimonialsWhiteGrid';
 import { SectionWrapper } from '@components/Wrapper';
 import Analytics from './components/Analytics';
+import VideoWalkthrough from './components/VideoWalkthrough';
 
 export default function Page() {
   return (
@@ -19,6 +20,7 @@ export default function Page() {
         <FeatureSections />
         <Pricing />
         <Workflow />
+        <VideoWalkthrough />
         <CustomerWorkflow />
         <Analytics />
         <FrequentlyAskedQuestions />
