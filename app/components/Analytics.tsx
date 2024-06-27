@@ -87,7 +87,7 @@ export default function Analytics() {
               />
               <div className="mx-auto lg:max-w-2xl sm:mx-0 sm:max-w-none">
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_STORAGE_CDN}/dashboard-analytics.png`}
+                  src={`${process.env.NEXT_PUBLIC_STORAGE_CDN}/xL5CYBOtqDd3gxRiX8XuE.png`}
                   alt="Product screenshot"
                   width={2432}
                   height={1842}

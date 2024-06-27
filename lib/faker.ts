@@ -9,14 +9,14 @@ const dateList = Array.from(
     faker.date.between({ from: '2024-06-01', to: '2024-06-24' }).getTime() /
     1000
 );
-const numberList = Array.from({ length: 20 }, () =>
+const numberList = Array.from({ length: 14 }, () =>
   faker.number.int({ max: 25 })
 );
 const cardIssueList: string[] = Array.from({ length: 10 }, () =>
   faker.finance.creditCardIssuer()
 );
 const countryCodeList = Array.from({ length: 10 }, () =>
-  faker.address.countryCode()
+  faker.location.countryCode()
 );
 const currencyList = Array.from({ length: 10 }, () =>
   faker.finance.currencyCode()
@@ -132,9 +132,9 @@ export function fakerStatsCharges() {
       {}
     ),
     chargesSourceFundingDistributionCurrentMonth: {
-      credit: faker.number.int({ max: 100 }),
-      paypal: faker.number.int({ max: 100 }),
-      debit: faker.number.int({ max: 100 }),
+      credit: faker.number.int({ max: 100, min: 12 }),
+      paypal: faker.number.int({ max: 100, min: 12 }),
+      debit: faker.number.int({ max: 100, min: 12 }),
     },
     failedTransactionRateCurrentMonth: faker.number.int({ max: 10 }),
     failedTransactionRateLastMonth: faker.number.int({ max: 10 }),
@@ -176,7 +176,7 @@ export function fakerStatsCharges() {
       low: faker.number.int({ max: 100 }),
     },
     riskScoreDistributionCurrentMonth: numberList.reduce((acc: any, number) => {
-      acc[number] = faker.number.int({ max: 30 });
+      acc[number] = faker.number.int({ max: 9, min: 5 });
       return acc;
     }, {}),
     subscriptionRenewalRateCurrentMonth: faker.number.int({ max: 100 }),
@@ -211,25 +211,28 @@ export function fakerStatsCharges() {
 
 export function fakerStatsCustomers() {
   const blob = {
-    averageCustomerAge: { undefined: 49 },
+    averageCustomerAge: numberList.reduce((acc: any, date) => {
+      acc[date] = faker.number.int({ max: 65, min: 21 });
+      return acc;
+    }, {}),
     customerCreationDateDistribution: dateList.reduce((acc: any, date) => {
-      acc[date] = faker.number.int({ max: 25 });
+      acc[date] = faker.number.int({ max: 55, min: 12 });
       return acc;
     }, {}),
     customerCreationDayOfWeek: daysOfWeekList.reduce((acc: any, day) => {
-      acc[day] = faker.number.int({ max: 25 });
+      acc[day] = faker.number.int({ max: 55, min: 12 });
       return acc;
     }, {}),
     customerCurrencies: currencyList.reduce((acc: any, code) => {
-      acc[code] = faker.number.int({ max: 25 });
+      acc[code] = faker.number.int({ max: 55, min: 12 });
       return acc;
     }, {}),
     customerDemographics: countryCodeList?.reduce((acc: any, code) => {
-      acc[code] = faker.number.int({ max: 25 });
+      acc[code] = faker.number.int({ max: 55, min: 12 });
       return acc;
     }, {}),
     customerEmailSegmentation: emailList.reduce((acc, email) => {
-      acc[email] = faker.number.int({ max: 25 });
+      acc[email] = faker.number.int({ max: 55, min: 12 });
       return acc;
     }, {} as { [key: string]: number }),
     customerLastActivityDate: { undefined: 49 },
@@ -238,10 +241,13 @@ export function fakerStatsCustomers() {
       return acc;
     }, {}),
     customerPreferredLocales: countryCodeList?.reduce((acc: any, code) => {
-      acc[code] = faker.number.int({ max: 25 });
+      acc[code] = faker.number.int({ max: 55, min: 12 });
       return acc;
     }, {}),
-    customerSubscriptionStatus: { undefined: 49 },
+    customerSubscriptionStatus: numberList.reduce((acc: any, date) => {
+      acc[date] = faker.number.int({ max: 65, min: 21 });
+      return acc;
+    }, {}),
     customers: fakerCustomers(),
     customersCurrentMonth: fakerCustomers(),
     customersGrowthRate: faker.number.int({ max: 100 }),

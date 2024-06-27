@@ -13,16 +13,16 @@ import { useRouter } from 'next/navigation';
 import Badge from '@app/components/Badge';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { fakerStatsCharges } from '@lib/faker';
 
 export default function Page() {
   const router = useRouter();
   const { user } = useUser({});
   const { subscription } = useSubscription({});
-  const { charges, customers, isLoading } = useStatistics({
+  let { charges, customers, isLoading } = useStatistics({
     type: 'advanced',
   });
-  console.log('🚧 Subs ', subscription);
-  console.log(`🚧 User `, user);
+  // charges = fakerStatsCharges(); // faker data
 
   if (!subscription && !isLoading) {
     // --------------------------------------------------------------------------------
