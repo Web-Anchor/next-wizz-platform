@@ -44,13 +44,14 @@ export default function TestimonialsWhiteGrid() {
                       <section>{`“${testimonial?.comments}”`}</section>
                     </blockquote>
                     <figcaption className="mt-6 flex items-center gap-x-4">
-                      <Image
-                        className="rounded-full bg-gray-50"
-                        alt="user-profile"
-                        src={urlValidator(testimonial.imageUrl!)}
-                        width={40}
-                        height={40}
-                      />
+                      <section className="relative w-10 h-10 rounded-full overflow-hidden">
+                        <Image
+                          className="object-cover"
+                          alt="user-profile"
+                          src={urlValidator(testimonial.imageUrl!)}
+                          fill
+                        />
+                      </section>
 
                       <div>
                         <div className="font-semibold">
