@@ -16,6 +16,7 @@ import ProfileButton from './ProfileButton';
 import { mainNav, showMainNavRoutes } from '@helpers/data';
 import { useSubscription } from '@hooks/useSubscriptions';
 import { useRef } from 'react';
+import { fakerUser } from '@lib/faker';
 
 type Props = {
   class?: string;
@@ -26,7 +27,8 @@ export default function Header(props: Props) {
   const router = useRouter();
 
   const { signOut } = useClerk();
-  const { isSignedIn, user, isLoaded } = useUser();
+  let { isSignedIn, user, isLoaded } = useUser();
+  // user = fakerUser(true); // faker data
   const { active, basic, advanced, pro } = useSubscription({});
   const ctaRef = useRef<HTMLButtonElement>(null);
 
