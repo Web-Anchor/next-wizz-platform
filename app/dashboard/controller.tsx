@@ -18,8 +18,8 @@ import { fakerStatsCharges } from '@lib/faker';
 export default function Page() {
   const router = useRouter();
   const { user } = useUser({});
-  const { subscription } = useSubscription({});
-  let { charges, customers, isLoading } = useStatistics({
+  const { subscription, isLoading } = useSubscription({});
+  let { charges, customers } = useStatistics({
     type: 'advanced',
   });
   // charges = fakerStatsCharges(); // faker data
