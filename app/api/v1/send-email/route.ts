@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     // 📌  Sent email to the client
     // --------------------------------------------------------------------------------
     resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'info@invoicio.io',
       to: email,
       subject: subject,
       html: html ?? `<p>Email to: <strong>${email}</strong>!</p>`,

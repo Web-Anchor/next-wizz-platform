@@ -14,6 +14,7 @@ import Badge from '@app/components/Badge';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { fakerStatsCharges } from '@lib/faker';
+import FrameCard from '@app/components/FrameCard';
 
 export default function Page() {
   const router = useRouter();
@@ -61,17 +62,11 @@ export default function Page() {
                 toast.success('API key copied to clipboard');
               }}
             />
-            <Link
-              href={`${process.env.NEXT_PUBLIC_PORTAL_URL}/?id=${user?.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-indigo-600 hover:text-indigo-500 self-center"
-            >
-              Go to Customer Portal
-            </Link>
           </section>
         }
       />
+
+      <FrameCard />
       <PageHeadings description="Your API key to access invoicio.io customer portal. This API key will be automatically send to your customers and will be needed to access invoices on a customer portal." />
 
       <section>

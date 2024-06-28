@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     const keys = await db
       .select()
       .from(strKeys)
-      .where(eq(strKeys.userId, dbUser[0].id.toString()));
+      .where(eq(strKeys.userId, dbUser[0].id));
     console.log('🔑 keys', keys);
 
     // --------------------------------------------------------------------------------

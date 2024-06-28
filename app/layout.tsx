@@ -33,12 +33,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html
-        className="h-full bg-white text-gray-950 duration-300"
-        data-theme="bumblebee"
-        lang="en"
-      >
+    <html
+      className="h-full bg-white text-gray-950 duration-300"
+      data-theme="bumblebee"
+      lang="en"
+    >
+      <ClerkProvider>
         <body className={classNames(fonts.className, 'h-full')}>
           <Toaster
             // richColors // enable rich colors
@@ -47,7 +47,7 @@ export default function RootLayout({
           />
           {children}
         </body>
-      </html>
-    </ClerkProvider>
+      </ClerkProvider>
+    </html>
   );
 }
