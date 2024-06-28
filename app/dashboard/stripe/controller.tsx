@@ -310,31 +310,6 @@ export default function Page() {
         <h2 className="font-bold text-xl leading-6 text-gray-600 lg:mx-0 ">
           Restricted API key
         </h2>
-        {/* <p className="text-sm text-gray-500">
-          Go to the{' '}
-          <Link
-            href="https://dashboard.stripe.com/apikeys"
-            target="_blank"
-            className="text-sm text-indigo-600 font-semibold"
-          >
-            API keys
-          </Link>{' '}
-          page in your Stripe Dashboard.
-        </p>
-        <p className="text-sm text-gray-500">
-          Click on "Create restricted key".
-        </p>
-        <p className="text-sm text-gray-500">Give your key a name.</p>
-        <p className="text-sm text-gray-500">
-          Set the permissions for the key. Make sure to set "Verification
-          Sessions and Reports" and "Access recent sensitive verification
-          results" to "Read". If you need access to collected images, also add
-          the "Files" permission with "Write".
-        </p>
-        <p className="text-sm text-gray-500">Click "Create key".</p> */}
-
-        {/* refactor to bullet points */}
-
         <ul className="list-decimal list-inside text-sm text-gray-500">
           <li>
             Go to the{' '}
