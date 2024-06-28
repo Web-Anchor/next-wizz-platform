@@ -1,7 +1,7 @@
 'use client';
 
 import { Pie, RadialBar } from '@ant-design/plots';
-import { PieSkeleton } from '@components/Skeleton';
+import { NoDataSkeleton, PieSkeleton } from '@components/Skeleton';
 import { classNames } from '@helpers/index';
 
 type Props = {
@@ -24,6 +24,8 @@ const spectral = {
 };
 
 export default function PieChart(props: Props): React.ReactElement | null {
+  const hasData = !!props.data?.length;
+
   const pieConfig = {
     data: props.data,
     angleField: 'value',
@@ -95,6 +97,8 @@ export default function PieChart(props: Props): React.ReactElement | null {
     ],
   };
 
+  console.log('📊 PieChart', props.data);
+
   return (
     <section
       className={classNames(
@@ -116,10 +120,13 @@ export default function PieChart(props: Props): React.ReactElement | null {
       )}
       <section className="mx-auto w-[340px] h-[340px]">
         {props.loading && <PieSkeleton />}
-        {props.type === 'pie' && !props.loading && <Pie {...pieConfig} />}
-        {props.type === 'radial' && !props.loading && (
+        {props.type === 'pie' && hasData && !props.loading && (
+          <Pie {...pieConfig} />
+        )}
+        {props.type === 'radial' && hasData && !props.loading && (
           <RadialBar {...radialConfig} />
         )}
+        {!hasData && !props.loading && <NoDataSkeleton />}
       </section>
 
       {props?.description && (

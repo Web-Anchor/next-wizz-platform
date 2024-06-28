@@ -1,5 +1,17 @@
 import Wrapper from '@components/Wrapper';
 import { classNames } from '@helpers/index';
+import { DocumentChartBarIcon } from '@heroicons/react/24/outline';
+
+export function NoDataSkeleton() {
+  return (
+    <section className="flex flex-1 h-full justify-center">
+      <section className="flex flex-col gap-5 my-auto bg-indigo-400 rounded-3xl p-5 items-center justify-center">
+        <DocumentChartBarIcon className="h-12 w-12 text-white" />
+        <p className="text-white">No data available</p>
+      </section>
+    </section>
+  );
+}
 
 export function CardSkeleton() {
   return (
