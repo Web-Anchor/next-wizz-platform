@@ -49,6 +49,8 @@ export async function charges({ apiKey }: { apiKey?: string }) {
       0
     );
 
+    console.log(chargesCurrentMont?.length, chargesLastMonth?.length);
+
     const stats = {
       chargesCurrentMont,
       chargesLastMonth,
@@ -59,16 +61,20 @@ export async function charges({ apiKey }: { apiKey?: string }) {
       revenueCurrentMonth: chargesConversion(revenueCurrentMonth),
       revenueLastMonth: chargesConversion(revenueLastMonth),
       // revenue growth rate
-      revenueGrowthRate: Number(
-        ((revenueCurrentMonth - revenueLastMonth) / revenueLastMonth) * 100
-      ).toFixed(2), // Revenue Growth Rate:
+      revenueGrowthRate: handleNaN(
+        Number(
+          ((revenueCurrentMonth - revenueLastMonth) / revenueLastMonth) * 100
+        ).toFixed(2)
+      ), // Revenue Growth Rate:
       totalCurrentCharges: chargesCurrentMont.length,
       totalLastMonthCharges: chargesLastMonth.length,
-      chargesPercentageGrowth: Number(
-        ((chargesCurrentMont?.length - chargesLastMonth?.length) /
-          chargesLastMonth?.length) *
-          100
-      ).toFixed(2), // Charge Growth Rate:
+      chargesPercentageGrowth: handleNaN(
+        Number(
+          ((chargesCurrentMont?.length - chargesLastMonth?.length) /
+            chargesLastMonth?.length) *
+            100
+        ).toFixed(2)
+      ), // Charge Growth Rate:
       // Number of Successful Charges:
       totalCurrentSuccessfulCharges: chargesCurrentMont.filter(
         (charge: any) => charge.status === 'succeeded'
@@ -304,6 +310,13 @@ function chargesConversion(charge: number): number {
   }
 
   return charge;
+}
+
+function handleNaN(value: any): number {
+  if (isNaN(value)) {
+    return 0;
+  }
+  return value;
 }
 
 // --------------------------------------------------------------------------------

@@ -29,6 +29,8 @@ export default function StatsCard(props: Props): React.ReactElement {
   const percentage = props?.percentage ?? 0;
   const Icon = ICON[props?.type ?? 'customers'];
 
+  console.log('📊 StatsCard', props);
+
   if (props.isLoading) {
     return <StatsCardSkeleton />;
   }
