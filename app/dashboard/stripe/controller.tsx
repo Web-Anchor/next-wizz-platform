@@ -2,7 +2,7 @@
 
 import Button from '@app/components/Button';
 import Table from '@app/components/Table';
-import Wrapper from '@app/components/Wrapper';
+import Wrapper, { SectionWrapper } from '@app/components/Wrapper';
 import { useStripeKeys } from '@hooks/useStripeKeys';
 import { StripeKey } from '../../../types';
 import { useRouter } from 'next/navigation';
@@ -15,6 +15,8 @@ import { cFetch } from '@lib/cFetcher';
 import { mutate } from 'swr';
 import { toast } from 'sonner';
 import PageHeadings from '@app/components/PageHeadings';
+import Badge from '@app/components/Badge';
+import { mediaScreenTitle } from '@helpers/components';
 
 const KeyStatus = ({ stripeKey }: { stripeKey: StripeKey }) => {
   const { data, error, isLoading } = useKeyValidate({
@@ -54,10 +56,19 @@ export default function Page() {
     fetching?: string;
   }>({});
   const { keys, isLoading, hasKeys } = useStripeKeys({});
+  const {
+    hasErrors,
+    errorType,
+    chargesPermissionError,
+    customersPermissionError,
+    isLoading: isKeyValidationLoad,
+  } = useKeyValidate({
+    key: keys?.[0]?.restrictedAPIKey,
+  });
   const router = useRouter();
   const nameRef = useRef<HTMLInputElement>(null);
   const keyRef = useRef<HTMLInputElement>(null);
-  // console.log('StripeKeys', keys, state);
+  console.log('StripeKeys', hasErrors, errorType);
 
   function stateSetter(props: any) {
     setState((prev) => ({ ...prev, ...(props ?? {}) }));
@@ -128,6 +139,46 @@ export default function Page() {
         description="Manage and secure your payment transactions by adding your Stripe API keys on our platform. Seamlessly integrate Stripe's powerful payment solutions, enhance transaction security, and unlock a world of possibilities for your business. Take control of your payment processes with ease and efficiency."
         slogan="Powering Secure Transactions, One Key at a Time!"
       />
+
+      {!isKeyValidationLoad && hasErrors && (
+        <SectionWrapper class="gap-5">
+          <Badge
+            title={
+              (errorType === 'StripeAuthenticationError' &&
+                mediaScreenTitle('Invalid Stripe API Key', 'Invalid Key')) ||
+              (errorType === 'StripePermissionError' &&
+                chargesPermissionError &&
+                mediaScreenTitle(
+                  'API key Charges Permissions Missing',
+                  'Charges Permissions Missing'
+                )) ||
+              (errorType === 'StripePermissionError' &&
+                customersPermissionError &&
+                mediaScreenTitle(
+                  'API key Customers Permissions Missing',
+                  'Customers Permissions Missing'
+                ))
+            }
+            type={errorType === 'StripePermissionError' ? 'warning' : 'error'}
+            tooltip={
+              hasErrors
+                ? 'Please update your keys'
+                : 'Please add your Stripe keys to use the platform!'
+            }
+            tooltipPosition="tooltip-bottom"
+          />
+          {errorType === 'StripeAuthenticationError' && (
+            <PageHeadings description="Provided API Key is required to be a valid Stripe API key. Please update your keys to continue using the platform." />
+          )}
+          {chargesPermissionError && (
+            <PageHeadings description="The provided API key is missing the required permissions to access charges. Please update your keys to continue using the platform. API key is required to have read permissions for charges." />
+          )}
+          {customersPermissionError && (
+            <PageHeadings description="The provided API key is missing the required permissions to access customers. Please update your keys to continue using the platform. API key is required to have read permissions for customers." />
+          )}
+        </SectionWrapper>
+      )}
+
       <div className="flex flex-col gap-3 lg:flex-row">
         <div className="sm:flex-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-800">

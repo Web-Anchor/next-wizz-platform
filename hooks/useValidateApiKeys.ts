@@ -16,7 +16,11 @@ export function useKeyValidate(props: Props) {
 
   return {
     data,
-    error: data?.data?.error || error || !data?.data?.charges,
+    hasErrors: data?.data?.hasErrors,
+    chargesPermissionError: data?.data?.chargesPermissionError,
+    customersPermissionError: data?.data?.customersPermissionError,
+    errorType: data?.data?.errorType,
+    error: data?.data?.error || error,
     isLoading,
   };
 }

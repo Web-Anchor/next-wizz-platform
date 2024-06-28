@@ -15,7 +15,11 @@ type Props = {
 export default function Notifications(props: Props): React.ReactElement | null {
   const { data, count, hasKeys } = useStripeKeys({});
   const { active, isLoading: isSubsLoad } = useSubscription({});
-  const { error, isLoading: isKeyValidationLoad } = useKeyValidate({
+  const {
+    hasErrors,
+    errorType,
+    isLoading: isKeyValidationLoad,
+  } = useKeyValidate({
     key: data?.[0]?.restrictedAPIKey,
   });
 
@@ -32,16 +36,17 @@ export default function Notifications(props: Props): React.ReactElement | null {
           tooltip="Please subscribe to use the platform!"
         />
       )}
-      {(!hasKeys || error) && !isKeyValidationLoad && active && (
+      {(!hasKeys || hasErrors) && !isKeyValidationLoad && active && (
         <Badge
           title={
-            error
-              ? mediaScreenTitle('Invalid Stripe API Key', 'Invalid Key')
-              : mediaScreenTitle('No Stripe API Key', 'Add Key')
+            (errorType === 'StripeAuthenticationError' &&
+              mediaScreenTitle('Invalid Stripe API Key', 'Invalid Key'),
+            errorType === 'StripePermissionError' &&
+              mediaScreenTitle('API key Permission Error'))
           }
-          type="error"
+          type={errorType === 'StripePermissionError' ? 'warning' : 'error'}
           tooltip={
-            error
+            hasErrors
               ? 'Please update your keys'
               : 'Please add your Stripe keys to use the platform!'
           }
@@ -51,7 +56,7 @@ export default function Notifications(props: Props): React.ReactElement | null {
               href="/dashboard/stripe"
               className="text-xs font-semibold text-indigo-600"
             >
-              {error
+              {hasErrors
                 ? mediaScreenTitle('Update keys', 'Update')
                 : mediaScreenTitle('Add keys', 'Add')}
             </Link>

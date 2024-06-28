@@ -19,7 +19,7 @@ export function SectionWrapper(props: Wrapper) {
   return (
     <section
       className={classNames(
-        'flex flex-1 flex-col gap-10',
+        'flex flex-col gap-10',
         props.hidden && 'hidden',
         props?.class
       )}
