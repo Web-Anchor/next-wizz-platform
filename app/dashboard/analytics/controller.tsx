@@ -10,6 +10,7 @@ import {
   convertKeyValueObjToArray,
   currentMonth,
   lastMonth,
+  amountToCurrency,
 } from '@helpers/index';
 import { fakerStatsCharges, fakerStatsCustomers } from '@lib/faker';
 
@@ -113,7 +114,7 @@ export default function Page() {
           description="Analyze the currencies used by your customers for transactions to optimize pricing strategies and tailor payment options based on popular currencies."
         />
         <PieChart
-          title={`Customer Creation\nDay of Week`}
+          header={`Customer Creation\nDay of Week`}
           data={convertKeyValueObjToArray(customers?.customerCreationDayOfWeek)}
           loading={isLoading}
           type="radial"
@@ -152,7 +153,7 @@ export default function Page() {
         />
 
         <NumbersCard
-          number={charges?.totalCurrentRefundAmount}
+          number={amountToCurrency(charges?.totalCurrentRefundAmount)}
           icon="payments"
           title="Current Refund Amount"
           description={currentMonth()}
@@ -184,7 +185,7 @@ export default function Page() {
           description="Analyze the distribution of charge methods used by customers across different countries to optimize payment processing methods based on regional preferences."
         />
         <PieChart
-          title={`Charges Source\nFunding Distribution`}
+          header={`Charges Source\nFunding Distribution`}
           data={convertKeyValueObjToArray(
             charges?.chargesSourceFundingDistributionCurrentMonth
           )}

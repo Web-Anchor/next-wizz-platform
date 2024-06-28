@@ -1,9 +1,9 @@
-import { convertToK } from '@helpers/index';
 import { CurrencyDollarIcon, UserGroupIcon } from '@heroicons/react/20/solid';
 import { StatsCardSkeleton } from './Skeleton';
 
 type Props = {
-  number?: number;
+  number?: number | string;
+  currency?: string;
   isLoading?: boolean;
   icon?: 'customers' | 'payments';
   title?: string;
@@ -37,7 +37,10 @@ export default function NumbersCard(props: Props): React.ReactElement {
             {props?.title}
           </div>
         )}
-        <div className="stat-value my-2">{convertToK(props.number)}</div>
+        <div className="stat-value my-2">
+          {props.number || props.currency || 0}
+        </div>
+
         {props.description && (
           <div className="stat-desc">{props.description}</div>
         )}

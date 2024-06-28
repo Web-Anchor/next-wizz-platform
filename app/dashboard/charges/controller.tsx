@@ -125,7 +125,7 @@ export default function Page() {
                 item: (
                   <div
                     className={classNames(
-                      'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset',
+                      'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset w-fit',
                       item?.paid
                         ? 'text-green-700 bg-green-50 ring-green-600/20'
                         : 'text-red-700 bg-red-50 ring-red-600/10'

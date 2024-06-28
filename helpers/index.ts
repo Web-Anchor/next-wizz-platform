@@ -188,3 +188,22 @@ export function generateId(): string {
     .padStart(6, '0');
   return timestamp + randomNumber;
 }
+
+export function stripeAmountToCurrency(amount?: number, currency?: string) {
+  if (!amount) {
+    return '0';
+  }
+
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency || 'usd',
+  }).format(amount / 100);
+}
+
+export function amountToCurrency(amount?: number) {
+  if (!amount) {
+    return '0';
+  }
+
+  return (amount / 100).toFixed(2);
+}
