@@ -35,7 +35,7 @@ export default function StatsCard(props: Props): React.ReactElement {
   }
 
   return (
-    <div className="flex flex-col gap-2 relative min-w-full sm:min-w-64 overflow-hidden rounded-lg px-4 py-5 shadow sm:px-6">
+    <div className="flex flex-col gap-2 relative w-full sm:w-fit sm:min-w-72 overflow-hidden rounded-lg px-4 py-5 shadow sm:px-6">
       <section className="flex flex-row gap-5">
         <div className="rounded-md w-fit h-fit bg-indigo-500 p-3">
           <Icon className="h-6 w-6 text-white" aria-hidden="true" />
