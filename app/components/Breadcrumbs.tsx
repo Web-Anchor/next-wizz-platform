@@ -25,7 +25,7 @@ export default function Breadcrumbs(props: Props) {
   return (
     <nav
       className={classNames(
-        'sticky top-0 z-10 flex mx-6 py-3 mb-10 border-b border-gray-900/10 bg-white bg-opacity-90',
+        'sticky top-0 z-10 flex mx-8 px-4 py-3 mb-10 border-b border-gray-900/10 bg-white bg-opacity-90',
         props.class
       )}
       aria-label="Breadcrumb"

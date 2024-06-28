@@ -181,5 +181,6 @@ export type Component = {
   slogan?: string;
   description?: string;
   userId?: string;
+  link?: string;
   createdAt?: string;
 };
