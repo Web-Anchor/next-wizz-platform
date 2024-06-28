@@ -151,17 +151,22 @@ export async function customers({ apiKey }: { apiKey?: string }) {
         }
         return acc;
       }, {}),
-      // Customer Payment Method Distribution:
-      customerPaymentMethod: customers?.reduce((acc: any, customer: any) => {
-        const paymentMethod =
-          customer?.invoice_settings?.default_payment_method;
-        if (acc[paymentMethod]) {
-          acc[paymentMethod]++;
-        } else {
-          acc[paymentMethod] = 1;
-        }
-        return acc;
-      }, {}),
+      // Customer Payment Method Distribution: 
+      customerInvoicingPaymentMethod: customers?.reduce(
+        (acc: any, customer: any) => {
+          const paymentMethod =
+            customer?.invoice_settings?.default_payment_method;
+
+          if (!paymentMethod) return;
+          if (acc[paymentMethod]) {
+            acc[paymentMethod]++;
+          } else {
+            acc[paymentMethod] = 1;
+          }
+          return acc;
+        },
+        {}
+      ),
       // Customer Subscription Status:
       customerSubscriptionStatus: customers?.reduce(
         (acc: any, customer: any) => {

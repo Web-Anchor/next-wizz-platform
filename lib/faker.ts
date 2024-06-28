@@ -236,7 +236,7 @@ export function fakerStatsCustomers() {
       return acc;
     }, {} as { [key: string]: number }),
     customerLastActivityDate: { undefined: 49 },
-    customerPaymentMethod: paymentList.reduce((acc: any, code) => {
+    customerInvoicingPaymentMethod: paymentList.reduce((acc: any, code) => {
       acc[code] = faker.number.int({ max: 100 });
       return acc;
     }, {}),

@@ -244,25 +244,44 @@ export async function charges({ apiKey }: { apiKey?: string }) {
         chargesCurrentMont.filter(
           (charge: any) => charge.status === 'succeeded'
         ).length,
-      // charges source brand distribution
-      chargesSourceBrandDistributionCurrentMonth: chargesCurrentMont.reduce(
+      chargesSourceFundingDistributionCurrentMonth: chargesCurrentMont?.reduce(
         (acc: any, charge: any) => {
-          if (!acc[charge?.source?.brand]) {
-            acc[charge?.source?.brand] = 1;
+          const funding = charge?.payment_method_details?.card?.funding;
+
+          if (!funding) return;
+          if (acc[funding]) {
+            acc[funding]++;
           } else {
-            acc[charge?.source?.brand]++;
+            acc[funding] = 1;
           }
           return acc;
         },
         {}
       ),
-      // charges source funding distribution
-      chargesSourceFundingDistributionCurrentMonth: chargesCurrentMont.reduce(
+      // charges source brand distribution
+      chargesSourceBrandDistributionCurrentMonth: chargesCurrentMont?.reduce(
         (acc: any, charge: any) => {
-          if (!acc[charge?.source?.funding]) {
-            acc[charge?.source?.funding] = 1;
+          const funding = charge?.payment_method_details?.card?.brand;
+
+          if (!funding) return;
+          if (acc[funding]) {
+            acc[funding]++;
           } else {
-            acc[charge?.source?.funding]++;
+            acc[funding] = 1;
+          }
+          return acc;
+        },
+        {}
+      ),
+      chargeMethodCountryDistributionCurrentMonth: chargesCurrentMont?.reduce(
+        (acc: any, charge: any) => {
+          const country = charge?.payment_method_details?.card?.country;
+
+          if (!country) return;
+          if (acc[country]) {
+            acc[country]++;
+          } else {
+            acc[country] = 1;
           }
           return acc;
         },
@@ -317,6 +336,24 @@ function handleNaN(value: any): number {
     return 0;
   }
   return value;
+}
+
+// risc score distribution function number to name
+function riskScoreDistribution(score: number): string {
+  switch (score) {
+    case 0:
+      return 'Unknown';
+    case 1:
+      return 'Low';
+    case 2:
+      return 'Medium';
+    case 3:
+      return 'High';
+    case 4:
+      return 'Very High';
+    default:
+      return 'Unknown';
+  }
 }
 
 // --------------------------------------------------------------------------------

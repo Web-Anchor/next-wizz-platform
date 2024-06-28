@@ -20,6 +20,7 @@ export default function Page() {
   // customers = fakerStatsCustomers(); // faker data
   // charges = fakerStatsCharges(); // faker data
   console.log('🚧 STATS ', charges);
+  console.log('🚧 STATS customers ', customers);
 
   return (
     <Wrapper class="max-w-5xl">
@@ -112,15 +113,17 @@ export default function Page() {
           description="Analyze the currencies used by your customers for transactions to optimize pricing strategies and tailor payment options based on popular currencies."
         />
         <PieChart
-          header={`Customer Creation\nDay of Week`}
+          title={`Customer Creation\nDay of Week`}
           data={convertKeyValueObjToArray(customers?.customerCreationDayOfWeek)}
           loading={isLoading}
           type="radial"
           description="Chart the distribution of payment methods preferred by customers to understand their payment preferences and optimize payment processing options for a seamless customer experience."
         />
         <PieChart
-          header={`Customer Payment\nMethod Distribution`}
-          data={convertKeyValueObjToArray(customers?.customerPaymentMethod)}
+          header={`Customer Invoicing Payment\nMethod Distribution`}
+          data={convertKeyValueObjToArray(
+            customers?.customerInvoicingPaymentMethod
+          )}
           loading={isLoading}
           type="radial"
           description="Visualize the distribution of payment methods used by customers to understand preferred payment options and tailor your payment processing strategies accordingly."
@@ -174,19 +177,28 @@ export default function Page() {
         <PieChart
           title={`Charges Source\nFunding Distribution`}
           data={convertKeyValueObjToArray(
-            charges?.chargesSourceFundingDistributionCurrentMonth
+            charges?.chargeMethodCountryDistributionCurrentMonth
           )}
           loading={isLoading}
           type="pie"
+          description="Analyze the distribution of charge methods used by customers across different countries to optimize payment processing methods based on regional preferences."
+        />
+        <PieChart
+          title={`Charges Source\nFunding Distribution`}
+          data={convertKeyValueObjToArray(
+            charges?.chargesSourceFundingDistributionCurrentMonth
+          )}
+          loading={isLoading}
+          type="radial"
           description="Chart the distribution of charge funding sources (e.g., credit cards, bank accounts) to track payment trends and optimize payment processing methods based on customer preferences."
         />
         <PieChart
-          header={`Charges Source\n By Brand Distribution`}
+          title={`Charges Source\n By Brand Distribution`}
           data={convertKeyValueObjToArray(
             charges?.chargesSourceBrandDistributionCurrentMonth
           )}
           loading={isLoading}
-          type="radial"
+          type="pie"
           description="Analyze the distribution of charges by different brands or sources to identify top-performing sources and optimize marketing strategies for each brand."
         />
         <PieChart

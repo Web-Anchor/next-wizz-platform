@@ -96,8 +96,7 @@ export default function PieChart(props: Props): React.ReactElement | null {
       },
     ],
   };
-
-  console.log('📊 PieChart', props.data);
+  // console.log('📊 PieChart', props.data);
 
   return (
     <section
