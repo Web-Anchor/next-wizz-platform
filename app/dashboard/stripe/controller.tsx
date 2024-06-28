@@ -17,6 +17,7 @@ import { toast } from 'sonner';
 import PageHeadings from '@app/components/PageHeadings';
 import Badge from '@app/components/Badge';
 import { mediaScreenTitle } from '@helpers/components';
+import Link from 'next/link';
 
 const KeyStatus = ({ stripeKey }: { stripeKey: StripeKey }) => {
   const { data, error, isLoading } = useKeyValidate({
@@ -304,46 +305,58 @@ export default function Page() {
       />
 
       <section
-        className={classNames('max-w-none lg:max-w-4xl flex flex-col gap-3')}
+        className={classNames('max-w-none lg:max-w-4xl flex flex-col gap-2')}
       >
-        <h2 className="font-xs leading-6 text-indigo-600 lg:mx-0 lg:max-w-none">
-          Restricted API key
-        </h2>
         <h2 className="font-bold text-xl leading-6 text-gray-600 lg:mx-0 ">
           Restricted API key
         </h2>
-        <p className="text-sm text-gray-500">
-          You can create a restricted key from scratch or start by cloning an
-          existing restricted key.
+        {/* <p className="text-sm text-gray-500">
+          Go to the{' '}
+          <Link
+            href="https://dashboard.stripe.com/apikeys"
+            target="_blank"
+            className="text-sm text-indigo-600 font-semibold"
+          >
+            API keys
+          </Link>{' '}
+          page in your Stripe Dashboard.
         </p>
         <p className="text-sm text-gray-500">
-          To create a restricted key from scratch, click Create restricted key.
-          In this case, the default value for all permissions is None. To clone
-          an existing key, in the row for the key you want to clone, click the
-          overflow menu (), then select Duplicate key…. In this case, the
-          default value for each permission is its value in the cloned key.
+          Click on "Create restricted key".
         </p>
+        <p className="text-sm text-gray-500">Give your key a name.</p>
         <p className="text-sm text-gray-500">
-          In the Key name field, enter a name. If you cloned an existing key,
-          the default name is the cloned key`s name.
+          Set the permissions for the key. Make sure to set "Verification
+          Sessions and Reports" and "Access recent sensitive verification
+          results" to "Read". If you need access to collected images, also add
+          the "Files" permission with "Write".
         </p>
-        <p className="text-sm text-gray-500">
-          For each resource you want the new key to access, select the
-          permission for this key to allow. If you use Connect, you can also
-          select the permission for this key to allow when accessing connected
-          accounts. Available permissions are None, Read, or Write. Click Create
-          key.
-        </p>
-        <p className="text-sm text-gray-500">
-          The dialog displays the new key value. Copy it by clicking it.
-        </p>
-        <p className="text-sm text-gray-500">
-          Save the key value. You can`t retrieve it later.
-        </p>
-        <p className="text-sm text-gray-500">
-          In the Add a note field, enter the location where you saved the key
-          and click Done.
-        </p>
+        <p className="text-sm text-gray-500">Click "Create key".</p> */}
+
+        {/* refactor to bullet points */}
+
+        <ul className="list-decimal list-inside text-sm text-gray-500">
+          <li>
+            Go to the{' '}
+            <Link
+              href="https://dashboard.stripe.com/apikeys"
+              target="_blank"
+              className="text-sm text-indigo-600 font-semibold"
+            >
+              API keys
+            </Link>{' '}
+            page in your Stripe Dashboard.
+          </li>
+          <li>{`Click on "Create restricted key".`}</li>
+          <li>Give your key a name.</li>
+          <li>
+            {`Set the permissions for the key. Make sure to set "Verification
+            Sessions and Reports" and "Access recent sensitive verification
+            results" to "Read". If you need access to collected images, also add
+            the "Files" permission with "Write".`}
+          </li>
+          <li>{`Click "Create key".`}</li>
+        </ul>
       </section>
     </Wrapper>
   );
