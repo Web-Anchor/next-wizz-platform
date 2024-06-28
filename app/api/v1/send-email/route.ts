@@ -47,17 +47,21 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     // 📌  Sent email to the client
     // --------------------------------------------------------------------------------
-    resend.emails.send({
-      from: 'info@invoicio.io',
-      to: email,
+    const { data, error } = await resend.emails.send({
+      from: 'invoicio.io <info@invoicio.io>',
+      to: [email],
       subject: subject,
+      // react: EmailTemplate({ firstName: 'John' }),
       html: html ?? `<p>Email to: <strong>${email}</strong>!</p>`,
     });
+    console.log('🚨 __error ', data, error);
+
+    if (error) {
+      return Response.json({ error }, { status: 500 });
+    }
     console.log('📧 Email Sent to:', email, subject);
 
-    return NextResponse.json({
-      message: 'Email sent!',
-    });
+    return Response.json(data);
   } catch (error: any) {
     console.error(error);
 
