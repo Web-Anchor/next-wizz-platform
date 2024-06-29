@@ -42,7 +42,8 @@ export default function Notifications(props: Props): React.ReactElement | null {
             (errorType === 'StripeAuthenticationError' &&
               mediaScreenTitle('Invalid Stripe API Key', 'Invalid Key')) ||
             (errorType === 'StripePermissionError' &&
-              mediaScreenTitle('API key Permission Error'))
+              mediaScreenTitle('API key Permission Error')) ||
+            mediaScreenTitle('No Stripe API Key added', 'No API Key')
           }
           type={errorType === 'StripePermissionError' ? 'warning' : 'error'}
           tooltip={
