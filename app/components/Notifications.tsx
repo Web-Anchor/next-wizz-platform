@@ -40,8 +40,8 @@ export default function Notifications(props: Props): React.ReactElement | null {
         <Badge
           title={
             (errorType === 'StripeAuthenticationError' &&
-              mediaScreenTitle('Invalid Stripe API Key', 'Invalid Key'),
-            errorType === 'StripePermissionError' &&
+              mediaScreenTitle('Invalid Stripe API Key', 'Invalid Key')) ||
+            (errorType === 'StripePermissionError' &&
               mediaScreenTitle('API key Permission Error'))
           }
           type={errorType === 'StripePermissionError' ? 'warning' : 'error'}
