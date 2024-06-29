@@ -154,7 +154,7 @@ export default function Pricing(props: Props) {
           </RadioGroup>
         </div> */}
 
-        <div className="mt-10 flex flex-row flex-wrap lg:flex-nowrap gap-10">
+        <div className="mt-10 flex flex-row flex-wrap xl:flex-nowrap gap-10">
           {TIER_PLANS.map((tier, key) => {
             const fetching = state?.fetching === tier.id;
             const isEnterprise = tier.name === 'Enterprise';
