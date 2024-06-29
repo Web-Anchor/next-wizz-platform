@@ -154,13 +154,16 @@ export default function Page() {
       />
 
       <Badge
-        title={`Email Sent Total: ${user?.emailsSendCount ?? 0} ${
-          plan?.emailCap ? `of ${plan?.emailCap} 📧` : ``
-        }`}
+        title={mediaScreenTitle(
+          `Total Emails Sent: ${user?.emailsSendCount ?? 0} ${
+            plan?.emailCap ? `of ${plan?.emailCap} 📧` : ``
+          }`,
+          `Total Emails Sent: ${user?.emailsSendCount ?? 0}`
+        )}
         type="info"
         description={
           user?.lastEmailSendDate
-            ? `Last Email Sent: ${getTimeAgo(user?.lastEmailSendDate!)}`
+            ? `Sent: ${getTimeAgo(user?.lastEmailSendDate!)}`
             : undefined
         }
       />
@@ -172,6 +175,7 @@ export default function Page() {
           { item: 'Email' },
           { item: 'Currency', class: 'hidden lg:table-cell' },
           { item: 'Created At', class: 'hidden lg:table-cell' },
+          { item: 'Address', class: 'hidden lg:table-cell' },
         ]}
         data={response?.map((item: Customer) => {
           return {
@@ -200,6 +204,7 @@ export default function Page() {
               },
               {
                 item: <section>{item?.address?.line1}</section>,
+                class: 'hidden lg:table-cell',
               },
               {
                 item: (

@@ -30,6 +30,7 @@ export default function Page() {
     ending_before,
   });
   // charges = fakerCharges(); // faker data
+  console.log('🔑 charges', charges);
 
   const response = state?.charges || charges;
   const hasMoreRes = state?.has_more ?? has_more;
@@ -92,7 +93,7 @@ export default function Page() {
       <Table
         fetching={isLoading || state.fetching}
         header={[
-          { item: 'Customer', class: 'max-w-10 lg:max-w-none' },
+          { item: 'Customer', class: 'truncate lg:max-w-none' },
           { item: 'Amount' },
           { item: 'Phone', class: 'hidden lg:table-cell' },
           { item: 'Status', class: 'hidden lg:table-cell' },
@@ -104,12 +105,12 @@ export default function Page() {
             row: [
               {
                 item: (
-                  <section className="flex flex-col max-w-20 lg:max-w-none">
+                  <section className="flex flex-col max-w-28 lg:max-w-none">
                     <section className="text-sm font-medium leading-6 text-gray-800 truncate text-ellipsis">
-                      {item?.billing_details?.name}
+                      {item?.billing_details?.name || item?.customer}
                     </section>
                     <section className="mt-1 text-xs leading-5 text-gray-500 truncate text-ellipsis">
-                      {item?.billing_details?.email}
+                      {item?.billing_details?.email || item?.description}
                     </section>
                   </section>
                 ),

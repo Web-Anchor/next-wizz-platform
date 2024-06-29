@@ -67,7 +67,7 @@ export default function DesktopNav() {
                   : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600',
                 team.name === 'Help & Support' &&
                   'border-green-500 text-green-500 bg-green-50',
-                isSupport && 'rounded-tr-[3px]'
+                isSupport && 'rounded-tr-[4px]'
               )}
             >
               {team.initial}

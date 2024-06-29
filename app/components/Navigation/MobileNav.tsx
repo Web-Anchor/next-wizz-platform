@@ -68,12 +68,21 @@ export default function MobileNav() {
                   ? 'text-indigo-600 border-indigo-600'
                   : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600',
                 team.name === 'Help & Support' &&
-                  'border-green-500 text-green-500 bg-green-50'
+                  'border-green-500 text-green-500 bg-green-50',
+                isSupport && 'rounded-tr-[4px]'
               )}
             >
               {team.initial}
               {isSupport && (
-                <Badge class="absolute -top-3 -right-2 p-0" type="success" />
+                <svg
+                  className={classNames(
+                    'absolute top-0 -right-0 h-1.5 w-1.5 fill-green-500'
+                  )}
+                  viewBox="0 0 6 6"
+                  aria-hidden="true"
+                >
+                  <circle cx={3} cy={3} r={3} />
+                </svg>
               )}
             </span>
             <span className="truncate">{team.name}</span>
