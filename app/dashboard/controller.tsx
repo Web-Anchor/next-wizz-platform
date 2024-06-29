@@ -74,7 +74,7 @@ export default function Page() {
         </SectionWrapper>
       )}
 
-      <SectionWrapper class="lg:flex-row flex-wrap gap-5">
+      <SectionWrapper class="flex-row flex-wrap gap-5">
         <StatsCard
           currentTotal={charges?.totalCurrentCharges}
           previousTotal={`${charges?.totalLastMonthCharges} prev`}
