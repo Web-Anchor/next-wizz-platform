@@ -6,6 +6,7 @@ import { eq } from 'drizzle-orm';
 import { users } from '@db/schema';
 import { isToday, getDate } from 'date-fns';
 import { subscription, validateActiveSubMiddleware } from '@lib/subscription';
+import { plans } from '@config/index';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -24,15 +25,27 @@ export async function POST(request: NextRequest) {
     const subRes = await subscription({ userId });
     validateActiveSubMiddleware({ status: subRes?.subscription?.status });
 
-    // --------------------------------------------------------------------------------
-    // 📌  Update user email sent count & date sent
-    // --------------------------------------------------------------------------------
     const dbUser = await db
       .select()
       .from(users)
       .where(eq(users.clerkId, userId!));
     console.log('👤 User: ', dbUser);
+    console.log('PLANS_RES: ', subRes);
 
+    // --------------------------------------------------------------------------------
+    // 📌  Validate emailsSendCount against config
+    // --------------------------------------------------------------------------------
+    const sendCount = parseInt(dbUser[0].emailsSendCount ?? '0');
+    const cap = plans[subRes?.product?.name!]?.emailCap!;
+    console.log('📧 Emails Sent Count: ', sendCount, cap);
+
+    if (sendCount >= cap) {
+      return NextResponse.json({ error: 'Emails quota limit exceeded!' });
+    }
+
+    // --------------------------------------------------------------------------------
+    // 📌  Update user email sent count & date sent
+    // --------------------------------------------------------------------------------
     const today = new Date().toISOString();
     let emailsSendCount = countIncrement(dbUser[0].emailsSendCount);
     if (today !== dbUser[0].lastEmailSendDate && isTodayFirstOfMonth(today)) {
@@ -61,7 +74,7 @@ export async function POST(request: NextRequest) {
     }
     console.log('📧 Email Sent to:', email, subject);
 
-    return Response.json(data);
+    return NextResponse.json(data);
   } catch (error: any) {
     console.error(error);
 

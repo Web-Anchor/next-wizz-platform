@@ -131,7 +131,8 @@ export default function Page() {
 
       if (status !== 200 || data?.error) {
         throw new Error(
-          data?.error || `Failed to send email to ${props?.name}!`
+          data?.error ||
+            `Failed to send email to ${props?.name || props?.email}!`
         );
       }
 
@@ -155,9 +156,9 @@ export default function Page() {
 
       <Badge
         title={mediaScreenTitle(
-          `Total Emails Sent: ${user?.emailsSendCount ?? 0} ${
-            plan?.emailCap ? `of ${plan?.emailCap} 📧` : ``
-          }`,
+          `Total Emails Sent: ${
+            user?.emailsSendCount ?? 0
+          } ${`out of ${plan?.emailCap} 📧`}`,
           `Total Emails Sent: ${user?.emailsSendCount ?? 0}`
         )}
         type="info"
