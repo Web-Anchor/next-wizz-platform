@@ -27,42 +27,50 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------------
     // 📌  Retrieve customers templates
     // --------------------------------------------------------------------------------
-    const dbTemplate = await db
-      .select()
-      .from(templates)
-      .where(
-        and(eq(templates.userId, dbUser[0].id), eq(templates.id, body.id))
-      );
+    let dbTemplate: any;
+    if (body?.id) {
+      const temRes = await db
+        .select()
+        .from(templates)
+        .where(
+          and(eq(templates.userId, dbUser[0].id), eq(templates.id, body.id))
+        );
+      dbTemplate = temRes;
+    }
+    console.log('📄 Template: ', dbTemplate);
 
     const uniqueId = uuidv4();
     const template = await getTemplate({ templateName: 'template-one.hbs' });
     const html = await buildTemplate({
       template,
       data: {
-        ...((dbTemplate?.[0] ?? {}) as Template),
         // dummy data prefill
         billToName: 'John Doe',
         billToEmail: 'john.doe@email.com',
         billToPhone: '123-456-7890',
         items: [
           {
-            description: 'Item 1',
-            amount: 100,
+            description: 'Your Product description will appear here',
+            amount: '$100',
             quantity: 2,
             units: 'hrs',
           },
           {
-            description: 'Item 2',
-            amount: 50,
+            description: 'Your Product description will appear here',
+            amount: '$50',
             quantity: 1,
             units: 'hrs',
           },
         ],
-        subtotal: '250',
-        tax: '25',
-        total: '275',
+        subtotal: '$250',
+        tax: '25%',
+        total: '$275',
+        notice:
+          'PRODUCT DESCRIPTION & PRICE BEEN SET TO DEFAULT VALUES FOR DEMO PURPOSES ONLY!',
+        ...((dbTemplate?.[0] ?? {}) as Template),
       },
     });
+    console.log('📄 HTML', html);
 
     const { data } = await axios.post(
       process.env.NETLIFY_FUNCTIONS + '/puppet-pdf-gen',

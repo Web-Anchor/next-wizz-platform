@@ -157,7 +157,7 @@ export async function downloadFile(props: {
         props.classBack?.(percentCompleted);
       },
     });
-    console.log('🚧 BLOB ', data);
+    console.log('📝 TEMPLATE BLOB ', data);
 
     const url = window.URL.createObjectURL(data);
     const a = document.createElement('a');
