@@ -37,7 +37,7 @@ export default function Page() {
         slogan="Navigate Revenue Waters, Chart Your Success!"
       />
 
-      <SectionWrapper class="lg:flex-row flex-wrap gap-5">
+      <SectionWrapper class="flex-row flex-wrap gap-5">
         <NumbersCard
           number={charges?.avgRevenuePerUserCurrentMonth}
           icon="customers"
