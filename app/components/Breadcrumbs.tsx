@@ -1,7 +1,7 @@
 'use client';
 
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { classNames } from '@helpers/index';
 import Notifications from './Notifications';
@@ -12,6 +12,9 @@ type Props = {
 
 export default function Breadcrumbs(props: Props) {
   const path = usePathname();
+  const searchParams = useSearchParams();
+
+  const id = searchParams.get('id')!;
   const crumbs = path?.split('/')?.filter(Boolean);
 
   const pages = crumbs?.map((part, index) => {
@@ -46,23 +49,29 @@ export default function Breadcrumbs(props: Props) {
               </Link>
             </div>
           </li>
-          {pages.map((page) => (
-            <li key={page.name}>
-              <div className="flex items-center">
-                <ChevronRightIcon
-                  className="h-5 w-5 flex-shrink-0 text-gray-400"
-                  aria-hidden="true"
-                />
-                <Link
-                  href={page.href}
-                  className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-                  aria-current={page.current ? 'page' : undefined}
-                >
-                  {page.name}
-                </Link>
-              </div>
-            </li>
-          ))}
+          {pages.map((page) => {
+            const isTemplatePreview = page.href.includes('template-preview');
+            return (
+              <li key={page.name}>
+                <div className="flex items-center">
+                  <ChevronRightIcon
+                    className="h-5 w-5 flex-shrink-0 text-gray-400"
+                    aria-hidden="true"
+                  />
+                  <Link
+                    href={{
+                      pathname: page.href,
+                      query: isTemplatePreview ? `id=${id}` : '',
+                    }}
+                    className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    aria-current={page.current ? 'page' : undefined}
+                  >
+                    {page.name}
+                  </Link>
+                </div>
+              </li>
+            );
+          })}
         </ol>
 
         <Notifications />
