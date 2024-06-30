@@ -34,21 +34,23 @@ export async function POST(request: NextRequest) {
           billToAddress: '123 Main St, New York, NY 10001',
           items: [
             {
-              description: 'Product A',
-              amount: '100',
+              description: 'Your Product description will appear here',
+              amount: '$100',
               quantity: 2,
-              units: 50,
+              units: 'hrs',
             },
             {
-              description: 'Product B',
-              amount: '50',
+              description: 'Your Product description will appear here',
+              amount: '$50',
               quantity: 1,
-              units: 50,
+              units: 'hrs',
             },
           ],
-          subtotal: '150',
-          tax: '15',
-          total: '165',
+          subtotal: '$250',
+          tax: '25%',
+          total: '$275',
+          notice:
+            'PRODUCT DESCRIPTION & PRICE BEEN SET TO DEFAULT VALUES FOR DEMO PURPOSES ONLY!',
         } as any), // User dummy data
         ...template, // Custom Template data
       },
