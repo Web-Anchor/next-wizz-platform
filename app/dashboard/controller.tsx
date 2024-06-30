@@ -11,10 +11,10 @@ import NumbersCard from '@app/components/NumbersCard';
 import Button from '@app/components/Button';
 import { useRouter } from 'next/navigation';
 import Badge from '@app/components/Badge';
-import Link from 'next/link';
 import { toast } from 'sonner';
 import { fakerStatsCharges } from '@lib/faker';
 import FrameCard from '@app/components/FrameCard';
+import RateSection from '@app/components/RateSection';
 
 export default function Page() {
   const router = useRouter();
@@ -130,12 +130,16 @@ export default function Page() {
         />
       </SectionWrapper>
 
-      <Button
-        title="View All Statistics & Reports"
-        style="link"
-        onClick={() => router.push('/dashboard/reports')}
-        class="mt-10"
-      />
+      <section>
+        <Button
+          title="View All Statistics & Reports"
+          style="link"
+          onClick={() => router.push('/dashboard/reports')}
+          class="mt-10"
+        />
+      </section>
+
+      <RateSection />
     </Wrapper>
   );
 }

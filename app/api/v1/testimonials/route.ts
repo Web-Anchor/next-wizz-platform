@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
           eq(ratings.platform, 'platform')
         )
       )
+      .groupBy(ratings.id) // Group by rating ID to avoid duplicates
       .limit(10)
       .orderBy(desc(ratings.createdAt));
 
