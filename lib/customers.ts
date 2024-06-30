@@ -151,7 +151,7 @@ export async function customers({ apiKey }: { apiKey?: string }) {
         }
         return acc;
       }, {}),
-      // Customer Payment Method Distribution: 
+      // Customer Payment Method Distribution:
       customerInvoicingPaymentMethod: customers?.reduce(
         (acc: any, customer: any) => {
           const paymentMethod =

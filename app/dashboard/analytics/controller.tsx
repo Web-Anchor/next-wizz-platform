@@ -117,7 +117,7 @@ export default function Page() {
           header={`Customer Creation\nDay of Week`}
           data={convertKeyValueObjToArray(customers?.customerCreationDayOfWeek)}
           loading={isLoading}
-          type="radial"
+          type="pie"
           description="Chart the distribution of payment methods preferred by customers to understand their payment preferences and optimize payment processing options for a seamless customer experience."
         />
         <PieChart
