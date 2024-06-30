@@ -41,21 +41,23 @@ export async function POST(request: NextRequest) {
         billToPhone: '123-456-7890',
         items: [
           {
-            description: 'Item 1',
-            amount: 100,
+            description: 'Your Product description will appear here',
+            amount: '$100',
             quantity: 2,
             units: 'hrs',
           },
           {
-            description: 'Item 2',
-            amount: 50,
+            description: 'Your Product description will appear here',
+            amount: '$50',
             quantity: 1,
             units: 'hrs',
           },
         ],
-        subtotal: '250',
-        tax: '25',
-        total: '275',
+        subtotal: '$250',
+        tax: '25%',
+        total: '$275',
+        notice:
+          'PRODUCT DESCRIPTION & PRICE BEEN SET TO DEFAULT VALUES FOR DEMO PURPOSES ONLY!',
       },
     });
 
