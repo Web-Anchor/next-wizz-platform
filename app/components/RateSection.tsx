@@ -16,18 +16,25 @@ type Props = {
 
 export default function RateSection(props: Props): React.ReactElement {
   const [state, setState] = useState<{
-    fetching?: boolean;
+    fetching?: string;
     rating: number;
   }>({
     rating: 5,
   });
   const formRef = useRef<HTMLFormElement>(null);
-  console.log('🔑 state', state);
 
   async function submit(form: any) {
     try {
-      setState((prev) => ({ ...prev, fetching: true }));
+      await new Promise((resolve) => setTimeout(resolve, 100)); // 🚧 UI update timeout
+      setState((prev) => ({ ...prev, fetching: 'rating' }));
       const comments = form.get('comments');
+
+      // --------------------------------------------------------------------------------
+      // 📌  Comment validation
+      // --------------------------------------------------------------------------------
+      if (comments.length < 10) {
+        throw new Error('Please provide a detailed comment.');
+      }
 
       const { data, status, error } = await cFetch({
         url: '/api/v1/add-rating',
@@ -43,14 +50,14 @@ export default function RateSection(props: Props): React.ReactElement {
       }
 
       toast.success(
-        `Thanks for rating your experience with ${status} stars. 🌟`
+        `Thanks for rating your experience with ${state?.rating} stars. 🌟`
       );
       formRef.current?.reset(); // Reset form ref after successful submission
     } catch (error: any) {
       console.error('🔑 error', error, JSON.stringify(error));
       toast.error(error.message);
     } finally {
-      setState((prev) => ({ ...prev, fetching: false, rating: 5 }));
+      setState((prev) => ({ ...prev, fetching: undefined, rating: 5 }));
     }
   }
 
@@ -95,7 +102,7 @@ export default function RateSection(props: Props): React.ReactElement {
         <Button
           title="Submit"
           type="submit"
-          fetching={state.fetching}
+          fetching={state.fetching === 'rating'}
           style="link"
           class="mt-6 ml-auto"
         />
