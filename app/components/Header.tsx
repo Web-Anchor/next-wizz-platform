@@ -29,7 +29,9 @@ export default function Header(props: Props) {
   const { signOut } = useClerk();
   let { isSignedIn, user, isLoaded } = useUser();
   // user = fakerUser(true); // faker data
-  const { active, basic, advanced, pro } = useSubscription({});
+  const { active, basic, advanced, pro } = useSubscription({
+    isDisabled: !isSignedIn,
+  });
   const ctaRef = useRef<HTMLButtonElement>(null);
 
   const navigation = mainNav({

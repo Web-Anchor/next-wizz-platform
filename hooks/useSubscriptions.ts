@@ -5,11 +5,14 @@ import { plans } from '@config/index';
 
 type Props = {
   subscriptions?: StripeSubscription[];
+  isDisabled?: boolean;
 };
 
 export function useSubscription(props: Props) {
+  const isDisabled = props.isDisabled !== undefined && props.isDisabled;
+
   const { data, error, isLoading } = useSWR(
-    `/api/v1/stripe/subscriptions`,
+    !isDisabled ? `/api/v1/stripe/subscriptions` : undefined,
     (url: string) => bodyFetcher(url),
     {
       revalidateOnFocus: true,
