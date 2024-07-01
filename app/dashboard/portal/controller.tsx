@@ -330,8 +330,8 @@ export default function Page() {
             return {
               row: [
                 {
-                  item: mediaScreenTitle(item.type),
-                  class: 'max-w-40',
+                  item: item.type,
+                  class: 'truncate max-w-40',
                 },
                 {
                   item: getTimeAgo(item.createdAt!),
@@ -357,7 +357,7 @@ export default function Page() {
                       className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500"
                       target="_blank"
                     >
-                      Live Preview
+                      {mediaScreenTitle('Live Preview', 'Preview')}
                     </Link>
                   ),
                 },
