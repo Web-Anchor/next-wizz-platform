@@ -38,7 +38,7 @@ export default function ProfileButton(props: Props): React.ReactElement {
   return (
     <Menu as="div" className="relative ml-3">
       <div>
-        <MenuButton className="relative flex rounded-full bg-white text-sm">
+        <MenuButton className="relative flex rounded-full text-sm">
           {isSignedIn && (
             <UserProfileCard
               imgSrc={user?.imageUrl}
