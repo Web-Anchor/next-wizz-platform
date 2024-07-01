@@ -17,7 +17,7 @@ const frequencies = [
 export const TIER_PLANS = [
   {
     name: 'Freelancer',
-    id: process.env.FREELANCER_PROD_ID,
+    id: process.env.NEXT_PUBLIC_FREELANCER_PROD_ID,
     price: { monthly: '$49', annually: '$144' },
     description: 'The essentials to provide your best work for clients.',
     features: [
@@ -34,7 +34,7 @@ export const TIER_PLANS = [
   },
   {
     name: 'Startup',
-    id: process.env.STARTUP_PROD_ID,
+    id: process.env.NEXT_PUBLIC_STARTUP_PROD_ID,
     price: { monthly: '$69', annually: '$288' },
     description: 'A plan that scales with your rapidly growing business.',
     features: [
@@ -51,7 +51,7 @@ export const TIER_PLANS = [
   },
   {
     name: 'Enterprise',
-    id: process.env.STARTUP_PROD_ID,
+    id: process.env.NEXT_PUBLIC_STARTUP_PROD_ID,
     price: '$349',
     description: 'Dedicated support and infrastructure for your company.',
     features: [
@@ -80,6 +80,7 @@ export default function Pricing(props: Props) {
 
   async function createSubscription(id?: string) {
     if (!id) throw new Error('No plan ID provided!');
+    console.log('🔑 Creating subscription for plan:', id);
 
     try {
       setState({ fetching: id });
