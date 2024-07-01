@@ -65,8 +65,9 @@ export default function FeatureSections() {
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Connect your Stripe account via API and start sending invoices
             directly to your customers effortlessly. Take control of your
-            invoicing with our self-print feature. Easily access and download
-            your invoices anytime, anywhere with just a click.
+            invoicing services with our self-print feature. Allow easily access
+            and downloads of your invoices for your customers anytime, anywhere
+            with just a click.
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Join us today and experience the convenience of modern invoicing.
