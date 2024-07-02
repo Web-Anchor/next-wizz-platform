@@ -6,7 +6,7 @@ import { Spinner } from '@app/components/Skeleton';
 import { SignUp, ClerkLoading, ClerkLoaded } from '@clerk/nextjs';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { CardWrapper } from '@app/sign-in/controller';
+import { CardWrapper } from '@app/sign-in/[[...sign-in]]/controller';
 
 export default function Page() {
   const searchParams = useSearchParams()!;
