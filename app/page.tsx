@@ -18,7 +18,7 @@ export default function Page() {
 
       <SectionWrapper>
         <FeatureSections />
-        <Pricing />
+        <Pricing cardWrapperClass="lg:flex-nowrap" />
         <Workflow />
         <VideoWalkthrough />
         <CustomerWorkflow />

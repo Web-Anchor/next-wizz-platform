@@ -57,21 +57,30 @@ export default function FeatureSections() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl lg:text-center">
           <h2 className="text-xl font-semibold leading-7 text-indigo-600">
-            Invoicing made easy
+            Invoicing Made Easy
           </h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
-            Streamline your invoicing process with our user-friendly platform.
+            Streamline your invoicing process with dedicated user-friendly
+            platform.
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Connect your Stripe account via API and start sending invoices
-            directly to your customers effortlessly. Take control of your
-            invoicing services with our self-print feature. Allow easily access
-            and downloads of your invoices for your customers anytime, anywhere
-            with just a click.
+            Streamline your invoicing process with our dedicated, user-friendly
+            platform. Connect your Stripe account via API and effortlessly
+            connect to all your customers & payments. Empower your customers to
+            access invoices at their convenience, making the billing process
+            hassle-free. Our platform empowers you to take full control of your
+            invoicing services, featuring a convenient access for customers on
+            dedicated customer portal, secure integration with Stripe API,
+            customizable templates, portal components and detailed reporting &
+            analytics features.
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Join us today and experience the convenience of modern invoicing.
-            Start simplifying your billing process now!
+            Join us today and discover how our platform simplifies your billing
+            process. From viewing transactions, invoicing and more to making
+            necessary adjustments, our invoicing solution ensures that your
+            financial management is both efficient and effective. Empower
+            yourself with modern invoicing - start simplifying your billing
+            process now!
           </p>
         </div>
 

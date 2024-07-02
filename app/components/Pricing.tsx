@@ -70,6 +70,7 @@ export const TIER_PLANS = [
 
 type Props = {
   hideTiers?: string[];
+  cardWrapperClass?: string;
 };
 
 export default function Pricing(props: Props) {
@@ -157,7 +158,12 @@ export default function Pricing(props: Props) {
           </RadioGroup>
         </div> */}
 
-        <div className="mt-10 flex flex-row flex-wrap xl:flex-nowrap gap-10">
+        <div
+          className={classNames(
+            'mt-10 flex flex-row flex-wrap xl:flex-nowrap gap-10',
+            props.cardWrapperClass
+          )}
+        >
           {TIER_PLANS.map((tier, key) => {
             const fetching = state?.fetching === tier.id;
             const isEnterprise = tier.name === 'Enterprise';
