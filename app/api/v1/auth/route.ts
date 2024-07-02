@@ -18,24 +18,20 @@ export async function GET(request: NextRequest) {
       .select()
       .from(users)
       .where(eq(users.clerkId, userId!));
-    console.log('👤 User record: ', dbUser);
 
     if (!dbUser?.length) {
-      console.log(
-        'No user record found. Creating record in database',
-        redirect
-      );
+      console.log('No user record found. Creating record in database');
 
       return new Response(null, {
         status: 302,
         // post data to create user
         headers: {
-          Location: APP_URL + `/api/v1/create-user` + `?redirect=${redirect}`,
+          Location: APP_URL + `/api/v1/create-user`,
         },
       });
     }
 
-    console.log('👤 User record found');
+    console.log('👤 User record found: ', dbUser);
     return new Response(null, {
       status: 302,
       headers: {

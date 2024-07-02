@@ -25,6 +25,7 @@ export async function GET(request: NextRequest) {
         emailAddress: user?.emailAddresses?.[0]?.emailAddress!,
         firstName: user?.firstName,
         lastName: user?.lastName,
+        type: 'platform',
       })
       .returning({ id: users.id });
     console.log('👤 User record created successfully 🙌');

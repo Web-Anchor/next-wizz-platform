@@ -12,6 +12,7 @@ export const users = sqliteTable('users', {
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
   emailsSendCount: text('emails_send_count'),
   lastEmailSendDate: text('last_email_send_date'),
+  type: text('type'),
 });
 
 export const templates = sqliteTable('templates', {
