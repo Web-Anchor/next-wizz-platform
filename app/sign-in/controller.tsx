@@ -22,7 +22,9 @@ export default function Page() {
 
       <ClerkLoaded>
         <SectionWrapper class="items-center">
-          <SignIn afterSignInUrl={`/api/v1/auth?redirect=${redirect}`} />
+          <CardWrapper>
+            <SignIn afterSignInUrl={`/api/v1/auth?redirect=${redirect}`} />
+          </CardWrapper>
           <SectionWrapper class="flex-row gap-5 w-[400px] text-nowrap items-center">
             <PageHeadings description="Don't have an account?" class="w-fit" />
             <Link
@@ -36,4 +38,8 @@ export default function Page() {
       </ClerkLoaded>
     </Wrapper>
   );
+}
+
+export function CardWrapper(props: { children: React.ReactNode }) {
+  return <section className="shadow-md rounded-2xl">{props.children}</section>;
 }

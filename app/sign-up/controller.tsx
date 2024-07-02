@@ -6,14 +6,14 @@ import { Spinner } from '@app/components/Skeleton';
 import { SignUp, ClerkLoading, ClerkLoaded } from '@clerk/nextjs';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { CardWrapper } from '@app/sign-in/controller';
 
 export default function Page() {
   const searchParams = useSearchParams()!;
   const redirect = searchParams.get('redirect');
-  console.log('🚀  redirect', redirect);
 
   return (
-    <Wrapper class="pt-5">
+    <Wrapper>
       <ClerkLoading>
         <SectionWrapper class="items-center">
           <Spinner />
@@ -23,11 +23,13 @@ export default function Page() {
 
       <ClerkLoaded>
         <SectionWrapper class="items-center">
-          <SignUp
-            afterSignUpUrl={`/api/v1/auth?redirect=${redirect}`}
-            afterSignInUrl={`/api/v1/auth?redirect=${redirect}`}
-          />
-          <SectionWrapper class="flex-row gap-5 w-[400px] text-nowrap items-center">
+          <CardWrapper>
+            <SignUp
+              afterSignUpUrl={`/api/v1/auth?redirect=${redirect}`}
+              afterSignInUrl={`/api/v1/auth?redirect=${redirect}`}
+            />
+          </CardWrapper>
+          <SectionWrapper class="flex-row text-nowrap items-center">
             <PageHeadings
               description="Already have an account?"
               class="w-fit"
