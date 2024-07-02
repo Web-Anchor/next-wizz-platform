@@ -34,35 +34,35 @@ export default function Analytics() {
   return (
     <div className="overflow-hidden py-6 sm:py-10">
       <div className="mx-auto max-w-7xl lg:px-8">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-start">
+        <div className="px-6 lg:px-0 lg:mx-auto max-w-4xl lg:text-center">
+          <h2 className="text-xl font-semibold leading-7 text-indigo-600">
+            Streamline Your Invoicing Process with Ease
+          </h2>
+          <p className="mt-2 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
+            Empower Your Business with Advanced Analytics
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Gain deep insights into your financial operations with our advanced
+            analytics feature. Track Stripe account charges and user statistics
+            effortlessly to make informed decisions that drive your business
+            forward. Visualize trends, monitor revenue streams, and optimize
+            your invoicing strategy with comprehensive data analytics.
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Our intuitive dashboard provides real-time updates on transaction
+            volumes, revenue growth, and customer engagement metrics, empowering
+            you to streamline operations and maximize profitability. From
+            identifying revenue opportunities to improving customer retention,
+            leverage actionable insights to stay ahead in today`s competitive
+            landscape. Transform data into actionable intelligence and unlock
+            the full potential of your invoicing process with our powerful
+            analytics tools.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-start lg:mt-16">
           <div className="px-6 lg:px-0 lg:pr-4 lg:pt-4">
             <div className="max-w-2xl lg:max-w-lg">
-              <section className="lg:text-center">
-                <h2 className="text-xl font-semibold leading-7 text-indigo-600">
-                  Streamline Your Invoicing Process with Ease
-                </h2>
-                <p className="mt-2 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
-                  Empower Your Business with Advanced Analytics
-                </p>
-                <p className="mt-6 text-lg leading-8 text-gray-600">
-                  Gain deep insights into your financial operations with our
-                  advanced analytics feature. Track Stripe account charges and
-                  user statistics effortlessly to make informed decisions that
-                  drive your business forward. Visualize trends, monitor revenue
-                  streams, and optimize your invoicing strategy with
-                  comprehensive data analytics.
-                </p>
-                <p className="mt-6 text-lg leading-8 text-gray-600">
-                  Our intuitive dashboard provides real-time updates on
-                  transaction volumes, revenue growth, and customer engagement
-                  metrics, empowering you to streamline operations and maximize
-                  profitability. From identifying revenue opportunities to
-                  improving customer retention, leverage actionable insights to
-                  stay ahead in today`s competitive landscape. Transform data
-                  into actionable intelligence and unlock the full potential of
-                  your invoicing process with our powerful analytics tools.
-                </p>
-              </section>
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
                 {features.map((feature) => (
                   <div key={feature.name} className="relative pl-9">
