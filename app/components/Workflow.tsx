@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import {
-  CloudArrowUpIcon,
-  ServerIcon,
+  UserGroupIcon,
+  RectangleGroupIcon,
   SwatchIcon,
   PlusCircleIcon,
   BoltIcon,
@@ -20,13 +20,13 @@ const features = [
     name: 'Organization.',
     description:
       'Keep your invoicing process organized with a centralized platform that allows you to track payments and manage invoices effortlessly.',
-    icon: ServerIcon,
+    icon: RectangleGroupIcon,
   },
   {
     name: 'Accessibility.',
     description:
       'Access your invoicing tools anytime, anywhere, making it convenient to stay on top of your billing tasks.',
-    icon: CloudArrowUpIcon,
+    icon: UserGroupIcon,
   },
   {
     name: 'Customization.',
@@ -46,23 +46,49 @@ export default function Workflow() {
   return (
     <div className="overflow-hidden py-6 sm:py-10">
       <div className="mx-auto max-w-7xl lg:px-8">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-start">
+        <div className="px-6 lg:px-0 lg:mx-auto max-w-4xl lg:text-center">
+          <h2 className="text-xl font-semibold leading-7 text-indigo-600">
+            Streamline Your Invoicing Process with Ease
+          </h2>
+          <p className="mt-2 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
+            A better workflow
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Enhance your productivity and efficiency with our intuitive
+            invoicing app designed to simplify your workflow. Our dedicated
+            user-friendly platform offers a seamless invoicing experience to
+            your customers and invoicing management to payment, to customers ,
+            to statistics and analytics never been easier, ensuring you can
+            manage your financial activities effortlessly.
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Building on the ease of managing your financial activities from a
+            central location, our platform allows you to connect your Stripe
+            account via API, view transactions, download and adjust invoices,
+            and track payments with precision. Our dedicated space provides an
+            intuitive interface where you can handle all your invoicing needs,
+            keeping your records organized and up-to-date.
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Join us today and take advantage of a better workflow. Experience
+            the seamless integration of our invoicing platform with your daily
+            operations, making your financial management tasks simpler and more
+            efficient. With features like self-print and 24/7 access to
+            invoicing to your customers, our platform ensures that your
+            invoicing process is always at your fingertips, ready to enhance
+            your productivity.
+          </p>
+
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Enhance your productivity and efficiency with our intuitive
+            invoicing app designed to simplify your workflow. Experience
+            seamless invoicing from creation to payment with our user-friendly
+            platform.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-start lg:mt-16">
           <div className="px-6 lg:px-0 lg:pr-4 lg:pt-4">
             <div className="max-w-2xl lg:max-w-lg">
-              <section className="lg:text-center">
-                <h2 className="text-xl font-semibold leading-7 text-indigo-600">
-                  Streamline Your Invoicing Process with Ease
-                </h2>
-                <p className="mt-2 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
-                  A better workflow
-                </p>
-                <p className="mt-6 text-lg leading-8 text-gray-600">
-                  Enhance your productivity and efficiency with our intuitive
-                  invoicing app designed to simplify your workflow. Experience
-                  seamless invoicing from creation to payment with our
-                  user-friendly platform.
-                </p>
-              </section>
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
                 {features.map((feature) => (
                   <div key={feature.name} className="relative pl-9">
