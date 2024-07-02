@@ -13,10 +13,24 @@ export default function VideoWalkthrough() {
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Discover how our intuitive web application can revolutionize your
-            invoicing and financial management. From real-time data access to
-            seamless transaction monitoring, personalized invoices, and
-            comprehensive analytics, experience a platform designed to simplify
-            your workflow and keep you in control.
+            invoicing and financial management. Our platform offers a
+            comprehensive suite of tools to streamline your workflow and keep
+            you in control.
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            From real-time data access and seamless transaction monitoring to
+            personalized invoices and comprehensive analytics, our platform is
+            designed with efficiency and simplicity in mind. Easily connect your
+            Stripe account via API to start sending invoices directly to your
+            customers. Monitor all your transactions in real-time, ensuring
+            accuracy and transparency in your financial dealings.
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Take advantage of our self-print feature, allowing your customers to
+            access and download their invoices anytime, anywhere. With 24/7
+            access to invoicing, your customers can conveniently manage their
+            billing tasks, enhancing their overall experience with your
+            business.
           </p>
         </div>
 
