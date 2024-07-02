@@ -10,7 +10,7 @@ import {
 
 export default function CustomerWorkflow() {
   return (
-    <div className="relative">
+    <div className="relative py-10">
       <div className="mx-auto max-w-7xl lg:flex lg:justify-between lg:px-8 xl:justify-end">
         <div className="lg:flex lg:w-1/2 lg:shrink lg:grow-0 xl:absolute xl:inset-y-0 xl:right-1/2 xl:w-1/2">
           <div className="flex lg:hidden relative h-80 lg:-ml-8 lg:h-auto lg:w-full lg:grow xl:ml-0">
@@ -31,7 +31,7 @@ export default function CustomerWorkflow() {
           </div>
         </div>
         <div className="px-6 lg:contents">
-          <div className="lg:mx-auto max-w-2xl pb-12 pt-16 sm:pb-12 sm:pt-20 lg:ml-8 lg:mr-0 lg:w-full lg:max-w-lg lg:flex-none lg:pt-32 xl:w-1/2">
+          <div className="lg:mx-auto max-w-2xl sm:py-10 lg:ml-8 lg:mr-0 lg:w-full lg:max-w-lg lg:flex-none xl:w-1/2">
             <p className="text-xl font-semibold leading-7 text-indigo-600">
               Customer Workflow
             </p>
