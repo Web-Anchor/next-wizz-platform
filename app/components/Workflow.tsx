@@ -51,7 +51,7 @@ export default function Workflow() {
             Streamline Your Invoicing Process with Ease
           </h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
-            A better workflow
+            Streamline Your Financial Management with Ease
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Enhance your productivity and efficiency with our intuitive
@@ -62,14 +62,6 @@ export default function Workflow() {
             manage your financial activities effortlessly.
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Building on the ease of managing your financial activities from a
-            central location, our platform allows you to connect your Stripe
-            account via API, view transactions, download and adjust invoices,
-            and track payments with precision. Our dedicated space provides an
-            intuitive interface where you can handle all your invoicing needs,
-            keeping your records organized and up-to-date.
-          </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
             Join us today and take advantage of a better workflow. Experience
             the seamless integration of our invoicing platform with your daily
             operations, making your financial management tasks simpler and more
@@ -77,13 +69,6 @@ export default function Workflow() {
             invoicing to your customers, our platform ensures that your
             invoicing process is always at your fingertips, ready to enhance
             your productivity.
-          </p>
-
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Enhance your productivity and efficiency with our intuitive
-            invoicing app designed to simplify your workflow. Experience
-            seamless invoicing from creation to payment with our user-friendly
-            platform.
           </p>
         </div>
         <div className="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-start lg:mt-16">

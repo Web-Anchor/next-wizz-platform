@@ -20,6 +20,14 @@ export default function Page() {
       <SectionWrapper>
         <FeatureSections />
         <Pricing cardWrapperClass="lg:flex-nowrap" />
+        <SimpleOnDark
+          title="Keep it simple, keep it organized"
+          description={[
+            'Building on the ease of managing your financial activities from a central location, our platform allows you to connect your Stripe account via API, view transactions, download and adjust invoices, and track payments with precision. Our dedicated space provides an intuitive interface where you can handle all your invoicing needs, keeping your records organized and up-to-date.',
+            ' Enhance your productivity and efficiency with our intuitive invoicing app designed to simplify your workflow. Experience seamless invoicing from creation to payment with our user-friendly platform.',
+          ]}
+          slogan="A better workflow"
+        />
         <Workflow />
         <VideoWalkthrough />
         <SimpleOnDark

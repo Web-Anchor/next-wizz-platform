@@ -1,5 +1,6 @@
 'use client';
 
+import { classNames } from '@helpers/index';
 import {
   CloudArrowUpIcon,
   FingerPrintIcon,
@@ -74,14 +75,6 @@ export default function FeatureSections() {
             customizable templates, portal components and detailed reporting &
             analytics features.
           </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Join us today and discover how our platform simplifies your billing
-            process. From viewing transactions, invoicing and more to making
-            necessary adjustments, our invoicing solution ensures that your
-            financial management is both efficient and effective. Empower
-            yourself with modern invoicing - start simplifying your billing
-            process now!
-          </p>
         </div>
 
         <div className="lg:mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
@@ -104,6 +97,21 @@ export default function FeatureSections() {
             ))}
           </dl>
         </div>
+      </div>
+
+      <div className={classNames('bg-gray-800 px-5 py-10 sm:py-16 mt-10')}>
+        <section className="w-full lg:mx-auto max-w-3xl lg:text-center text-white">
+          <section className="flex flex-col gap-2 text-lg leading-8 text-gray-200">
+            <p>
+              Join us today and discover how our platform simplifies your
+              billing process. From viewing transactions, invoicing and more to
+              making necessary adjustments, our invoicing solution ensures that
+              your financial management is both efficient and effective. Empower
+              yourself with modern invoicing - start simplifying your billing
+              process now!
+            </p>
+          </section>
+        </section>
       </div>
     </div>
   );
