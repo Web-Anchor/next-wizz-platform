@@ -12,7 +12,6 @@ export function useSupportTickets(props: Props) {
     (url: string) => bodyFetcher(url),
     {
       revalidateOnFocus: true,
-
       fallbackData: props?.tickets as any,
     }
   );

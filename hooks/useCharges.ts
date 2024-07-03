@@ -20,7 +20,6 @@ export function useCharges(props: Props) {
       }),
     {
       revalidateOnFocus: true,
-
       fallbackData: props?.charges as any,
     }
   );

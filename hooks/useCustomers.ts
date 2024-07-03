@@ -20,7 +20,6 @@ export function useCustomers(props: Props) {
       }),
     {
       revalidateOnFocus: true,
-
       fallbackData: props?.customers as any,
     }
   );
