@@ -31,6 +31,11 @@ export default function Page() {
     // --------------------------------------------------------------------------------
     return (
       <Wrapper>
+        <PageHeadings
+          title="Subscribe to a Plan to Access the Platform and Its Features"
+          description="Subscribe to a plan to access the platform and its features. Choose a plan that suits your needs and budget to get started."
+          slogan="Invoicio.io - Empowering Your Business!"
+        />
         <Pricing />
       </Wrapper>
     );
@@ -139,7 +144,7 @@ export default function Page() {
         />
       </section>
 
-      <RateSection />
+      {!isLoading && <RateSection />}
     </Wrapper>
   );
 }
