@@ -5,7 +5,7 @@ import { CheckIcon } from '@heroicons/react/20/solid';
 import { classNames } from '@helpers/index';
 import Button from './Button';
 import { cFetch } from '@lib/cFetcher';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useUser } from '@clerk/clerk-react';
 import { toast } from 'sonner';
 import { plans } from '@config/index';
@@ -66,6 +66,24 @@ export const TIER_PLANS = [
     featured: false,
     cta: 'Buy plan',
   },
+  {
+    name: 'Tester',
+    id: process.env.NEXT_PUBLIC_TESTER_PROD_ID,
+    price: '$1',
+    description:
+      'This is the tester plan. It will be used for testing purposes only.',
+    features: [
+      'All features in Startup plan',
+      'Unlimited invoices',
+      'Custom domain',
+      'Priority support',
+      'Sent up to 5000 invoices to customers',
+      'Sent up to 5000 email invites to customers',
+      'Custom integrations & features',
+    ],
+    featured: false,
+    cta: 'Buy plan',
+  },
 ];
 
 type Props = {
@@ -77,6 +95,9 @@ export default function Pricing(props: Props) {
   const [state, setState] = useState<{ fetching?: string }>({});
   const [frequency, setFrequency] = useState(frequencies[0]);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const mode = searchParams.get('mode')!;
   const { isSignedIn, user, isLoaded } = useUser();
 
   async function createSubscription(id?: string) {
@@ -167,6 +188,11 @@ export default function Pricing(props: Props) {
           {TIER_PLANS.map((tier, key) => {
             const fetching = state?.fetching === tier.id;
             const isEnterprise = tier.name === 'Enterprise';
+            const isTester = tier.name === 'Tester';
+
+            const isTesterMode = mode === 'tester'; // 🚨 TODO: remove this when not needed
+            if (isTesterMode && isEnterprise) return null; // Hide all tiers except tester plan
+            if (isTester && !isTesterMode) return null; // Hide tester plan if not in tester mode
 
             if (props.hideTiers?.includes(tier.name)) return null; // Hide desired tiers
 

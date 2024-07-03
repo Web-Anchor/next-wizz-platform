@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
   try {
     const { userId } = auth();
     const body = await request.json();
+    console.log('📦 Body: ', body);
 
     // --------------------------------------------------------------------------------
     // 📌  Validate client subscription & subscription

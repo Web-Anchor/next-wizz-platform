@@ -22,6 +22,15 @@ export const plans: { [key: string]: Plan } = {
     invoiceEmailCap: 500,
     emailCap: 500,
   },
+  Tester: {
+    keyLimit: 1,
+    name: 'Startup',
+    basic: true,
+    advanced: true,
+    pro: false,
+    invoiceEmailCap: 50,
+    emailCap: 50,
+  },
 };
 
 // --------------------------------------------------------------------------------
