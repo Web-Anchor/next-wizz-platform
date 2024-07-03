@@ -116,7 +116,7 @@ export default function Header(props: Props) {
                     </Link>
                   )}
                 </div>
-                {isSignedIn && (
+                {(isSignedIn || !isLoaded) && (
                   <div className="hidden sm:ml-6 sm:flex sm:items-center">
                     <ProfileButton />
                   </div>
