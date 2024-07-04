@@ -73,18 +73,7 @@ export async function POST(request: NextRequest) {
     });
     console.log('📄 HTML', html);
 
-    const { data } = await axios.post(
-      process.env.NETLIFY_FUNCTIONS + '/puppet-pdf-gen',
-      {
-        html,
-        id: uniqueId, // dbTemplate?.[0].id,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}`,
-        },
-      }
-    );
+    const data = await callApiWithRetry({ html, uniqueId });
 
     return NextResponse.json(
       {
@@ -99,5 +88,38 @@ export async function POST(request: NextRequest) {
       { error: error?.message },
       { status: error?.status || 500 }
     );
+  }
+}
+
+async function callApiWithRetry(props: { html: string; uniqueId: string }) {
+  const MAX_RETRIES = 3;
+  const RETRY_INTERVAL = 500;
+
+  let retries = 0;
+
+  try {
+    const { data } = await axios.post(
+      process.env.NETLIFY_FUNCTIONS + '/puppet-pdf-gen',
+      {
+        html: props.html,
+        id: props.uniqueId, // dbTemplate?.[0].id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}`,
+        },
+      }
+    );
+
+    return data;
+  } catch (error) {
+    if (retries < MAX_RETRIES) {
+      retries++;
+      console.log(`Retrying API call (${retries}/${MAX_RETRIES})...`);
+      setTimeout(callApiWithRetry, RETRY_INTERVAL);
+    } else {
+      console.error('Max retries reached. Unable to call API.');
+      throw new Error('Max retries reached. Unable to call API.');
+    }
   }
 }
