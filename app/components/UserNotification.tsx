@@ -17,12 +17,13 @@ export default function UserNotification(props: Props) {
   const { signOut } = useClerk();
   const router = useRouter();
 
-  function signOutUser(e: { preventDefault: () => void }) {
+  async function signOutUser(e: { preventDefault: () => void }) {
     e.preventDefault();
     // --------------------------------------------------------------------------------
     // 📌 Sign Out User from current session
     // --------------------------------------------------------------------------------
-    signOut(() => router.push('/'));
+
+    signOut(() => router.push('/sign-in'));
   }
 
   return (

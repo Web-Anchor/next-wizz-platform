@@ -43,11 +43,13 @@ export default function Header(props: Props) {
     // --------------------------------------------------------------------------------
     // 📌 Sign Out User from current session
     // --------------------------------------------------------------------------------
-    signOut(() => router.push('/'));
+
+    signOut(() => router.push('/sign-in'));
   }
 
   const isHomePath = path === '/';
   const isDashboardPath = path.includes('/dashboard');
+  const isSignedInPath = path.includes('/sign-in');
   const mobActive =
     'block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700';
   const mobInactive =
@@ -107,14 +109,17 @@ export default function Header(props: Props) {
                       </div>
                     )}
                   </div>
-                  {!isSignedIn && !isDashboardPath && isLoaded && (
-                    <Link
-                      href="/sign-in"
-                      className="mr-5 sm:mr-0 rounded-md self-center ml-auto bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
-                    >
-                      Sign in
-                    </Link>
-                  )}
+                  {!isSignedIn &&
+                    !isDashboardPath &&
+                    !isSignedInPath &&
+                    isLoaded && (
+                      <Link
+                        href="/sign-in"
+                        className="mr-5 sm:mr-0 rounded-md self-center ml-auto bg-slate-800 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700"
+                      >
+                        Sign in
+                      </Link>
+                    )}
                 </div>
                 {(isSignedIn || !isLoaded) && (
                   <div className="hidden sm:ml-6 sm:flex sm:items-center">
