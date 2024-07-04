@@ -24,14 +24,13 @@ export async function POST(request: NextRequest) {
     // 📌  Add support ticket
     // --------------------------------------------------------------------------------
     const body = await request.json();
-    const subject = body.subject;
-    const message = body.message;
 
     await db.insert(tickets).values({
       id: uuidv4(),
       userId: dbUser[0].id.toString(),
-      subject,
-      message,
+      subject: body.subject,
+      message: body.message,
+      type: 'platform',
       status: TicketStatus?.Open,
     });
 
