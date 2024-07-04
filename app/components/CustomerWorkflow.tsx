@@ -1,12 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  PrinterIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  UserGroupIcon,
-} from '@heroicons/react/20/solid';
 
 export default function CustomerWorkflow() {
   return (
@@ -16,7 +10,7 @@ export default function CustomerWorkflow() {
           <div className="flex lg:hidden relative h-80 lg:-ml-8 lg:h-auto lg:w-full lg:grow xl:ml-0">
             <Image
               className="absolute inset-0 h-full w-full bg-gray-50 object-cover"
-              src={`${process.env.NEXT_PUBLIC_STORAGE_CDN}/entrepreneur.jpg`}
+              src={`${process.env.NEXT_PUBLIC_STORAGE_CDN}/koHuBM3ZpC5ZDLz3C0kIwVYwKpudvS8n3mj60BQMCw8.jpg`}
               alt="Entrepreneur working"
               fill
             />
@@ -24,7 +18,7 @@ export default function CustomerWorkflow() {
           <div className="hidden lg:flex relative h-80 lg:-ml-8 lg:h-auto lg:w-full lg:grow xl:ml-0">
             <Image
               className="absolute inset-0 h-full w-full bg-gray-50 object-cover"
-              src={`${process.env.NEXT_PUBLIC_STORAGE_CDN}/office.jpg`}
+              src={`${process.env.NEXT_PUBLIC_STORAGE_CDN}/3ZzghmIBbJhKogoK5AKRHC8XGBGrW+nxnPFdoCDJ9e0.jpg`}
               alt="Entrepreneur working"
               fill
             />
@@ -33,101 +27,40 @@ export default function CustomerWorkflow() {
         <div className="px-6 lg:contents">
           <div className="lg:mx-auto max-w-2xl sm:py-10 lg:ml-8 lg:mr-0 lg:w-full lg:max-w-lg lg:flex-none xl:w-1/2">
             <p className="text-xl font-semibold leading-7 text-indigo-600">
-              Customer Workflow
+              Customization and Support, Tailored for You!
             </p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-800 sm:text-4xl">
-              Self-Service Invoicing Made Simple
+              Make It Yours: Customizable Customer Portal
             </h1>
-            <p className="mt-6 text-xl leading-8 text-gray-700">
-              Simplify your invoicing experience with our user-friendly platform
-              that empowers customers to effortlessly self-print and download
-              their invoices anytime, anywhere. Say goodbye to waiting for
-              manual requests and embrace the convenience of self-service access
-              to your billing documents.
-            </p>
-            <div className="mt-10 max-w-xl text-base leading-7 text-gray-700 lg:max-w-none">
+            <section className="flex flex-col gap-5 mt-5 text-lg leading-8 text-gray-600">
               <p>
-                With just a few clicks, customers can access their personalized
-                invoice portal, view their billing history, and download
-                invoices in various formats. Our intuitive interface ensures a
-                seamless experience, allowing customers to take control of their
-                invoicing needs with ease.
+                Elevate your customer experience with our fully customizable
+                dedicated customer portal. Our platform allows you to add your
+                branding, ensuring that your customers see your bran`s identity
+                at every touchpoint. Personalize your portal with custom brand
+                messages to create a seamless and professional experience for
+                your customers.
               </p>
-              <ul role="list" className="mt-8 space-y-8 text-gray-600">
-                <li className="flex gap-x-3">
-                  <PrinterIcon
-                    className="mt-1 h-5 w-5 flex-none text-indigo-600"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <strong className="font-semibold text-gray-800">
-                      Effortless Self-Printing.
-                    </strong>{' '}
-                    Empower customers to access and download their invoices
-                    easily, providing a hassle-free experience for managing
-                    billing documents.
-                  </span>
-                </li>
-                <li className="flex gap-x-3">
-                  <CursorArrowRaysIcon
-                    className="mt-1 h-5 w-5 flex-none text-indigo-600"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <strong className="font-semibold text-gray-800">
-                      Convenient Accessibility.
-                    </strong>{' '}
-                    Ensure customers can self-print invoices at their
-                    convenience, eliminating the need to wait for manual
-                    requests and allowing them to retrieve documents anytime,
-                    anywhere.
-                  </span>
-                </li>
-                <li className="flex gap-x-3">
-                  <UserGroupIcon
-                    className="mt-1 h-5 w-5 flex-none text-indigo-600"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <strong className="font-semibold text-gray-800">
-                      User-Friendly Interface.
-                    </strong>{' '}
-                    Offer a simple and intuitive platform that enables customers
-                    to navigate their invoice portal effortlessly, making
-                    self-service invoicing a seamless and enjoyable process.
-                  </span>
-                </li>
-                <li className="flex gap-x-3">
-                  <FingerPrintIcon
-                    className="mt-1 h-5 w-5 flex-none text-indigo-600"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <strong className="font-semibold text-gray-800">
-                      Control and Convenience.
-                    </strong>{' '}
-                    Provide customers with the autonomy to manage their
-                    invoicing needs independently, enhancing their satisfaction
-                    and overall experience with your invoicing system.
-                  </span>
-                </li>
-              </ul>
-              <p className="mt-8">
-                Enjoy the freedom to manage your invoices on your own terms. Our
-                platform puts the power in your hands, enabling you to retrieve
-                and print invoices at your convenience, eliminating unnecessary
-                delays and enhancing your overall satisfaction.
+              <p>
+                Not only can you tailor the appearance of your portal, but you
+                can also communicate your brand’s values and messages directly
+                to your customers. Share updates, promotions, and important
+                information effortlessly through your branded portal.
               </p>
-              <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-800">
-                Discover the Ease of Self-Service Invoicing
-              </h2>
-              <p className="mt-6">
-                Experience the convenience of modern invoicing solutions
-                tailored to meet your needs. Join us today and discover the ease
-                of self-service invoicing that puts you in the driver`s seat of
-                your billing process.
+              <p>
+                Additionally, our platform is designed with your feedback in
+                mind. Request new features to enhance your invoicing and
+                financial management experience. Our support team is always
+                ready to assist you with any questions or issues, ensuring that
+                you have the help you need to maximize the potential of your
+                customized portal.
               </p>
-            </div>
+              <p>
+                Join us today to create a unique and engaging customer
+                experience that reflects your brand`s identity and values.
+                Empower your business with a portal that`s truly yours.
+              </p>
+            </section>
           </div>
         </div>
       </div>

@@ -98,21 +98,6 @@ export default function FeatureSections() {
           </dl>
         </div>
       </div>
-
-      <div className={classNames('bg-gray-800 px-5 py-10 sm:py-16 mt-10')}>
-        <section className="w-full lg:mx-auto max-w-3xl lg:text-center text-white">
-          <section className="flex flex-col gap-2 text-lg leading-8 text-gray-200">
-            <p>
-              Join us today and discover how our platform simplifies your
-              billing process. From viewing transactions, invoicing and more to
-              making necessary adjustments, our invoicing solution ensures that
-              your financial management is both efficient and effective. Empower
-              yourself with modern invoicing - start simplifying your billing
-              process now!
-            </p>
-          </section>
-        </section>
-      </div>
     </div>
   );
 }

@@ -48,16 +48,6 @@ export default function Analytics() {
             forward. Visualize trends, monitor revenue streams, and optimize
             your invoicing strategy with comprehensive data analytics.
           </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Our intuitive dashboard provides real-time updates on transaction
-            volumes, revenue growth, and customer engagement metrics, empowering
-            you to streamline operations and maximize profitability. From
-            identifying revenue opportunities to improving customer retention,
-            leverage actionable insights to stay ahead in today`s competitive
-            landscape. Transform data into actionable intelligence and unlock
-            the full potential of your invoicing process with our powerful
-            analytics tools.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-start lg:mt-16">

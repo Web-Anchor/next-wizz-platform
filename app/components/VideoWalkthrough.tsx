@@ -25,13 +25,6 @@ export default function VideoWalkthrough() {
             customers. Monitor all your transactions in real-time, ensuring
             accuracy and transparency in your financial dealings.
           </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Take advantage of our self-print feature, allowing your customers to
-            access and download their invoices anytime, anywhere. With 24/7
-            access to invoicing, your customers can conveniently manage their
-            billing tasks, enhancing their overall experience with your
-            business.
-          </p>
         </div>
 
         <div className="lg:mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl rounded-lg overflow-hidden">

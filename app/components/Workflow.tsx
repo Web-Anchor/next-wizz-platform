@@ -61,15 +61,6 @@ export default function Workflow() {
             to statistics and analytics never been easier, ensuring you can
             manage your financial activities effortlessly.
           </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Join us today and take advantage of a better workflow. Experience
-            the seamless integration of our invoicing platform with your daily
-            operations, making your financial management tasks simpler and more
-            efficient. With features like self-print and 24/7 access to
-            invoicing to your customers, our platform ensures that your
-            invoicing process is always at your fingertips, ready to enhance
-            your productivity.
-          </p>
         </div>
         <div className="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-start lg:mt-16">
           <div className="px-6 lg:px-0 lg:pr-4 lg:pt-4">
