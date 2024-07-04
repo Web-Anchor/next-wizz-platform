@@ -29,7 +29,7 @@ export default function UserNotification(props: Props) {
     <>
       <div
         className={classNames(
-          'absolute shadow-md top-5 left-[100vw] min-w-[300px] left-popup-container rounded-xl bg-white bg-opacity-95 p-4',
+          'absolute shadow-md top-14 left-[100vw] min-w-[300px] left-popup-container rounded-xl bg-white p-4',
           !props?.open && 'hidden'
         )}
       >
