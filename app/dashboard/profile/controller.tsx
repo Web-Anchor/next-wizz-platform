@@ -18,7 +18,7 @@ export default function Page() {
   }
 
   return (
-    <Wrapper>
+    <Wrapper class="profile-wrapper">
       <UserProfile />
     </Wrapper>
   );

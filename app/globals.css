@@ -13,27 +13,16 @@
 }
 
 /* Clerk CSS snags */
-.cl-footer,
-.cl-internal-b3fm6y,
-.cl-userButtonPopoverFooter,
-.cl-internal-60laz0,
-.cl-navbarMobileMenuRow {
-  display: none !important; /* Hide Clerk component footer */
+.profile-wrapper .cl-cardBox {
+  width: fit-content;
+  box-shadow: none !important;
 }
-.cl-internal-rx251b {
-  margin: 0;
-  box-shadow: none;
+.cl-footer {
+  display: none !important;
 }
-.cl-pageScrollBox {
-  padding: 0;
-}
-.cl-card {
-  box-shadow: none;
-
-  .cl-internal-1qc4dsk {
-    display: flex;
-    flex-direction: row;
-    gap: 32px;
+@media (min-width: 768px) {
+  .cl-navbar {
+    display: none !important;
   }
 }
 
