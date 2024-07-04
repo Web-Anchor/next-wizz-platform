@@ -27,7 +27,9 @@ export default function ProfileButton(props: Props): React.ReactElement {
     // --------------------------------------------------------------------------------
     // 📌 Sign Out User from current session
     // --------------------------------------------------------------------------------
-    signOut(() => router.push(`/sign-in` + id && `?id=${id}`));
+    const url = id ? `/sign-in?id=${id}` : '/sign-in';
+
+    signOut(() => router.push(url));
   }
 
   return (
