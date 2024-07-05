@@ -49,14 +49,14 @@ export type StripeKey = {
 export type User = {
   id?: string;
   clerkId?: string;
-  firstName?: string;
-  lastName?: string;
-  emailAddress?: string;
-  createdAt?: string;
-  stripeSubId?: string;
-  emailsSendCount?: string;
-  lastEmailSendDate?: string;
-  imageUrl?: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  emailAddress?: string | null;
+  createdAt?: string | null;
+  stripeSubId?: string | null;
+  emailsSendCount?: string | null;
+  lastEmailSendDate?: string | null;
+  imageUrl?: string | null;
 };
 
 export type Template = {

@@ -22,6 +22,7 @@ import {
 } from '@helpers/data';
 import Notifications from '@components/Notifications';
 import Logo from '../Logo';
+import { mediaScreenTitle } from '@helpers/components';
 
 export default function MobileNav() {
   const [state, setState] = useState<{ open: boolean }>({ open: false });
@@ -232,7 +233,7 @@ export default function MobileNav() {
                 path !== '/dashboard' && 'text-indigo-600'
               )}
             >
-              Invoice Templates
+              {mediaScreenTitle('Invoice Templates', 'Templates')}
             </Link>
           </section>
         )}

@@ -19,6 +19,7 @@ export default function Actions(props: {
   async function downloadPDF() {
     try {
       setState((prev) => ({ ...prev, fetching: 'download' }));
+      // LEGACY: '/api/v1/templates/puppet-pdf-gen'
       const { data } = await axios.post('/api/v1/templates/puppet-pdf-gen', {
         id: props?.id,
       });
@@ -45,8 +46,10 @@ export default function Actions(props: {
       console.log('🚮 Delete', del);
 
       toast?.success('Document downloaded successfully!');
-    } catch (error) {
-      toast?.error('An error occurred while downloading the document.');
+    } catch (error: any) {
+      toast?.error(
+        error?.message || 'An error occurred while downloading the document.'
+      );
     } finally {
       setState((prev) => ({ ...prev, fetching: undefined }));
     }

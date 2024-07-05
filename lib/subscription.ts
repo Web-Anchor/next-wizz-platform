@@ -3,7 +3,13 @@ import 'server-only';
 import { db } from '@db/index';
 import { eq } from 'drizzle-orm';
 import { users } from '@db/schema';
-import { StripeSubscription, Customer, StripeProduct, Plan } from '../types';
+import {
+  StripeSubscription,
+  Customer,
+  StripeProduct,
+  Plan,
+  User,
+} from '../types';
 import { plans } from '@config/index';
 
 const STRIPE_RESTRICTED_KEY = process.env.STRIPE_RESTRICTED_KEY;
@@ -16,6 +22,7 @@ type Response = {
   activeSubs?: StripeSubscription[];
   customer?: Customer;
   product?: StripeProduct;
+  dbUser?: User;
 };
 
 export async function subscription({
@@ -65,6 +72,7 @@ export async function subscription({
       canceledSubs,
       activeSubs,
       status: 200,
+      dbUser: dbUser[0],
     };
   } catch (err: any) {
     console.error('🔑 error', err);
