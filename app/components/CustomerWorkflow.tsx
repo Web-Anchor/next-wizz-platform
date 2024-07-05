@@ -26,7 +26,7 @@ export default function CustomerWorkflow() {
         </div>
         <div className="px-6 lg:contents">
           <div className="lg:mx-auto max-w-2xl sm:py-10 lg:ml-8 lg:mr-0 lg:w-full lg:max-w-lg lg:flex-none xl:w-1/2">
-            <p className="text-xl font-semibold leading-7 text-indigo-600">
+            <p className="text-xl font-semibold leading-7 text-indigo-600 mt-10 lg:mt-0">
               Customization and Support, Tailored for You!
             </p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-800 sm:text-4xl">
