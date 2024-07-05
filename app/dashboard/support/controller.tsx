@@ -102,6 +102,8 @@ export default function Page() {
                   { key: 1, value: 'Support' },
                   { key: 2, value: 'Feedback' },
                   { key: 3, value: 'Bug Report' },
+                  { key: 4, value: 'General Inquiry' },
+                  { key: 5, value: 'Other' },
                 ]}
                 required
               />

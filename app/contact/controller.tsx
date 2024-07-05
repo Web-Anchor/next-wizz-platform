@@ -109,7 +109,7 @@ export default function Page() {
                   { key: 1, value: 'General Inquiry' },
                   { key: 2, value: 'Technical Support' },
                   { key: 3, value: 'Billing Inquiry' },
-                  { key: 5, value: 'Other' },
+                  { key: 4, value: 'Other' },
                 ]}
                 required
               />
