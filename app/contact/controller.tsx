@@ -106,15 +106,9 @@ export default function Page() {
                 label="Reason for contacting"
                 name="subject"
                 data={[
-                  // 'General Inquiry',
-                  // 'Technical Support',
-                  // 'Billing Inquiry',
-                  // 'Feature Request',
-                  // 'Other',
                   { key: 1, value: 'General Inquiry' },
                   { key: 2, value: 'Technical Support' },
                   { key: 3, value: 'Billing Inquiry' },
-                  { key: 4, value: 'Feature Request' },
                   { key: 5, value: 'Other' },
                 ]}
                 required
