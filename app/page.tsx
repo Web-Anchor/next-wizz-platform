@@ -21,7 +21,7 @@ export default function Page() {
         <FeatureSections />
         <SimpleOnBg
           description={[
-            'Join us today and discover how our platform simplifies your billing process. From viewing transactions, invoicing and more to making necessary adjustments, our invoicing solution ensures that your financial management is both efficient and effective. Empower yourself with modern invoicing - start simplifying your billing process now!',
+            'Experience the convenience and efficiency of modern invoicing with our Stripe-powered platform. Join us today and discover how our platform simplifies your billing process. From viewing transactions, invoicing and more to making necessary adjustments, our invoicing solution ensures that your financial management is both efficient and effective. Empower yourself with modern invoicing - start simplifying your billing process now!',
           ]}
         />
         <Pricing cardWrapperClass="lg:flex-nowrap" />

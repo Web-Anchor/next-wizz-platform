@@ -21,11 +21,11 @@ const features = [
   {
     name: 'Convenient Self-Printing',
     description:
-      'Empower users to access and download their invoices at their convenience, making the billing process hassle-free.',
+      'Enable easy access to invoices through a dedicated customer portal. Empower users to access and download their invoices at their convenience.',
     icon: UserGroupIcon,
   },
   {
-    name: 'Secure Integration',
+    name: 'Seamless Stripe API Integration',
     description:
       'Enjoy the security of Stripe`s robust API`s integrated into our app, ensuring safe and reliable interactions.',
     icon: FingerPrintIcon,
@@ -43,7 +43,7 @@ const features = [
     icon: SwatchIcon,
   },
   {
-    name: 'Detailed Reporting',
+    name: 'Comprehensive Reporting & Analytics',
     description:
       'Gain insights into your invoicing activities with detailed reporting features, allowing you to track payments, pending invoices, and overall financial performance easily.',
     icon: ArrowTrendingUpIcon,
@@ -61,24 +61,27 @@ export default function FeatureSections() {
             Invoicing Made Easy
           </h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl">
-            Streamline your invoicing process with dedicated user-friendly
-            platform.
+            Streamline Your Invoicing Process with {stripeBrand()} Integration
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Streamline your invoicing process with our dedicated, user-friendly
-            platform. Connect your Stripe account via API and effortlessly
-            connect to all your customers & payments. Empower your customers to
-            access invoices at their convenience, making the billing process
-            hassle-free. Our platform empowers you to take full control of your
-            invoicing services, featuring a convenient access for customers on
-            dedicated customer portal, secure integration with Stripe API,
-            customizable templates, portal components and detailed reporting &
-            analytics features.
+            platform, powered by {stripeBrand()}. Effortlessly connect your{' '}
+            {stripeBrand()} account via API to integrate with all your customers
+            and payments. Empower your customers to access invoices at their
+            convenience, making the billing process hassle-free and efficient.
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Our platform, built on the robust and secure {stripeBrand()}{' '}
+            infrastructure, empowers you to take full control of your invoicing
+            services. Featuring a dedicated customer portal, secure integration
+            with the {stripeBrand()} API, customizable templates, and detailed
+            reporting & analytics, you can ensure a seamless invoicing
+            experience.
           </p>
         </div>
 
         <div className="lg:mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-5 lg:max-w-none lg:grid-cols-2 lg:gap-y-10">
             {features.map((feature) => (
               <div key={feature.name} className="relative pl-16">
                 <dt className="text-base font-semibold leading-7 text-gray-800">
@@ -100,4 +103,27 @@ export default function FeatureSections() {
       </div>
     </div>
   );
+}
+
+function stripeIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M12 14l9-5-9-5-9 5 9 5z"
+      />
+    </svg>
+  );
+}
+
+function stripeBrand() {
+  return <span className="text-indigo-600">Stripe</span>;
 }
