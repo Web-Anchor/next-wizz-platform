@@ -160,11 +160,12 @@ export function showMainNavRoutes(props: {
   advanced?: boolean;
   pro?: boolean;
 }) {
-  const BASE = ['/dashboard', '/dashboard/stripe', '/dashboard/profile'];
+  const BASE = ['/dashboard', '/dashboard/profile'];
   const ACTIVE_BASE = [
     ...BASE,
     '/dashboard/charges',
     '/dashboard/customers',
+    '/dashboard/stripe',
     '/dashboard/reports',
   ];
 
@@ -190,10 +191,10 @@ export function showMenuNavRoutes(props: {
   advanced?: boolean;
   pro?: boolean;
 }) {
-  const BASE = ['/dashboard/support', '/dashboard/subscriptions'];
+  const BASE = ['/dashboard/support'];
 
   if ((props.pro && props.active) || (props.advanced && props.active)) {
-    return [...BASE, '/dashboard/new-features'];
+    return [...BASE, '/dashboard/new-features', '/dashboard/subscriptions'];
   }
 
   return BASE;
