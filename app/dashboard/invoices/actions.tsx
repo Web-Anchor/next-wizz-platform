@@ -19,7 +19,7 @@ export default function Actions(props: {
   async function downloadPDF() {
     try {
       setState((prev) => ({ ...prev, fetching: 'download' }));
-      const { data } = await axios.post('/api/v2/templates/download', {
+      const { data } = await axios.post('/api/v1/templates/puppet-pdf-gen', {
         id: props?.id,
       });
       const url = data?.url;
