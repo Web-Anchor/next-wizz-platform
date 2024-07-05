@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    console.log('👤 User record found: ', dbUser);
+    console.log('👤 User record found: ');
     return new Response(null, {
       status: 302,
       headers: {

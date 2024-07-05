@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
 
     const { userId } = auth();
     const user = await currentUser();
-    console.log('👤 Creating User record. Clerk data: ', user, redirect);
+    console.log('👤 Creating User record. Clerk data: ');
 
     await db
       .insert(users)

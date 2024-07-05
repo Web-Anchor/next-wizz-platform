@@ -23,16 +23,13 @@ export default function Page() {
     );
   }
 
-  if (isSignedIn) {
-    router.push('/dashboard');
-  }
-
   return (
     <Wrapper class="pt-5">
       <SectionWrapper class="items-center">
         <CardWrapper>
           <SignIn
-            forceRedirectUrl={redirect || `/api/v1/auth?redirect=${redirect}`}
+            fallbackRedirectUrl={redirect || `/api/v1/auth`}
+            path="/sign-in"
           />
         </CardWrapper>
         <SectionWrapper class="flex-row gap-5 w-[400px] text-nowrap items-center">

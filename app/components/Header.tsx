@@ -44,7 +44,7 @@ export default function Header(props: Props) {
     // 📌 Sign Out User from current session
     // --------------------------------------------------------------------------------
 
-    signOut(() => router.push('/sign-in'));
+    signOut({ redirectUrl: '/' });
   }
 
   const isHomePath = path === '/';

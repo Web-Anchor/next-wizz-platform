@@ -23,7 +23,7 @@ export default function UserNotification(props: Props) {
     // 📌 Sign Out User from current session
     // --------------------------------------------------------------------------------
 
-    signOut(() => router.push('/sign-in'));
+    signOut({ redirectUrl: '/' });
   }
 
   return (
