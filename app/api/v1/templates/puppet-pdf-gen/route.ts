@@ -93,13 +93,13 @@ export async function POST(request: NextRequest) {
 
 async function callApiWithRetry(props: { html: string; uniqueId: string }) {
   const MAX_RETRIES = 4;
-  const RETRY_INTERVAL = 1000; // 1 second
+  const RETRY_INTERVAL = 1500; // 1 second
 
   let retries = 0;
 
   async function attempt() {
     try {
-      const { data } = await axios.post(
+      const { data, status } = await axios.post(
         `${process.env.NETLIFY_FUNCTIONS}/puppet-pdf-gen`,
         {
           html: props.html,
@@ -111,6 +111,10 @@ async function callApiWithRetry(props: { html: string; uniqueId: string }) {
           },
         }
       );
+
+      if (status !== 200) {
+        throw new Error('Failure: ' + status);
+      }
 
       return data;
     } catch (error) {

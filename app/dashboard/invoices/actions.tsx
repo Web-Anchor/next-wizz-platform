@@ -17,8 +17,8 @@ export default function Actions(props: {
   const router = useRouter();
 
   async function downloadPDF() {
+    const startTime = new Date().getTime(); // 🕰 Start time
     try {
-      const startTime = new Date().getTime(); // 🕰 Start time
       setState((prev) => ({ ...prev, fetching: 'download' }));
       const { data } = await axios.post('/api/v1/templates/puppet-pdf-gen', {
         id: props?.id,
@@ -50,9 +50,10 @@ export default function Actions(props: {
         `Document downloaded successfully! Executed in: ${totalTime}ms`
       );
     } catch (error: any) {
-      toast?.error(
-        error?.message || 'An error occurred while downloading the document.'
-      );
+      const totalTime = new Date().getTime() - startTime; // 🕰 End time
+      const msg =
+        error?.message || 'An error occurred while downloading the document.';
+      toast?.error(`${msg} Executed in: ${totalTime}ms`);
     } finally {
       setState((prev) => ({ ...prev, fetching: undefined }));
     }
