@@ -92,8 +92,8 @@ export async function POST(request: NextRequest) {
 }
 
 async function callApiWithRetry(props: { html: string; uniqueId: string }) {
-  const MAX_RETRIES = 3;
-  const RETRY_INTERVAL = 500;
+  const MAX_RETRIES = 4;
+  const RETRY_INTERVAL = 1000;
 
   let retries = 0;
 
