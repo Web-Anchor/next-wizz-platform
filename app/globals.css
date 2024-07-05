@@ -14,15 +14,17 @@
 
 /* Clerk CSS snags */
 .profile-wrapper .cl-cardBox {
-  width: fit-content;
   box-shadow: none !important;
 }
-.cl-footer {
+.cl-footer,
+.cl-navbar,
+.cl-navbarMobileMenuRow {
   display: none !important;
 }
-@media (min-width: 768px) {
-  .cl-navbar {
-    display: none !important;
+@media (min-width: 1024px) {
+  /* small screen snags */
+  .profile-wrapper .cl-cardBox {
+    width: fit-content;
   }
 }
 
