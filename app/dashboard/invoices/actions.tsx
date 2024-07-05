@@ -19,8 +19,7 @@ export default function Actions(props: {
   async function downloadPDF() {
     try {
       setState((prev) => ({ ...prev, fetching: 'download' }));
-      // LEGACY: '/api/v1/templates/puppet-pdf-gen'
-      const { data } = await axios.post('/api/v1/templates/puppet-pdf-gen', {
+      const { data } = await axios.post('/api/v2/templates/download', {
         id: props?.id,
       });
       const url = data?.url;
@@ -71,11 +70,16 @@ export default function Actions(props: {
 
   return (
     <div className="card-actions justify-end">
-      <Button title="Save" type="submit" fetching={pending} />
+      <Button
+        title="Save"
+        type="submit"
+        fetching={pending}
+        disabled={pending || !!state?.fetching}
+      />
       <Button
         style="secondary"
         onClick={downloadPDF}
-        disabled={pending || props.hasUpdates}
+        disabled={!!state?.fetching || pending || props.hasUpdates}
         fetching={state?.fetching === 'download'}
       >
         <section className="flex flex-row gap-2">
@@ -102,13 +106,13 @@ export default function Actions(props: {
         title="Preview"
         style="ghost"
         onClick={preview}
-        disabled={pending || props.hasUpdates}
+        disabled={pending || props.hasUpdates || !!state?.fetching}
       />
       <Button
         title="Reset"
         style="ghost"
         onClick={() => props?.resetCallBack?.()}
-        disabled={pending || props.hasUpdates}
+        disabled={pending || props.hasUpdates || !!state?.fetching}
       />
     </div>
   );

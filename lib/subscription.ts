@@ -37,7 +37,7 @@ export async function subscription({
       .select()
       .from(users)
       .where(eq(users.clerkId, userId!));
-    console.log('👤 User ', userId, dbUser);
+    // console.log('👤 User ', userId, dbUser);
     const stripeCustomerId = dbUser[0].stripeCustomerId;
 
     if (!stripeCustomerId) {
@@ -60,7 +60,7 @@ export async function subscription({
       customer: stripeCustomerId,
       status: 'canceled',
     });
-    console.log('👤 Stripe Active Subscriptions ', activeSubs);
+    // console.log('👤 Stripe Active Subscriptions ', activeSubs);
 
     const subscription = activeSubs?.data?.[0]; // ⚠️ default to last subscription
     const product = await stripe.products.retrieve(subscription?.plan?.product);

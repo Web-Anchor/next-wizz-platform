@@ -5,12 +5,9 @@ import { eq, and } from 'drizzle-orm';
 import { db } from '@db/index';
 import { buildTemplate, getTemplate } from '@server/templates';
 import { Template } from '@appTypes/index';
-import puppeteer from 'puppeteer-core';
-import chromium from '@sparticuz/chromium';
+import puppeteer from 'puppeteer';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import path from 'path';
-import fs from 'fs';
 
 export async function buildHTMLTemplate(props: {
   userId: string;
@@ -25,7 +22,10 @@ export async function buildHTMLTemplate(props: {
       .select()
       .from(templates)
       .where(
-        and(eq(templates.userId, props.userId), eq(templates.id, props.userId))
+        and(
+          eq(templates.userId, props.userId),
+          eq(templates.id, props.templateId)
+        )
       );
     dbTemplate = temRes;
   }
@@ -89,32 +89,15 @@ export async function generatePdfBuffer(props: { html: string }) {
       </html>
     `;
   const html = props?.html || fallback;
+  console.log('📄 Generating PDF template buffer');
 
-  // const executablePath =
-  //   process.env.CHROME_EXECUTABLE_PATH ||
-  //   // path.resolve('/var/task/node_modules/@sparticuz/chromium/bin');
-  //   (await chromium.executablePath('/node_modules/@sparticuz/chromium/bin'));
-
-  // if (!fs.existsSync(executablePath)) {
-  //   throw new Error(`🚧 Chromium executable path not found: ${executablePath}`);
-  // }
-
-  const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    channel: 'chrome',
-    // executablePath,
-  });
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
+  await page.setContent(html);
 
-  // --------------------------------------------------------------------------------
-  // 📌 Set the HTML content of the page
-  // page.goto with a data: URL, Puppeteer will trigger network requests to load external resources like images, scripts, and stylesheets
-  // --------------------------------------------------------------------------------
-  await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle0' });
   const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true }); // Set the PDF format
-
   await browser.close(); // Close the browser
+  console.log('📄 PDF buffer successfully!');
 
   return pdfBuffer;
 }
@@ -140,7 +123,7 @@ export async function bufferUpload(props: {
       },
     }
   );
-  const url = `https://${process.env.BUNNYCDN_STORAGE_ZONE_NAME}.b-cdn.net/${uniqueId}.${fileType}`;
+  const url = `https://${process.env.BUNNYCDN_STORAGE_CDN_NAME}.b-cdn.net/${uniqueId}.${fileType}`;
   console.log('📦 URL generated successfully!', url);
 
   return url;

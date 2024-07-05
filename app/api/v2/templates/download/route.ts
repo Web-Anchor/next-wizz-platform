@@ -31,7 +31,8 @@ export async function POST(request: NextRequest) {
     const url = await bufferUpload({ buffer: pdfBuffer, fileType: 'pdf' });
 
     return NextResponse.json({
-      url: url + `?version=${uuidv4()}`, // Browser caching bypass
+      // url: url + `?version=${uuidv4()}`, // Browser caching bypass TODO: strip params from q when deleting a file
+      url,
     });
   } catch (error: any) {
     console.error('🚨 error', error);
