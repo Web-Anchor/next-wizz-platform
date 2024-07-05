@@ -83,10 +83,7 @@ export default function Page() {
               <h2 className="text-base font-semibold leading-7 text-gray-800">
                 Support Ticket
               </h2>
-              <Badge
-                title={count}
-                description={`Ticket${count > 1 ? 's' : ''} Submitted`}
-              />
+              <Badge title={count} description={`Tickets Submitted`} />
               <p className="mt-1 text-sm leading-6 text-gray-600 text-justify">
                 Feel free to reach out to us with any questions, concerns, or
                 feedback. We appreciate your communication and look forward to
