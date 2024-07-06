@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       .select()
       .from(users)
       .where(eq(users.clerkId, userId!));
-    console.log('👤 User ', userId, dbUser);
+    console.log('👤 User ', userId);
     // TODO restrict access if no sub expires | Use own Stripe API key
 
     // --------------------------------------------------------------------------------

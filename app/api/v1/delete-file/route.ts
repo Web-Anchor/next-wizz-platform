@@ -11,10 +11,10 @@ export async function POST(request: NextRequest) {
     if (!url) {
       throw new Error('File URL is required');
     }
-    console.log('📂 Deleting file', body);
     const { pathname } = new URL(url);
+    console.log('📂 Deleting file', body, pathname);
 
-    const res = await axios.delete(
+    await axios.delete(
       `https://storage.bunnycdn.com/${process.env.BUNNYCDN_STORAGE_ZONE_NAME}${pathname}`,
       {
         headers: {

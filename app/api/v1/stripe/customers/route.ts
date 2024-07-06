@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       .select()
       .from(users)
       .where(eq(users.clerkId, userId!));
-    console.log('👤 User ', dbUser);
+    console.log('👤 User ', userId);
 
     // --------------------------------------------------------------------------------
     // 📌  User validation

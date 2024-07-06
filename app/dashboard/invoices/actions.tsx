@@ -42,10 +42,7 @@ export default function Actions(props: {
       // --------------------------------------------------------------------------------
       await deleteObj({ url });
 
-      const totalTime = new Date().getTime() - startTime; // 🕰 End time
-      toast?.success(
-        `Document downloaded successfully! Executed in: ${totalTime}ms`
-      );
+      toast?.success(`Document downloaded successfully!`);
     } catch (error: any) {
       const totalTime = new Date().getTime() - startTime; // 🕰 End time
       const msg = 'An error occurred while downloading the document.';

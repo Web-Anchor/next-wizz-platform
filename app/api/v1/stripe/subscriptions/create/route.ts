@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       .select()
       .from(users)
       .where(eq(users.clerkId, userId!));
-    console.log('👤 User ', userId, dbUser);
+    console.log('👤 User ', userId);
 
     // --------------------------------------------------------------------------------
     // 📌  Create Stripe subscription

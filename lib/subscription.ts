@@ -37,7 +37,7 @@ export async function subscription({
       .select()
       .from(users)
       .where(eq(users.clerkId, userId!));
-    // console.log('👤 User ', userId, dbUser);
+    console.log('👤 User ', userId);
     const stripeCustomerId = dbUser[0].stripeCustomerId;
 
     if (!stripeCustomerId) {
