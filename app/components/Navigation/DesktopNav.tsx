@@ -28,7 +28,7 @@ export default function DesktopNav() {
   const { data, count, hasKeys } = useStripeKeys({});
   const { charges } = useTotalCharges({});
   const { customers } = useTotalCustomers({});
-  const { active, basic, advanced, pro } = useSubscription({});
+  const { active, basic, advanced, pro, isLoading } = useSubscription({});
 
   const navigation = mainNav({
     show: showMainNavRoutes({ active, basic, advanced, pro }),
@@ -133,6 +133,14 @@ export default function DesktopNav() {
                     </li>
                   );
                 })}
+
+                {isLoading && (
+                  <section className="flex flex-col gap-2">
+                    <div className="skeleton h-8 w-full"></div>
+                    <div className="skeleton h-8 w-full"></div>
+                    <div className="skeleton h-8 w-full"></div>
+                  </section>
+                )}
               </ul>
             </li>
             <li>
