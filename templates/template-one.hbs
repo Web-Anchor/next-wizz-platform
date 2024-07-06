@@ -51,34 +51,49 @@
       <div class='flex flex-col gap-1'>
         <h2 class='text-lg font-semibold'>Bill To:</h2>
         {{#if billToName}}
-          <p class='text-gray-500'>{{billToName}}</p>
+          <p data-input='billToName' class='text-gray-500'>{{billToName}}</p>
         {{/if}}
         {{#if billToEmail}}
-          <p class='text-gray-500'>{{billToEmail}}</p>
+          <p data-input='billToEmail' class='text-gray-500'>{{billToEmail}}</p>
         {{/if}}
         {{#if billToPhone}}
-          <p class='text-gray-500'>{{billToPhone}}</p>
+          <p data-input='billToPhone' class='text-gray-500'>{{billToPhone}}</p>
         {{/if}}
         {{#if billToAddress}}
-          <p class='text-gray-500'>{{billToAddress}}</p>
+          <p
+            data-input='billToAddress'
+            class='text-gray-500'
+          >{{billToAddress}}</p>
         {{/if}}
         {{#if billToAddressLine1}}
-          <p class='text-gray-500'>{{billToAddressLine1}}</p>
+          <p
+            data-input='billToAddressLine1'
+            class='text-gray-500'
+          >{{billToAddressLine1}}</p>
         {{/if}}
         {{#if billToAddressLine2}}
-          <p class='text-gray-500'>{{billToAddressLine2}}</p>
+          <p
+            data-input='billToAddressLine2'
+            class='text-gray-500'
+          >{{billToAddressLine2}}</p>
         {{/if}}
         {{#if billToCity}}
-          <p class='text-gray-500'>{{billToCity}}</p>
+          <p data-input='billToCity' class='text-gray-500'>{{billToCity}}</p>
         {{/if}}
         {{#if billToState}}
-          <p class='text-gray-500'>{{billToState}}</p>
+          <p data-input='billToState' class='text-gray-500'>{{billToState}}</p>
         {{/if}}
         {{#if billToCountry}}
-          <p class='text-gray-500'>{{billToCountry}}</p>
+          <p
+            data-input='billToCountry'
+            class='text-gray-500'
+          >{{billToCountry}}</p>
         {{/if}}
         {{#if billToPostalCode}}
-          <p class='text-gray-500'>{{billToPostalCode}}</p>
+          <p
+            data-input='billToPostalCode'
+            class='text-gray-500'
+          >{{billToPostalCode}}</p>
         {{/if}}
         <!-- Line items section -->
         {{#if customFields}}
