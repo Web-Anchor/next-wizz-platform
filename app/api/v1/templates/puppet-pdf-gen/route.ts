@@ -72,12 +72,11 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const data = await callApiWithRetry({ html, uniqueId });
+    const { url } = await callApiWithRetry({ html, uniqueId });
 
     return NextResponse.json(
       {
-        ...data,
-        url: data?.url + `?version=${uuidv4()}`, // Browser caching bypass
+        url: url + `?version=${uuidv4()}`, // Browser caching bypass
       },
       { status: 200 }
     );
@@ -95,7 +94,7 @@ async function callApiWithRetry(props: { html: string; uniqueId: string }) {
   const RETRY_INTERVAL = 2000; // delay between retries in ms
   let retries = 0;
 
-  async function attempt() {
+  async function attempt(): Promise<{ url: string }> {
     try {
       const { data, status } = await axios.post(
         `${process.env.NETLIFY_FUNCTIONS}/puppet-pdf-gen`,
@@ -115,7 +114,7 @@ async function callApiWithRetry(props: { html: string; uniqueId: string }) {
         throw new Error('Failure: ' + status);
       }
 
-      return data;
+      return data as { url: string };
     } catch (error) {
       if (retries < MAX_RETRIES) {
         retries++;
