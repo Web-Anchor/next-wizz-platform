@@ -50,7 +50,7 @@ export async function subscription({
 
     const stripe = require('stripe')(STRIPE_RESTRICTED_KEY);
     const customer = await stripe.customers.retrieve(stripeCustomerId);
-    console.log('👤 Stripe Customer ', customer);
+    console.log('👤 Stripe Customer ', customer?.id);
 
     const activeSubs = await stripe.subscriptions.list({
       customer: stripeCustomerId,

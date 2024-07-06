@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
         },
       }
     );
-    console.log('📂 File deleted successfully', res);
+    console.log('📂 File deleted successfully');
 
     return NextResponse.json({
       message: 'File deleted successfully!',

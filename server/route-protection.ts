@@ -14,7 +14,7 @@ export async function advancedSubRouteGuard() {
     const { userId } = auth();
     const subRes = await subscription({ userId });
     validateAdvancedSubMiddleware({ name: subRes?.product?.name });
-    console.log('👤 _User: ', userId, subRes);
+    console.log('👤 _User: ', userId);
   } catch (error) {
     return notFound();
   }
@@ -25,7 +25,7 @@ export async function basicSubRouteGuard() {
     const { userId } = auth();
     const subRes = await subscription({ userId });
     validateBasicSubMiddleware({ name: subRes?.product?.name });
-    console.log('👤 _User: ', userId, subRes);
+    console.log('👤 _User: ', userId);
   } catch (error) {
     return notFound();
   }
@@ -36,7 +36,7 @@ export async function subRouteGuard() {
     const { userId } = auth();
     const subRes = await subscription({ userId });
     validateActiveSubMiddleware({ status: subRes?.subscription?.status });
-    console.log('👤 _User: ', userId, subRes);
+    console.log('👤 _User: ', userId);
   } catch (error) {
     return notFound();
   }

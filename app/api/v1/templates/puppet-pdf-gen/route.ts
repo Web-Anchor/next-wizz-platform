@@ -71,7 +71,6 @@ export async function POST(request: NextRequest) {
         ...((dbTemplate?.[0] ?? {}) as Template),
       },
     });
-    console.log('📄 HTML', html);
 
     const data = await callApiWithRetry({ html, uniqueId });
 
@@ -93,8 +92,7 @@ export async function POST(request: NextRequest) {
 
 async function callApiWithRetry(props: { html: string; uniqueId: string }) {
   const MAX_RETRIES = 10;
-  const RETRY_INTERVAL = 2000; // 1 second
-
+  const RETRY_INTERVAL = 2000; // delay between retries in ms
   let retries = 0;
 
   async function attempt() {
@@ -111,8 +109,9 @@ async function callApiWithRetry(props: { html: string; uniqueId: string }) {
           },
         }
       );
+      console.log('📄 PDF_Data: ', data);
 
-      if (status !== 200) {
+      if (status !== 200 || !data?.url) {
         throw new Error('Failure: ' + status);
       }
 
@@ -121,8 +120,10 @@ async function callApiWithRetry(props: { html: string; uniqueId: string }) {
       if (retries < MAX_RETRIES) {
         retries++;
         console.log(`Retrying API call (${retries}/${MAX_RETRIES})...`);
-        return new Promise((resolve) => {
-          setTimeout(() => resolve(attempt()), RETRY_INTERVAL);
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            attempt().then(resolve).catch(reject);
+          }, RETRY_INTERVAL);
         });
       } else {
         console.error('Max retries reached. Unable to call API.');

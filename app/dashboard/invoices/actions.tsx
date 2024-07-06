@@ -40,10 +40,7 @@ export default function Actions(props: {
       // --------------------------------------------------------------------------------
       // 📌  Delete PDF on the server
       // --------------------------------------------------------------------------------
-      const del = await axios.post('/api/v1/delete-file', {
-        url,
-      });
-      console.log('🚮 Delete', del);
+      await deleteObj({ url });
 
       const totalTime = new Date().getTime() - startTime; // 🕰 End time
       toast?.success(
@@ -51,11 +48,24 @@ export default function Actions(props: {
       );
     } catch (error: any) {
       const totalTime = new Date().getTime() - startTime; // 🕰 End time
-      const msg =
-        error?.message || 'An error occurred while downloading the document.';
+      const msg = 'An error occurred while downloading the document.';
       toast?.error(`${msg} Executed in: ${totalTime}ms`);
     } finally {
       setState((prev) => ({ ...prev, fetching: undefined }));
+    }
+  }
+
+  async function deleteObj(props: { url: string }) {
+    try {
+      // --------------------------------------------------------------------------------
+      // 📌  Delete PDF on the server
+      // --------------------------------------------------------------------------------
+      const del = await axios.post('/api/v1/delete-file', {
+        url: props.url,
+      });
+      console.log('🚮 Delete', del);
+    } catch (error) {
+      console.error('Error uploading file:', error);
     }
   }
 

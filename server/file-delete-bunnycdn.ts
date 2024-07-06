@@ -20,7 +20,7 @@ export async function removeObj(url: string): Promise<any> {
         },
       }
     );
-    console.log('📂 File deleted successfully', data);
+    console.log('📂 File deleted successfully');
 
     return {
       message: 'File deleted successfully!',
