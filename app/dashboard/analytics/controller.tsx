@@ -190,7 +190,7 @@ export default function Page() {
             charges?.chargesSourceFundingDistributionCurrentMonth
           )}
           loading={isLoading}
-          type="radial"
+          type="column-chart"
           description="Chart the distribution of charge funding sources (e.g., credit cards, bank accounts) to track payment trends and optimize payment processing methods based on customer preferences."
         />
         <PieChart

@@ -13,7 +13,7 @@ type Props = {
   labelPosition?: 'outside' | 'spider';
   loading?: boolean;
   class?: string;
-  type: 'pie' | 'radial';
+  type: 'pie' | 'radial' | 'column-chart';
 };
 
 const spectral = {
@@ -96,6 +96,28 @@ export default function PieChart(props: Props): React.ReactElement | null {
       },
     ],
   };
+  const columnChartConfig = {
+    data: convertObjUnknownValue(props.data),
+    xField: 'name',
+    yField: 'value',
+    label: {
+      text: (d: { value: number }) => {
+        console.log(d);
+        return `${(d.value * 100).toFixed(1)}%`;
+      },
+      textBaseline: 'bottom',
+    },
+    axis: {
+      y: {
+        labelFormatter: '.0%',
+      },
+    },
+    style: {
+      // 圆角样式
+      radiusTopLeft: 10,
+      radiusTopRight: 10,
+    },
+  };
   // console.log('📊 PieChart', props.data);
 
   return (
@@ -121,6 +143,9 @@ export default function PieChart(props: Props): React.ReactElement | null {
         {props.loading && <PieSkeleton />}
         {props.type === 'pie' && hasData && !props.loading && (
           <Pie {...pieConfig} />
+        )}
+        {props.type === 'column-chart' && hasData && !props.loading && (
+          <RadialBar {...columnChartConfig} />
         )}
         {props.type === 'radial' && hasData && !props.loading && (
           <RadialBar {...radialConfig} />
