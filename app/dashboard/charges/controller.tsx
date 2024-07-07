@@ -106,10 +106,15 @@ export default function Page() {
               {
                 item: (
                   <section className="flex flex-col max-w-28 lg:max-w-none">
-                    <section className="text-sm font-medium leading-6 text-gray-800 truncate text-ellipsis">
-                      {item?.billing_details?.name || item?.customer}
+                    <section className="text-sm font-medium text-gray-800 truncate text-ellipsis">
+                      {item?.billing_details?.name || item?.customer?.name}
                     </section>
-                    <section className="mt-1 text-xs leading-5 text-gray-500 truncate text-ellipsis">
+                    {item?.customer?.description && (
+                      <section className="mt-1 text-xs text-gray-500 truncate text-ellipsis">
+                        {item?.customer?.description}
+                      </section>
+                    )}
+                    <section className="mt-1 text-xs text-indigo-400 truncate text-ellipsis">
                       {item?.billing_details?.email || item?.description}
                     </section>
                   </section>

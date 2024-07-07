@@ -102,7 +102,6 @@ export default function PieChart(props: Props): React.ReactElement | null {
     yField: 'value',
     label: {
       text: (d: { value: number }) => {
-        console.log(d);
         return `${(d.value * 100).toFixed(1)}%`;
       },
       textBaseline: 'bottom',

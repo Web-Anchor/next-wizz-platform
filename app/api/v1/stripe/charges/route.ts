@@ -52,7 +52,9 @@ export async function POST(request: NextRequest) {
       limit: FETCH_LIMIT,
       starting_after: body?.starting_after ?? undefined,
       ending_before: body?.ending_before ?? undefined,
+      expand: ['data.customer'],
     });
+    console.log('🔑 charges', charges);
 
     let has_previous = false;
     let has_more = charges?.has_more;
