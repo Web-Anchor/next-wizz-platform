@@ -6,7 +6,7 @@ export default function Wrapper(props: Wrapper) {
   return (
     <section
       className={classNames(
-        'relative flex flex-col flex-1 h-full gap-10 max-w-7xl sm:gap-10 px-4 sm:px-6 lg:px-8 mt-10 lg:mt-auto',
+        'relative flex flex-col flex-1 h-full gap-10 max-w-7xl sm:gap-10 px-4 sm:px-6 lg:px-8 mt-10 lg:mt-auto overflow-hidden overflow-x-auto',
         props?.class
       )}
     >
