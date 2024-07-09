@@ -9,15 +9,25 @@ import { CSPostHogProvider } from './posthog';
 const fonts = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'invoicio.io',
-  description: 'Invoicing platform for freelancers and small businesses.',
+  title: 'invoicio.io - Invoicing Platform',
+  description:
+    'Invoicing platform for freelancers and small businesses. Manage your financial activities from one central location.',
   openGraph: {
-    title: 'invoicio.io',
-    description: 'Invoicing platform for freelancers and small businesses.',
+    title: 'invoicio.io - Invoicing Platform',
+    description:
+      'Invoicing platform for freelancers and small businesses. Manage your financial activities from one central location.',
     type: 'website',
     locale: 'en_US',
-    url: 'invoicio.io',
-    images: ['/og-image.png'],
+    url: `${process.env.NEXT_PUBLIC_APP_URL}/`,
+    images: [
+      {
+        pathname: '/assets/og-image.png',
+        url: `${process.env.NEXT_PUBLIC_APP_URL}/assets/og-image.png`,
+        width: 800,
+        height: 400,
+        alt: 'invoicio.io - Invoicing Platform',
+      },
+    ],
   },
 };
 
