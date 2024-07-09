@@ -408,7 +408,7 @@ export default function Page() {
                             !state.type && 'hidden'
                           )}
                         >
-                          <section className="truncate text-xs text-gray-800">
+                          <section className="truncate max-w-32 text-xs text-gray-800">
                             {state.name}
                           </section>
                           <section className="text-xs text-gray-500">
