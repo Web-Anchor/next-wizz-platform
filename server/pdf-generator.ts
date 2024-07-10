@@ -29,14 +29,9 @@ export async function genPdfBuffer(props: {
     // await browser.close();
 
     const browser = await puppeteer.launch({
-      args: [
-        '--headless',
-        '--disable-gpu',
-        '--disable-dev-shm-usage',
-        '--remote-debugging-port=9222',
-        '--remote-debugging-address=0.0.0.0',
-      ],
+      args: ['--headless', '--disable-gpu', '--disable-dev-shm-usage'],
       // executablePath: await chromium.executablePath(),
+      executablePath: puppeteer.executablePath(), // Use Puppeteer's default executable path
     });
     const page = await browser.newPage();
     await page.setContent(props.html);
