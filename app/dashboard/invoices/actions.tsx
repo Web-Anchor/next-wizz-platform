@@ -58,7 +58,8 @@ export default function Actions(props: {
     try {
       setState((prev) => ({ ...prev, fetching: 'download' }));
       const html = '<div class="text-center">Hello World!</div>';
-      const { base64PDF } = await genPdfBuffer({ html });
+      const { base64PDF, error } = await genPdfBuffer({ html });
+      console.log('📄 base64PDF length', base64PDF?.length);
 
       if (base64PDF) {
         const pdfBlob = await new Blob([Buffer.from(base64PDF, 'base64')]);
@@ -70,11 +71,12 @@ export default function Actions(props: {
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
+        toast?.success(`Document downloaded successfully!`);
       } else {
-        alert('Failed to generate PDF');
+        toast?.error(
+          error ?? 'An error occurred while generating the document.'
+        );
       }
-
-      toast?.success(`Document downloaded successfully!`);
     } catch (error: any) {
       const totalTime = new Date().getTime() - startTime; // 🕰 End time
       const msg = 'An error occurred while downloading the document.';
