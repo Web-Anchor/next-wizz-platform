@@ -7,6 +7,7 @@ import axios from 'axios';
 import { downloadFile } from '@helpers/index';
 import { useFormStatus } from 'react-dom';
 import Button from '@app/components/Button';
+import { genPdfBuffer } from '@server/pdf-generator';
 
 export default function Actions(props: {
   id?: string;
@@ -41,6 +42,37 @@ export default function Actions(props: {
       // 📌  Delete PDF on the server
       // --------------------------------------------------------------------------------
       await deleteObj({ url });
+
+      toast?.success(`Document downloaded successfully!`);
+    } catch (error: any) {
+      const totalTime = new Date().getTime() - startTime; // 🕰 End time
+      const msg = 'An error occurred while downloading the document.';
+      toast?.error(`${msg} Executed in: ${totalTime}ms`);
+    } finally {
+      setState((prev) => ({ ...prev, fetching: undefined }));
+    }
+  }
+
+  async function downloadPDFTester() {
+    const startTime = new Date().getTime(); // 🕰 Start time
+    try {
+      setState((prev) => ({ ...prev, fetching: 'download' }));
+      const html = '<div class="text-center">Hello World!</div>';
+      const { base64PDF } = await genPdfBuffer({ html });
+
+      if (base64PDF) {
+        const pdfBlob = await new Blob([Buffer.from(base64PDF, 'base64')]);
+        const url = window.URL.createObjectURL(pdfBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'generated.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      } else {
+        alert('Failed to generate PDF');
+      }
 
       toast?.success(`Document downloaded successfully!`);
     } catch (error: any) {
@@ -87,6 +119,13 @@ export default function Actions(props: {
         type="submit"
         fetching={pending}
         disabled={pending || !!state?.fetching}
+      />
+      <Button
+        title="downloadPDFTester"
+        type="submit"
+        fetching={state?.fetching === 'download'}
+        disabled={pending || !!state?.fetching}
+        onClick={downloadPDFTester}
       />
       <Button
         style="secondary"
