@@ -1,10 +1,11 @@
 'use server';
 
-import puppeteer from 'puppeteer';
+import puppeteer, { PDFOptions } from 'puppeteer';
 import chromium from '@sparticuz/chromium';
 
 export async function genPdfBuffer(props: {
   html: string;
+  options: PDFOptions;
 }): Promise<{ base64PDF?: string; error?: string }> {
   try {
     console.log('📄 Generating PDF...');
@@ -29,18 +30,22 @@ export async function genPdfBuffer(props: {
 
     const browser = await puppeteer.launch({
       args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
+        '--headless',
+        '--disable-gpu',
         '--disable-dev-shm-usage',
+        '--remote-debugging-port=9222',
+        '--remote-debugging-address=0.0.0.0',
       ],
-      headless: true,
+      // executablePath: await chromium.executablePath(),
     });
     const page = await browser.newPage();
-    await page.setContent(props.html!);
-    const pdfBuffer = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-    });
+    await page.setContent(props.html);
+    const pdfBuffer = await page.pdf(
+      props.options ?? {
+        printBackground: true,
+        format: 'A4',
+      }
+    );
     const base64PDF = pdfBuffer.toString('base64');
     await browser.close();
 
