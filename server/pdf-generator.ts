@@ -5,7 +5,7 @@ import chromium from '@sparticuz/chromium';
 
 export async function genPdfBuffer(props: {
   html: string;
-  options: PDFOptions;
+  options?: PDFOptions;
 }): Promise<{ base64PDF?: string; error?: string }> {
   try {
     console.log('📄 Generating PDF...');
