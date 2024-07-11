@@ -12,6 +12,14 @@ type FetcherTypes = {
 export async function pdfToBase64(
   props: FetcherTypes
 ): Promise<{ base64PDF?: string; error?: string }> {
+  const chromiumPath = require.resolve('@sparticuz/chromium');
+  const chromiumExecutablePath = path.resolve(
+    path.dirname(chromiumPath),
+    'bin'
+  );
+  console.log('🚀 chromiumPath', chromiumPath);
+  console.log('🚀 chromiumExecutablePath', chromiumExecutablePath);
+
   try {
     // --------------------------------------------------------------------------------
     // 📌  Puppeteer
@@ -49,13 +57,6 @@ export async function pdfToBase64(
     // const base64PDF = pdfBuffer.toString('base64');
 
     // Dynamically resolve the path to @sparticuz/chromium/bin
-    const chromiumPath = require.resolve('@sparticuz/chromium');
-    const chromiumExecutablePath = path.resolve(
-      path.dirname(chromiumPath),
-      'bin'
-    );
-    console.log('🚀 chromiumPath', chromiumPath);
-    console.log('🚀 chromiumExecutablePath', chromiumExecutablePath);
 
     const browser = await puppeteer.launch({
       headless: true,
@@ -71,6 +72,7 @@ export async function pdfToBase64(
 
     return { base64PDF };
   } catch (error) {
-    return { error: (error as Error).message };
+    const msg = (error as Error).message + ' path: ' + chromiumExecutablePath;
+    return { error: msg };
   }
 }
