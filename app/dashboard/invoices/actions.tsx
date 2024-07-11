@@ -23,7 +23,7 @@ export default function Actions(props: {
 
       const { data } = await axios.post(
         '/api/v2/generate-pdf',
-        { id: props?.id },
+        { id: props?.id }, // 🚧 POST request with body required
         { responseType: 'blob' }
       );
 
