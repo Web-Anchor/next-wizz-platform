@@ -4,6 +4,8 @@
 import chromium from '@sparticuz/chromium-min';
 // import chromium from '@sparticuz/chromium';
 import puppeteer, { PDFOptions } from 'puppeteer-core';
+// @ts-ignore
+import PCR from 'puppeteer-chromium-resolver';
 
 export async function genPdfBuffer(props: {
   html: string;
@@ -17,16 +19,20 @@ export async function genPdfBuffer(props: {
     //   // '/opt/chromium' // Chromium-min version
     //   ();
     // console.log('📄 prodPath', prodPath);
+    // (await chromium.executablePath(
+    //   // '/var/task/node_modules/@sparticuz/chromium/bin' // 🚧  Chromium version
+    //   `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar` // 🚧 Chromium-min version
+    // ))
+
+    const options = {};
+    const stats = await PCR(options);
 
     const browser = await puppeteer.launch({
       args: process.env.CHROME_EXECUTABLE_PATH ? undefined : chromium.args, // 🚧 chromium.args throwing errors
       defaultViewport: chromium.defaultViewport,
       executablePath:
         process.env.CHROME_EXECUTABLE_PATH || // 🚧 local dev executable path
-        (await chromium.executablePath(
-          // '/var/task/node_modules/@sparticuz/chromium/bin' // 🚧  Chromium version
-          `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar` // 🚧 Chromium-min version
-        )),
+        stats.executablePath, // 🚧 prod executable path
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
     });
