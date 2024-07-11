@@ -1,0 +1,8 @@
+{
+    "puppeteerVersion": "22.12.1",
+    "platform": "mac",
+    "revision": "1325968",
+    "cacheDir": "/Users/edancerys/repositories/next-wizz-platform/https:/github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar",
+    "snapshotsDir": "/Users/edancerys/repositories/next-wizz-platform/https:/github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar/.chromium-browser-snapshots",
+    "executablePath": "/Users/edancerys/.chromium-browser-snapshots/chromium/mac-1325968/chrome-mac/Chromium.app/Contents/MacOS/Chromium"
+}

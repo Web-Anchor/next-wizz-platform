@@ -24,14 +24,18 @@ export async function genPdfBuffer(props: {
     //   `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar` // 🚧 Chromium-min version
     // ))
 
-    const options = {};
+    const options = {
+      downloadPath: `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar`,
+    };
     const stats = await PCR(options);
+    console.log('📄 stats', stats);
 
     const browser = await puppeteer.launch({
       args: process.env.CHROME_EXECUTABLE_PATH ? undefined : chromium.args, // 🚧 chromium.args throwing errors
       defaultViewport: chromium.defaultViewport,
       executablePath:
         process.env.CHROME_EXECUTABLE_PATH || // 🚧 local dev executable path
+        (await chromium.executablePath(stats.executablePath)) ||
         stats.executablePath, // 🚧 prod executable path
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
