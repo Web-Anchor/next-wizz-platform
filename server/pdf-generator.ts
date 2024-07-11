@@ -13,10 +13,11 @@ export async function genPdfBuffer(props: {
 }): Promise<{ base64PDF?: string; error?: string }> {
   try {
     console.log('📄 Generating PDF...');
-    const prodPath = await chromium.executablePath(
+    const prodPath = await chromium
+      .executablePath
       // '/var/task/node_modules/@sparticuz/chromium/bin' // Chromium version
-      '/opt/chromium' // Chromium-min version
-    );
+      // '/opt/chromium' // Chromium-min version
+      ();
     console.log('📄 prodPath', prodPath);
 
     const browser = await puppeteer.launch({
