@@ -47,7 +47,10 @@ export async function POST(request: NextRequest) {
 
     const browser = await getBrowser();
     const page = await browser.newPage();
-    const { html } = await genUserTemplate({ id: body.id });
+    const { html } = await genUserTemplate({
+      id: body.id,
+      chargeData: body.chargeData,
+    });
 
     // --------------------------------------------------------------------------------
     // 📌 Set the HTML content of the page

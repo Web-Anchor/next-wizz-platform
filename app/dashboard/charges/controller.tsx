@@ -3,8 +3,8 @@
 import Table from '@app/components/Table';
 import Wrapper from '@app/components/Wrapper';
 import { useCharges, useUser } from '@hooks/index';
-import { Charge } from '../../../types';
-import { classNames, getTimeAgo } from '@helpers/index';
+import { Charge, Template } from '@appTypes/index';
+import { classNames, getTimeAgo, stripeAmountToCurrency } from '@helpers/index';
 import Link from 'next/link';
 import PageHeadings from '@app/components/PageHeadings';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -43,7 +43,7 @@ export default function Page() {
 
   async function nexPage() {
     try {
-      setState((prev) => ({ ...prev, fetching: 'next-page' }));
+      setState((prev) => ({ ...prev, fetching: 'page-change' }));
       const starting_after = response?.[charges?.length - 1]?.id;
       const { data } = await axios.post('/api/v1/stripe/charges', {
         starting_after,
@@ -66,7 +66,7 @@ export default function Page() {
 
   async function prevPage() {
     try {
-      setState((prev) => ({ ...prev, fetching: 'prev-page' }));
+      setState((prev) => ({ ...prev, fetching: 'page-change' }));
       const ending_before = response?.[0]?.id;
       const { data } = await axios.post('/api/v1/stripe/charges', {
         ending_before,
@@ -97,7 +97,7 @@ export default function Page() {
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
       setState((prev) => ({ ...prev, fetching: 'send-invoice' }));
-      // const customer = customers.find((c: Customer) => c.id === props.id);
+      const charge = charges?.find((charge) => charge.id === props.id);
 
       const template = await getTemplate({
         templateName: 'email-template-one.hbs',
@@ -111,6 +111,42 @@ export default function Page() {
         },
       });
 
+      const chargeData: Template = {
+        invoiceNumber: charge?.id,
+        date: new Date(charge?.created! * 1000).toDateString(),
+        billToName: charge?.customer?.name,
+        billToAddressLine1:
+          charge?.billing_details?.address?.line1 ||
+          charge?.customer?.address?.line1,
+        billToAddressLine2:
+          charge?.billing_details?.address?.line2 ||
+          charge?.customer?.address?.line2,
+        billToCity:
+          charge?.billing_details?.address?.city ||
+          charge?.customer?.address?.city,
+        billToState:
+          charge?.billing_details?.address?.state ||
+          charge?.customer?.address?.state,
+        billToCountry:
+          charge?.billing_details?.address?.country ||
+          charge?.customer?.address?.country,
+        billToPostalCode:
+          charge?.billing_details?.address?.postal_code ||
+          charge?.customer?.address?.postal_code,
+        items: [
+          {
+            description: charge?.description,
+            quantity: undefined,
+            units: undefined,
+            amount: stripeAmountToCurrency(charge?.amount, charge?.currency!),
+          },
+        ],
+        dueDate: undefined,
+        subtotal: stripeAmountToCurrency(charge?.amount, charge?.currency!),
+        tax: undefined,
+        total: stripeAmountToCurrency(charge?.amount, charge?.currency!),
+      };
+
       const { data, status } = await axios.post('/api/v2/send-invoice-pdf', {
         id: user.id, // use to gen user template
         email: props.email,
@@ -118,6 +154,7 @@ export default function Page() {
         html,
         name: props.name,
         chargeId: props.id,
+        chargeData,
         fileName: `invoice-${props.id}.pdf`,
       });
 
@@ -131,7 +168,7 @@ export default function Page() {
       }
       console.log('📧 Email sent to:', data);
 
-      toast.success(`Link to portal sent to ${props?.name ?? props.email} ✨`);
+      toast.success(`Invoice sent to ${props?.name || props.email} ✨`);
     } catch (err: any) {
       console.error(err);
       toast.error(err.message);
@@ -149,7 +186,7 @@ export default function Page() {
       />
 
       <Table
-        fetching={isLoading || !!state.fetching}
+        fetching={isLoading || state.fetching === 'page-change'}
         header={[
           { item: 'Customer', class: 'truncate' },
           { item: 'Amount' },
