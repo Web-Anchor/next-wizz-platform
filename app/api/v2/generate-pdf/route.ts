@@ -1,9 +1,14 @@
+import { genUserTemplate } from '@server/generate-template';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic'; // force dynamic request
+// --------------------------------------------------------------------------------
+// 📌 https://github.com/gruckion/puppeteer-running-in-vercel/tree/main
+// --------------------------------------------------------------------------------
 
 const CHROMIUM_PATH =
   'https://vomrghiulbmrfvmhlflk.supabase.co/storage/v1/object/public/chromium-pack/chromium-v123.0.0-pack.tar';
+// https://github.com/Sparticuz/chromium/releases/download/v121.0.0/chromium-v121.0.0-pack.tar
 
 async function getBrowser() {
   if (!process.env.CHROME_EXECUTABLE_PATH) {
@@ -35,15 +40,17 @@ async function getBrowser() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    console.log('📄 Generating PDF template...');
 
     const browser = await getBrowser();
     const page = await browser.newPage();
+    const { html } = await genUserTemplate({ id: body.id });
 
     // --------------------------------------------------------------------------------
     // 📌 Set the HTML content of the page
     // page.goto with a data: URL, Puppeteer will trigger network requests to load external resources like images, scripts, and stylesheets
     // --------------------------------------------------------------------------------
-    await page.goto(`data:text/html,${body.html}`, {
+    await page.goto(`data:text/html,${body.html || html}`, {
       waitUntil: 'networkidle0',
       timeout: 5000,
     });

@@ -7,7 +7,6 @@ import axios from 'axios';
 import { downloadFile } from '@helpers/index';
 import { useFormStatus } from 'react-dom';
 import Button from '@app/components/Button';
-import { pdfToBase64 } from '@server/pdf-generator';
 
 export default function Actions(props: {
   id?: string;
@@ -21,50 +20,12 @@ export default function Actions(props: {
     const startTime = new Date().getTime(); // 🕰 Start time
     try {
       setState((prev) => ({ ...prev, fetching: 'download' }));
-      const { data } = await axios.post('/api/v1/templates/puppet-pdf-gen', {
-        id: props?.id,
-      });
-      const url = data?.url;
-      console.log('🔗 URL', url);
 
-      // --------------------------------------------------------------------------------
-      // 📌  Download PDF
-      // --------------------------------------------------------------------------------
-      await downloadFile({
-        url,
-        name: props?.id,
-        classBack: (props) => {
-          console.log('🚀 Progress', props);
-        },
-      });
-
-      // --------------------------------------------------------------------------------
-      // 📌  Delete PDF on the server
-      // --------------------------------------------------------------------------------
-      await deleteObj({ url });
-
-      toast?.success(`Document downloaded successfully!`);
-    } catch (error: any) {
-      const totalTime = new Date().getTime() - startTime; // 🕰 End time
-      const msg = 'An error occurred while downloading the document.';
-      toast?.error(`${msg} Executed in: ${totalTime}ms`);
-    } finally {
-      setState((prev) => ({ ...prev, fetching: undefined }));
-    }
-  }
-
-  async function downloadPDFTester() {
-    const startTime = new Date().getTime(); // 🕰 Start time
-    try {
-      setState((prev) => ({ ...prev, fetching: 'download' }));
-
-      const html = '<div class="text-center">Hello World!</div>';
       const { data } = await axios.post(
-        '/api/v2/generate-img',
-        { html },
+        '/api/v2/generate-pdf',
+        { id: props?.id },
         { responseType: 'blob' }
       );
-      console.log('🔗 pdfBuffer', data);
 
       if (data) {
         // const pdfBlob = await new Blob([Buffer.from(data, 'base64')]);
@@ -72,7 +33,9 @@ export default function Actions(props: {
         const url = window.URL.createObjectURL(pdfBlob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'generated.pdf';
+        a.download = `template_sample_${
+          new Date().toISOString().split('T')[1]
+        }.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -125,13 +88,6 @@ export default function Actions(props: {
         type="submit"
         fetching={pending}
         disabled={pending || !!state?.fetching}
-      />
-      <Button
-        title="downloadPDFTester"
-        type="submit"
-        fetching={state?.fetching === 'download'}
-        disabled={pending || !!state?.fetching}
-        onClick={downloadPDFTester}
       />
       <Button
         style="secondary"
