@@ -3,6 +3,7 @@
 // @ts-ignore
 import puppeteer from 'puppeteer-extra';
 import chromium from '@sparticuz/chromium';
+import path from 'path';
 
 type FetcherTypes = {
   html: string;
@@ -47,11 +48,20 @@ export async function pdfToBase64(
     // --------------------------------------------------------------------------------
     // const base64PDF = pdfBuffer.toString('base64');
 
+    // Dynamically resolve the path to @sparticuz/chromium/bin
+    const chromiumPath = require.resolve('@sparticuz/chromium');
+    const chromiumExecutablePath = path.resolve(
+      path.dirname(chromiumPath),
+      'bin'
+    );
+    console.log('🚀 chromiumPath', chromiumPath);
+    console.log('🚀 chromiumExecutablePath', chromiumExecutablePath);
+
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
       executablePath:
-        process.env.CHROME_EXECUTABLE_PATH || (await chromium.executablePath()),
+        process.env.CHROME_EXECUTABLE_PATH || chromiumExecutablePath,
     });
     const page = await browser.newPage();
     await page.setContent(props.html);
