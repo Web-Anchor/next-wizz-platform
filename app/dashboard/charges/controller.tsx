@@ -2,7 +2,7 @@
 
 import Table from '@app/components/Table';
 import Wrapper from '@app/components/Wrapper';
-import { useCharges } from '@hooks/index';
+import { useCharges, useUser } from '@hooks/index';
 import { Charge } from '../../../types';
 import { classNames, getTimeAgo } from '@helpers/index';
 import Link from 'next/link';
@@ -14,16 +14,19 @@ import { toast } from 'sonner';
 import { fakerCharges } from '@lib/faker';
 import Button from '@app/components/Button';
 import { mediaScreenTitle } from '@helpers/components';
+import { buildTemplate, getTemplate } from '@server/templates';
 
 export default function Page() {
   const [state, setState] = useState<{
-    fetching?: boolean;
+    fetching?: string;
     charges?: Charge[];
     has_more?: boolean;
     has_previous?: boolean;
   }>({});
+  const { user } = useUser({});
   const router = useRouter();
   const searchParams = useSearchParams()!;
+
   const starting_after = searchParams.get('starting_after')!;
   const ending_before = searchParams.get('ending_before')!;
 
@@ -40,7 +43,7 @@ export default function Page() {
 
   async function nexPage() {
     try {
-      setState((prev) => ({ ...prev, fetching: true }));
+      setState((prev) => ({ ...prev, fetching: 'next-page' }));
       const starting_after = response?.[charges?.length - 1]?.id;
       const { data } = await axios.post('/api/v1/stripe/charges', {
         starting_after,
@@ -63,7 +66,7 @@ export default function Page() {
 
   async function prevPage() {
     try {
-      setState((prev) => ({ ...prev, fetching: true }));
+      setState((prev) => ({ ...prev, fetching: 'prev-page' }));
       const ending_before = response?.[0]?.id;
       const { data } = await axios.post('/api/v1/stripe/charges', {
         ending_before,
@@ -87,7 +90,7 @@ export default function Page() {
   async function emailCustomerInvoice(props: {
     email: string;
     name: string;
-    id: string;
+    id: string; // Stripe charge id
   }) {
     try {
       // --------------------------------------------------------------------------------
@@ -108,17 +111,14 @@ export default function Page() {
         },
       });
 
-      const { data, status } = await cFetch({
-        url: '/api/v2/send-invoice-pdf',
-        method: 'POST',
-        data: {
-          id: user.id, // use to gen user template
-          email: props.email,
-          subject: 'Find attached invoice! invoicio.io Customer Portal ✨',
-          html,
-          name: props.name,
-          fileName: `invoice-${props.id}.pdf`,
-        },
+      const { data, status } = await axios.post('/api/v2/send-invoice-pdf', {
+        id: user.id, // use to gen user template
+        email: props.email,
+        subject: 'Find attached invoice! invoicio.io Customer Portal ✨',
+        html,
+        name: props.name,
+        chargeId: props.id,
+        fileName: `invoice-${props.id}.pdf`,
       });
 
       if (status !== 200 || data?.error) {
@@ -132,7 +132,6 @@ export default function Page() {
       console.log('📧 Email sent to:', data);
 
       toast.success(`Link to portal sent to ${props?.name ?? props.email} ✨`);
-      mutate(`/api/v1/user`);
     } catch (err: any) {
       console.error(err);
       toast.error(err.message);
@@ -150,14 +149,14 @@ export default function Page() {
       />
 
       <Table
-        fetching={isLoading || state.fetching}
+        fetching={isLoading || !!state.fetching}
         header={[
-          { item: 'Customer', class: 'truncate lg:max-w-none' },
+          { item: 'Customer', class: 'truncate' },
           { item: 'Amount' },
-          { item: 'Phone', class: 'hidden lg:table-cell' },
+          { item: 'Phone', class: 'hidden xl:table-cell' },
           { item: 'Status', class: 'hidden lg:table-cell' },
           { item: 'Created At', class: 'text-nowrap' },
-          { item: 'Address', class: 'hidden lg:table-cell' },
+          { item: 'Address', class: 'hidden xl:table-cell' },
           { item: 'Email Invoice' },
         ]}
         data={response?.map((item: Charge) => {
@@ -165,7 +164,7 @@ export default function Page() {
             row: [
               {
                 item: (
-                  <section className="flex flex-col max-w-28 lg:max-w-none">
+                  <section className="flex flex-col max-w-40 lg:max-w-56">
                     <section className="text-sm font-medium text-gray-800 truncate text-ellipsis">
                       {item?.billing_details?.name || item?.customer?.name}
                     </section>
@@ -185,7 +184,7 @@ export default function Page() {
               },
               {
                 item: <section>{item?.billing_details?.phone}</section>,
-                class: 'hidden lg:table-cell',
+                class: 'hidden xl:table-cell',
               },
               {
                 item: (
@@ -207,8 +206,12 @@ export default function Page() {
               },
               {
                 item: (
-                  <section>{item?.billing_details?.address?.line1}</section>
+                  <section>
+                    {item?.billing_details?.address?.line1 ||
+                      item?.customer?.address?.line1}
+                  </section>
                 ),
+                class: 'hidden xl:table-cell',
               },
               {
                 item: (
@@ -242,8 +245,8 @@ export default function Page() {
                     title={mediaScreenTitle('Send Invoice', 'Send Invoice')}
                     onClick={() =>
                       emailCustomerInvoice({
-                        email: item?.email!,
-                        name: item?.name!,
+                        email: item?.customer?.email!,
+                        name: item?.customer?.name!,
                         id: item?.id!,
                       })
                     }
