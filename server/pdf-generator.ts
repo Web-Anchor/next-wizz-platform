@@ -1,10 +1,8 @@
 'use server';
 
-// import puppeteer, { PDFOptions } from 'puppeteer';
-// import chromium from '@sparticuz/chromium';
-
 // @ts-ignore
-import chromium from '@sparticuz/chromium-min';
+// import chromium from '@sparticuz/chromium-min';
+import chromium from '@sparticuz/chromium';
 import puppeteer, { PDFOptions } from 'puppeteer-core';
 
 export async function genPdfBuffer(props: {
@@ -20,16 +18,14 @@ export async function genPdfBuffer(props: {
     //   ();
     // console.log('📄 prodPath', prodPath);
 
-    // (await chromium.executablePath(
-    //   '/var/task/node_modules/@sparticuz/chromium/bin'
-    // ))
-
     const browser = await puppeteer.launch({
-      // args: chromium.args, // 🚧 chromium.args throwing errors
+      args: process.env.CHROME_EXECUTABLE_PATH ? undefined : chromium.args, // 🚧 chromium.args throwing errors
       defaultViewport: chromium.defaultViewport,
       executablePath:
         process.env.CHROME_EXECUTABLE_PATH || // 🚧 local dev executable path
-        '/var/task/node_modules/@sparticuz/chromium/bin',
+        (await chromium.executablePath(
+          '/var/task/node_modules/@sparticuz/chromium/bin'
+        )),
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
     });
