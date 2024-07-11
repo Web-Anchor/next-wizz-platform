@@ -49,6 +49,7 @@
     "stripe": "^15.3.0",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.2.2",
+    "tmp-promise": "^3.0.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

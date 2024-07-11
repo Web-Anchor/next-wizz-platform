@@ -59,12 +59,16 @@ export default function Actions(props: {
       setState((prev) => ({ ...prev, fetching: 'download' }));
 
       const html = '<div class="text-center">Hello World!</div>';
+      const { data } = await axios.post(
+        '/api/v2/generate-img',
+        { html },
+        { responseType: 'blob' }
+      );
+      console.log('🔗 pdfBuffer', data);
 
-      const { base64PDF, error } = await pdfToBase64({ html });
-      console.log('📄 base64PDF length', base64PDF?.length, error);
-
-      if (base64PDF) {
-        const pdfBlob = await new Blob([Buffer.from(base64PDF, 'base64')]);
+      if (data) {
+        // const pdfBlob = await new Blob([Buffer.from(data, 'base64')]);
+        const pdfBlob = new Blob([data], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(pdfBlob);
         const a = document.createElement('a');
         a.href = url;
@@ -75,9 +79,7 @@ export default function Actions(props: {
         window.URL.revokeObjectURL(url);
         toast?.success(`Document downloaded successfully!`);
       } else {
-        toast?.error(
-          error ?? 'An error occurred while generating the document.'
-        );
+        toast?.error('An error occurred while generating the document.');
       }
     } catch (error: any) {
       const totalTime = new Date().getTime() - startTime; // 🕰 End time
