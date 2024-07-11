@@ -195,7 +195,7 @@ export default function Page() {
           { item: 'Customer', class: 'truncate' },
           { item: 'Amount' },
           { item: 'Phone', class: 'hidden xl:table-cell' },
-          { item: 'Status', class: 'hidden lg:table-cell' },
+          { item: 'Status', class: 'hidden md:table-cell' },
           { item: 'Created At', class: 'text-nowrap hidden xl:table-cell' },
           { item: 'Address', class: 'hidden xl:table-cell' },
           { item: 'View', class: 'hidden lg:table-cell' },
@@ -241,7 +241,7 @@ export default function Page() {
                     {item.status}
                   </div>
                 ),
-                class: 'hidden lg:table-cell',
+                class: 'hidden md:table-cell',
               },
               {
                 item: <section>{getTimeAgo(item?.created! * 1000)}</section>,

@@ -82,7 +82,7 @@ export async function genUserTemplate(props: {
       const res = await db
         .select()
         .from(templates)
-        .where(eq(templates.id, props.id))
+        .where(eq(templates.userId, props.id))
         .limit(1);
 
       dbTemplates = res;
