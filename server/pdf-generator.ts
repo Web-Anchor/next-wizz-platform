@@ -1,8 +1,8 @@
 'use server';
 
 // @ts-ignore
-// import chromium from '@sparticuz/chromium-min';
-import chromium from '@sparticuz/chromium';
+import chromium from '@sparticuz/chromium-min';
+// import chromium from '@sparticuz/chromium';
 import puppeteer, { PDFOptions } from 'puppeteer-core';
 
 export async function genPdfBuffer(props: {
@@ -24,11 +24,13 @@ export async function genPdfBuffer(props: {
       executablePath:
         process.env.CHROME_EXECUTABLE_PATH || // 🚧 local dev executable path
         (await chromium.executablePath(
-          '/var/task/node_modules/@sparticuz/chromium/bin'
+          // '/var/task/node_modules/@sparticuz/chromium/bin' // 🚧  Chromium version
+          'https://github.com/Sparticuz/chromium/releases/download/v110.0.1/chromium-v110.0.1-pack.tar' // 🚧 Chromium-min version
         )),
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
     });
+
     console.log('📄 Browser launched!');
 
     const page = await browser.newPage();
@@ -46,7 +48,7 @@ export async function genPdfBuffer(props: {
     );
 
     const base64PDF = pdfBuffer.toString('base64');
-    await browser.close();
+    await browser?.close();
     console.log('📄 PDF Generated!', pdfBuffer?.length);
 
     return { base64PDF };
