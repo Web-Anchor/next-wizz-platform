@@ -22,6 +22,8 @@ export async function pdfToBase64(
     console.log('🚀 chromiumPath', chromiumMainPath);
     console.log('🚀 chromiumExecutablePath', chromiumExecutablePath);
 
+    throw new Error(`${chromiumMainPath} - ${chromiumExecutablePath}`);
+
     // --------------------------------------------------------------------------------
     // 📌  Puppeteer
     // --------------------------------------------------------------------------------
