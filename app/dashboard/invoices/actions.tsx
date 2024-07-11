@@ -7,7 +7,7 @@ import axios from 'axios';
 import { downloadFile } from '@helpers/index';
 import { useFormStatus } from 'react-dom';
 import Button from '@app/components/Button';
-import { genPdfBuffer } from '@server/pdf-generator';
+import { pdfToBase64 } from '@server/pdf-generator';
 
 export default function Actions(props: {
   id?: string;
@@ -57,9 +57,11 @@ export default function Actions(props: {
     const startTime = new Date().getTime(); // 🕰 Start time
     try {
       setState((prev) => ({ ...prev, fetching: 'download' }));
+
       const html = '<div class="text-center">Hello World!</div>';
-      const { base64PDF, error } = await genPdfBuffer({ html });
-      console.log('📄 base64PDF length', base64PDF?.length);
+
+      const { base64PDF, error } = await pdfToBase64({ html });
+      console.log('📄 base64PDF length', base64PDF?.length, error);
 
       if (base64PDF) {
         const pdfBlob = await new Blob([Buffer.from(base64PDF, 'base64')]);

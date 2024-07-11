@@ -1,69 +1,53 @@
 'use server';
 
-// @ts-ignore
-import chromium from '@sparticuz/chromium-min';
-// import chromium from '@sparticuz/chromium';
-import puppeteer, { PDFOptions } from 'puppeteer-core';
-// @ts-ignore
-import PCR from 'puppeteer-chromium-resolver';
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 
-export async function genPdfBuffer(props: {
+type FetcherTypes = {
   html: string;
-  options?: PDFOptions;
-}): Promise<{ base64PDF?: string; error?: string }> {
+};
+
+export async function pdfToBase64(
+  props: FetcherTypes
+): Promise<{ base64PDF?: string; error?: string }> {
   try {
-    console.log('📄 Generating PDF...');
-    // const prodPath = await chromium
-    //   .executablePath
-    //   // '/var/task/node_modules/@sparticuz/chromium/bin' // Chromium version
-    //   // '/opt/chromium' // Chromium-min version
-    //   ();
-    // console.log('📄 prodPath', prodPath);
-    // (await chromium.executablePath(
-    //   // '/var/task/node_modules/@sparticuz/chromium/bin' // 🚧  Chromium version
-    //   `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar` // 🚧 Chromium-min version
-    // ))
-
-    const options = {
-      downloadPath: `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar`,
-    };
-    const stats = await PCR(options);
-    console.log('📄 stats', stats);
-
+    // --------------------------------------------------------------------------------
+    // 📌  Puppeteer
+    // --------------------------------------------------------------------------------
+    console.log('📝 Creating a new page...');
     const browser = await puppeteer.launch({
-      args: process.env.CHROME_EXECUTABLE_PATH ? undefined : chromium.args, // 🚧 chromium.args throwing errors
+      args: process.env.CHROME_EXECUTABLE_PATH ? undefined : chromium.args, // 🚧 locally throws error
       defaultViewport: chromium.defaultViewport,
       executablePath:
-        process.env.CHROME_EXECUTABLE_PATH || // 🚧 local dev executable path
-        (await chromium.executablePath(stats.executablePath)) ||
-        stats.executablePath, // 🚧 prod executable path
-      headless: chromium.headless,
-      ignoreHTTPSErrors: true,
+        process.env.CHROME_EXECUTABLE_PATH ||
+        (await chromium.executablePath(
+          '/var/task/node_modules/@sparticuz/chromium/bin'
+        )),
     });
-
-    console.log('📄 Browser launched!');
-
+    console.log('Browser created...');
     const page = await browser.newPage();
-    console.log('📄 New page created!');
+    console.log('📝 Page created...');
+
+    // --------------------------------------------------------------------------------
+    // 📌 Set the HTML content of the page
+    // page.goto with a data: URL, Puppeteer will trigger network requests to load external resources like images, scripts, and stylesheets
+    // --------------------------------------------------------------------------------
     await page.goto(`data:text/html,${props.html}`, {
       waitUntil: 'networkidle0',
       timeout: 5000,
     });
 
-    const pdfBuffer = await page.pdf(
-      props.options ?? {
-        printBackground: true,
-        format: 'A4',
-      }
-    );
+    console.log('📝 Page loaded...');
+    const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true }); // Set the PDF format
+    await browser.close();
 
+    // --------------------------------------------------------------------------------
+    // 📌 Convert the PDF buffer to base64
+    // --------------------------------------------------------------------------------
     const base64PDF = pdfBuffer.toString('base64');
-    await browser?.close();
-    console.log('📄 PDF Generated!', pdfBuffer?.length);
 
     return { base64PDF };
   } catch (error) {
-    console.error('📄 Error generating PDF:', error);
     return { error: (error as Error).message };
   }
 }
