@@ -13,24 +13,6 @@ export async function genPdfBuffer(props: {
 }): Promise<{ base64PDF?: string; error?: string }> {
   try {
     console.log('📄 Generating PDF...');
-    // const executablePath =
-    //   process.env.CHROME_EXECUTABLE_PATH ||
-    //   (await chromium.executablePath(
-    //     '/var/task/node_modules/@sparticuz/chromium/bin'
-    //   ));
-
-    // const browser = await puppeteer.launch({
-    //   args: chromium.args,
-    //   // executablePath,
-    //   headless: true,
-    // });
-    // const page = await browser.newPage();
-    // await page.setContent(props.html, { waitUntil: 'networkidle0' });
-    // const pdfBuffer = await page.pdf({ format: 'A4' });
-    // const base64PDF = pdfBuffer.toString('base64');
-    // console.log('📄 PDF Generated!');
-
-    // await browser.close();
 
     const browser = await puppeteer.launch({
       // args: chromium.args, // 🚧 chromium.args throwing errors
@@ -38,7 +20,7 @@ export async function genPdfBuffer(props: {
       executablePath:
         process.env.CHROME_EXECUTABLE_PATH ||
         (await chromium.executablePath(
-          '/var/task/node_modules/@sparticuz/chromium/bin'
+          '/var/task/node_modules/@sparticuz/chromium-min/bin'
         )),
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
@@ -49,6 +31,7 @@ export async function genPdfBuffer(props: {
     console.log('📄 New page created!');
     await page.goto(`data:text/html,${props.html}`, {
       waitUntil: 'networkidle0',
+      timeout: 5000,
     });
 
     const pdfBuffer = await page.pdf(
