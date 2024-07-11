@@ -12,6 +12,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { fakerCharges } from '@lib/faker';
+import Button from '@app/components/Button';
+import { mediaScreenTitle } from '@helpers/components';
 
 export default function Page() {
   const [state, setState] = useState<{
@@ -82,6 +84,63 @@ export default function Page() {
     }
   }
 
+  async function emailCustomerInvoice(props: {
+    email: string;
+    name: string;
+    id: string;
+  }) {
+    try {
+      // --------------------------------------------------------------------------------
+      // 📌  Add Stripe API key to db
+      // --------------------------------------------------------------------------------
+      setState((prev) => ({ ...prev, fetching: 'send-invoice' }));
+      // const customer = customers.find((c: Customer) => c.id === props.id);
+
+      const template = await getTemplate({
+        templateName: 'email-template-one.hbs',
+      });
+      const html = await buildTemplate({
+        template,
+        data: {
+          name: props.name ?? 'Customer',
+          portalUrl: `${process.env.NEXT_PUBLIC_PORTAL_URL}?id=${user?.id}`,
+          platformUrl: process.env.NEXT_PUBLIC_APP_URL,
+        },
+      });
+
+      const { data, status } = await cFetch({
+        url: '/api/v2/send-invoice-pdf',
+        method: 'POST',
+        data: {
+          id: user.id, // use to gen user template
+          email: props.email,
+          subject: 'Find attached invoice! invoicio.io Customer Portal ✨',
+          html,
+          name: props.name,
+          fileName: `invoice-${props.id}.pdf`,
+        },
+      });
+
+      if (status !== 200 || data?.error) {
+        console.log('🚨 Error sending email:', data, status);
+
+        throw new Error(
+          data?.error ||
+            `Failed to send email to ${props?.name || props?.email}!`
+        );
+      }
+      console.log('📧 Email sent to:', data);
+
+      toast.success(`Link to portal sent to ${props?.name ?? props.email} ✨`);
+      mutate(`/api/v1/user`);
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message);
+    } finally {
+      setState((prev) => ({ ...prev, fetching: undefined }));
+    }
+  }
+
   return (
     <Wrapper>
       <PageHeadings
@@ -99,6 +158,7 @@ export default function Page() {
           { item: 'Status', class: 'hidden lg:table-cell' },
           { item: 'Created At', class: 'text-nowrap' },
           { item: 'Address', class: 'hidden lg:table-cell' },
+          { item: 'Email Invoice' },
         ]}
         data={response?.map((item: Charge) => {
           return {
@@ -174,6 +234,23 @@ export default function Page() {
                       </section>
                     </div>
                   </section>
+                ),
+              },
+              {
+                item: (
+                  <Button
+                    title={mediaScreenTitle('Send Invoice', 'Send Invoice')}
+                    onClick={() =>
+                      emailCustomerInvoice({
+                        email: item?.email!,
+                        name: item?.name!,
+                        id: item?.id!,
+                      })
+                    }
+                    fetching={state?.fetching === 'send-invoice'}
+                    disabled={!!state?.fetching}
+                    style="link"
+                  />
                 ),
               },
             ],

@@ -53,20 +53,6 @@ export default function Actions(props: {
     }
   }
 
-  async function deleteObj(props: { url: string }) {
-    try {
-      // --------------------------------------------------------------------------------
-      // 📌  Delete PDF on the server
-      // --------------------------------------------------------------------------------
-      const del = await axios.post('/api/v1/delete-file', {
-        url: props.url,
-      });
-      console.log('🚮 Delete', del);
-    } catch (error) {
-      console.error('Error uploading file:', error);
-    }
-  }
-
   async function preview() {
     try {
       if (!props.id) throw new Error('Please add a template first to preview!');

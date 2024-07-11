@@ -145,63 +145,6 @@ export default function Page() {
     }
   }
 
-  async function emailCustomerInvoice(props: {
-    email: string;
-    name: string;
-    id: string;
-  }) {
-    try {
-      // --------------------------------------------------------------------------------
-      // 📌  Add Stripe API key to db
-      // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: 'send-invoice' }));
-      // const customer = customers.find((c: Customer) => c.id === props.id);
-
-      const template = await getTemplate({
-        templateName: 'email-template-one.hbs',
-      });
-      const html = await buildTemplate({
-        template,
-        data: {
-          name: props.name ?? 'Customer',
-          portalUrl: `${process.env.NEXT_PUBLIC_PORTAL_URL}?id=${user?.id}`,
-          platformUrl: process.env.NEXT_PUBLIC_APP_URL,
-        },
-      });
-
-      const { data, status } = await cFetch({
-        url: '/api/v2/send-invoice-pdf',
-        method: 'POST',
-        data: {
-          id: user.id, // use to gen user template
-          email: props.email,
-          subject: 'Find attached invoice! invoicio.io Customer Portal ✨',
-          html,
-          name: props.name,
-          fileName: `invoice-${props.id}.pdf`,
-        },
-      });
-
-      if (status !== 200 || data?.error) {
-        console.log('🚨 Error sending email:', data, status);
-
-        throw new Error(
-          data?.error ||
-            `Failed to send email to ${props?.name || props?.email}!`
-        );
-      }
-      console.log('📧 Email sent to:', data);
-
-      toast.success(`Link to portal sent to ${props?.name ?? props.email} ✨`);
-      mutate(`/api/v1/user`);
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err.message);
-    } finally {
-      setState((prev) => ({ ...prev, fetching: undefined }));
-    }
-  }
-
   return (
     <Wrapper>
       <PageHeadings
@@ -230,11 +173,10 @@ export default function Page() {
         header={[
           { item: 'Name' },
           { item: 'Email' },
-          { item: 'Currency', class: 'hidden lg:table-cell' },
+          { item: 'Currency', class: 'hidden xl:table-cell' },
           { item: 'Created At', class: 'hidden lg:table-cell' },
-          { item: 'Address', class: 'hidden lg:table-cell' },
+          { item: 'Address', class: 'hidden xl:table-cell' },
           { item: 'Send Invite' },
-          { item: 'Email Invoice' },
         ]}
         data={response?.map((item: Customer) => {
           return {
@@ -255,7 +197,7 @@ export default function Page() {
               },
               {
                 item: <section>{item?.currency}</section>,
-                class: 'hidden lg:table-cell',
+                class: 'hidden xl:table-cell',
               },
               {
                 item: <section>{getTimeAgo(item?.created! * 1000)}</section>,
@@ -263,7 +205,7 @@ export default function Page() {
               },
               {
                 item: <section>{item?.address?.line1}</section>,
-                class: 'hidden lg:table-cell',
+                class: 'hidden xl:table-cell',
               },
               {
                 item: (
@@ -277,23 +219,6 @@ export default function Page() {
                       })
                     }
                     fetching={state?.fetching === item?.id}
-                    disabled={!!state?.fetching}
-                    style="link"
-                  />
-                ),
-              },
-              {
-                item: (
-                  <Button
-                    title={mediaScreenTitle('Send Invoice', 'Send Invoice')}
-                    onClick={() =>
-                      emailCustomerInvoice({
-                        email: item?.email!,
-                        name: item?.name!,
-                        id: item?.id!,
-                      })
-                    }
-                    fetching={state?.fetching === 'send-invoice'}
                     disabled={!!state?.fetching}
                     style="link"
                   />
