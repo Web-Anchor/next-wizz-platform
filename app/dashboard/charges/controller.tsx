@@ -96,7 +96,7 @@ export default function Page() {
       // --------------------------------------------------------------------------------
       // 📌  Add Stripe API key to db
       // --------------------------------------------------------------------------------
-      setState((prev) => ({ ...prev, fetching: 'send-invoice' }));
+      setState((prev) => ({ ...prev, fetching: `send-invoice-${props.id}` }));
       const charge = charges?.find((charge) => charge.id === props.id);
 
       const template = await getTemplate({
@@ -171,7 +171,11 @@ export default function Page() {
       toast.success(`Invoice sent to ${props?.name || props.email} ✨`);
     } catch (err: any) {
       console.error(err);
-      toast.error(err.message);
+      toast.error(
+        `Failed to send invoice to ${
+          props?.name || props.email
+        }! Please try again.`
+      );
     } finally {
       setState((prev) => ({ ...prev, fetching: undefined }));
     }
@@ -192,9 +196,10 @@ export default function Page() {
           { item: 'Amount' },
           { item: 'Phone', class: 'hidden xl:table-cell' },
           { item: 'Status', class: 'hidden lg:table-cell' },
-          { item: 'Created At', class: 'text-nowrap' },
+          { item: 'Created At', class: 'text-nowrap hidden xl:table-cell' },
           { item: 'Address', class: 'hidden xl:table-cell' },
-          { item: 'Email Invoice' },
+          { item: 'View', class: 'hidden lg:table-cell' },
+          { item: 'Send Invoice' },
         ]}
         data={response?.map((item: Charge) => {
           return {
@@ -240,6 +245,7 @@ export default function Page() {
               },
               {
                 item: <section>{getTimeAgo(item?.created! * 1000)}</section>,
+                class: 'hidden xl:table-cell',
               },
               {
                 item: (
@@ -275,6 +281,7 @@ export default function Page() {
                     </div>
                   </section>
                 ),
+                class: 'hidden lg:table-cell',
               },
               {
                 item: (
@@ -287,7 +294,7 @@ export default function Page() {
                         id: item?.id!,
                       })
                     }
-                    fetching={state?.fetching === 'send-invoice'}
+                    fetching={state?.fetching === `send-invoice-${item.id}`}
                     disabled={!!state?.fetching}
                     style="link"
                   />
