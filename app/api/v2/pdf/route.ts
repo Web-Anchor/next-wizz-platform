@@ -4,9 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import puppeteer from 'puppeteer';
 
 export async function POST(request: NextRequest, response: NextResponse) {
-  auth().protect();
-
   try {
+    auth().protect();
     const { userId } = auth();
     const body = await request.json();
     const html = body.html;

@@ -1,3 +1,4 @@
+import { auth } from '@clerk/nextjs/server';
 import { genUserTemplate } from '@server/generate-template';
 import { email } from '@server/resend-email';
 import { NextRequest, NextResponse } from 'next/server';
@@ -40,6 +41,7 @@ async function getBrowser() {
 
 export async function POST(request: NextRequest) {
   try {
+    auth().protect();
     const body = await request.json();
     console.log('📄 Sending PDF to the client...');
 

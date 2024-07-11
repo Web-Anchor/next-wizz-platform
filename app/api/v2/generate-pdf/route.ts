@@ -1,3 +1,4 @@
+import { auth } from '@clerk/nextjs/server';
 import { genPreviewTemplate } from '@server/generate-template';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -39,6 +40,7 @@ async function getBrowser() {
 
 export async function POST(request: NextRequest) {
   try {
+    auth().protect();
     const body = await request.json();
     console.log('📄 Generating PDF template...');
 
