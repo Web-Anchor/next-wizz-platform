@@ -11,6 +11,9 @@ const nextConfig = {
       'invoicio-cdn.b-cdn.net',
     ],
   },
+  experimental: {
+    serverComponentsExternalPackages: ['puppeteer-core'],
+  },
 };
 
 export default nextConfig;

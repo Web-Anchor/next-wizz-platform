@@ -1,7 +1,11 @@
 'use server';
 
-import puppeteer, { PDFOptions } from 'puppeteer';
-import chromium from '@sparticuz/chromium';
+// import puppeteer, { PDFOptions } from 'puppeteer';
+// import chromium from '@sparticuz/chromium';
+
+// @ts-ignore
+import chromium from '@sparticuz/chromium-min';
+import puppeteer, { PDFOptions } from 'puppeteer-core';
 
 export async function genPdfBuffer(props: {
   html: string;
@@ -29,23 +33,38 @@ export async function genPdfBuffer(props: {
     // await browser.close();
 
     const browser = await puppeteer.launch({
-      args: ['--headless', '--disable-gpu', '--disable-dev-shm-usage'],
-      // executablePath: await chromium.executablePath(),
-      executablePath: puppeteer.executablePath('chrome'), // Use Puppeteer's default executable path
+      // args: chromium.args, // 🚧 chromium.args throwing errors
+      defaultViewport: chromium.defaultViewport,
+      executablePath:
+        process.env.CHROME_EXECUTABLE_PATH ||
+        (await chromium.executablePath(
+          '/var/task/node_modules/@sparticuz/chromium/bin'
+        )),
+      headless: chromium.headless,
+      ignoreHTTPSErrors: true,
     });
+    console.log('📄 Browser launched!');
+
     const page = await browser.newPage();
-    await page.setContent(props.html);
+    console.log('📄 New page created!');
+    await page.goto(`data:text/html,${props.html}`, {
+      waitUntil: 'networkidle0',
+    });
+
     const pdfBuffer = await page.pdf(
       props.options ?? {
         printBackground: true,
         format: 'A4',
       }
     );
+
     const base64PDF = pdfBuffer.toString('base64');
     await browser.close();
+    console.log('📄 PDF Generated!', pdfBuffer?.length);
 
     return { base64PDF };
   } catch (error) {
+    console.error('📄 Error generating PDF:', error);
     return { error: (error as Error).message };
   }
 }
