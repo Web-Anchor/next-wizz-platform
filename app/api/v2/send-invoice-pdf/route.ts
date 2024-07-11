@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     // 📌 Set the HTML content of the page
     // page.goto with a data: URL, Puppeteer will trigger network requests to load external resources like images, scripts, and stylesheets
     // --------------------------------------------------------------------------------
-    await page.goto(`data:text/html,${body.html || html}`, {
+    await page.goto(`data:text/html,${html}`, {
       waitUntil: 'networkidle0',
       timeout: 5000,
     });
@@ -66,7 +66,9 @@ export async function POST(request: NextRequest) {
       attachments: [
         { filename: body.fileName || 'invoice.pdf', content: pdfBuffer },
       ],
-      to: [body.email],
+      to: body.to || [body.email],
+      subject: body.subject,
+      html: body.html,
     });
 
     return NextResponse.json({ data });

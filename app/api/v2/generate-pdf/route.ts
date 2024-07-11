@@ -1,4 +1,4 @@
-import { genUserTemplate } from '@server/generate-template';
+import { genPreviewTemplate } from '@server/generate-template';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic'; // force dynamic request
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
     const browser = await getBrowser();
     const page = await browser.newPage();
-    const { html } = await genUserTemplate({ id: body.id });
+    const { html } = await genPreviewTemplate({ id: body.id });
 
     // --------------------------------------------------------------------------------
     // 📌 Set the HTML content of the page

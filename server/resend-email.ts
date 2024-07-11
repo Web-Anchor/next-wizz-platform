@@ -28,12 +28,12 @@ export async function email(props: Email): Promise<any> {
       text: fallBackText!,
       attachments: props.attachments,
     });
-    console.log('🚨 __error ', data, error);
 
     if (error) {
+      console.log('🚨 Error sending email:', error?.message);
       return { error: error?.message };
     }
-    console.log('📧 Email Sent to:', email);
+    console.log('📧 Email Sent to:', props.to);
 
     return { data };
   } catch (error: any) {
