@@ -25,7 +25,7 @@ export async function genPdfBuffer(props: {
         process.env.CHROME_EXECUTABLE_PATH || // 🚧 local dev executable path
         (await chromium.executablePath(
           // '/var/task/node_modules/@sparticuz/chromium/bin' // 🚧  Chromium version
-          'https://github.com/Sparticuz/chromium/releases/download/v110.0.1/chromium-v110.0.1-pack.tar' // 🚧 Chromium-min version
+          `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar` // 🚧 Chromium-min version
         )),
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
