@@ -147,15 +147,12 @@ export default function Page() {
         total: stripeAmountToCurrency(charge?.amount, charge?.currency!),
       };
 
-      const { data, status } = await axios.post('/api/v2/send-invoice-pdf', {
-        id: user.id, // use to gen user template
+      const { data, status } = await callApiWithRetry({
         email: props.email,
-        subject: 'Find attached invoice! invoicio.io Customer Portal ✨',
-        html,
         name: props.name,
-        chargeId: props.id,
+        id: props.id,
+        html,
         chargeData,
-        fileName: `invoice-${props.id}.pdf`,
       });
 
       if (status !== 200 || data?.error) {
@@ -179,6 +176,50 @@ export default function Page() {
     } finally {
       setState((prev) => ({ ...prev, fetching: undefined }));
     }
+  }
+
+  async function callApiWithRetry(props: {
+    email: string;
+    name: string;
+    id: string;
+    html: string;
+    chargeData: Template;
+  }) {
+    const MAX_RETRIES = 5;
+    const RETRY_INTERVAL = 2000; // delay between retries in ms
+    let retries = 0;
+
+    async function attempt(): Promise<{ data?: any; status?: any }> {
+      try {
+        const { data, status } = await axios.post('/api/v2/send-invoice-pdf', {
+          id: user.id, // use to gen user template
+          email: props.email,
+          subject: 'Find attached invoice! invoicio.io Customer Portal ✨',
+          html: props.html,
+          name: props.name,
+          chargeId: props.id,
+          chargeData: props.chargeData,
+          fileName: `invoice-${props.id}.pdf`,
+        });
+
+        return { data, status };
+      } catch (error) {
+        if (retries < MAX_RETRIES) {
+          retries++;
+          console.log(`Retrying API call (${retries}/${MAX_RETRIES})...`);
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              attempt().then(resolve).catch(reject);
+            }, RETRY_INTERVAL);
+          });
+        } else {
+          console.error('Max retries reached. Unable to call API.');
+          throw new Error('Max retries reached. Unable to call API.');
+        }
+      }
+    }
+
+    return attempt();
   }
 
   return (

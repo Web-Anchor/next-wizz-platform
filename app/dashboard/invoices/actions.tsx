@@ -52,7 +52,7 @@ export default function Actions(props: {
   }
 
   async function callApiWithRetry(props: { id: string }) {
-    const MAX_RETRIES = 4;
+    const MAX_RETRIES = 5;
     const RETRY_INTERVAL = 2000; // delay between retries in ms
     let retries = 0;
 
