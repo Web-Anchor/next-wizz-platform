@@ -46,9 +46,10 @@ export default function Actions(props: {
         toast?.error('An error occurred while generating the document.');
       }
     } catch (error: any) {
+      console.log('🚨 error', error);
       const totalTime = new Date().getTime() - startTime; // 🕰 End time
-      const msg =
-        'An error occurred while downloading the document.' + error?.message;
+      const msg = 'An error occurred while downloading the document.';
+
       toast?.error(`${msg} Executed in: ${totalTime}ms`);
     } finally {
       setState((prev) => ({ ...prev, fetching: undefined }));
