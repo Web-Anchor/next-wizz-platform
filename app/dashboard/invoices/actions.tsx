@@ -21,13 +21,14 @@ export default function Actions(props: {
     try {
       setState((prev) => ({ ...prev, fetching: 'download' }));
 
-      const { data } = await axios.post(
+      const { data, status } = await axios.post(
         '/api/v2/generate-pdf',
         { id: props?.id }, // 🚧 POST request with body required
         { responseType: 'blob' }
       );
+      console.log('📄 Downloading PDF template...', status);
 
-      if (data) {
+      if (data && status === 200) {
         // const pdfBlob = await new Blob([Buffer.from(data, 'base64')]);
         const pdfBlob = new Blob([data], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(pdfBlob);
