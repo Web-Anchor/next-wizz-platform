@@ -46,7 +46,8 @@ export default function Actions(props: {
       }
     } catch (error: any) {
       const totalTime = new Date().getTime() - startTime; // 🕰 End time
-      const msg = 'An error occurred while downloading the document.';
+      const msg =
+        'An error occurred while downloading the document.' + error?.message;
       toast?.error(`${msg} Executed in: ${totalTime}ms`);
     } finally {
       setState((prev) => ({ ...prev, fetching: undefined }));

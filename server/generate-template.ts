@@ -64,8 +64,9 @@ export async function genPreviewTemplate(props: {
     return { html, dbTemplates: userTemplate };
   } catch (error) {
     console.log('🚨 Error generating template:', error);
+    const msg = 'Failed to generate the template! ' + (error as Error).message;
 
-    return { error: (error as Error).message };
+    return { error: msg };
   }
 }
 

@@ -45,8 +45,14 @@ export async function POST(request: NextRequest) {
     console.log('📄 Generating PDF template...');
 
     const browser = await getBrowser();
+    if (!browser) {
+      throw new Error('Failed to launch browser!');
+    }
     const page = await browser.newPage();
-    const { html } = await genPreviewTemplate({ id: body.id });
+    const { html, error } = await genPreviewTemplate({ id: body.id });
+    if (error) {
+      throw new Error(error);
+    }
 
     // --------------------------------------------------------------------------------
     // 📌 Set the HTML content of the page
