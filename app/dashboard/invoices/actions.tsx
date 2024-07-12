@@ -21,12 +21,7 @@ export default function Actions(props: {
     try {
       setState((prev) => ({ ...prev, fetching: 'download' }));
 
-      const { data, status } = await axios.post(
-        '/api/v2/generate-pdf',
-        { id: props?.id }, // 🚧 POST request with body required
-        { responseType: 'blob' }
-      );
-      console.log('📄 Downloading PDF template...', status);
+      const { data, status } = await callApiWithRetry({ id: props?.id! });
 
       if (data && status === 200) {
         // const pdfBlob = await new Blob([Buffer.from(data, 'base64')]);
@@ -54,6 +49,39 @@ export default function Actions(props: {
     } finally {
       setState((prev) => ({ ...prev, fetching: undefined }));
     }
+  }
+
+  async function callApiWithRetry(props: { id: string }) {
+    const MAX_RETRIES = 4;
+    const RETRY_INTERVAL = 2000; // delay between retries in ms
+    let retries = 0;
+
+    async function attempt(): Promise<{ data?: any; status?: any }> {
+      try {
+        const { data, status } = await axios.post(
+          '/api/v2/generate-pdf',
+          { id: props?.id }, // 🚧 POST request with body required
+          { responseType: 'blob' }
+        );
+
+        return { data, status };
+      } catch (error) {
+        if (retries < MAX_RETRIES) {
+          retries++;
+          console.log(`Retrying API call (${retries}/${MAX_RETRIES})...`);
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              attempt().then(resolve).catch(reject);
+            }, RETRY_INTERVAL);
+          });
+        } else {
+          console.error('Max retries reached. Unable to call API.');
+          throw new Error('Max retries reached. Unable to call API.');
+        }
+      }
+    }
+
+    return attempt();
   }
 
   async function preview() {
