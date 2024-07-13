@@ -24,7 +24,6 @@ export function useCharges(props: Props) {
     }
   );
   const obj = data?.data?.charges;
-  console.log('🧾 Charges', obj);
 
   return {
     data: obj,

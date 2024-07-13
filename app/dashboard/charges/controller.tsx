@@ -17,6 +17,7 @@ import { mediaScreenTitle } from '@helpers/components';
 import { buildTemplate, getTemplate } from '@server/templates';
 import Badge from '@app/components/Badge';
 import { plans } from '@config/index';
+import { mutate } from 'swr';
 
 export default function Page() {
   const [state, setState] = useState<{
@@ -38,7 +39,7 @@ export default function Page() {
   });
   const { product } = useSubscription({});
   // charges = fakerCharges(); // faker data
-  console.log('🔑 DATA', user, product);
+  // console.log('🔑 DATA', user, product);
 
   const response = state?.charges || charges;
   const hasMoreRes = state?.has_more ?? has_more;
@@ -170,12 +171,14 @@ export default function Page() {
       console.log('📧 Email sent to:', data);
 
       toast.success(`Invoice sent to ${props?.name || props.email} ✨`);
-    } catch (err: any) {
-      console.error(err);
+      mutate(`/api/v1/user`);
+    } catch (error) {
+      console.error(error);
       toast.error(
-        `Failed to send invoice to ${
-          props?.name || props.email
-        }! Please try again.`
+        (error as Error).message ||
+          `Failed to send invoice to ${
+            props?.name || props.email
+          }! Please try again.`
       );
     } finally {
       setState((prev) => ({ ...prev, fetching: undefined }));

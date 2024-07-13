@@ -1,7 +1,16 @@
 import { auth } from '@clerk/nextjs/server';
+import { db } from '@db/index';
+import { eq } from 'drizzle-orm';
+import { users } from '@db/schema';
+import { subscription, validateActiveSubMiddleware } from '@lib/subscription';
 import { genUserTemplate } from '@server/generate-template';
 import { email } from '@server/resend-email';
 import { NextRequest, NextResponse } from 'next/server';
+import { plans } from '@config/index';
+import {
+  countIncrement,
+  isTodayFirstOfMonth,
+} from '@app/api/v1/send-email/route';
 
 export const dynamic = 'force-dynamic'; // force dynamic request
 // --------------------------------------------------------------------------------
@@ -42,6 +51,45 @@ async function getBrowser() {
 export async function POST(request: NextRequest) {
   try {
     auth().protect();
+
+    // --------------------------------------------------------------------------------
+    // 📌  Validate & validate sub type
+    // --------------------------------------------------------------------------------
+    const { userId } = auth();
+    const subRes = await subscription({ userId });
+    validateActiveSubMiddleware({ status: subRes?.subscription?.status });
+
+    const dbUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.clerkId, userId!));
+    console.log('👤 User Plan: ', subRes);
+
+    // --------------------------------------------------------------------------------
+    // 📌  Validate invoiceSendCount against config
+    // --------------------------------------------------------------------------------
+    const sendCount = parseInt(dbUser[0].invoiceSendCount ?? '0');
+    const cap = plans[subRes?.product?.name!]?.invoiceEmailCap!;
+    console.log('📧 Emails Sent Count: ', sendCount, cap);
+
+    if (sendCount >= cap) {
+      return NextResponse.json({ error: 'Send Invoice quota limit exceeded!' });
+    }
+
+    // --------------------------------------------------------------------------------
+    // 📌  Update user email sent count & date sent
+    // --------------------------------------------------------------------------------
+    const today = new Date().toISOString();
+    let invoiceSendCount = countIncrement(dbUser[0].invoiceSendCount);
+    if (today !== dbUser[0].lastEmailSendDate && isTodayFirstOfMonth(today)) {
+      invoiceSendCount = '1';
+    }
+
+    await db.update(users).set({
+      invoiceSendCount,
+      lastInvoiceSendDate: today,
+    });
+
     const body = await request.json();
     console.log('📄 Sending PDF to the client...');
 

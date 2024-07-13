@@ -85,12 +85,12 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function countIncrement(count: string | null): string | null {
+export function countIncrement(count: string | null): string | null {
   const computedCount = count ? parseInt(count) + 1 : 1;
   return computedCount.toString();
 }
 
-function isTodayFirstOfMonth(
+export function isTodayFirstOfMonth(
   date: string | null = new Date().toISOString()
 ): boolean {
   return isToday(date!) && getDate(date!) === 1;
