@@ -57,6 +57,8 @@ export type User = {
   stripeSubId?: string | null;
   emailsSendCount?: string | null;
   lastEmailSendDate?: string | null;
+  invoiceSendCount?: string | null;
+  lastInvoiceSendDate?: string | null;
   imageUrl?: string | null;
 };
 

@@ -2,7 +2,7 @@
 
 import Table from '@app/components/Table';
 import Wrapper from '@app/components/Wrapper';
-import { useCharges, useUser } from '@hooks/index';
+import { useCharges, useSubscription, useUser } from '@hooks/index';
 import { Charge, Template } from '@appTypes/index';
 import { classNames, getTimeAgo, stripeAmountToCurrency } from '@helpers/index';
 import Link from 'next/link';
@@ -15,6 +15,8 @@ import { fakerCharges } from '@lib/faker';
 import Button from '@app/components/Button';
 import { mediaScreenTitle } from '@helpers/components';
 import { buildTemplate, getTemplate } from '@server/templates';
+import Badge from '@app/components/Badge';
+import { plans } from '@config/index';
 
 export default function Page() {
   const [state, setState] = useState<{
@@ -34,12 +36,14 @@ export default function Page() {
     starting_after,
     ending_before,
   });
+  const { product } = useSubscription({});
   // charges = fakerCharges(); // faker data
-  console.log('🔑 charges', charges);
+  console.log('🔑 DATA', user, product);
 
   const response = state?.charges || charges;
   const hasMoreRes = state?.has_more ?? has_more;
   const hasPreviousRes = state?.has_previous ?? has_previous;
+  const plan = plans?.[product?.name];
 
   async function nexPage() {
     try {
@@ -228,6 +232,21 @@ export default function Page() {
         title="Stripe Charges: Monitor and Manage Your Payment Activity."
         description="Stay informed and in control of your payment activity with our Stripe Charges page. Monitor transaction details, track payment statuses, and manage charges effectively to ensure smooth financial operations. Streamline your payment monitoring process and gain valuable insights into your transaction history effortlessly."
         slogan="Tracking Transactions, Empowering Financial Clarity!"
+      />
+
+      <Badge
+        title={mediaScreenTitle(
+          `Total Invoices Sent: ${
+            user?.invoiceSendCount ?? 0
+          } ${`out of ${plan?.invoiceEmailCap} 🧾`}`,
+          `Total Invoices Sent: ${user?.invoiceSendCount ?? 0}`
+        )}
+        type="info"
+        description={
+          user?.lastInvoiceSendDate
+            ? `Sent: ${getTimeAgo(user?.lastInvoiceSendDate!)}`
+            : undefined
+        }
       />
 
       <Table

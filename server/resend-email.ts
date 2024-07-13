@@ -28,14 +28,9 @@ export async function email(props: Email): Promise<any> {
       text: fallBackText!,
       attachments: props.attachments,
     });
-
-    if (error) {
-      console.log('🚨 Error sending email:', error?.message);
-      return { error: error?.message };
-    }
     console.log('📧 Email Sent to:', props.to);
 
-    return { data };
+    return { data, error };
   } catch (error: any) {
     console.log('Error uploading file:', error?.message);
   }

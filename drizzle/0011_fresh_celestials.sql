@@ -1,1 +1,0 @@
-ALTER TABLE `templates` RENAME COLUMN `data_typed` TO `custom_fields`;

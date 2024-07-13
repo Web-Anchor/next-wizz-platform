@@ -1,1 +1,0 @@
-ALTER TABLE `components` ADD `link` text;
