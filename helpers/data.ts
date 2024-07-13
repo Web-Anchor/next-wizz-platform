@@ -116,7 +116,11 @@ export function mainNav(props: {
       current: props.path === '/dashboard/reports',
     },
     {
-      name: limitedTime({ title: 'Analytics', message: 'Limited Time Only!' }), //'Analytics',
+      name: limitedTime({
+        title: 'Analytics',
+        message: 'Limited Time Only!',
+        showMsg: props.basic,
+      }), //'Analytics',
       href: '/dashboard/analytics',
       icon: ChartBarIcon,
       count: undefined,
