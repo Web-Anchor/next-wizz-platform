@@ -10,7 +10,7 @@ import { plans } from '@config/index';
 import {
   countIncrement,
   isTodayFirstOfMonth,
-} from '@app/api/v1/send-email/route';
+} from '@app/api/v2/templates/download/helpers';
 
 export const dynamic = 'force-dynamic'; // force dynamic request
 // --------------------------------------------------------------------------------

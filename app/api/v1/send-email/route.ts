@@ -4,9 +4,12 @@ import { Resend } from 'resend';
 import { db } from '@db/index';
 import { eq } from 'drizzle-orm';
 import { users } from '@db/schema';
-import { isToday, getDate } from 'date-fns';
 import { subscription, validateActiveSubMiddleware } from '@lib/subscription';
 import { plans } from '@config/index';
+import {
+  countIncrement,
+  isTodayFirstOfMonth,
+} from '@app/api/v2/templates/download/helpers';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -83,15 +86,4 @@ export async function POST(request: NextRequest) {
       { status: error?.status || 500 }
     );
   }
-}
-
-export function countIncrement(count: string | null): string | null {
-  const computedCount = count ? parseInt(count) + 1 : 1;
-  return computedCount.toString();
-}
-
-export function isTodayFirstOfMonth(
-  date: string | null = new Date().toISOString()
-): boolean {
-  return isToday(date!) && getDate(date!) === 1;
 }

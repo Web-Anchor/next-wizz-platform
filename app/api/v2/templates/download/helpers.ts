@@ -8,6 +8,7 @@ import { Template } from '@appTypes/index';
 import puppeteer from 'puppeteer';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { isToday, getDate } from 'date-fns';
 
 export async function buildHTMLTemplate(props: {
   userId: string;
@@ -127,4 +128,15 @@ export async function bufferUpload(props: {
   console.log('📦 URL generated successfully!', url);
 
   return url;
+}
+
+export function countIncrement(count: string | null): string | null {
+  const computedCount = count ? parseInt(count) + 1 : 1;
+  return computedCount.toString();
+}
+
+export function isTodayFirstOfMonth(
+  date: string | null = new Date().toISOString()
+): boolean {
+  return isToday(date!) && getDate(date!) === 1;
 }
