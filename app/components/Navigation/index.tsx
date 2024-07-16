@@ -9,7 +9,7 @@ export default function Navigation({
   children: React.ReactNode;
 }) {
   return (
-    <section className="z-10 w-full">
+    <section className="z-10 w-full mx-auto max-w-screen-2xl">
       {/* Static sidebar for desktop */}
       <DesktopNav />
       <MobileNav />
